@@ -10,7 +10,7 @@
 
 | 優先級 | 現況 | 風險／目標 | 建議 |
 | --- | --- | --- | --- |
-| P0 | Power BI restricted screenshot 已移出 public，但授權與 measures 仍未確認 | 重新公開原圖或錯誤推論會造成隱私／研究誠信風險 | 維持 quarantine；取得書面依據後再決定，正式輸出必跑 submission scan |
+| P0 | Power BI restricted screenshot 已移出 public；資料使用說明不支持公開分析結果，另行公開許可未取得，部分 measures 仍待核對 | 重新公開原圖或錯誤推論會造成隱私／研究誠信風險 | 維持 quarantine；只有另取得資料提供方明確許可後才重新評估，正式輸出必跑 submission scan |
 | P1 | Web Audio 有可操作 prototype，但 `notValidated` | 旗艦證據仍無使用者理解／學習效果資料 | 執行 planned formative tasks，保留匿名紀錄、錯誤、口述理解與 limitation |
 | P1 | Pure Data／REAPER 只有學習狀態 | 聲響研究敘事的工具面仍薄弱 | 補可公開 patch/project、signal flow、聲音輸出及反思；未完成前維持現有誠實 wording |
 | P1 | 生成式 AI 協作方法已有 Prompt v1／v2、責任揭露與失敗案例；但「生成式 AI 介面研究」作品仍只有圖解與構想 | 方法可追溯不等於作品已有操作與實測證據 | 完成真實 prompt task、prototype、版本比較與形成性測試；否則維持 `notValidated` 與目前較低策展比重 |
@@ -22,6 +22,7 @@
 | P2 | 單頁 anchors | 獨立分享、case SEO、browser history 能力有限 | 只有確定有分享需求時再評估 router/static routes |
 | P2 | 已有 manual-only Pages workflow 與 Draft PR，但沒有一般 PR CI、lint、formatter 或廣泛 tests；目前 connector 可見 checks／workflow runs 都是 0 | 品質仍依賴本機 `doctor` 與人工矩陣 | 評估加入不含部署權限的最小 Windows PR CI 與 a11y smoke tests；由使用者另行決定何時執行 manual Pages workflow |
 | P2 | social preview 為 SVG，無 canonical hosting | 平台相容性與 SEO 未完成 | 部署前補 raster 1200×630、canonical URL、實際 domain |
+| P2 | 歷史 Lighthouse archive 有完整 artifact／source lineage，但其 source manifest 已與目前 build inputs 發生 hash drift | 舊分數可解釋先前決策，不能嚴格代表目前 HEAD | submission 邊界修正後，以 current source fingerprint 重跑並保留 production 與 localhost 證據區分 |
 
 ## 已解決且應保留
 
@@ -31,8 +32,10 @@
 - AudioContext resume cancel／timeout、graceful release、background immediate cleanup、context interruption 與 destroy 的可測 controller。
 - 桌面六個固定導覽連結與 Logo 的鍵盤焦點交接；桌面滑鼠與行動 menu 行為皆回歸通過。
 - `notValidated`／`exploratory` 明確測試狀態與 validator enforcement。
-- hidden immersive case 在 submission data 中排除。
-- Power BI 未知年份省略、restricted media 移出 public、公開 conceptual SVG。
+- hidden immersive case 文字由 `#portfolio-hidden` alias 隔離，media 保持空；13 個專用 placeholders、generator refs 與 captions 已移除，submission dev 舊 URL 404。
+- submission scanner 已拆成可注入 core／thin CLI，具 46 個 text rules、6 個 inventory rules、redacted diagnostics 與 32 個 Node regression tests；仍保留獨立 `dist/` audit。
+- `llms.txt`、favicon、social preview、index／JSON-LD 與案例 SEO 已統一為 RU / YUAN，dead anchors 已移除；canonical URL／raster preview 仍待 hosting 決策。
+- Power BI 實作日期已確認為 2026/06/11–06/12；實際資料與結果媒體移出 public，公開 conceptual SVG。
 - draft/submission bundling boundary，而非 CSS 隱藏。
 - mapping pure functions 與 Node tests。
 - DOM-first Hero、R3F lazy/device gating/offscreen pause。
@@ -49,21 +52,24 @@
 
 1. **研究證據：** 先完成 Web Audio 形成性測試並修訂 mapping rationale／限制。
 2. **聲音作品：** 選擇 Pure Data 或 REAPER 其中一項，產出一個可公開、可解釋的最小 artifact。
-3. **支持案例：** 為 AI 介面補 prototype，完成資料影片字幕與 Power BI 授權決策。
+3. **支持案例：** 為 AI 介面補 prototype，完成資料影片字幕；Power BI 只有另取得資料提供方明確許可後才重新評估真實結果展示。
 4. **可及性：** 在已完成的鍵盤／viewport／contrast 基礎上，補 screen reader、真實 zoom、行動 touch、system reduced-motion 與多瀏覽器 Web Audio matrix。
-5. **Production：** 確認聯絡／CV、domain、metadata、遠端 Pages workflow、正式 URL Lighthouse／field evidence 與 submission artifact；由使用者決定部署時機。
+5. **Submission hygiene：** 維持已完成的 hidden asset、scanner、metadata 與 dev filesystem 邊界；每次正式輸出仍執行 scanner 與獨立 `dist/` audit。
+6. **Production：** 確認聯絡／CV、domain、遠端 Pages workflow、current-fingerprint Lighthouse、正式 URL／field evidence 與 submission artifact；由使用者決定部署時機。
 
 ## 安全延伸點
 
-- 公開文案只改 `portfolio.js`；construction notes 只改 `portfolio.internal.js`。
+- 公開文案只改 `portfolio.js`；hidden draft text 只改 `portfolio.hidden.js`；construction notes 只改 `portfolio.internal.js`。
 - 新案例／媒體先讀 content authoring 與 adding-portfolio-work；不要直接新增 remote demo media。
 - 新聲音 mapping 優先放純函式並加 tests；AudioContext 必須由 user gesture 啟動、具 stop/cleanup 與安全 gain。
 - 不要把 Pure Data／REAPER 學習狀態描述成作品成果。
 - 不要把 `notValidated` 填成假 metrics；有證據才升為 `exploratory`／`validated`。
 - 不要把 `restricted-media/` 路徑或原始檔搬進 `public/`。
+- 任何放入 `public/` 的檔案都視為可公開；hidden project 保持空 media state，直到真實證據取得公開核准。
+- 不把 `scan:submission` exit 0 當作唯一送審證據；另查 built wording、metadata 與 binary assets。
 - 改 palette／繁中排版／資訊架構前，遵循對應 docs guardrails。
 - 保持 Three scene lazy/progressive，使 DOM 文字仍是 LCP。
 
 ## 本次無法確認
 
-利害關係人簽核、當年度官方申請要求、真實使用者測試、Pure Data／REAPER 原始作品、Power BI 授權文件、production hosting/domain、analytics、screen reader、真實 200% zoom、system reduced-motion、實機／field performance 與遠端 workflow／Pages 執行均不在目前可驗證證據中。本機 Lighthouse 與內建瀏覽器 smoke test 已完成，但不能把 localhost simulated scores 或未支援的輔具／實機模擬宣稱為 production 通過。
+利害關係人簽核、當年度官方申請要求、真實使用者測試、Pure Data／REAPER 原始作品、Power BI 另行公開許可、production hosting/domain、analytics、screen reader、真實 200% zoom、system reduced-motion、實機／field performance 與遠端 workflow／Pages 執行均不在目前可驗證證據中。本機 Lighthouse 與內建瀏覽器 smoke test 已完成，但不能把 localhost simulated scores 或未支援的輔具／實機模擬宣稱為 production 通過。

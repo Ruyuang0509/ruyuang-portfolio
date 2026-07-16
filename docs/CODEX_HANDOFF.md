@@ -3,9 +3,18 @@
 - **Repository：** canonical local workspace 為 `C:\Users\911su\Documents\Codex\如願個人網站`；`origin` 為 `https://github.com/Ruyuang0509/ruyuang-portfolio.git`。
 - **Base branch：** `main`，本機與 `origin/main` 均指向 `aea1c29`；唯讀檢查期間曾偵測外部 checkout 到 `main`，已立即回到 feature，沒有在 `main` 產生 tracked 修改、commit 或 push。
 - **Working branch：** `feat/portfolio-admission-foundation`，追蹤同名遠端分支。
-- **Last verified commit：** `3fb913f`（`Update portfolio-master-prompt.md`）；開始本輪實作前，本機與遠端 feature SHA 一致。
-- **Git status：** 開始本輪實作前為 clean；既有 [Draft PR #1](https://github.com/Ruyuang0509/ruyuang-portfolio/pull/1) 為 open、draft、未 merge，base=`main`、head=`feat/portfolio-admission-foundation`。Connector 未看到 PR checks、workflow runs、reviews 或 comments，不能解讀為通過。
-- **Current site status：** Vite submission build、本機 Pages 路徑稽核、rendered smoke test 與 submission mobile／desktop Lighthouse lab audit 通過；沒有 production deploy、Pages URL、custom domain、field data 或已驗證 remote workflow run。
+- **Last verified commit：** `43e610f`（`fix: restore long-page scroll affordance`）；開始本次文件更新前，本機與遠端 feature SHA 一致。
+- **Git status：** 2026-07-17 closure sprint 開始時已有 12 份未提交 Markdown 修改，已原樣保留並在其上做可分離更新；本輪另有 source、tests、metadata 與 13 個 asset deletions，未 commit、push 或 stash。既有 [Draft PR #1](https://github.com/Ruyuang0509/ruyuang-portfolio/pull/1) 為 open、draft、未 merge，base=`main`、head=`feat/portfolio-admission-foundation`。目前沒有本輪重新確認的 PR checks、workflow runs、reviews 或 production deploy 證據。
+- **Current site status：** 已知 hidden asset、built construction wording、scanner 假陰性與 metadata drift 已在本機 closure；submission dev/build 與 4 件公開案例邊界一致。Power BI 實作日期已確認，資料使用說明不支持公開分析結果；正式使用者研究、另行公開許可、輔具／實機、current-fingerprint Lighthouse 與 production hosting 仍未完成。
+
+# Documentation Package Refresh
+
+- 沿用 `docs/website/` 七份模組化文件；沒有新增重複的單一總檔。
+- 重新核對 repository、Git、routes、content data、components、styles、Web Audio、public assets、scanner、Pages workflow、既有 `dist/` 與 Lighthouse lineage。
+- 修正「沒有 Git repository」、「workflow 尚未 push」、「scrollbar 被隱藏」、「hidden case 僅在 internal data」等失效敘述。
+- 明確區分 hidden React data、submission bundle content 與 Vite public asset copying。
+- 將 stale metadata、scanner 假陰性、hidden-only media 與 performance evidence freshness 納入 GAP、audit、content matrix 與 pre-submission checklist。
+- 2026-07-16 文件包整理本身未修改 runtime；2026-07-17 closure sprint 的實作變更另列於下方。
 
 # Completed This Round
 
@@ -31,21 +40,29 @@
 - 恢復長頁的平台 scrollbar，使用已驗證的深色／暖紙 theme token 呈現；移除 Firefox、WebKit 與舊 Edge 的全域隱藏規則。
 - 將 `body` 最小寬度改為不超過實際可用寬度，避免 320 px viewport 加上 15 px 平台 scrollbar 後產生水平溢位。
 - 即時核對有效 Git history、`origin` 與既有 Draft PR #1；更新 handoff、audit 與 content matrix 中已失效的「空 `.git`」敘述，沒有建立重複 PR、merge 或 deploy。
+- 完成 submission boundary closure：hidden case 移至 draft-only data alias 與空 media state，移除 13 個孤立 `ph-after-*`／`mv-soft-*` placeholders 及 generator refs；submission-only middleware 讓舊 media／`dist` URL 明確回 404且有效媒體維持 200，filesystem deny 讓 restricted／internal／hidden／historical paths 回 403。
+- Scanner 拆成 injectable core 與 thin CLI，加入 46 個 text rules、6 個 inventory rules、fail-closed／redacted diagnostics 及 32 個 Node fixtures；bad output exit 1、clean output exit 0。
+- 對齊 `llms.txt`、favicon、social preview、index／JSON-LD、案例 SEO 與可及性 label 的 RU / YUAN／Sound, Interaction & Learning 品牌；不新增未知 URL、聯絡或社群資料。
 
 # Verification
 
 ## Commands and results
 
+- **2026-07-17 Power BI metadata closure 重驗：** Spotify Wrapped 製作日期依申請者更正為 `2026/04/23`；Power BI 實作日期依日期備註與申請者確認為 `2026/06/11–2026/06/12`。`pnpm run content:check`、`pnpm run test:submission-scanner`、`pnpm run build:draft`、`pnpm run check:submission`、`pnpm run doctor` 與 `git diff --check` 全為 exit 0；content 5 件、sound 18/18、scanner 32/32，submission 套用 46 個 text rules／6 個 inventory rules。獨立 `dist/` 盤點為 63 files／19 text files；兩個日期各出現 1 次，4 個公開案例 ID 存在，hidden ID、中文佔位語句、受限／raw data、local paths 與敏感檔名皆為 0。未執行 Lighthouse、deployment 或 Git delivery。
+- **2026-07-17 submission closure 最終重驗：** `pnpm run doctor` exit 0；workspace、media、text、CJK、5 件 content validation、18/18 sound tests、draft build、31/31 scanner fixtures、submission build、44 個 text rules、6 個 inventory rules 與 Pages audit 全部通過。獨立 final `dist/` 盤點為 63 files／19 text files；construction、舊品牌、dead anchors、hidden case／assets、restricted／raw data、local paths 與 short YouTube 全為 0。乾淨啟動的 submission dev 對 13 個舊 media URL 與 `/dist/*` 回 404、有效 media 回 200，restricted／internal／hidden／report 回 403；公開 `portfolio.js` 回 200 且不含 hidden ID。未執行 Lighthouse。
+- **2026-07-16 修正前文件包重驗：** `pnpm run doctor` exit 0；workspace、media、text、CJK、5 件 content validation、18/18 sound tests、draft build、submission build、當時的 31-term scanner 與 Pages audit 全部通過。`generative-interface-study` 仍只有「媒體證據」非阻斷警告；Three chunk 約 851.22 kB／gzip 225.76 kB，保留 >500 kB warning。
+- **2026-07-16 修正前獨立 fresh `dist/` audit：** built bundle 當時仍有兩處「施工模式」；`dist/media/portfolio` 當時仍有 13 個 `ph-after-*`／`mv-soft-*`／MP4 hidden-only 檔；`llms.txt`／favicon 仍是 Nextgen Portfolio，並含 `#graphic`／`#photo`／`#contact`。`immersive-memory-map` ID／標題、`時間待確認`、Power BI restricted 檔名、local path 與敏感副檔名未找到。這是本次 closure 的修正前基線，不代表目前狀態。
+- **2026-07-16 修正前文件 QA：** 當時更新文件的相對 links 全部可解析、Markdown fences 成對、`git diff --check` 通過；該輪 tracked diff 只有 Markdown。
 - `pnpm install --frozen-lockfile`：exit 0、lockfile 已是最新；本機使用 pnpm 11.9.0。pnpm 自動查詢自身更新時因受限網路出現 registry metadata fetch warning，不影響既有依賴安裝。
 - `pnpm run doctor`：exit 0；依序完成下列全部本機門檻。
 - `pnpm run workspace:check`：通過，確認 canonical workspace。
 - `pnpm run audit:media`：通過，無遠端 demo media 或過時 preconnect。
 - `pnpm run audit:text`：通過，未偵測疑似 mojibake。
 - `pnpm run audit:cjk`：通過；320px 修正後 rendered heading 無越界。
-- `pnpm run content:check`：通過 5 個資料項目；保留 `generative-interface-study` 缺建議媒體證據的非阻斷警告。
+- `pnpm run content:check`：通過 5 個資料項目；保留 `generative-interface-study` 缺建議媒體證據，以及 draft-only `immersive-memory-map` 刻意空 media／diagrams 的非阻斷警告。
 - `pnpm run test:sound`：18/18 通過；5 個 mapping tests、13 個 Web Audio controller lifecycle tests。
 - `pnpm run build:draft`：通過。
-- `pnpm run check:submission`：通過；31 個禁用詞未出現在 `dist/`，Pages root-relative asset audit 通過。
+- `pnpm run check:submission`：通過；32 個 scanner regression fixtures、46 個 text rules、6 個 inventory rules 與 Pages root-relative asset audit 通過。
 - `pnpm run build:submission`：變更後通過；Three lazy chunk 約 851 kB 的非阻斷 warning 仍存在。
 - `pnpm run audit:lighthouse`：history 現有 15 個成功 archive；最新三次共用 artifact `f869c00c…`、source content `f3fd2a68…` 與 mobile profile `718e69b4…`。mobile Performance／Accessibility 96–97／100、LCP 2.258–2.407 s、TBT 23–34 ms、CLS 0；desktop 100／100、LCP 0.504–0.505 s、TBT 0、CLS 0。三次 benchmark 都逐筆保存，所以 environment／comparability fingerprint 會反映每次實測差異。這是 localhost simulated lab evidence，不是 production field data。
 - 另做真實雙程序互動測試：持鎖 audit exit 0、競爭 audit 快速 exit 1、競爭期間既有 summary SHA-256 不變，完成後無 lock 殘留；此測試結果未另封存成 archive evidence。Lighthouse CLI 在目前 Windows 環境有時會在完成 JSON 後因 Chrome profile cleanup `EPERM` 回傳 1；harness 只有在 fresh report 通過全部驗證，且 stderr 精確符合該 run 專屬 Chrome temp 的已知 `rm`／`Launcher.destroyTmp` 簽章時才降為具名 warning並封存完整輸出。其他非零退出一律失敗。
@@ -73,14 +90,14 @@
 # Content Still Needed From Applicant
 
 - **作品文字：** 正式研究計畫、最終申請敘事簽核、各案例真正的測試觀察與限制。
-- **圖片：** 生成式 AI 介面真實 prototype／版本比較；如要公開 Power BI 原圖，需先完成授權與去識別化。
+- **圖片：** 生成式 AI 介面真實 prototype／版本比較；Power BI 真實結果影像預設不公開，只有另取得資料提供方明確許可後才重新評估。
 - **音訊：** 可公開的 Pd 或 REAPER 輸出；旗艦原型若要加入錄製，也需申請者提供或確認。
 - **影片：** 現有 YouTube captions／transcript 的人工核對；如有旗艦操作錄影與字幕可補。
 - **Pd patch：** 真實 patch、signal flow、操作說明與反思；目前沒有。
 - **REAPER evidence：** 真實 project/session 截圖、軌道／效果鏈與可公開輸出；目前沒有。
 - **研究計畫：** 題目、問題、方法、對南藝大聲響科技研究所的官方資料核對與申請者最終決定。
 - **履歷／聯絡：** 公開 Email、GitHub／社群、履歷 PDF 及公開範圍；目前 Reviewer Path 只提供站內 CTA。
-- **授權／credit：** Power BI 資料、外部影片、團隊作品角色、媒體著作權與引用方式。
+- **授權／credit：** Power BI 資料來源已補 credit，真實結果另行公開許可仍未取得；外部影片、團隊作品角色、媒體著作權與引用方式仍待核對。
 
 # Decisions And Constraints
 
@@ -98,7 +115,7 @@
 
 ## P0
 
-- Power BI 原始資料與截圖在授權／去識別化完成前維持隔離。
+- Power BI 原始資料、清洗檔、儀表板實作檔、實際截圖與含真實結果的操作紀錄維持隔離；只有另取得資料提供方明確許可後才重新評估。
 
 ## P1
 
@@ -118,6 +135,8 @@
 ## Risks and blockers
 
 - Git repository、remote branch 與 Draft PR 已確認，但目前沒有 connector 可見的 remote checks、workflow runs 或 production Pages 證據。
+- Scanner 已攔截目前已知 text／inventory regressions，但仍以獨立 `dist/` 搜尋避免循環自證；新 leak 類型需要新增 rule 與 fixture。
+- 歷史 Lighthouse 分數有完整 archive，但 source manifest 與目前 build inputs 已 drift，需修正 submission 邊界後重跑。
 - 真實使用者研究、聲音作品與授權資料不在 repository，工程端不能代填。
 - In-app Browser 無法可靠模擬 screen reader、真實 zoom、reduced-motion 或實機音訊；這些仍需要人工測試。
 

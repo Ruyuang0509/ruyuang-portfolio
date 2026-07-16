@@ -59,7 +59,7 @@ const assertImage = (project, label, image) => {
   }
 };
 
-const publicConstructionPattern = /待補|可替換|範例|正式送審前|placeholder|sample|Content Readiness|Internal Build Notes|INTERNAL_|PRE_SUBMISSION_CHECK|HIDE_FROM_SUBMISSION|這裡保留|未來可放入|審查者|評審可以/i;
+const publicConstructionPattern = /待補|可替換|範例|正式送審前|佔位|尚未提供|placeholder|sample|Content Readiness|Internal Build Notes|INTERNAL_|PRE_SUBMISSION_CHECK|HIDE_FROM_SUBMISSION|這裡保留|未來可放入|審查者|評審可以/i;
 const sensitivePublicPattern = /\.pbix|\.xlsx|\.xls|\.csv|C:\\|\/Users\/|youtu\.be\//i;
 const mojibakePattern = /[�]|[-]|(?:敺|蝛|雿|銝|嚗|霅|瘚|鞈|憭|摨|餌|蝟|暸|踴|甇|鋆|瞍|蝝|靘|撟|銵|閬|蔣|慦|隞|賊|乓|繚|憟|唳|孵)/u;
 // Codex-Fix: Fail fast on common mojibake sequences so corrupted Traditional Chinese copy cannot quietly ship again.
@@ -166,7 +166,21 @@ for (const project of projectCaseStudies) {
     }
   }
 
-  assertImage(project, "cover", project.cover);
+  const hiddenMediaCollections = [
+    project.diagrams,
+    project.media?.visualDrafts,
+    project.media?.screenshots,
+    project.media?.videos,
+    project.media?.audio,
+    project.media?.demos,
+  ];
+  if (project.submissionVisibility === "hidden") {
+    if (project.cover || hiddenMediaCollections.some((collection) => collection?.length)) {
+      errors.push(`${project.id}: hidden project must use an empty media state until evidence is public-safe`);
+    }
+  } else {
+    assertImage(project, "cover", project.cover);
+  }
 
   for (const diagram of project.diagrams ?? []) {
     if (!validDiagramTypes.has(diagram.type)) {

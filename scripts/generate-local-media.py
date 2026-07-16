@@ -23,10 +23,8 @@ ITEMS = [
     ("gd-editorial", "EDITORIAL", "IDENTITY", ("#171511", "#b64f73", "#efe9dc", "#cbe86b"), 11),
     ("gd-kinetic", "KINETIC", "CAMPAIGN", ("#11100d", "#cbe86b", "#596b25", "#efe9dc"), 23),
     ("gd-analog", "ANALOG", "TYPE", ("#171511", "#88b8bf", "#d2b6d8", "#efe9dc"), 31),
-    ("mv-soft", "SOFT", "TEASER", ("#14120f", "#d2b6d8", "#c7724a", "#efe9dc"), 43),
     ("mv-urban", "URBAN", "RHYTHM", ("#11100d", "#596b25", "#cbe86b", "#efe9dc"), 59),
     ("mv-fashion", "FASHION", "LOOP", ("#1a1115", "#b64f73", "#88b8bf", "#efe9dc"), 67),
-    ("ph-after", "AFTER", "HOURS", ("#11100d", "#536789", "#c9975f", "#efe9dc"), 79),
     ("ph-geometry", "QUIET", "GEOMETRY", ("#d8cfbd", "#1a1711", "#596b25", "#cbe86b"), 83),
     ("ph-blue", "BLUE", "HOUR", ("#121b21", "#6f9db9", "#cbe86b", "#efe9dc"), 97),
 ]

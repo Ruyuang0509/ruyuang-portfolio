@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 900 900" role="img" aria-labelledby="title desc">
   <title id="title">互動類型圓環圖示意</title>
-  <desc id="desc">去識別的圓環圖示意，提醒公開頁面應描述為互動事件筆數計數。</desc>
+  <desc id="desc">概念化圓環圖示意，說明圖表定義為 sn 計數，不含原始資料或實際分析值。</desc>
   <rect width="900" height="900" fill="#f4ecdc"/>
   <circle cx="450" cy="410" r="190" fill="none" stroke="#1c2938" stroke-width="94" opacity="0.18"/>
   <path d="M450 220 A190 190 0 1 1 283 501" fill="none" stroke="#cbe86b" stroke-width="94" stroke-linecap="round"/>

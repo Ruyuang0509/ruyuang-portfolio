@@ -49,6 +49,11 @@ package scripts 會透過 `scripts/run-node.ps1` 執行，所以 Windows/Codex s
 - Product and technical documentation index: `docs/website/README.md`
 - AI-assisted workflow evidence: `docs/ai-workflow/README.md`
 
+The modular handoff under `docs/website/` is the durable product, content,
+design, architecture, target-state, and gap-analysis source of truth. The
+handoff records verified facts separately from inferred goals and stakeholder
+decisions.
+
 ## Content Direction
 
 每件作品應該能說清楚：
@@ -66,4 +71,9 @@ package scripts 會透過 `scripts/run-node.ps1` 執行，所以 Windows/Codex s
 
 - `pnpm run dev:draft`: 施工模式，會顯示內部備註與內容完整度。
 - `pnpm run dev:submission`: 送審模式預覽，只渲染公開內容。
-- `pnpm run check:submission`: 送審建置後掃描輸出，確認施工字眼沒有外洩。
+- `pnpm run check:submission`: 建置 submission、執行內建禁用詞掃描與
+  GitHub Pages 路徑檢查。這是必要門檻，不是完整的公開邊界證明。
+- 正式送審前仍須獨立檢查 `dist/`：hidden-only 媒體、施工措辭、
+  `public/llms.txt`、`public/favicon.svg`、失效 anchor 與 restricted
+  檔名都必須納入。已知限制與目前狀態見
+  `docs/website/GAP_ANALYSIS.md`。

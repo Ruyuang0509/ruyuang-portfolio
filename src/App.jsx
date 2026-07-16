@@ -33,7 +33,7 @@ const ReviewerPathSection = memo(function ReviewerPathSection() {
 
 const HomePage = memo(function HomePage() {
   return (
-    <main id="main-content" aria-label="如願聲響科技研究型作品集" className="page-shell min-h-screen overflow-hidden bg-[var(--theme-bg)] text-[var(--theme-text)]">
+    <main id="main-content" aria-label="RU / YUAN 聲響、互動與學習研究作品集" className="page-shell min-h-screen overflow-hidden bg-[var(--theme-bg)] text-[var(--theme-text)]">
       <SectionErrorBoundary sectionName="首頁主張"><ImmersiveHero /></SectionErrorBoundary>
       <ResearchPositioning />
       <SectionErrorBoundary sectionName="互動聲響旗艦案例"><CaseStudyShowcase scope="flagship" showIndex={false} /></SectionErrorBoundary>

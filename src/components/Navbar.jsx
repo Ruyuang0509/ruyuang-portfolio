@@ -83,7 +83,7 @@ export default function Navbar() {
 
   return (
     <header className="nav-surface fixed inset-x-4 top-4 z-50 flex items-center justify-between rounded-full border border-[color:var(--theme-line)] px-3 py-3 text-[var(--theme-text)] backdrop-blur-2xl md:inset-x-8">
-      <a className="grid text-[0.72rem] font-black leading-[0.9] tracking-[-0.015em] md:text-sm" href="#top" data-magnetic data-cursor-variant="nav" data-cursor-label="TOP" title="回到首頁" onClick={(event) => jumpToSection(event, "#top", { focusTarget: event.detail === 0 })} onKeyDown={(event) => handleKeyboardJump(event, "#top")}>
+      <a className="grid text-[0.72rem] font-black leading-[0.9] tracking-[-0.015em] md:text-sm" href="#top" aria-label="RU / YUAN，回到首頁" data-magnetic data-cursor-variant="nav" data-cursor-label="TOP" title="回到首頁" onClick={(event) => jumpToSection(event, "#top", { focusTarget: event.detail === 0 })} onKeyDown={(event) => handleKeyboardJump(event, "#top")}>
         <span>RU</span><span>YUAN</span>
       </a>
 

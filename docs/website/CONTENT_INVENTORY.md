@@ -2,7 +2,7 @@
 
 ## 內容治理
 
-公開文案、案例順序、媒體 metadata 與測試狀態的唯一來源是 [`../../src/data/portfolio.js`](../../src/data/portfolio.js)。施工／風險文字位於 [`../../src/data/portfolio.internal.js`](../../src/data/portfolio.internal.js)，正式內容不得複製其 wording。欄位契約見 [`../content-authoring.md`](../content-authoring.md)、[`../adding-portfolio-work.md`](../adding-portfolio-work.md) 與 [`../content-governance.md`](../content-governance.md)。
+公開文案、案例順序、媒體 metadata 與測試狀態的唯一來源是 [`../../src/data/portfolio.js`](../../src/data/portfolio.js)。Hidden case 文字位於 [`../../src/data/portfolio.hidden.js`](../../src/data/portfolio.hidden.js)，施工／風險文字位於 [`../../src/data/portfolio.internal.js`](../../src/data/portfolio.internal.js)；submission mode 會把前者 alias 到空模組，正式內容不得複製後者 wording。欄位契約見 [`../content-authoring.md`](../content-authoring.md)、[`../adding-portfolio-work.md`](../adding-portfolio-work.md) 與 [`../content-governance.md`](../content-governance.md)。
 
 ## 首頁與固定內容
 
@@ -52,11 +52,13 @@
 | `interactive-sound-learning` 互動聲響學習原型 | 原型中；`notValidated` | 把視覺位置、動態、量感轉成聲音回饋，支援抽象概念理解 | 原生 Web Audio 可操作 prototype、3 張圖解、4 個 mapping、signal flow、listening guide；沒有正式使用者結果 |
 | `generative-interface-study` 生成式 AI 介面研究 | 研究構想；`notValidated` | 讓 prompt、版本比較、修正與判斷可追蹤 | 2 張流程／資訊架構圖；沒有公開媒體、demo 或實測結果，只列形成性測試計畫 |
 | `data-visualization-cases` 資料視覺化實際案例與數位學習應用探討 | 已完成；`exploratory` | 分析 Spotify Wrapped 等資料敘事，推論數位學習回饋應用 | 1 張流程圖、1 部 YouTube privacy-enhanced 影片、章節化分析；不宣稱已驗證學習成效 |
-| `learning-dashboard-analysis` 線上學習互動行為與學科成績之資料視覺化分析 | 原型中；`exploratory` | Power BI 探索互動、作業與成績分布 | 3 張概念圖、公開 SVG；年份有意省略；原始截圖隔離；不作因果宣稱 |
+| `learning-dashboard-analysis` 線上學習互動行為與學科成績之資料視覺化分析 | 2026/06/11–06/12；原型中；`exploratory` | Power BI 探索互動、影片觀看與成績分布 | 3 張概念圖、公開 SVG；實際資料、儀表板與結果影像隔離；不作因果宣稱 |
 
 ## Draft-only 隱藏案例
 
-`immersive-memory-map`（沉浸式記憶地圖）仍保留於 draft 資料供未來發展，但標記 `submissionVisibility: hidden`，submission mode 透過條件資料建立不含它。它需要真實場域、完整原型與觀眾測試後才能重新評估公開。這不是目前公開資訊架構的一部分。
+`immersive-memory-map`（沉浸式記憶地圖）的完整文字保留於 `src/data/portfolio.hidden.js`，並標記 `submissionVisibility: hidden`；`src/data/portfolio.internal.js` 只保存它的施工／風險備註。submission mode 將 `#portfolio-hidden` 解析為空模組，因此建出的資料與畫面不含案例 ID、標題或長文。它需要真實場域、完整原型與觀眾測試後才能重新評估公開，並不是目前公開資訊架構的一部分。
+
+Hidden case 現在使用空 media state。原有 13 個 `ph-after-*`／`mv-soft-*` responsive placeholders 與 MP4、其 generator entries、captions 及 references 均已移除；公開案例沒有共用這些檔案。Scanner 以檔名 inventory 防止回歸，submission dev 舊 URL 為 404。
 
 ## 旗艦 Web Audio 內容
 
@@ -89,17 +91,18 @@
 
 ## 媒體、替代文字與隱私
 
-- `public/media/portfolio` 使用 420／640／1200 寬 AVIF/WebP 與 3 個本機 MP4；公共 helper 帶固定 dimensions 和 alt。
+- `public/media/portfolio` 使用 420／640／1200 寬 AVIF/WebP 與 2 個本機 MP4；公共 helper 帶固定 dimensions 和 alt。此目錄會被 Vite 全量複製，因此只保留公開案例資產；「未被 React 引用」仍不等於「未公開」。
 - `public/media/data-visualization` 只有公開安全的 SVG 系列圖／流程圖／概念圖。
 - Power BI 原始 PNG/WebP 位於 `restricted-media/data-visualization/`，不在 `public/`，不被 Vite 複製；公開資料只保留 restricted 說明，不含路徑。
 - 資料視覺化影片使用 YouTube ID `NrmK31F2S-M`，renderer 採 `youtube-nocookie.com`。
 - 圖解需 alt、caption 與文字長描述；video/audio 架構支援 transcript／caption；iframe demo 需明確使用者操作後載入。
+- `index.html` 的 title、description、Open Graph、Twitter 與 JSON-LD，以及 `public/llms.txt`、favicon、social preview 與案例 SEO title 已同步為 RU / YUAN／Sound, Interaction & Learning。
 
 ## 仍缺少的內容
 
 - 旗艦原型與生成式 AI 研究都沒有正式使用者驗證結果。
 - Pure Data／REAPER 沒有可公開 artifact。
 - 生成式 AI 研究沒有可公開 prototype／media。
-- Power BI 的年份、原始資料授權與部分 measure 定義未確認；年份因此不公開，而非顯示占位字。
+- Power BI 實作日期已確認為 2026/06/11–06/12；資料使用說明不支持公開分析結果，清洗規則與部分 measure 定義仍需核對。
 - 案例 `links` 皆空；沒有公開 email、履歷或外部個人連結。
 - 未確認 production canonical URL、hosting、analytics、隱私文件與最終社群分享圖相容性。

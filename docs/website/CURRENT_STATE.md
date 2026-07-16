@@ -4,6 +4,13 @@
 
 網站的明文定位是 `Graduate Portfolio / Sound, Interaction & Learning`。作者從國立嘉義大學數位學習設計與管理、插畫、動畫與影像創作出發，正以 Pure Data、REAPER 與 Web Audio 探索跨感官學習回饋；目前可公開且可操作的核心證據是原生 Web Audio 原型。主要受眾是研究所審查者，主要成功行為是理解研究問題、操作旗艦原型、再檢視支援案例與學習路徑。來源：[`../../src/data/portfolio.js`](../../src/data/portfolio.js)。
 
+## Repository 與交付狀態
+
+- Canonical root 是 `C:\Users\911su\Documents\Codex\如願個人網站`。
+- 目前 HEAD 為 `43e610f`，位於 `feat/portfolio-admission-foundation`，並追蹤同名 `origin` branch；`main`／`origin/main` 仍為 `aea1c29`。
+- 既有 Draft PR #1 尚未 merge。manual-only Pages workflow 已在 feature branch，但沒有可確認的遠端 run、Pages URL、custom domain 或 production field data。
+- 應用、內容與文件已能形成完整本機 review flow；hidden-only assets、built construction wording 與 stale metadata 的已知本機 submission blockers 已關閉。研究證據、授權、輔具／實機與 production hosting 仍未完成。
+
 ## 路由與導覽模型
 
 - **實際 route：** 只有 `/`，client-rendered React SPA；未安裝 router。
@@ -46,10 +53,10 @@ flowchart TD
 | `#project-index` / `#gallery` | 4 件公開案例總覽 | 案例卡顯示來源、狀態、證明、roles、tools、研究主題；也是 scroll theme inversion trigger |
 | `#generative-interface-study` | 生成式 AI 介面研究 | 研究構想；有流程圖，無公開 prototype／媒體，未驗證 |
 | `#data-visualization-cases` | 資料視覺化案例與數位學習應用 | 已完成分析影片；testing 狀態為 exploratory，不宣稱學習成效 |
-| `#learning-dashboard-analysis` | Power BI 學習資料探索 | 原型中；年份省略、概念圖公開、restricted 截圖隔離、不作因果宣稱 |
+| `#learning-dashboard-analysis` | Power BI 學習資料探索 | 原型中；實作日期 2026/06/11–06/12；概念圖公開，實際資料與結果隔離；不作因果宣稱 |
 | `#reviewer-path` | 審查閱讀終點 | 兩個真實站內 CTA；沒有公開聯絡資料 |
 
-`immersive-memory-map` 不在上表，因它只在 draft 資料中存在且 `submissionVisibility: hidden`，正式 build 不包含該資料。 
+`immersive-memory-map` 不在上表。它的完整文字位於 `portfolio.hidden.js`，並標記 `submissionVisibility: hidden`；內部施工備註另在 `portfolio.internal.js`。submission alias 解析到空模組，bundle 與公開 `portfolio.js` dev response 都不含案例 ID／文案。該案例現在使用空 media state；13 個 `ph-after-*`／`mv-soft-*` placeholder 已從 public 與 generator 移除，舊 canonical dev URL 為 404。
 
 ## 案例共同結構
 
@@ -64,7 +71,15 @@ flowchart TD
 - **Restricted：** Power BI 只顯示不可公開原因；restricted item 不得含公開 href/src/embed URL。
 - **Draft：** draft build 有黏性治理 banner、內容完整度、待補資料與風險；submission 以 Vite alias 將整層替成空元件。
 - **外部影片：** 一件資料視覺化案例使用 `youtube-nocookie.com` iframe；repo 沒有其他第三方 runtime service。
-- **本機效能：** submission Lighthouse 對 immutable artifact 執行 mobile／desktop profiles，封存 raw JSON／CLI transcript／history、完整受測 `dist`、逐檔 artifact／source manifests、completion marker 與 profile／environment fingerprints；最新同 artifact／source content／profile 三次 mobile 為 Performance 96–97、LCP 2.258–2.407 s、TBT 23–34 ms，desktop 為 Performance 100、LCP 0.504–0.505 s、TBT 0，LCP node 皆是 Hero 標題。這些是 localhost simulated lab 結果，不代表正式 hosting field data。
+- **歷史本機效能證據：** submission Lighthouse 曾對 immutable artifact 執行 mobile／desktop profiles，封存 raw JSON／CLI transcript／history、完整受測 `dist`、逐檔 artifact／source manifests、completion marker 與 profile／environment fingerprints；同一歷史 artifact／source content／profile 的三次 mobile 為 Performance 96–97、LCP 2.258–2.407 s、TBT 23–34 ms，desktop 為 Performance 100、LCP 0.504–0.505 s、TBT 0，LCP node 皆是 Hero 標題。該 archive 的 source manifest 已與目前 build inputs 發生 hash drift，不能當成目前 HEAD 的 fresh score；即使重跑，也只代表 localhost simulated lab，不是正式 hosting field data。
+
+## 已確認的 submission 邊界
+
+- Scanner core 可注入任意 output directory，CLI fail closed；31 個 fixtures 實際斷言 bad output exit 1、clean output exit 0，diagnostics 不回印敏感內容。
+- Fresh submission `dist/` 由 46 個 text rules 與 6 個 inventory rules 檢查，另保留不同方法的獨立文字搜尋與檔名盤點。
+- Submission dev middleware 對 13 個舊 hidden media URL 與 `/dist/*` 回傳 404，避免 Vite SPA fallback 偽裝成 200；有效 public media 仍為 200。Filesystem deny 對 restricted media、internal／hidden modules 與歷史 report copy 回傳 403。
+- `llms.txt`、favicon、social preview、index／JSON-LD 與案例 SEO title 使用 RU / YUAN，`llms.txt` 只列實際存在的 Navbar anchors。
+- 內容 validator 與 submission gate 的通過不代表授權、使用者研究、screen reader、實機或 production hosting 已完整。
 
 ## 外部系統與缺席功能
 

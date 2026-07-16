@@ -70,16 +70,13 @@ export const projectInternalNotes = {
   },
   "immersive-memory-map": {
     status: internalStatusLabels.missingMaterials,
-    labels: ["INTERNAL_TODO", "INTERNAL_REPLACE", "HIDE_FROM_SUBMISSION"],
+    labels: ["INTERNAL_TODO", "HIDE_FROM_SUBMISSION"],
     missingMaterials: [
       "待補：真實場域資料、照片/影片序列與環境聲音。",
       "待補：Unity WebGL、Three.js 或影片導覽 prototype。",
       "待補：觀眾停留節點、記憶點回想與沉浸感評分。",
     ],
-    replaceableAssets: [
-      "INTERNAL_REPLACE：目前空間草圖與沉浸式畫面是可替換範例。",
-      "INTERNAL_REPLACE：walkthrough 影片需替換成真實場景或明確標示為概念預覽。",
-    ],
+    replaceableAssets: [],
     sampleCopy:
       "INTERNAL_SAMPLE：若真實場域資料不足，可在 submission mode 維持研究構想，不要假裝是已完成展演。",
     aiCollaborationNotes:
@@ -116,7 +113,7 @@ export const projectInternalNotes = {
     ],
     preSubmissionChecklist: [
       "PRE_SUBMISSION_CHECK：確認公開 YouTube 影片可正常播放。",
-      "PRE_SUBMISSION_CHECK：補齊年份、課程或專案來源。",
+      "PRE_SUBMISSION_CHECK：確認課程或專案來源的正式名稱。",
       "PRE_SUBMISSION_CHECK：確認公開 copy 沒有把 AI 蒐整誤寫成 AI 研究結論。",
     ],
   },
@@ -124,22 +121,22 @@ export const projectInternalNotes = {
     status: internalStatusLabels.missingMaterials,
     labels: ["PRIVACY_SENSITIVE", "POWER_BI_GUARDRAIL", "PRE_SUBMISSION_CHECK"],
     missingMaterials: [
-      "待補：真實年份、資料版本、總筆數、年級範圍與公開授權尚未確認。",
+      "待補：清洗規則、資料筆數差異與部分 measure 定義仍需核對；實際分析結果未取得另行公開許可。",
       "待補：若 measure 修正完成，再更新觀看相關圖表文字；目前公開文案使用「不同數學成績分群的學習者／紀錄數」。",
-      "待補：若要提供完整操作影片，只能用受限方式交付，不可寫入公開 repo。",
+      "待補：若未來產生含真實結果的操作紀錄，仍需先確認資料提供方許可與受控交付條件。",
     ],
     replaceableAssets: [
-      "INTERNAL_REPLACE：未確認授權的 PNG/WebP 截圖已移至 restricted-media；公開頁僅保留概念化 SVG。"
+      "INTERNAL_REPLACE：實際結果 PNG/WebP 維持隔離；公開頁僅保留不含資料值的概念化 SVG。"
     ],
     riskReminders: [
       "最高優先：兩件資料視覺化作品彼此獨立，不可寫成同一研究的前後階段。",
       "最高優先：Power BI 圓環圖是 sn 的計數，不可寫成序號加總。",
       "最高優先：目前觀看直條圖使用非空值計數，不可稱為觀看時數比較。",
       "最高優先：視覺關聯不可宣稱為因果或學習成效證明。",
-      "最高優先：原始資料、儀表板原檔與完整操作影片不得進入公開 build。",
+      "最高優先：原始資料、清洗檔、儀表板實作檔、實際截圖與含真實結果的操作紀錄不得進入公開 build。",
     ],
     preSubmissionChecklist: [
-      "PRE_SUBMISSION_CHECK：確認 dist 不含原始資料、儀表板原檔、私人影片連結或本機絕對路徑。",
+      "PRE_SUBMISSION_CHECK：確認 dist 不含原始資料、清洗檔、儀表板實作檔、實際截圖、受限影片連結或本機絕對路徑。",
       "PRE_SUBMISSION_CHECK：確認公開頁只說探索、觀察與後續研究問題，不說因果。",
       "PRE_SUBMISSION_CHECK：確認 scan:submission 與 content:check 通過。",
     ],

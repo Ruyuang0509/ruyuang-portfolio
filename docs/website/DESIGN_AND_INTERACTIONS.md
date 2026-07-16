@@ -26,7 +26,8 @@
 - 主要 breakpoint 使用 Tailwind `md` 768px、`lg`、`2xl`；繁中 display 另有 520px 規則。
 - Hero 由單欄轉 1.15/0.85 雙欄；長文 section 多由單欄轉 0.32/0.68；索引在 lg 為 3 欄。
 - 桌面顯示完整導覽；行動顯示 menu trigger 和浮出選單，不再隱藏閱讀路徑。
-- `100svh` 可用時取代 `100vh`；水平 overflow 隱藏；scrollbar 被隱藏。
+- `100svh` 可用時取代 `100vh`；`body` 以 `min(320px, 100%)` 配合 `overflow-x:hidden` 避免最窄 viewport 產生全頁水平捲動。
+- 平台 scrollbar 保持可見，`scrollbar-gutter: stable` 預留空間，並以目前深色／暖紙 theme accent 和 background 配色；不再用全域規則隱藏 Firefox／WebKit scrollbar。
 - sound pad 高度為 `clamp(18rem,48vw,32rem)`，pointer/touch 使用 `touch-action:none`；右側 range controls 在 lg 與 pad 並排。
 
 ## 主要互動與 motion
@@ -74,10 +75,12 @@
 - sound pad 的 pointer 操作區本身不是 keyboard widget；它以圖像語意說明映射，鍵盤使用者改用四個 range controls，仍需真實使用者研究確認是否足夠易懂。
 - visible readout 由四個 range 的 `aria-describedby` 關聯，另以節流 `aria-live` 宣告參數；仍需 screen reader 實測確認訊息頻率。
 - 行動 menu 沒有 focus trap；它是非 modal nav，但仍應做實際 tab-order 測試。
-- 隱藏 scrollbar 可能降低長頁面位置感。
+- 平台 scrollbar 已恢復，仍需在 Windows、macOS overlay scrollbar、觸控裝置與高對比模式確認可見性與不溢位。
 - YouTube iframe、字幕與 transcript 的最終品質需人工確認。
 - section boundaries 沒有涵蓋每一區，但全站根已有可重新載入的 recovery boundary。
 
 ## Performance 現況
 
-DOM `#hero-title` 是 LCP；Three 與 sound prototype lazy 分 chunk，Three 排除 initial modulepreload，並在窄螢幕延後 1.4 秒後再等 idle；callback 重新檢查目前幾何與頁面可見性，只有 Hero 仍在 240 px preload window 內才首次下載。本機圖片 responsive 且有 intrinsic size。可信 submission harness 會驗證 mode、submission／Pages boundary、逐檔 artifact／source manifests、report freshness／URL／完整 resolved profiles／runtime／metrics，以跨程序鎖保護 build 到 atomic publish，並封存 raw reports、CLI transcript、conditions 與完整受測 `dist`；archive completion marker 與 canonical summary 都最後原子提交。已封存的延後前對照為 mobile Performance 87、LCP 3.463 s；最新相同 artifact／source content／profile 三次為 Performance 96–97、LCP 2.258–2.407 s、TBT 23–34 ms、CLS 0、Accessibility 100。desktop 為 Performance 100、LCP 0.504–0.505 s、TBT 0。Three 仍約 851 kB minified／224 kB transfer，真機與 production field data 前維持 progressive enhancement。
+DOM `#hero-title` 是預期 LCP；Three 與 sound prototype lazy 分 chunk，Three 排除 initial modulepreload，並在窄螢幕延後 1.4 秒後再等 idle；callback 重新檢查目前幾何與頁面可見性，只有 Hero 仍在 240 px preload window 內才首次下載。本機圖片 responsive 且有 intrinsic size。submission harness 會驗證 mode、submission／Pages boundary、逐檔 artifact／source manifests、report freshness／URL／完整 resolved profiles／runtime／metrics，以跨程序鎖保護 build 到 atomic publish，並封存 raw reports、CLI transcript、conditions 與完整受測 `dist`；archive completion marker 與 canonical summary 都最後原子提交。
+
+歷史封存的延後前對照為 mobile Performance 87、LCP 3.463 s；同一歷史 artifact／source content／profile 的三次 run 為 Performance 96–97、LCP 2.258–2.407 s、TBT 23–34 ms、CLS 0、Accessibility 100，desktop 為 Performance 100、LCP 0.504–0.505 s、TBT 0。其 source manifest 已與目前 build inputs 發生 hash drift，所以這些分數只作設計決策歷史，不是目前 HEAD 的 fresh Lighthouse 結果。Fresh doctor build 確認 Three 仍約 851.22 kB／gzip 225.76 kB；應以低階真機與 production field data 再決定是否簡化。

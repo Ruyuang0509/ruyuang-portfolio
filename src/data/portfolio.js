@@ -1,3 +1,5 @@
+import { hiddenProjectCaseStudies } from "#portfolio-hidden";
+
 const publicAssetBase = import.meta.env?.BASE_URL ?? "/";
 const publicAssetUrl = (assetPath) => `${publicAssetBase}${assetPath.replace(/^\/+/, "")}`;
 
@@ -217,7 +219,7 @@ export const portfolioPriorityRules = [
   "每件作品都要回答：為什麼做、給誰用、如何互動、證據在哪裡。",
   "只有平面或概念稿時，也要補足流程、角色、技術方法與可深化方向。",
   "若是團隊作品，要明確標出個人負責的企劃、UX、介面、程式、影音或分析工作。",
-  "作品敘事以公開內容為主，內部準備事項由施工模式管理。",
+  "作品敘事以公開內容為主，內部準備事項不納入正式內容。",
 ];
 
 export const projectCaseStudies = [
@@ -311,7 +313,7 @@ export const projectCaseStudies = [
     links: [],
     credits: "個人角色聚焦於企劃、教學設計、UX、互動原型與聲音回饋規劃。",
     seo: {
-      title: "互動聲響學習原型 | 如願個人網站",
+      title: "互動聲響學習原型 | RU / YUAN",
       description: "以聲響、互動與學習任務構成的研究型作品案例。",
     },
   },
@@ -378,103 +380,18 @@ export const projectCaseStudies = [
     links: [],
     credits: "個人角色聚焦於 AI 工作流程整理、UX、介面設計、原型製作與資料化思考。",
     seo: {
-      title: "生成式 AI 介面研究 | 如願個人網站",
+      title: "生成式 AI 介面研究 | RU / YUAN",
       description: "以 prompt workflow、版本比較與 AI 介面透明性為核心的研究型作品案例。",
     },
   },
-  ...((import.meta.env?.VITE_PORTFOLIO_MODE === "submission") ? [] : [{
-    id: "immersive-memory-map",
-    slug: "immersive-memory-map",
-    title: "沉浸式記憶地圖",
-    titleLines: [["沉浸式"], ["記憶地圖"]],
-    year: "2026",
-    category: "Immersive Media",
-    source: "課程專題 / 研究整理",
-    statusKey: "researchProposal",
-    status: publicStatusLabels.researchProposal,
-    submissionVisibility: "hidden",
-    featured: true,
-    priority: 3,
-    summary:
-      "以空間、影像、聲音與故事線索建立一個可被探索的記憶地圖，展示沉浸式敘事與互動導覽能力。",
-    valueProposition: "證明我能把攝影、影音、聲音與互動路徑組織成具空間感的體驗。",
-    whatThisProves: "這件作品證明我能處理場域資料、媒體敘事、空間節奏與觀眾行為路徑。",
-    designGoal: "讓觀眾透過探索、觀看與聆聽逐步組合記憶線索，而不是被動接收線性故事。",
-    designProcess:
-      "先整理場域與故事素材，再建立資訊架構與探索路徑，接著製作影像/聲音素材與 walkthrough 原型。",
-    technologyAndMedia:
-      "可使用 Unity、WebGL、Premiere、After Effects、Audition 或 HTML/CSS/JS 製作沉浸式展示與影音素材。",
-    outcomeShowcase:
-      "展示重點放在空間 walkthrough、照片與影片序列、聲音設計、觀眾路徑紀錄與體驗回饋框架。",
-    trackIds: ["multimedia-video-sound", "interactive-media-ux", "user-research-outcomes-process"],
-    cover: mediaAsset("ph-after", "沉浸式記憶地圖封面，使用深藍與暖光漸層。"),
-    problemAwareness:
-      "許多個人或地方記憶被整理成線性敘事時，容易失去場域感與探索感。本作品希望用空間與媒體重新組織記憶。",
-    audience: "目標對象為對地方故事、沉浸式展演、聲音影像敘事與互動裝置感興趣的觀眾。",
-    diagrams: [
-      diagramEvidence(
-        "ph-after",
-        "informationArchitecture",
-        "空間資訊架構",
-        "整理場景、記憶節點、媒體素材與觀眾路徑的關係。",
-        "深藍與暖光構成的空間資訊架構圖。",
-      ),
-      diagramEvidence(
-        "mv-soft",
-        "interactionFlow",
-        "觀眾探索流程",
-        "描述觀眾如何進入場景、選擇線索、觸發影音並形成理解。",
-        "暖色動態影像風格的觀眾探索流程圖。",
-      ),
-    ],
-    media: {
-      visualDrafts: [
-        evidenceImage("ph-geometry", "空間草圖", "呈現場景草圖、動線圖與展場配置構想。", "米色與藍色幾何風格的空間草圖。"),
-      ],
-      screenshots: [
-        evidenceImage("ph-blue", "沉浸式畫面", "呈現 Unity、WebGL 或影片場景的空間感。", "深藍色分層氛圍的沉浸式畫面。"),
-      ],
-      videos: [
-        {
-          title: "空間 walkthrough",
-          src: publicAssetUrl("media/portfolio/mv-soft-preview.mp4"),
-          poster: mediaAsset("mv-soft", "沉浸式記憶地圖 walkthrough 影片封面。"),
-          caption: "呈現觀眾視角的空間走訪與場景轉場。",
-          transcript: "影片摘要：場景引導觀眾選擇線索，並透過影像與聲音形成空間記憶。",
-        },
-      ],
-      audio: [],
-      demos: [],
-    },
-    tools: ["Unity", "Premiere", "After Effects", "Audition", "Arduino", "HTML/CSS/JS"],
-    roles: ["企劃", "UX", "程式", "影片製作", "聲音設計", "專案管理"],
-    testing: { statusKey: "notValidated", status: "尚未進行正式觀眾驗證；目前為 draft-only 研究構想。", metrics: [], insights: [], learningOutcomes: [], plannedMethods: ["記錄觀眾停留節點、路徑理解與記憶線索回想。"] },
-    reflection: {
-      strengths: "作品能整合空間、影像與聲音，適合展示沉浸式體驗與跨域敘事能力。",
-      limitations: "目前仍需要真實場域資料、觀眾測試與更完整的空間互動原型。",
-      graduateDirection: "進入研究所後可深化為數位孿生、沉浸式聲景、互動展演與場域資料視覺化研究。",
-    },
-    instituteConnections: ["聲響", "沉浸式體驗", "數位孿生", "跨域創生"],
-    themeRationales: {
-      聲響: "環境聲與口述聲音可成為空間記憶的引導線索。",
-      沉浸式體驗: "作品以空間探索、媒體觸發與觀眾路徑為核心。",
-      數位孿生: "進入研究所後可把場域資料、位置、聲音與影像轉成可探索的數位模型。",
-      跨域創生: "結合攝影、影音、聲音、互動設計與空間敘事。",
-    },
-    links: [],
-    credits: "個人角色聚焦於場域敘事、空間流程、影音聲音設計與互動導覽規劃。",
-    seo: {
-      title: "沉浸式記憶地圖 | 如願個人網站",
-      description: "以空間、影像、聲音與互動探索構成的研究型作品案例。",
-    },
-  }]),
+  ...hiddenProjectCaseStudies,
   {
     id: "data-visualization-cases",
     slug: "data-visualization-cases",
     title: "資料視覺化實際案例與數位學習應用探討",
     titleLines: [["資料視覺化"], ["實際案例與數位學習"]],
     year: "2026",
-    productionDate: "2026/06/12",
+    productionDate: "2026/04/23",
     category: "Data Visualization / Motion",
     source: "數位學習相關課程成果",
     statusKey: "completed",
@@ -490,7 +407,7 @@ export const projectCaseStudies = [
     designProcess:
       "前期以生成式 AI 輔助蒐集案例線索，再由人工篩選案例、整理視覺策略、建立論述架構，最後以動態簡報與影片形式呈現分析。",
     technologyAndMedia:
-      "作品以案例研究、視覺分析、動態簡報與影片製作為主要媒介；確切軟體工具仍可依原始製作檔補充。",
+      "作品以案例研究、視覺分析、Power BI、Excel、Canva 動態簡報與影片製作為主要媒介；Gemini 與 ChatGPT 用於輔助蒐集案例線索，最終篩選、判斷與論述由本人完成。",
     outcomeShowcase:
       "公開成果以分析影片呈現，重點包含資料故事、個人化回饋、情緒設計、學習應用推論與後續互動化可能。",
     trackIds: ["edtech-digital-content", "multimedia-video-sound", "interactive-media-ux", "user-research-outcomes-process"],
@@ -571,7 +488,7 @@ export const projectCaseStudies = [
         ],
       },
     ],
-    tools: ["Power BI", "Excel", "Gemini", "ChatGPT"],
+    tools: ["Power BI", "Excel", "Canva", "Gemini", "ChatGPT"],
     roles: ["企劃", "資料蒐整", "案例分析", "教學設計轉譯", "視覺敘事", "影片製作"],
     testing: {
       statusKey: "exploratory",
@@ -603,7 +520,7 @@ export const projectCaseStudies = [
     links: [],
     credits: "個人角色聚焦於案例蒐整、視覺分析、數位學習轉譯與影片敘事。",
     seo: {
-      title: "資料視覺化實際案例與數位學習應用探討 | 如願個人網站",
+      title: "資料視覺化實際案例與數位學習應用探討 | RU / YUAN",
       description: "以公開資料視覺化案例為基礎，探討資料敘事與數位學習回饋設計的作品案例。",
     },
   },
@@ -612,8 +529,8 @@ export const projectCaseStudies = [
     slug: "learning-dashboard-analysis",
     title: "線上學習互動行為與學科成績之資料視覺化分析",
     titleLines: [["線上學習互動行為"], ["與學科成績資料視覺化"]],
-    year: null,
-    metadataOmissions: ["year"],
+    year: "2026",
+    productionDate: "2026/06/11–2026/06/12",
     category: "Learning Analytics / Power BI",
     source: "課程期末專題（一人一組）",
     statusKey: "prototype",
@@ -622,25 +539,25 @@ export const projectCaseStudies = [
     featured: true,
     priority: 5,
     summary:
-      "以 Power BI 建立線上學習互動行為與學科成績的探索型儀表板，觀察互動紀錄、作業表現與成績欄位之間的分布關係，並明確標示資料限制與不可推論為因果。",
+      "以 Power BI 建立線上學習互動行為與學科成績的探索型儀表板，觀察互動紀錄、影片觀看與成績欄位之間的分布關係，並明確標示資料限制與不可推論為因果。",
     valueProposition: "展示我能把學習平台資料整理成可閱讀的儀表板，同時保留資料倫理、圖表定義與推論邊界。",
     whatThisProves: "這件作品證明我能處理資料清理、視覺化設計、互動儀表板與研究限制說明，而不把視覺關聯誤寫成學習成效證明。",
     designGoal: "建立一個可供教學者或研究者探索學習互動分布的儀表板，協助提出後續可驗證的問題，而不是直接做因果判斷。",
     designProcess:
       "作品先進行資料欄位理解與清理，再在 Power BI 中建立資料模型、圖表頁面與互動篩選，最後整理圖表解讀限制與未來修正方向。",
     technologyAndMedia:
-      "主要工具包含 Microsoft Power BI Desktop、Power Query 與 DAX；公開頁面只呈現去識別化、概念化的圖像與文字說明。",
+      "主要工具包含 Microsoft Power BI Desktop、Microsoft Excel、Power Query 與 DAX；公開頁面只呈現概念化且不含真實資料值的圖像與文字說明。",
     outcomeShowcase:
       "成果呈現互動儀表板的頁面邏輯、資料欄位關係、圖表定義與限制說明。圓環圖使用 sn 的計數；觀看相關直條圖公開標題採用「不同數學成績分群的學習者／紀錄數」，只描述非空紀錄筆數。",
     trackIds: ["edtech-digital-content", "user-research-outcomes-process", "interactive-media-ux"],
     cover: svgAsset(
       "work-02-dashboard-public",
-      1200,
-      900,
-      "線上學習互動行為與學科成績資料視覺化分析作品封面，以儀表板卡片與圖表呈現。",
+      1280,
+      720,
+      "線上學習互動行為與學科成績資料視覺化分析作品封面，以概念化儀表板卡片與圖表呈現。",
     ),
     problemAwareness:
-      "線上學習平台可記錄作業、影片、登入與成績等資料，但若缺乏清楚的視覺化與限制說明，容易讓使用者誤把相關分布解讀成因果或學習成效證明。",
+      "線上學習平台可記錄互動、影片與成績等資料，但若缺乏清楚的視覺化與限制說明，容易讓使用者誤把相關分布解讀成因果或學習成效證明。",
     audience: "目標使用者包含課程教師、數位學習研究者、教學助理，以及希望用資料探索學習互動現象的設計者。",
     diagrams: [
       {
@@ -648,30 +565,32 @@ export const projectCaseStudies = [
         title: "儀表板探索流程",
         caption: "描述使用者從選擇欄位、觀察圖表、比較分布到形成後續問題的流程。",
         description: "此流程用於提醒儀表板只能協助探索與提出問題，不直接證明因果或學習成效。",
-        image: svgAsset("work-02-dashboard-public", 1200, 900, "儀表板探索流程圖，呈現篩選、觀察與解讀限制。"),
+        image: svgAsset("work-02-dashboard-public", 1280, 720, "儀表板探索流程圖，呈現篩選、觀察與解讀限制。"),
       },
       {
         type: "systemArchitecture",
         title: "資料處理與視覺化架構",
         caption: "從資料清理、欄位整理、度量定義到 Power BI 視覺化頁面的架構。",
-        description: "公開版本以概念圖表示，不放入原始資料或可識別資訊。",
-        image: svgAsset("work-02-dashboard-public", 1200, 900, "資料處理與 Power BI 視覺化架構圖。"),
+        description: "公開版本以概念圖表示，不放入原始資料或實際分析值。",
+        image: svgAsset("work-02-dashboard-public", 1280, 720, "資料處理與 Power BI 視覺化架構圖。"),
       },
       {
         type: "informationArchitecture",
         title: "圖表資訊層級",
         caption: "整理總覽、分布、篩選與限制說明在儀表板中的閱讀順序。",
         description: "圖表資訊層級協助使用者知道哪些指標可看、哪些結論不可過度推論。",
-        image: svgAsset("work-02-donut-public", 1200, 900, "圖表資訊層級圖，包含圓環圖、長條圖與限制提示。"),
+        image: svgAsset("work-02-donut-public", 900, 900, "圖表資訊層級圖，包含圓環圖、長條圖與限制提示。"),
       },
     ],
     media: {
       visualDrafts: [
         svgEvidence(
           "work-02-dashboard-public",
-          "儀表板版面稿",
-          "公開頁使用概念化圖像說明儀表板架構，不含原始資料或私人欄位。",
-          "Power BI 儀表板版面稿，以卡片與圖表區塊呈現。",
+          "儀表板架構示意",
+          "公開頁使用概念化圖像說明儀表板架構，不含原始資料或實際分析值。",
+          "Power BI 儀表板架構示意，以卡片與圖表區塊呈現。",
+          1280,
+          720,
         ),
       ],
       screenshots: [
@@ -680,6 +599,8 @@ export const projectCaseStudies = [
           "圓環圖定義提示",
           "圓環圖應解讀為 sn 的計數，不是序號加總。",
           "圓環圖定義提示圖，標示 sn 計數。",
+          900,
+          900,
         ),
       ],
       videos: [],
@@ -687,10 +608,10 @@ export const projectCaseStudies = [
       demos: [],
       restricted: [
         {
-          title: "完整操作紀錄",
+          title: "受限資料與原始儀表板",
           status: "不公開",
-          caption: "本作品另有完整操作紀錄供受限審查情境使用；公開網站不載入、不連結，也不揭露私人影片資訊。",
-          reason: "原始資料、儀表板檔與完整操作影片可能涉及課程資料授權與重新識別風險。",
+          caption: "原始資料、清洗檔、儀表板實作檔與任何含真實結果的操作紀錄均不在公開網站載入或連結。",
+          reason: "資料使用說明限定課堂教學與練習，且明載分析結果不適合任何形式的公開發表。",
         },
       ],
     },
@@ -700,7 +621,7 @@ export const projectCaseStudies = [
         summary: "這是一件學習分析視覺化作品，目標是協助探索資料分布，而不是證明成效。",
         paragraphs: [
           "作品以 Power BI 建立儀表板，整理線上學習互動紀錄與學科成績欄位，使資料關係能被快速瀏覽與討論。",
-          "公開頁面只呈現概念化截圖與方法說明，不放入原始資料、儀表板原檔或完整操作影片。",
+          "公開頁面只呈現概念化示意圖與方法說明，不放入原始資料、清洗檔、儀表板實作檔或實際分析結果。",
         ],
       },
       {
@@ -734,7 +655,7 @@ export const projectCaseStudies = [
         title: "05｜隱私與公開限制",
         summary: "公開網站只保留必要方法說明，不放入可回推資料來源的檔案。",
         paragraphs: [
-          "原始資料、儀表板原檔與完整操作影片不進入公開 build。需要檢視完整資料時，應透過受控管的私下審查流程處理。",
+          "原始資料、清洗檔、儀表板實作檔與含真實結果的操作紀錄不進入公開 build。若需檢視，必須先取得資料提供方明確許可並採受控流程。",
         ],
       },
       {
@@ -747,7 +668,7 @@ export const projectCaseStudies = [
         ],
       },
     ],
-    tools: ["Microsoft Power BI Desktop", "Power Query", "DAX", "資料清理", "儀表板設計"],
+    tools: ["Microsoft Power BI Desktop", "Microsoft Excel", "Power Query", "DAX"],
     roles: ["資料整理", "資料視覺化", "儀表板設計", "圖表定義", "限制說明", "專案管理"],
     testing: {
       statusKey: "exploratory",
@@ -765,7 +686,7 @@ export const projectCaseStudies = [
     },
     reflection: {
       strengths: "作品能把學習平台資料整理成可閱讀的互動儀表板，並清楚標示圖表定義與公開限制。",
-      limitations: "目前仍需修正部分度量定義，並在資料授權與去識別條件更完整時，才能進一步擴充公開展示。",
+      limitations: "目前仍需核對部分度量與清洗規則；除非另取得資料提供方明確公開許可，實際分析結果與衍生媒體維持隔離。",
       graduateDirection:
         "進入研究所後可深化為學習分析、數位孿生學習歷程、互動儀表板、AI 輔助回饋與聲響化資料提示研究。",
     },
@@ -777,9 +698,9 @@ export const projectCaseStudies = [
       跨域創生: "作品結合教育資料、視覺設計、資料倫理與互動介面。",
     },
     links: [],
-    credits: "個人角色聚焦於資料整理、Power BI 視覺化、圖表定義、限制說明與公開版本整理。",
+    credits: "資料來源為教育大數據分析計畫辦公室提供的「2025 年教育大數據微學程教學用開放資料第二版」；個人角色聚焦於資料整理、Power BI 視覺化、圖表定義、限制說明與公開版本整理。",
     seo: {
-      title: "線上學習互動行為與學科成績之資料視覺化分析 | 如願個人網站",
+      title: "線上學習互動行為與學科成績之資料視覺化分析 | RU / YUAN",
       description: "以 Power BI 探索線上學習互動資料與學科成績分布的資料視覺化作品案例。",
     },
   },

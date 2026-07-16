@@ -11,10 +11,11 @@ pnpm run audit:text
 pnpm run audit:cjk
 pnpm run content:check
 pnpm run test:sound
+pnpm run test:submission-scanner
 pnpm run check:submission
 ```
 
-`check:submission` performs a submission-mode production build, scans the generated `dist/` files for construction-stage wording, and audits the output for GitHub Pages-breaking root-relative asset paths.
+`check:submission` first runs isolated scanner regression fixtures, then performs a submission-mode production build, scans supported text-based files and the complete `dist/` file inventory, and audits the output for GitHub Pages-breaking root-relative asset paths. It is a required baseline; the independent checks below remain defense in depth.
 
 ## Content Review
 
@@ -30,6 +31,10 @@ pnpm run check:submission
 - Below-the-fold images should remain lazy-loaded.
 - Videos should keep posters, captions or transcript summaries, and stable aspect ratios.
 - Heavy demos should load only after user intent.
+- Treat every file under `public/` as publishable. Vite copies unused AVIF/WebP/MP4/TXT/SVG assets as well as assets referenced by React.
+- Confirm hidden-only `ph-after-*`, `mv-soft-*`, and `mv-soft-preview.mp4` are absent from the formal artifact.
+- In `dev:submission`, confirm those removed URLs and `/dist/*` return 404, valid public media still returns 200, and restricted／internal／hidden／report paths return 403.
+- Review `llms.txt`, favicon, robots, social preview, Open Graph metadata, section anchors, and brand naming together.
 
 ## Accessibility Review
 
@@ -41,12 +46,21 @@ pnpm run check:submission
 
 ## Final Export
 
-After `pnpm run check:submission` passes, the `dist/` folder is the clean formal-review output.
+After `pnpm run check:submission` passes, independently inspect `dist/` before treating it as formal-review output:
+
+```powershell
+rg -n -a "施工模式|Nextgen Portfolio|#graphic|#video|#photo|#contact" dist
+rg --files dist/media/portfolio | rg "ph-after|mv-soft"
+rg -n -a "work-02-powerbi-screenshot|C:\\|/Users/|/home/|\.pbix|\.xlsx|\.csv|\.tsv" dist
+```
+
+The expected result is no matches. Also compare the built favicon／TXT／SVG metadata with the actual page information architecture.
+
 ## Sound portfolio checks added 2026-07-16
 
 - Confirm the Web Audio demo requires an explicit gesture and can be stopped by button and Escape.
 - Confirm pointer, touch, and keyboard sliders expose the same core mappings.
-- Confirm `immersive-memory-map`, `時間待確認`, restricted screenshot filenames, and draft notes are absent from submission output.
-- Keep Power BI year omitted until verified; do not restore restricted screenshots without authorization and de-identification review.
+- Confirm `immersive-memory-map`, `時間待確認`, `施工模式`, hidden-only media, restricted screenshot filenames, stale brand metadata, local paths, and draft notes are absent from submission output.
+- Confirm the Power BI case displays `2026/06/11–2026/06/12`; do not restore restricted data, screenshots, dashboards, or result-bearing media without explicit permission from the data provider.
 - Treat `notValidated` as an explicit public testing state with planned methods, not as a completed outcome.
 - Confirm Pure Data and REAPER remain learning states unless real files are supplied.

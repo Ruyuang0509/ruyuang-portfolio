@@ -173,7 +173,7 @@ const ResearchPositioning = memo(function ResearchPositioning() {
         <div className="grid gap-8 md:grid-cols-[0.42fr_0.58fr]">
           <div className="grid content-start gap-4">
             <p className="zh-copy-wide text-[color:var(--theme-muted)]">
-              這些主題會在作品案例中被逐一對應。公開頁面只呈現能支撐研究敘事的內容；內部準備事項由施工模式另外管理。
+              這些主題會在作品案例中被逐一對應。公開頁面只呈現能支撐研究敘事的內容；內部準備事項不納入正式內容。
             </p>
             <div className="flex flex-wrap gap-2" aria-label="研究所主題">
               {instituteThemes.map((theme) => (

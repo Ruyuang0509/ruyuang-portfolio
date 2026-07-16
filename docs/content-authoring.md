@@ -11,6 +11,7 @@ For the research decisions behind the layout, use `docs/portfolio-display-resear
 ## Where To Edit
 
 - Project data: `src/data/portfolio.js`
+- Draft-only hidden case text: `src/data/portfolio.hidden.js`
 - Draft-only internal notes: `src/data/portfolio.internal.js`
 - Case-study layout: `src/components/CaseStudyShowcase.jsx`
 - Local media assets: `public/media/portfolio`
@@ -76,6 +77,10 @@ Audio should:
 Interactive demos can be represented as public links or sandboxed iframe embeds when they are ready. Preparation notes for demos belong in `src/data/portfolio.internal.js`.
 
 Avoid loading heavy demos automatically above the fold.
+
+Submission-hidden cases must not reference placeholder media from `public/`.
+Keep them in an empty media state until real, approved evidence exists; the
+submission alias resolves hidden case data to an empty module.
 
 ## Testing And Reflection
 

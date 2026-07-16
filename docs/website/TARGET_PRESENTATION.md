@@ -6,11 +6,12 @@
 2. **Web Audio 是目前旗艦證據。** 首屏 CTA 直接進入可操作原型，旗艦長文在支持作品前完整呈現。
 3. **誠實區分學習與成果。** Web Audio 有 artifact；Pure Data／REAPER 僅能標示學習中，不能假裝已有 patch、project 或聲音作品。
 4. **研究構想不冒充驗證成果。** testing 必須使用 `notValidated`／`exploratory`／`validated` 狀態；未驗證時只能列 planned methods，不可填入成果 metrics。
-5. **公開資料安全。** Power BI 原始／敏感 media 不進 public；探索關聯不能寫成因果；未知年份省略而不是使用占位字。
+5. **公開資料安全。** Power BI 實作日期使用已確認值；原始資料、清洗檔、儀表板與實際結果 media 不進 public；探索關聯不能寫成因果。
 6. **繁中優先的編輯式呈現。** 片語分行、合宜行高、暖紙墨色與研究檔案節奏是既定方向。
 7. **動效是漸進增強。** R3F、smooth scroll、custom cursor 與音訊不能阻礙 DOM 閱讀；reduced-motion、Save-Data、低效能和不支援 Web Audio 的環境仍要完整閱讀。
 8. **draft／submission 強隔離。** construction notes 與 hidden immersive case 不得進正式輸出。
 9. **送審可驗證。** formal output 必須通過 workspace、media、text、CJK、content、sound mapping、build 與 submission scan。
+10. **公開資產與 metadata 一致。** 所有位於 `public/` 的檔案都視為可發布；favicon、LLM-readable summary、robots、social preview、Open Graph 與頁面 anchors 必須與實際 RU / YUAN 資訊架構一致。
 
 來源：[`../../AGENTS.md`](../../AGENTS.md)、[`../portfolio-display-research.md`](../portfolio-display-research.md)、[`../content-governance.md`](../content-governance.md)、[`../visual-system.md`](../visual-system.md) 及現行應用組合。
 
@@ -31,10 +32,22 @@
 - Pure Data／REAPER 最終是否必須成為正式作品證據，或只作研究準備背景。
 - 生成式 AI 研究是否會完成 prototype、真實任務與使用者測試，或應降低公開比重。
 - hidden `immersive-memory-map` 是否永久排除，還是待真實場域與觀眾證據補齊後恢復。
-- Power BI 的授權、年份與 measure 定義何時可確認，以及哪些原始畫面永遠不得公開。
+- Power BI 的清洗規則與 measure 定義何時可完成核對、能否另取得資料提供方公開許可，以及哪些原始畫面永遠不得公開。
 - 是否需要每件案例獨立 route／SEO、英文版、PDF／print portfolio。
 - production hosting、domain、canonical URL、social preview raster、analytics 與 privacy policy。
 
 ## 理想完成畫面
 
 正式 submission 頁面應讓文字命題先完成首屏，3D 在適合裝置安靜加入；第一個深度案例就是可操作的聲響原型，聲音只有在使用者主動啟用後播放，且隨時可停止。案例應以圖解、mapping、測試資料與個人角色支撐，而不是只靠視覺效果。Learning Trail 清楚分出「已有證據」與「學習中」；後續 AI 與資料作品只作有根據的支援。手機、鍵盤、reduced-motion、不支援音訊、低頻寬與列印情境皆能完成閱讀。若未來加入聯絡或申請動作，應是最後明確、真實、可執行的次要轉換。
+
+## Production readiness gate
+
+目標狀態不是「內建腳本 exit 0」，而是 current source、current artifact 與公開敘事三者一致：
+
+- submission bundle、TXT／SVG metadata 與 binary asset inventory 都不含 draft-only／restricted material；
+- `llms.txt`、favicon、social preview、robots 與實際 anchors 使用同一品牌與 URL 模型；
+- Lighthouse／browser evidence 可追溯到目前 source fingerprint，並與 production field evidence 分開；
+- screen reader、真實 zoom、system reduced-motion、行動實機與多瀏覽器 Web Audio 有人工紀錄；
+- 研究結果、授權、角色、credits、聯絡與申請資訊均由 stakeholder 確認，沒有 AI 代填或未驗證成效。
+
+目前已完成前兩項的本機 asset／metadata closure；current-fingerprint performance evidence、輔具／實機矩陣、研究結果、授權與 production hosting 仍未完成，因此仍應視為 submission-safe 的本機 artifact，而非 production-ready publication。
