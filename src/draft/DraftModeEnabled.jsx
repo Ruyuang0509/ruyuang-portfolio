@@ -64,7 +64,9 @@ function ContentCompletenessChecklist({ project }) {
           >
             <span className="block text-[var(--theme-text)]">{item.group}</span>
             <span>
-              {item.presentCount}/{item.totalCount} · {item.level}
+              {item.applicable
+                ? `${item.presentCount}/${item.totalCount} · ${item.level}`
+                : "不適用 · submission-hidden"}
             </span>
           </div>
         ))}

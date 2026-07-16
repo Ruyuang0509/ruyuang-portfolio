@@ -10,6 +10,7 @@ Use this guide when adding a real graduate-portfolio project to `如願個人網
 - Local media: `public/media/portfolio`
 - Research rationale: `docs/portfolio-display-research.md`
 - Data visualization guardrails: `docs/data-visualization-series.md`
+- Evidence manifests and readiness records: `docs/evidence/`
 - Workspace guardrails: `AGENTS.md` and `docs/workspace-consolidation.md`
 
 ## 2. Add A New Project Entry
@@ -67,6 +68,18 @@ Optional fields:
 - `links`: Figma, GitHub, demo, video, publication, exhibition archive
 - `credits`: collaborators, instructor, course team, field site, or data/source acknowledgements
 - `seo`: project-specific title and description
+- `englishTitle`, `tags`, `projectInfo`: richer case header and metadata
+- `challenge`: a titled core challenge
+- `workflow.stages`: repeated stages with `title`, `description`, `tool`, and `constraint`
+- `promptDecisions`: decision cards with concrete constraint, rationale, avoided output problem, human check, and provenance status
+- `promptTemplate`: reusable Prompt artifact with explicit original/derived provenance
+- `storyboard.frames`: real scene evidence with image metadata, time, subtitle, and description
+- `featuredExample`, `mediaLayers`: a representative case and cross-media responsibility model
+- `deliverables`: 5-7 items classified as `實際成果`, `流程產出`, or `製作規格`, with structured status and evidence references
+- `evidenceBoundary`: verified artifacts, approved specifications, and items not independently verified
+- `evaluationPlan`: a planned study protocol when no test result exists yet
+- `outcomes`: three evidence-safe value cards
+- `keyInsight`, `nextSteps`, `ctas`: closing perspective, future work, and working links
 
 Internal authoring fields belong in `src/data/portfolio.internal.js`, not in the public project object:
 
@@ -153,7 +166,9 @@ Videos:
 - Provide a poster image.
 - Use `preload="none"` unless the video becomes the true hero/LCP media.
 - Add `captionsSrc` when a WebVTT file exists.
+- Prefer `tracks[]` when more than one WebVTT language exists. Each track needs `src`, `srcLang`, `label`, and `kind`; only one may be default.
 - Add a short transcript summary even before full captions are ready.
+- Add `transcriptCues[]` when the full transcript should remain readable on the page.
 
 Audio:
 
@@ -201,6 +216,7 @@ pnpm run workspace:check
 pnpm run audit:media
 pnpm run audit:text
 pnpm run audit:cjk
+pnpm run audit:evidence
 pnpm run content:check
 pnpm run test:sound
 pnpm run build:draft
@@ -213,9 +229,48 @@ If performance evidence is needed:
 pnpm run audit:lighthouse
 ```
 
-`content:check` fails on missing required fields, missing local assets, missing theme rationales, missing diagram text equivalents, construction-stage wording in public project entries, or possible mojibake/corrupted text inside project entries. `audit:text` scans source and documentation text more broadly.
+`content:check` fails on missing required fields, missing local assets, missing theme rationales, missing diagram text equivalents, invalid Prompt/deliverable provenance, invented evaluation results, construction-stage wording in public project entries, or possible mojibake/corrupted text inside project entries. `audit:text` scans source and documentation text more broadly.
 
 Run `pnpm run check:submission` before formal sharing. It builds with `VITE_PORTFOLIO_MODE=submission` and scans `dist/` for forbidden construction terms.
+
+For a project with a publication-rights gate, run its publication check separately. Hamlet currently uses:
+
+```powershell
+pnpm run check:publication
+```
+
+This command must remain blocked until the applicant completes the rights/source checklist: top-level status and gate, named/date-stamped attestation with an evidence reference, and every rights item's checks plus evidence references. Changing only `status` from `unverified` is intentionally insufficient. A successful submission build proves output hygiene and artifact consistency, not permission to publish.
+
 ## Interactive prototype schema extension
 
 An interactive case may add `interactivePrototype` metadata consumed by a dedicated renderer. Narrative and mapping metadata remain data-driven in `portfolio.js`; audio lifecycle belongs in a component or hook. Do not place oscillators, timers, `AudioContext`, or construction TODO text directly in case data. Submission-hidden cases must use the build-time mode boundary, never CSS-only hiding.
+
+## Structured editorial case modules
+
+Use the optional workflow, Prompt decision, storyboard, media-layer, deliverable, outcome, and CTA fields only when the work has enough evidence to justify them. The shared renderer skips empty modules. Real files remain media evidence; approved process facts may be labelled as process outputs or production specifications, but must not be promoted to completed assets. Internal gaps and rights checks stay in `portfolio.internal.js`.
+
+Each structured deliverable uses this evidence contract:
+
+```js
+{
+  id: "prompt-template-v1",
+  statusKey: "processDerived",
+  status: "流程產出",
+  evidenceRefs: ["hamlet-prompt-template-v1"],
+  attributionSource: "publishedCaseConstraints",
+}
+```
+
+Allowed meanings are `artifactVerified` for checked delivery files, `artifactDerived` for reproducible derivatives, `processDerived` for later process reconstruction, and `specificationOnly` for an approved intent without a delivered artifact. Keep `evidenceRefs` empty for a specification when there is no matching artifact; never make the label look stronger than the evidence.
+
+For a derived Prompt Template, set `originStatus: "derived"`, give it a stable manifest reference, explain its provenance, and keep `usedForExistingVideo: false` unless the record proves otherwise. Hamlet Prompt Template v1 was derived from published constraints on 2026/07/17; it is not the missing original Prompt log.
+
+When evaluation has not happened, `evaluationPlan` may define only planned participant roles, tasks, evidence fields, decision use, and data handling. Keep `testing.statusKey: "notValidated"`; do not add counts, dates, quotes, findings, metrics, or learning outcomes.
+
+For Hamlet, maintain these records together:
+
+- `docs/evidence/hamlet-media-manifest.json`: hashes, direct copies, derivatives, process evidence, and rights gate
+- `docs/evidence/hamlet-formative-test-plan.md`: planned protocol without results
+- `docs/evidence/hamlet-rights-checklist.md`: applicant-owned rights/source decision
+
+Run `pnpm run audit:evidence` whenever the Hamlet files, transcript cues, derivative counts, or evidence references change.

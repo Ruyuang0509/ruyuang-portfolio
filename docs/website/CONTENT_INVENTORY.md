@@ -50,7 +50,7 @@
 | ID／標題 | 狀態 | 核心內容 | 公開證據與限制 |
 | --- | --- | --- | --- |
 | `interactive-sound-learning` 互動聲響學習原型 | 原型中；`notValidated` | 把視覺位置、動態、量感轉成聲音回饋，支援抽象概念理解 | 原生 Web Audio 可操作 prototype、3 張圖解、4 個 mapping、signal flow、listening guide；沒有正式使用者結果 |
-| `generative-interface-study` 生成式 AI 介面研究 | 研究構想；`notValidated` | 讓 prompt、版本比較、修正與判斷可追蹤 | 2 張流程／資訊架構圖；沒有公開媒體、demo 或實測結果，只列形成性測試計畫 |
+| `generative-interface-study` AI 文學故事 MV | 原型中；`notValidated` | 把文學理解、B1 英文、圖像、配樂與剪輯轉成五階段生成流程 | 40 秒／8 幕 clean MP4、英文與繁中 WebVTT、完整雙語逐字稿、8 張實際畫面；沒有學生／教師測試或學習成效結果 |
 | `data-visualization-cases` 資料視覺化實際案例與數位學習應用探討 | 已完成；`exploratory` | 分析 Spotify Wrapped 等資料敘事，推論數位學習回饋應用 | 1 張流程圖、1 部 YouTube privacy-enhanced 影片、章節化分析；不宣稱已驗證學習成效 |
 | `learning-dashboard-analysis` 線上學習互動行為與學科成績之資料視覺化分析 | 2026/06/11–06/12；原型中；`exploratory` | Power BI 探索互動、影片觀看與成績分布 | 3 張概念圖、公開 SVG；實際資料、儀表板與結果影像隔離；不作因果宣稱 |
 
@@ -77,8 +77,9 @@ Hidden case 現在使用空 media state。原有 13 個 `ph-after-*`／`mv-soft-
 
 - **身份：** `id`、`title`、`titleLines`、`year` 或 `metadataOmissions`、`source`、`category`、`status`、`priority`、`submissionVisibility`。
 - **論證：** `summary`、`valueProposition`、`problemAwareness`、`audience`、`whatThisProves`、`designGoal`。
-- **方法：** `designProcess`、`technologyAndMedia`、`outcomeShowcase`、`extendedSections`。
-- **證據：** `diagrams`、`media.*`、可選 `interactivePrototype`／`interactionMappings`／`signalFlow`／`listeningGuide`。
+- **方法：** `designProcess`、`technologyAndMedia`、`outcomeShowcase`、`extendedSections`；可選 `challenge`、`workflow`、`promptDecisions`、`mediaLayers`。
+- **證據：** `diagrams`、`media.*`、可選 `storyboard`、`featuredExample`、`deliverables`、`outcomes`、`interactivePrototype`／`interactionMappings`／`signalFlow`／`listeningGuide`。
+- **收束：** 可選 `keyInsight`、`nextSteps`、`ctas`；站內 CTA 必須對應實際 renderer anchor。
 - **責任與誠信：** `tools`、`roles`、`testing.statusKey`、`testing.status`、實際 evidence 或 `plannedMethods`、`reflection`、`instituteConnections`、`themeRationales`、`credits`、`links`、`seo`。
 
 ## 使用者可見文字狀態
@@ -91,7 +92,7 @@ Hidden case 現在使用空 media state。原有 13 個 `ph-after-*`／`mv-soft-
 
 ## 媒體、替代文字與隱私
 
-- `public/media/portfolio` 使用 420／640／1200 寬 AVIF/WebP 與 2 個本機 MP4；公共 helper 帶固定 dimensions 和 alt。此目錄會被 Vite 全量複製，因此只保留公開案例資產；「未被 React 引用」仍不等於「未公開」。
+- `public/media/portfolio` 使用 420／640／1200 寬 AVIF/WebP 與 3 個本機 MP4；Hamlet 另有兩條 WebVTT。公共 helper 帶固定 dimensions 和 alt。此目錄會被 Vite 全量複製，因此只保留公開案例資產；「未被 React 引用」仍不等於「未公開」。
 - `public/media/data-visualization` 只有公開安全的 SVG 系列圖／流程圖／概念圖。
 - Power BI 原始 PNG/WebP 位於 `restricted-media/data-visualization/`，不在 `public/`，不被 Vite 複製；公開資料只保留 restricted 說明，不含路徑。
 - 資料視覺化影片使用 YouTube ID `NrmK31F2S-M`，renderer 採 `youtube-nocookie.com`。
@@ -100,9 +101,9 @@ Hidden case 現在使用空 media state。原有 13 個 `ph-after-*`／`mv-soft-
 
 ## 仍缺少的內容
 
-- 旗艦原型與生成式 AI 研究都沒有正式使用者驗證結果。
+- 旗艦原型與 AI 文學故事 MV 都沒有正式使用者驗證結果。
 - Pure Data／REAPER 沒有可公開 artifact。
-- 生成式 AI 研究沒有可公開 prototype／media。
+- AI 文學故事 MV 已有公開成片、字幕與實際分鏡，但沒有 Prompt log、旁白版本、課堂測試或素材權利／來源清單。
 - Power BI 實作日期已確認為 2026/06/11–06/12；資料使用說明不支持公開分析結果，清洗規則與部分 measure 定義仍需核對。
 - 案例 `links` 皆空；沒有公開 email、履歷或外部個人連結。
 - 未確認 production canonical URL、hosting、analytics、隱私文件與最終社群分享圖相容性。

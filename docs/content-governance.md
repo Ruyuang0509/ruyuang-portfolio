@@ -26,6 +26,7 @@ Use `src/data/portfolio.js` for content that may appear in formal review:
 - design goal, design process, technology and media
 - outcome showcase
 - diagrams, public media, captions, transcripts
+- optional structured workflow, Prompt decisions, provenance-labelled Prompt templates, real storyboard frames, media layers, evidence-linked deliverables, evidence boundaries, planned evaluation, value cards, next steps, and working CTAs
 - tools, roles, reflection, institute connections
 - public links, credits, SEO title and description
 
@@ -43,6 +44,8 @@ Use `src/data/portfolio.internal.js` for preparation material:
 - risk reminders
 - hidden-from-submission reason
 - content readiness notes
+- evidence manifest/readiness paths and open gates
+- rights-review status and applicant attestation requirement
 
 These notes are visible only in Draft Mode.
 
@@ -60,6 +63,29 @@ Internal-only statuses:
 - Missing Materials / 待補資料
 - Hidden from Submission / 不進入送審版
 
+## Completeness Applicability
+
+Completeness is not the same as publication visibility. Required identity, narrative, role, reflection, and institute-link fields are still governed for every authored case. Evidence-heavy recommended groups such as workflow/diagrams and public media apply only when `submissionVisibility !== "hidden"`.
+
+Draft Mode therefore reports those groups as `不適用 · submission-hidden` for a hidden case and excludes them from `recommendedMissing`. This prevents an intentional submission boundary from appearing as an unresolved public-evidence warning. It does not permit placeholder assets in `public/`, weaken the submission alias, or bypass the output scanner.
+
+## Evidence And Publication Boundaries
+
+Use a stable evidence reference whenever public copy says an artifact was verified or derived. Structured deliverables distinguish four evidence states:
+
+- `artifactVerified`: delivered file exists and passes integrity/content checks
+- `artifactDerived`: derivative can be traced to a verified artifact
+- `processDerived`: later process reconstruction, such as Hamlet Prompt Template v1
+- `specificationOnly`: approved production intent without a matching delivered artifact
+
+A derived Prompt Template is not an original Prompt log. Keep its provenance explicit and set `usedForExistingVideo: false` when it was assembled after the existing video.
+
+The Hamlet manifest at `docs/evidence/hamlet-media-manifest.json` links the clean MP4, bilingual WebVTT, transcript, responsive derivatives, and derived template. `pnpm run audit:evidence` checks those relationships, direct-copy and derivative-inventory hashes, image dimensions, timing, and inventory. It does not verify authorship, licenses, consent, or the right to publish source elements.
+
+Planned evaluation is also not result evidence. An `evaluationPlan` may describe participants by role, tasks, evidence to collect, decision use, and data handling, while `testing.statusKey` remains `notValidated`. Participant counts, dates, findings, quotations, metrics, and learning outcomes require actual study records.
+
+Hamlet publication remains gated by `docs/evidence/hamlet-rights-checklist.md`. `pnpm run check:publication` requires top-level approval, a complete applicant attestation, and every rights item to have completed checks plus evidence references. It must fail while any part is missing. A passing `check:submission` confirms build hygiene; it must never be interpreted as a rights approval.
+
 ## Commands
 
 ```powershell
@@ -67,11 +93,14 @@ pnpm run dev:draft
 pnpm run build:draft
 pnpm run dev:submission
 pnpm run build:submission
+pnpm run audit:evidence
 pnpm run scan:submission
 pnpm run check:submission
+pnpm run check:publication
 ```
 
 Use `pnpm run check:submission` before any formal review export.
+Use `pnpm run check:publication` before publishing Hamlet media; until the applicant-owned rights gate is resolved, its non-zero exit is expected and intentional.
 
 ## Forbidden Formal Output Terms
 

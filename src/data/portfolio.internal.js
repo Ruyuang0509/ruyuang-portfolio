@@ -43,29 +43,48 @@ export const projectInternalNotes = {
     ],
   },
   "generative-interface-study": {
-    status: internalStatusLabels.missingMaterials,
-    labels: ["INTERNAL_TODO", "INTERNAL_SAMPLE", "PRE_SUBMISSION_CHECK"],
+    status: internalStatusLabels.prototype,
+    labels: ["INTERNAL_TODO", "PRE_SUBMISSION_CHECK"],
     missingMaterials: [
-      "待補：prompt log、版本比較畫面與任務流程截圖。",
-      "待補：使用者任務影片或操作紀錄。",
-      "待補：任務理解度、版本比較時間、輸出滿意度等測試資料。",
+      "待補：原始生成 Prompt log 與版本紀錄；公開頁的 Prompt Template v1 是 2026/07/17 依案例決策整理的衍生模板，不得回填成歷史執行紀錄。",
+      "待補：學生測試、教師評閱或學習回饋；目前不得主張學習成效。",
+      "待補：若旁白或對話版本完成，再補音訊層、混音核對紀錄與相應逐字稿。",
     ],
     replaceableAssets: [
-      "INTERNAL_REPLACE：目前 UI 草圖與介面截圖仍是可替換範例。",
-      "INTERNAL_REPLACE：Web Demo 插槽需改為真實 prototype link 或移除。",
+      "INTERNAL_REPLACE：若未來提供 Canva 公開連結，需先確認分享權限與可長期開啟，再加入公開 CTA。",
     ],
     sampleCopy:
-      "INTERNAL_SAMPLE：送審版不可把 AI 輸出滿意度寫成已測量，除非有真實資料。",
+      "INTERNAL_SAMPLE：實際成片完成不等於教學成效已驗證，testing 必須維持 notValidated 直到有真實資料。",
     aiCollaborationNotes:
-      "AI 協作備註：若作品使用生成式 AI，需說明工具角色、限制與人工判斷流程。",
+      "AI 協作備註：公開案例已分開說明 ChatGPT、生成式圖像工具、Suno、Canva 與人工核對的責任。",
     riskReminders: [
-      "風險提醒：避免讓 AI 工具看起來取代設計研究；要強調 UX、資訊架構與評估方法。",
-      "風險提醒：避免公開未授權的 prompt、模型輸出或第三方資料。",
+      "風險提醒：交付包未附八張生成圖與音樂的權利或來源清單，不得宣稱素材權利已獨立驗證。",
+      "風險提醒：場景拆解可由實際成片核對，但圖像 Prompt 與 Suno Prompt 目前只能列為製作規格。",
     ],
+    evidenceReadiness: {
+      manifestPath: "docs/evidence/hamlet-media-manifest.json",
+      formativeTestPlanPath: "docs/evidence/hamlet-formative-test-plan.md",
+      rightsChecklistPath: "docs/evidence/hamlet-rights-checklist.md",
+      verifiedEvidenceRefs: ["hamlet-clean-video", "hamlet-en-vtt", "hamlet-zh-vtt", "hamlet-storyboard-responsive"],
+      derivedProcessRefs: ["hamlet-prompt-template-v1"],
+      openGates: ["original-prompt-log", "formative-study-records", "applicant-rights-attestation"],
+    },
+    rightsReview: {
+      status: "unverified",
+      publicationGate: "requiresApplicantAttestation",
+      applicantAttestation: {
+        confirmed: false,
+        confirmedBy: null,
+        confirmedAt: null,
+        evidenceRef: null,
+      },
+      items: ["scene-images", "music", "literary-source", "canva-project"],
+    },
     preSubmissionChecklist: [
-      "PRE_SUBMISSION_CHECK：替換 prompt workflow 圖與真實介面狀態。",
-      "PRE_SUBMISSION_CHECK：確認 public copy 沒有 placeholder / sample / required / recommended。",
-      "PRE_SUBMISSION_CHECK：確認 SEO description 不含 Internal Build Notes 或施工提醒。",
+      "PRE_SUBMISSION_CHECK：執行 audit:evidence，確認 hash、VTT、逐字稿與 63 個 Hamlet public assets 一致。",
+      "PRE_SUBMISSION_CHECK：確認 clean MP4、poster、雙語 WebVTT 與八幕畫面皆可從 Pages base path 載入。",
+      "PRE_SUBMISSION_CHECK：確認 320–1440px 下 storyboard 可觸控、鍵盤聚焦且不造成全頁水平溢出。",
+      "PRE_SUBMISSION_CHECK：確認 public copy 沒有把 Prompt Template、旁白或教學成效寫成已完成。",
     ],
   },
   "immersive-memory-map": {

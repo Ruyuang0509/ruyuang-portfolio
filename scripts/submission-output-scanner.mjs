@@ -7,8 +7,11 @@ export const SCANNED_TEXT_EXTENSIONS = new Set([
   ".js",
   ".css",
   ".json",
+  ".map",
   ".txt",
   ".svg",
+  ".vtt",
+  ".webmanifest",
   ".xml",
 ]);
 

@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "projectId": "generative-interface-study",
+  "sourcePackage": {
+    "label": "user-provided hamlet_mv_delivery",
+    "fileCount": 11,
+    "originalSceneFilesPresent": false,
+    "standaloneAudioPresent": false,
+    "promptLogPresent": false,
+    "rightsManifestPresent": false
+  },
+  "directCopies": [
+    {
+      "id": "hamlet-clean-video",
+      "kind": "artifactVerified",
+      "publicPath": "public/media/portfolio/hamlet-story-mv-clean-web-1080p.mp4",
+      "bytes": 3816254,
+      "sha256": "7E50B6EB01E646FB822D6384D73C9C01A08DC9DF8D5D22A3102B777A460D2312",
+      "checks": ["source-public hash match", "H.264/AAC", "1920x1080", "30 fps", "40 seconds"]
+    },
+    {
+      "id": "hamlet-en-vtt",
+      "kind": "artifactVerified",
+      "publicPath": "public/media/portfolio/hamlet-story-mv.en.vtt",
+      "bytes": 851,
+      "sha256": "62D6E4FAD74307105A7CD67EE66C8E596788D30963D3C67BD55837E7CDA97784",
+      "checks": ["source-public hash match", "WEBVTT", "8 contiguous cues", "0-40 seconds"]
+    },
+    {
+      "id": "hamlet-zh-vtt",
+      "kind": "artifactVerified",
+      "publicPath": "public/media/portfolio/hamlet-story-mv.zh-TW.vtt",
+      "bytes": 883,
+      "sha256": "76EDDDE49D2707FA1304D8E4FEA0E5961DDD7C315D3FAD23D2633193B911D55C",
+      "checks": ["source-public hash match", "WEBVTT", "8 contiguous cues", "0-40 seconds"]
+    }
+  ],
+  "derivativeGroups": [
+    {
+      "id": "hamlet-cover-responsive",
+      "kind": "artifactDerived",
+      "sourceEvidenceRef": "hamlet-clean-video",
+      "stem": "hamlet-story-mv-cover",
+      "widths": [420, 640, 1200],
+      "formats": ["avif", "webp"],
+      "expectedCount": 6,
+      "aspectRatio": "4:5",
+      "inventorySha256": "4B46EEC4102BBAF833980346688FEB83515C391AFFE6D0561164808102BCA7F7",
+      "method": "4:5 crop derived from the verified clean video/poster evidence"
+    },
+    {
+      "id": "hamlet-poster-responsive",
+      "kind": "artifactDerived",
+      "sourceEvidenceRef": "hamlet-clean-video",
+      "stem": "hamlet-story-mv-poster",
+      "widths": [420, 640, 1200],
+      "formats": ["avif", "webp"],
+      "expectedCount": 6,
+      "aspectRatio": "16:9",
+      "heightAlignment": 2,
+      "inventorySha256": "58F3CFE112776CD83B6ACDDE492ACD2CB188A571C912055C57081A4DCE001A10",
+      "method": "16:9 responsive poster derived from the verified delivery poster/video"
+    },
+    {
+      "id": "hamlet-storyboard-responsive",
+      "kind": "artifactDerived",
+      "sourceEvidenceRef": "hamlet-clean-video",
+      "stemTemplate": "hamlet-story-mv-scene-{scene}",
+      "scenes": 8,
+      "widths": [420, 640, 1200],
+      "formats": ["avif", "webp"],
+      "expectedCount": 48,
+      "aspectRatio": "16:9",
+      "heightAlignment": 2,
+      "inventorySha256": "8B10D9100C031CA71CF32302287B6BB67F9B5F1EA94EBA46AC983B16709A5670",
+      "method": "one frame sampled from each verified five-second scene"
+    }
+  ],
+  "processEvidence": [
+    {
+      "id": "hamlet-prompt-template-v1",
+      "kind": "processDerived",
+      "source": "published case constraints and approved project brief",
+      "createdAt": "2026-07-17",
+      "usedForExistingVideo": false
+    }
+  ],
+  "processAttribution": {
+    "status": "approvedSpecification",
+    "source": "approved project brief",
+    "executionLogPresent": false
+  },
+  "rightsReview": {
+    "status": "unverified",
+    "publicationGate": "requiresApplicantAttestation",
+    "applicantAttestation": {
+      "confirmed": false,
+      "confirmedBy": null,
+      "confirmedAt": null,
+      "evidenceRef": null
+    },
+    "items": [
+      {
+        "id": "scene-images",
+        "termsEvidencePresent": false,
+        "publicUseConfirmed": false,
+        "evidenceRefs": []
+      },
+      {
+        "id": "music",
+        "termsEvidencePresent": false,
+        "publicUseConfirmed": false,
+        "evidenceRefs": []
+      },
+      {
+        "id": "literary-source",
+        "editionOrTranslationRecorded": false,
+        "copiedTextReviewComplete": false,
+        "publicUseConfirmed": false,
+        "evidenceRefs": []
+      },
+      {
+        "id": "canva-project",
+        "projectEvidencePresent": false,
+        "sourceReviewComplete": false,
+        "publicUseConfirmed": false,
+        "evidenceRefs": []
+      }
+    ]
+  },
+  "publicExclusions": [
+    "hardsub",
+    "softsubs",
+    ".srt",
+    "README.txt",
+    "verification.txt",
+    "transcript-bilingual.txt"
+  ]
+}
