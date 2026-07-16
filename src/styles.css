@@ -1,0 +1,599 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+  --color-bg: #11100d;
+  --color-surface: rgba(239, 233, 220, 0.075);
+  --color-text: #efe9dc;
+  --color-muted: rgba(239, 233, 220, 0.66);
+  --color-accent: #cbe86b;
+  --color-paper: #d8cfbd;
+  --color-paper-text: #1a1711;
+  --space-xs: clamp(0.5rem, 0.42rem + 0.35vw, 0.75rem);
+  --space-sm: clamp(0.75rem, 0.65rem + 0.48vw, 1.125rem);
+  --space-md: clamp(1.25rem, 1rem + 1vw, 2rem);
+  --space-lg: clamp(2rem, 1.4rem + 2.4vw, 4rem);
+  --space-xl: clamp(4rem, 2.4rem + 6vw, 8.5rem);
+  --radius-sm: 0.75rem;
+  --radius-md: 1.25rem;
+  --radius-lg: 2rem;
+  --radius-xl: 999px;
+  --shadow-soft: 0 1.4rem 4rem rgba(18, 16, 12, 0.22);
+  --font-sans-zh: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", "Heiti TC", "Source Han Sans TC", "Segoe UI", system-ui, sans-serif;
+  --font-display-zh: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", "Heiti TC", "Source Han Sans TC", system-ui, sans-serif;
+  --font-latin: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-size-fluid-body: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --font-size-fluid-display: clamp(3rem, 5.35vw, 6rem);
+  --font-size-fluid-section: clamp(2.2rem, 4.75vw, 5.25rem);
+  --font-size-fluid-case: clamp(2.45rem, 5.8vw, 6.35rem);
+  --font-size-fluid-card-title: clamp(1.45rem, 1.18rem + 1.05vw, 2.45rem);
+  --font-size-fluid-lead: clamp(1.24rem, 1.04rem + 0.9vw, 2.05rem);
+  --font-size-fluid-copy: clamp(1.02rem, 0.98rem + 0.18vw, 1.16rem);
+  --font-size-fluid-caption: clamp(0.86rem, 0.82rem + 0.14vw, 0.96rem);
+  --line-height-zh-body: 1.76;
+  --line-height-zh-tight: 1.18;
+  --line-height-zh-heading: 1.08;
+  --measure-zh: 34em;
+  --measure-zh-wide: 42em;
+  --measure-zh-heading: clamp(8em, 52vw, 14.5em);
+  --measure-zh-display: clamp(6.2em, 48vw, 11.5em);
+  --motion-duration-fast: 160ms;
+  --motion-duration-normal: 360ms;
+  --motion-duration-slow: 700ms;
+  --motion-ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-ease-emphasized: cubic-bezier(0.77, 0, 0.175, 1);
+  --theme-bg: var(--color-bg);
+  --theme-text: var(--color-text);
+  --theme-muted: var(--color-muted);
+  --theme-line: rgba(239, 233, 220, 0.14);
+  --theme-accent: var(--color-accent);
+  --theme-surface: rgba(239, 233, 220, 0.075);
+  --theme-panel: rgba(239, 233, 220, 0.105);
+  --theme-inverse-bg: var(--color-paper);
+  --theme-inverse-text: var(--color-paper-text);
+}
+/* Codex-Fix: Shift the palette away from pure black/white into warm paper and ink tones to reduce dark/light eye strain. */
+
+:root.theme-paper {
+  --theme-bg: #d8cfbd;
+  --theme-text: #1a1711;
+  --theme-muted: rgba(26, 23, 17, 0.64);
+  --theme-line: rgba(26, 23, 17, 0.16);
+  --theme-accent: #405016;
+  --theme-surface: rgba(26, 23, 17, 0.055);
+  --theme-panel: rgba(244, 236, 221, 0.56);
+  --theme-inverse-bg: #272319;
+  --theme-inverse-text: #eee7d8;
+}
+/* Codex-Fix: Switch between two contrast-safe endpoint palettes; never tween foreground and background through low-contrast midpoints. */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto;
+  scrollbar-color: var(--theme-accent) var(--theme-bg);
+  scrollbar-gutter: stable;
+  background: var(--theme-bg);
+}
+/* Codex-Fix: Keep the platform scrollbar visible so reviewers retain position and scroll affordance on this long-form page. */
+
+body {
+  margin: 0;
+  min-width: min(320px, 100%);
+  overflow-x: hidden;
+  color: var(--theme-text);
+  background: var(--theme-bg);
+  font-size: var(--font-size-fluid-body);
+  font-family: var(--font-sans-zh);
+  line-height: var(--line-height-zh-body);
+  line-break: loose;
+  word-break: normal;
+  overflow-wrap: break-word;
+  font-kerning: normal;
+  font-feature-settings: "kern";
+  accent-color: var(--theme-accent);
+  text-rendering: optimizeLegibility;
+}
+/* Codex-Fix: Use a Traditional Chinese system font stack and CJK-friendly line breaking instead of Latin-first body typography. */
+
+:lang(zh-Hant),
+:lang(zh-Hant-TW) {
+  line-break: loose;
+}
+/* Codex-Fix: Respect Chinese punctuation and line-breaking behavior without forcing destructive break-all wrapping. */
+
+::selection {
+  color: var(--theme-inverse-text);
+  background: var(--theme-accent);
+}
+
+a,
+button {
+  color: inherit;
+}
+
+button {
+  font: inherit;
+}
+
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--theme-accent);
+  outline-offset: 5px;
+  border-radius: var(--radius-xl);
+}
+/* Codex-Fix: Add consistent keyboard-visible focus states for WCAG 2.2 usability. */
+
+.skip-link {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 300;
+  transform: translateY(-150%);
+  border-radius: var(--radius-xl);
+  background: var(--theme-accent);
+  color: var(--theme-inverse-text);
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  transition: transform var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+/* Codex-Fix: Add an accessible skip link that stays hidden until keyboard focus. */
+
+img,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+section {
+  scroll-margin-top: 112px;
+}
+
+.has-custom-cursor,
+.has-custom-cursor * {
+  cursor: none;
+}
+
+.mobile-section-menu {
+  background: var(--theme-bg);
+  box-shadow: var(--shadow-soft);
+}
+
+.mobile-section-trigger {
+  display: inline-flex;
+}
+
+@media (min-width: 768px) {
+  .mobile-section-trigger.chip-text {
+    display: none;
+  }
+}
+.nav-surface {
+  background: var(--theme-bg);
+  /* Codex-Fix: Keep the fallback theme-aware so older browsers retain text contrast on both palette endpoints. */
+  box-shadow: var(--shadow-soft);
+}
+
+@supports (color: color-mix(in srgb, black, white)) {
+  .nav-surface {
+    background: color-mix(in srgb, var(--theme-bg) 74%, transparent);
+  }
+  /* Codex-Fix: Progressive-enhance translucent navbar color only where color-mix is supported. */
+}
+
+.page-shell {
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 70% 0%, color-mix(in srgb, var(--theme-accent) 10%, transparent), transparent 32rem),
+    linear-gradient(180deg, var(--theme-bg), color-mix(in srgb, var(--theme-bg) 92%, var(--theme-text) 8%));
+}
+
+.portfolio-card,
+.evidence-panel,
+.soft-panel,
+.draft-panel {
+  border: 1px solid var(--theme-line);
+  background: var(--theme-panel);
+  box-shadow: var(--shadow-soft);
+}
+
+.draft-banner {
+  position: sticky;
+  top: 4.85rem;
+  z-index: 60;
+  background: color-mix(in srgb, var(--theme-bg) 86%, transparent);
+  backdrop-filter: blur(18px);
+}
+/* Codex-Fix: Draft-only governance panels look like editing tools, not formal portfolio evidence. */
+
+.paper-panel,
+.inverted-pill,
+.cta-button {
+  background: var(--theme-inverse-bg);
+  color: var(--theme-inverse-text);
+}
+
+.media-frame {
+  border: 1px solid var(--theme-line);
+  background: var(--theme-surface);
+  box-shadow: 0 1rem 3rem rgba(18, 16, 12, 0.12);
+}
+/* Codex-Fix: Add reusable comfort surfaces so cards/media use layered tones instead of harsh black-white inversion. */
+
+.meta-label {
+  font-family: var(--font-sans-zh);
+  font-size: clamp(0.72rem, 0.68rem + 0.12vw, 0.82rem);
+  font-weight: 900;
+  line-height: 1.35;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.zh-label {
+  font-size: clamp(0.78rem, 0.74rem + 0.12vw, 0.9rem);
+  font-weight: 850;
+  line-height: 1.45;
+  letter-spacing: 0.035em;
+}
+
+.zh-display {
+  font-family: var(--font-display-zh);
+  font-weight: 900;
+  line-height: var(--line-height-zh-heading);
+  letter-spacing: -0.012em;
+  text-wrap: balance;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+.zh-heading {
+  font-weight: 850;
+  line-height: var(--line-height-zh-tight);
+  letter-spacing: -0.006em;
+  text-wrap: balance;
+}
+
+.zh-lead {
+  max-width: var(--measure-zh-wide);
+  font-size: var(--font-size-fluid-lead);
+  font-weight: 650;
+  line-height: 1.52;
+  letter-spacing: 0.005em;
+  text-wrap: pretty;
+}
+
+.zh-copy,
+.zh-copy-wide {
+  font-size: var(--font-size-fluid-copy);
+  font-weight: 560;
+  line-height: var(--line-height-zh-body);
+  letter-spacing: 0.01em;
+  text-wrap: pretty;
+}
+
+.zh-copy {
+  max-width: var(--measure-zh);
+}
+
+.zh-copy-wide {
+  max-width: var(--measure-zh-wide);
+}
+
+.zh-caption {
+  max-width: 38em;
+  font-size: var(--font-size-fluid-caption);
+  font-weight: 560;
+  line-height: 1.68;
+  letter-spacing: 0.01em;
+  text-wrap: pretty;
+}
+
+.chip-text {
+  min-height: 2.15rem;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1.38;
+  letter-spacing: 0.025em;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.mixed-token {
+  font-family: var(--font-sans-zh);
+  letter-spacing: 0.005em;
+}
+
+.editorial-heading {
+  max-inline-size: var(--measure-zh-heading);
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+.editorial-heading--display {
+  max-inline-size: var(--measure-zh-display);
+}
+
+.phrase-line {
+  display: block;
+  text-wrap: balance;
+}
+
+.phrase-line + .phrase-line {
+  margin-block-start: 0.06em;
+}
+
+.phrase-unit {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.phrase-unit + .phrase-unit {
+  margin-inline-start: 0.04em;
+}
+
+.translation-term,
+.cjk-keep {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+@media (max-width: 520px) {
+  .editorial-heading {
+    max-inline-size: 100%;
+  }
+
+  .phrase-unit {
+    white-space: nowrap;
+  }
+
+  .phrase-line {
+    max-inline-size: 100%;
+  }
+}
+/* Codex-Fix: Add phrase-aware heading primitives so Chinese semantic compounds stay together on display lines without forcing global break-all rules. */
+/* Codex-Fix: Add reusable Traditional Chinese typography primitives for headings, long copy, captions, and mixed Chinese-English chips. */
+
+.hero-canvas-shell {
+  min-height: 100%;
+  contain: layout paint;
+}
+/* Codex-Fix: Give the lazy R3F canvas a stable shell so it cannot shift first-screen content. */
+
+.gallery-panel {
+  container-type: inline-size;
+}
+
+.gallery-title {
+  max-width: var(--measure-zh-heading);
+  overflow-wrap: normal;
+  word-break: normal;
+  font-size: var(--font-size-fluid-section);
+  font-weight: 900;
+  line-height: var(--line-height-zh-heading);
+  letter-spacing: -0.014em;
+  text-wrap: balance;
+}
+/* Codex-Fix: Replace English poster-style uppercase/negative tracking with Chinese-friendly display rhythm. */
+
+.interactive-link {
+  transition:
+    transform var(--motion-duration-fast) var(--motion-ease-standard),
+    opacity var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.interactive-link:hover {
+  transform: translate3d(0, -1px, 0);
+}
+/* Codex-Fix: Use transform-only micro-interactions for tactile but cheap CTA feedback. */
+
+[data-magnetic],
+.hero-canvas-shell canvas,
+.group img,
+.group video {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+/* Codex-Fix: Promote only actively animated layers, avoiding broad GPU memory pressure from every image. */
+
+@supports (min-height: 100svh) {
+  .min-h-screen {
+    min-height: 100svh;
+  }
+  /* Codex-Fix: Use small viewport height on mobile so full-screen sections do not jump under browser chrome. */
+}
+
+@supports (content-visibility: auto) {
+  .case-study-detail {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 1800px;
+  }
+  /* Codex-Fix: Skip painting offscreen long-form case studies while keeping the project index immediately available. */
+}
+
+.case-study-detail {
+  border-top: 1px solid var(--theme-line);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--theme-bg) 96%, var(--theme-text) 4%), var(--theme-bg));
+}
+
+.research-section {
+  border-top: 1px solid var(--theme-line);
+  background:
+    radial-gradient(circle at 12% 0%, color-mix(in srgb, var(--theme-accent) 6%, transparent), transparent 30rem),
+    var(--theme-bg);
+}
+
+.research-section p,
+.research-section li {
+  text-wrap: pretty;
+  line-break: loose;
+}
+/* Codex-Fix: Give research-positioning sections the same evidence-dossier rhythm as long-form case studies. */
+
+.case-study-detail p,
+.case-study-detail li,
+.case-study-detail figcaption {
+  text-wrap: pretty;
+  line-break: loose;
+}
+
+.case-title {
+  max-width: var(--measure-zh-display);
+  overflow-wrap: normal;
+  word-break: normal;
+  font-size: var(--font-size-fluid-case);
+  line-height: var(--line-height-zh-heading);
+  letter-spacing: -0.014em;
+  text-wrap: balance;
+}
+
+.case-study-detail figcaption {
+  max-width: 42em;
+}
+
+.case-study-detail video,
+.case-study-detail audio,
+.case-study-detail iframe {
+  max-width: 100%;
+}
+
+.case-study-detail iframe {
+  background: rgba(0, 0, 0, 0.08);
+}
+/* Codex-Fix: Add stable long-form case-study rules for readable text, embedded media, and future demos. */
+
+details summary {
+  list-style-position: outside;
+}
+
+details summary::marker {
+  color: var(--theme-accent);
+}
+/* Codex-Fix: Make expandable diagram text equivalents visible and keyboard-friendly without extra JavaScript. */
+
+.sound-pad {
+  position: relative;
+  min-height: clamp(18rem, 48vw, 32rem);
+  overflow: hidden;
+  border: 1px solid var(--theme-line);
+  border-radius: var(--radius-md);
+  background:
+    linear-gradient(90deg, transparent 49.8%, var(--theme-line) 50%, transparent 50.2%),
+    linear-gradient(transparent 49.8%, var(--theme-line) 50%, transparent 50.2%),
+    radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--theme-accent) 16%, transparent), transparent 54%);
+  cursor: crosshair;
+  touch-action: none;
+  user-select: none;
+}
+
+.sound-pad__axis {
+  position: absolute;
+  z-index: 1;
+  color: var(--theme-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.sound-pad__axis--x {
+  inset: auto 1rem 0.85rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.sound-pad__axis--y {
+  inset: 1rem auto 1rem 0.85rem;
+  display: flex;
+  writing-mode: vertical-rl;
+  justify-content: space-between;
+}
+
+.sound-pad__point {
+  --sound-x: 50%;
+  --sound-y: 50%;
+  --sound-size: 1.1;
+  position: absolute;
+  left: var(--sound-x);
+  top: var(--sound-y);
+  width: 4.5rem;
+  height: 4.5rem;
+  border: 2px solid var(--theme-text);
+  border-radius: 999px;
+  background: var(--theme-accent);
+  box-shadow: 0 0 0 0.8rem color-mix(in srgb, var(--theme-accent) 16%, transparent);
+  transform: translate(-50%, -50%) scale(var(--sound-size));
+  transition: box-shadow var(--motion-duration-fast) var(--motion-ease-standard);
+  pointer-events: none;
+}
+
+.sound-pad:not(.sound-pad--reduced) .sound-pad__point {
+  animation: sound-point-breathe 2.6s ease-in-out infinite alternate;
+}
+
+.sound-range {
+  width: 100%;
+  accent-color: var(--theme-accent);
+}
+
+.sound-prototype button:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+
+@keyframes sound-point-breathe {
+  to { box-shadow: 0 0 0 1.15rem color-mix(in srgb, var(--theme-accent) 8%, transparent); }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+.case-reading-map {
+  scroll-margin-top: 7.5rem;
+}
+/* Codex-Fix: Keep case-study reading-map anchors comfortable under the fixed navigation. */
+
+@media print {
+  .nav-surface,
+  .skip-link,
+  .draft-banner,
+  .custom-cursor-layer {
+    display: none !important;
+  }
+
+  body {
+    color: #1a1711;
+    background: #f3eee4;
+  }
+
+  .case-study-detail,
+  .research-section,
+  .page-shell {
+    background: #f3eee4 !important;
+  }
+
+  .portfolio-card,
+  .evidence-panel,
+  .soft-panel,
+  .paper-panel {
+    box-shadow: none !important;
+    break-inside: avoid;
+  }
+}
+/* Codex-Fix: Add admissions-review print safeguards so case studies can be exported without nav/cursor noise. */

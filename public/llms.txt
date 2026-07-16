@@ -1,0 +1,14 @@
+# RU / YUAN — Sound, Interaction & Learning
+
+> A Traditional Chinese research portfolio centered on an operable Web Audio prototype and evidence-led explorations of sound, interaction, and learning.
+
+## Links
+
+- [Home](./#top)
+- [Research Positioning](./#research-positioning)
+- [Interactive Sound Prototype](./#interactive-sound-learning)
+- [Learning Trail](./#learning-trail)
+- [Project Index](./#project-index)
+- [Supporting Evidence](./#data-visualization-series)
+- [Reviewer Path](./#reviewer-path)
+

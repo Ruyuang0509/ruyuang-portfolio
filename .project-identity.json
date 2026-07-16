@@ -1,0 +1,10 @@
+{
+  "canonicalFolder": "如願個人網站",
+  "packageName": "ruyuan-personal-website",
+  "deprecatedFolders": [
+    "portfolio-nextgen",
+    "personal-portfolio-nextgen",
+    "role-expertise-gsap-three-js-react"
+  ],
+  "note": "This folder is the single source of truth for the personal portfolio website."
+}

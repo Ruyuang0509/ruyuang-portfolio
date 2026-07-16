@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">Power BI 學習分析儀表板架構示意圖</title>
+  <desc id="desc">概念化呈現單頁儀表板的圖表布局與閱讀順序，不含原始資料、真實學習者資訊或分析數值。</desc>
+  <rect width="1280" height="720" fill="#e7deca"/>
+  <rect x="48" y="48" width="1184" height="624" rx="34" fill="#f8f2e6"/>
+  <rect x="82" y="96" width="210" height="210" rx="24" fill="#1c2938" opacity="0.92"/>
+  <circle cx="187" cy="201" r="72" fill="none" stroke="#7dc4ff" stroke-width="34"/>
+  <path d="M187 129 A72 72 0 0 1 254 226" fill="none" stroke="#cbe86b" stroke-width="34"/>
+  <rect x="82" y="338" width="210" height="276" rx="24" fill="#ffffff"/>
+  <rect x="118" y="382" width="138" height="34" rx="17" fill="#1c2938" opacity="0.18"/>
+  <rect x="118" y="438" width="92" height="34" rx="17" fill="#1c2938" opacity="0.12"/>
+  <rect x="334" y="96" width="250" height="210" rx="24" fill="#ffffff"/>
+  <rect x="618" y="96" width="250" height="210" rx="24" fill="#ffffff"/>
+  <rect x="902" y="96" width="250" height="210" rx="24" fill="#ffffff"/>
+  <g fill="#2f5d7c" opacity="0.72">
+    <circle cx="396" cy="232" r="8"/><circle cx="438" cy="176" r="8"/><circle cx="504" cy="210" r="8"/><circle cx="540" cy="148" r="8"/>
+    <circle cx="682" cy="238" r="8"/><circle cx="732" cy="188" r="8"/><circle cx="802" cy="214" r="8"/><circle cx="838" cy="156" r="8"/>
+    <circle cx="966" cy="226" r="8"/><circle cx="1018" cy="178" r="8"/><circle cx="1084" cy="204" r="8"/><circle cx="1122" cy="150" r="8"/>
+  </g>
+  <rect x="334" y="344" width="818" height="270" rx="24" fill="#ffffff"/>
+  <rect x="404" y="520" width="72" height="46" rx="10" fill="#cbe86b"/>
+  <rect x="526" y="462" width="72" height="104" rx="10" fill="#7dc4ff"/>
+  <rect x="648" y="404" width="72" height="162" rx="10" fill="#6b4cff"/>
+  <text x="82" y="662" fill="#1c2938" font-family="PingFang TC, Microsoft JhengHei, sans-serif" font-size="24" font-weight="800">概念化儀表板架構示意，不含原始資料、真實學習者資訊或分析數值。</text>
+</svg>

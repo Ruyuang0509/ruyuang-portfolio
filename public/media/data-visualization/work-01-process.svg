@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">資料視覺化案例分析製作流程圖</title>
+  <desc id="desc">案例蒐整、資訊拆解、動態腳本、影片輸出的流程示意。</desc>
+  <rect width="1200" height="900" fill="#efe9dc"/>
+  <g font-family="PingFang TC, Microsoft JhengHei, sans-serif" font-weight="800">
+    <rect x="116" y="150" width="220" height="160" rx="28" fill="#17140f"/>
+    <rect x="374" y="270" width="220" height="160" rx="28" fill="#6b4cff"/>
+    <rect x="632" y="390" width="220" height="160" rx="28" fill="#cbe86b"/>
+    <rect x="890" y="510" width="220" height="160" rx="28" fill="#17140f"/>
+    <text x="160" y="238" fill="#efe9dc" font-size="36">案例蒐整</text>
+    <text x="418" y="358" fill="#efe9dc" font-size="36">資訊拆解</text>
+    <text x="674" y="478" fill="#17140f" font-size="36">動態腳本</text>
+    <text x="934" y="598" fill="#efe9dc" font-size="36">影片輸出</text>
+  </g>
+  <path d="M336 230 C426 230 348 350 374 350 M594 350 C684 350 606 470 632 470 M852 470 C942 470 864 590 890 590" fill="none" stroke="#17140f" stroke-width="12" stroke-linecap="round"/>
+</svg>

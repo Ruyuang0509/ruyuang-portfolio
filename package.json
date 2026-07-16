@@ -1,0 +1,52 @@
+{
+  "name": "ruyuan-personal-website",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@11.7.0",
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "type": "module",
+  "imports": {
+    "#portfolio-hidden": "./src/data/portfolio.hidden.js"
+  },
+  "scripts": {
+    "dev": "pnpm run dev:draft",
+    "dev:draft": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-vite-mode.ps1 draft node_modules/vite/bin/vite.js --host 127.0.0.1 --port 5180 --strictPort",
+    "dev:submission": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-vite-mode.ps1 submission node_modules/vite/bin/vite.js --host 127.0.0.1 --port 5180 --strictPort",
+    "build": "pnpm run build:draft",
+    "build:draft": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-vite-mode.ps1 draft node_modules/vite/bin/vite.js build",
+    "build:submission": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-vite-mode.ps1 submission node_modules/vite/bin/vite.js build",
+    "preview": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-node.ps1 node_modules/vite/bin/vite.js preview --host 127.0.0.1 --port 4180 --strictPort",
+    "preview:submission": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-node.ps1 node_modules/vite/bin/vite.js preview --host 127.0.0.1 --port 4180 --strictPort",
+    "workspace:check": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-node.ps1 scripts/check-workspace.mjs",
+    "audit:media": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-node.ps1 scripts/audit-media.mjs",
+    "audit:text": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-node.ps1 scripts/audit-source-text.mjs",
+    "content:check": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-node.ps1 scripts/validate-portfolio-content.mjs",
+    "test:submission-scanner": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-node.ps1 --test tests/submission-scanner.test.mjs",
+    "scan:submission": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-node.ps1 scripts/scan-submission-output.mjs",
+    "audit:pages": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-node.ps1 scripts/audit-pages-build.mjs",
+    "check:submission": "pnpm run test:submission-scanner && pnpm run build:submission && pnpm run scan:submission && pnpm run audit:pages",
+    "verify": "pnpm run workspace:check && pnpm run audit:media && pnpm run audit:text && pnpm run audit:cjk && pnpm run content:check && pnpm run test:sound && pnpm run build:draft",
+    "doctor": "pnpm run workspace:check && pnpm run audit:media && pnpm run audit:text && pnpm run audit:cjk && pnpm run content:check && pnpm run test:sound && pnpm run build:draft && pnpm run check:submission",
+    "audit:lighthouse": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-node.ps1 scripts/run-lighthouse.mjs",
+    "audit:cjk": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-node.ps1 scripts/audit-cjk-typography.mjs",
+    "test:sound": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-node.ps1 --test tests/sound-mapping.test.mjs tests/web-audio-engine.test.mjs"
+  },
+  "dependencies": {
+    "@react-three/fiber": "^9.0.0",
+    "gsap": "^3.13.0",
+    "lenis": "^1.3.0",
+    "motion": "^12.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "three": "^0.179.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.0",
+    "@vitejs/plugin-react": "latest",
+    "lighthouse": "^13.4.0",
+    "tailwindcss": "^4.3.0",
+    "vite": "^8.1.2"
+  }
+}
