@@ -24,11 +24,14 @@
 ## 1. 專案背景與申請定位
 
 ```yaml
-github_repository: "使用目前 Codex 工作區中的 repository；若已提供 URL，使用該 repository"
-website_url: "若已有正式站、Preview 或 GitHub Pages URL，直接檢查；否則以 repository 原生方式啟動本機網站"
-base_branch: "自動識別 repository 預設分支"
+github_repository: "https://github.com/Ruyuang0509/ruyuang-portfolio.git"
+repository_full_name: "Ruyuang0509/ruyuang-portfolio"
+website_url: "尚未正式部署；目前使用本機 Preview"
+base_branch: "main"
 working_branch: "feat/portfolio-admission-foundation"
 deployment_target: "GitHub Pages"
+pull_request_mode: "draft"
+repository_mode: "existing"
 primary_language: "Traditional Chinese (zh-Hant)"
 secondary_language: "English only where it improves technical clarity"
 target_audience:
