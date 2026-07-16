@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">資料視覺化在數位學習應用系列主視覺</title>
+  <desc id="desc">抽象資料點、折線與學習介面卡片構成的系列主視覺，不含真實學習者資料。</desc>
+  <rect width="1200" height="900" fill="#14130f"/>
+  <circle cx="950" cy="135" r="210" fill="#cbe86b" opacity="0.16"/>
+  <circle cx="210" cy="730" r="260" fill="#6ea8ff" opacity="0.12"/>
+  <rect x="118" y="132" width="964" height="636" rx="44" fill="#e7deca" opacity="0.92"/>
+  <rect x="174" y="200" width="286" height="180" rx="28" fill="#1b1a15"/>
+  <rect x="504" y="200" width="518" height="72" rx="24" fill="#ffffff" opacity="0.58"/>
+  <rect x="504" y="304" width="426" height="32" rx="16" fill="#1b1a15" opacity="0.16"/>
+  <rect x="504" y="358" width="342" height="32" rx="16" fill="#1b1a15" opacity="0.12"/>
+  <path d="M206 500 C310 360 413 650 520 502 S739 410 842 520 S970 642 1028 450" fill="none" stroke="#1b1a15" stroke-width="18" stroke-linecap="round"/>
+  <g fill="#cbe86b">
+    <circle cx="206" cy="500" r="22"/>
+    <circle cx="520" cy="502" r="22"/>
+    <circle cx="842" cy="520" r="22"/>
+    <circle cx="1028" cy="450" r="22"/>
+  </g>
+  <text x="172" y="672" fill="#1b1a15" font-family="PingFang TC, Microsoft JhengHei, sans-serif" font-size="56" font-weight="800">資料視覺化</text>
+  <text x="174" y="728" fill="#1b1a15" font-family="Inter, sans-serif" font-size="24" font-weight="700" letter-spacing="4">DIGITAL LEARNING</text>
+</svg>

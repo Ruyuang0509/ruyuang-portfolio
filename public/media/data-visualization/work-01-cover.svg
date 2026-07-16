@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">資料視覺化案例分析作品主視覺</title>
+  <desc id="desc">以綠色、紫色與卡片式畫面表示資料敘事與動態簡報，未使用第三方品牌介面截圖。</desc>
+  <rect width="1200" height="900" fill="#17140f"/>
+  <path d="M0 720 C220 640 328 810 548 738 C780 662 882 462 1200 560 L1200 900 L0 900Z" fill="#cbe86b"/>
+  <rect x="134" y="118" width="932" height="560" rx="46" fill="#efe9dc"/>
+  <rect x="184" y="172" width="340" height="420" rx="34" fill="#6b4cff"/>
+  <circle cx="354" cy="300" r="92" fill="#cbe86b"/>
+  <path d="M250 486 C310 404 385 534 462 438" fill="none" stroke="#efe9dc" stroke-width="20" stroke-linecap="round"/>
+  <rect x="580" y="188" width="386" height="72" rx="24" fill="#17140f"/>
+  <rect x="580" y="302" width="280" height="34" rx="17" fill="#17140f" opacity="0.22"/>
+  <rect x="580" y="362" width="340" height="34" rx="17" fill="#17140f" opacity="0.18"/>
+  <rect x="580" y="422" width="240" height="34" rx="17" fill="#17140f" opacity="0.14"/>
+  <text x="184" y="766" fill="#17140f" font-family="PingFang TC, Microsoft JhengHei, sans-serif" font-size="52" font-weight="900">案例分析・動態視覺</text>
+</svg>

@@ -1,0 +1,12 @@
+# Nextgen Portfolio
+
+> A performance-first creative portfolio for graphic design, video, and photography.
+
+## Links
+
+- [Home](/)
+- [Graphic Design](#graphic)
+- [Video](#video)
+- [Photography](#photo)
+- [Contact](#contact)
+
