@@ -73,19 +73,15 @@
 
 html {
   scroll-behavior: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  scrollbar-color: var(--theme-accent) var(--theme-bg);
+  scrollbar-gutter: stable;
   background: var(--theme-bg);
 }
-
-html::-webkit-scrollbar,
-body::-webkit-scrollbar {
-  display: none;
-}
+/* Codex-Fix: Keep the platform scrollbar visible so reviewers retain position and scroll affordance on this long-form page. */
 
 body {
   margin: 0;
-  min-width: 320px;
+  min-width: min(320px, 100%);
   overflow-x: hidden;
   color: var(--theme-text);
   background: var(--theme-bg);

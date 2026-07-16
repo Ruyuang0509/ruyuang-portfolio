@@ -1,10 +1,10 @@
 # Current State
 
-- **Repository：** canonical local workspace 為 `C:\Users\911su\Documents\Codex\如願個人網站`。
-- **Base branch：** 無法辨識；`.git` 是空目錄，不是有效 Git repository。
-- **Working branch：** 無法建立或辨識；提示詞建議的 `feat/portfolio-admission-foundation` 尚不存在。
-- **Last verified commit：** 無法取得；沒有可讀的 Git history。
-- **Git status：** `git status`、`git rev-parse --show-toplevel` 與 `git log` 均回報 `fatal: not a git repository (or any of the parent directories): .git`；`.git` 內容為空。本環境也沒有可執行的 `gh` CLI。
+- **Repository：** canonical local workspace 為 `C:\Users\911su\Documents\Codex\如願個人網站`；`origin` 為 `https://github.com/Ruyuang0509/ruyuang-portfolio.git`。
+- **Base branch：** `main`，本機與 `origin/main` 均指向 `aea1c29`；唯讀檢查期間曾偵測外部 checkout 到 `main`，已立即回到 feature，沒有在 `main` 產生 tracked 修改、commit 或 push。
+- **Working branch：** `feat/portfolio-admission-foundation`，追蹤同名遠端分支。
+- **Last verified commit：** `3fb913f`（`Update portfolio-master-prompt.md`）；開始本輪實作前，本機與遠端 feature SHA 一致。
+- **Git status：** 開始本輪實作前為 clean；既有 [Draft PR #1](https://github.com/Ruyuang0509/ruyuang-portfolio/pull/1) 為 open、draft、未 merge，base=`main`、head=`feat/portfolio-admission-foundation`。Connector 未看到 PR checks、workflow runs、reviews 或 comments，不能解讀為通過。
 - **Current site status：** Vite submission build、本機 Pages 路徑稽核、rendered smoke test 與 submission mobile／desktop Lighthouse lab audit 通過；沒有 production deploy、Pages URL、custom domain、field data 或已驗證 remote workflow run。
 
 # Completed This Round
@@ -28,12 +28,15 @@
 - 已封存的對照 run（主要文字已靜態、Three 尚未延後）為 mobile Performance 87／LCP 3.463 s；最新同一 artifact、source content fingerprint 與 profile fingerprint 的三次 run 為 Performance 96–97、LCP 2.258–2.407 s、TBT 23–34 ms，LCP node 均是 `#hero-title`。
 - 修正 Lighthouse 找到的兩項可及性問題：暖紙研究卡的 contextual text color，以及 sound pad 無角色卻使用 `aria-label`；pad 現為具說明的 `role="img"`，四個 range 仍是鍵盤操作入口。
 - 將聲音 `role="status"`／live region 移出 `aria-busy` 控制群組，啟用中的 pending 期間仍可立即向輔具宣告；停止按鈕、Escape、離屏與 cleanup 都能取消 pending start，不會在使用者離開後才延遲啟動。
+- 恢復長頁的平台 scrollbar，使用已驗證的深色／暖紙 theme token 呈現；移除 Firefox、WebKit 與舊 Edge 的全域隱藏規則。
+- 將 `body` 最小寬度改為不超過實際可用寬度，避免 320 px viewport 加上 15 px 平台 scrollbar 後產生水平溢位。
+- 即時核對有效 Git history、`origin` 與既有 Draft PR #1；更新 handoff、audit 與 content matrix 中已失效的「空 `.git`」敘述，沒有建立重複 PR、merge 或 deploy。
 
 # Verification
 
 ## Commands and results
 
-- `pnpm install --frozen-lockfile`：exit 0、lockfile 已是最新；pnpm 自動查詢自身更新時因受限網路出現 registry metadata fetch warning，不影響既有依賴安裝。
+- `pnpm install --frozen-lockfile`：exit 0、lockfile 已是最新；本機使用 pnpm 11.9.0。pnpm 自動查詢自身更新時因受限網路出現 registry metadata fetch warning，不影響既有依賴安裝。
 - `pnpm run doctor`：exit 0；依序完成下列全部本機門檻。
 - `pnpm run workspace:check`：通過，確認 canonical workspace。
 - `pnpm run audit:media`：通過，無遠端 demo media 或過時 preconnect。
@@ -57,6 +60,7 @@
 - refactor 後 1024×768 再驗證 `尚未啟用 → 聲音啟用中 → 聲音啟用失敗`，`aria-busy` 回到 false、按鈕可重試，console error 為 0。
 - 700px fine pointer 不啟用 custom cursor；800px fine pointer 才啟用。
 - 412×823 與 1440×900 最終回歸：Hero 標題／介紹首幀 opacity 1、0 global horizontal overflow；暖紙 body、navbar 與行動選單皆為紙色底／墨色字且 transition 0 s；sound pad 為具名稱的 `img` role、4 個 slider 完整；pending start 可立即按停止並回到「聲音已停止」；console error／warning 皆為 0。
+- 本輪 scrollbar 回歸：1440×900 的平台 scrollbar 實際佔 15 px，`scrollbar-width` computed value 為 `auto`，深色端為 `rgb(203, 232, 107) / rgb(17, 16, 13)`，暖紙端為 `rgb(64, 80, 22) / rgb(216, 207, 189)`；1440×900、375×812 與修正後 320×568 均為 0 global horizontal overflow，broken image 0，滑輪捲動有效，桌面 Logo 的 Enter 導覽回到 `#top` 並把焦點交給 `#hero-title`，console error／warning 0。
 - 未能可靠模擬真實 200% zoom、系統 reduced-motion、screen reader 與實機觸控，不能視為已通過。
 
 ## Screenshots
@@ -94,8 +98,6 @@
 
 ## P0
 
-- 還原真正的 `.git` metadata 或從正確 remote 重新 clone，再確認 default branch、working branch、remote 與 history。不要用 `git init` 冒充既有演進。
-- Git 恢復後使用可用的 GitHub connector 或安裝／提供 `gh` CLI，才能 push 與建立 Draft PR。
 - Power BI 原始資料與截圖在授權／去識別化完成前維持隔離。
 
 ## P1
@@ -104,18 +106,18 @@
 - 補一個可公開的 Pure Data 或 REAPER 最小 artifact。
 - 以 NVDA／VoiceOver、真實 200% zoom、system reduced-motion、iOS／Android 與多瀏覽器 Web Audio 做人工矩陣。
 - 人工核對 YouTube captions／transcript；決定履歷、聯絡資料與正式研究計畫。
-- Git 恢復後 push 非預設 branch、執行 manual Pages workflow，檢查真正 project-site URL。
+- Draft PR #1 完成內容與人工驗收後，再由使用者決定何時執行 manual Pages workflow 並檢查真正 project-site URL；本輪不得部署。
 
 ## P2
 
 - Lighthouse archive 已支持目前保留約 851 kB（約 224 kB transfer）的延後 Three chunk；仍需低階 Android／iOS、Save-Data、耗電／GPU 與正式 Pages URL 的真機／field evidence 才決定是否進一步簡化。
 - 若未來加入正式 browser test runner，補 React controls、Escape、IntersectionObserver 與 live-region 自動測試；AudioContext controller lifecycle 已有 13 個 Node tests。
+- 評估加入不含部署權限的 PR-only Windows CI，使 `pnpm run doctor` 不只依賴本機執行；目前 PR 沒有 connector 可見的 checks 或 workflow runs。
 - 正式 hosting 決定後補 canonical URL、1200×630 raster social preview、domain／privacy 決策。
-- 確認後處理根目錄兩個既存零位元檔案 `[k`、`({id`；目前不擅自刪除。
 
 ## Risks and blockers
 
-- 核心 blocker 是無效且空的 `.git`，加上本環境沒有 `gh` CLI，因此沒有可信 commit、push、PR 或 remote Pages 證據。
+- Git repository、remote branch 與 Draft PR 已確認，但目前沒有 connector 可見的 remote checks、workflow runs 或 production Pages 證據。
 - 真實使用者研究、聲音作品與授權資料不在 repository，工程端不能代填。
 - In-app Browser 無法可靠模擬 screen reader、真實 zoom、reduced-motion 或實機音訊；這些仍需要人工測試。
 
@@ -135,14 +137,16 @@ pnpm run preview:submission
 pnpm run audit:lighthouse
 ```
 
-Git metadata 還原後先執行：
+每輪開始先執行：
 
 ```powershell
-git status
-git log --oneline -n 10
+git rev-parse --show-toplevel
+git status --short --branch
+git branch -vv
 git remote -v
+git log --oneline --decorate --graph --all -n 15
 ```
 
 # Next Codex Starting Instruction
 
-先讀 `AGENTS.md`、`README.md`、`docs/CODEX_HANDOFF.md`、`docs/PORTFOLIO_AUDIT.md`、`docs/CONTENT_MATRIX.md`，再檢查 Git 是否已恢復與 `pnpm run doctor` 現況。若 Git 仍無效，先精確回報 blocker，從 handoff 中不依賴缺失素材的最高優先項續作；若 Git 已恢復，建立／切到非預設 working branch，保留既有 Vite／React 架構、draft/submission 邊界與無 autoplay 規則，完成後執行 browser matrix、更新 handoff，並只在有權限時 push 與更新 Draft PR，不得 merge 或 production deploy。
+先讀 `AGENTS.md`、`README.md`、`docs/CODEX_HANDOFF.md`、`docs/PORTFOLIO_AUDIT.md`、`docs/CONTENT_MATRIX.md`，確認仍位於 `feat/portfolio-admission-foundation`、與 `origin` 的差異及 Draft PR #1 現況，再執行 `pnpm run doctor`。從 handoff 中不依賴缺失素材的最高優先項續作；保留既有 Vite／React 架構、draft/submission 邊界、可見平台 scrollbar 與無 autoplay 規則，完成後執行相稱的 browser matrix、更新 handoff，只 push working branch 並更新既有 Draft PR，不得修改／push `main`、建立重複 PR、merge 或 production deploy。

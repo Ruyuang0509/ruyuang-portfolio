@@ -9,7 +9,7 @@
 - **實際 route：** 只有 `/`，client-rendered React SPA；未安裝 router。
 - **導覽：** 固定膠囊列包含「研究定位、聲響原型、學習歷程、作品索引、支持證據、閱讀路徑」。桌面直接顯示；行動版由具 `aria-expanded`／`aria-controls` 的「閱讀路徑」按鈕開啟選單。
 - **行動選單：** 支援 Escape 關閉並把焦點還給 trigger，也支援點擊選單外關閉；選擇項目後焦點進入目標標題。
-- **捲動：** 非 reduced-motion 環境優先由 Lenis 前往 anchor，offset -96px；一般 fallback 使用原生 smooth scroll，reduced-motion 使用 `auto`。導覽會以 `history.replaceState` 更新 hash；桌面鍵盤 Enter 與行動選單會把焦點移到目標標題，桌面滑鼠點擊仍保留焦點在連結。
+- **捲動：** 非 reduced-motion 環境優先由 Lenis 前往 anchor，offset -96px；一般 fallback 使用原生 smooth scroll，reduced-motion 使用 `auto`。導覽會以 `history.replaceState` 更新 hash；桌面鍵盤 Enter 與行動選單會把焦點移到目標標題，桌面滑鼠點擊仍保留焦點在連結。長頁保留可見的平台 scrollbar，並以深色／暖紙 theme token 呈現；320 px viewport 也不產生水平溢位。
 - **主題：** gallery 門檻前後只在深色／暖紙兩個合格端點間離散切換；不插值文字與背景色。navbar 與行動選單的無 `color-mix()` fallback 也跟隨 theme token。
 - **轉換終點：** `#reviewer-path` 明確說明「目前沒有公開聯絡資料」，只提供「回到聲響原型」與「閱讀作品索引」。沒有假聯絡 CTA。
 
@@ -68,4 +68,4 @@ flowchart TD
 
 ## 外部系統與缺席功能
 
-沒有 CMS、API request、backend、database、authentication、storage、analytics、contact form、search、filter、modal、carousel 或獨立 404 route。已配置 manual-only GitHub Pages workflow、相對 base path 與 build audit；因 `.git` 無效，目前沒有 remote execution、正式部署、Pages URL 或 domain。
+沒有 CMS、API request、backend、database、authentication、storage、analytics、contact form、search、filter、modal、carousel 或獨立 404 route。已配置 manual-only GitHub Pages workflow、相對 base path 與 build audit；GitHub repository、working branch 與 Draft PR #1 已確認，但目前沒有 connector 可見的 remote checks／workflow runs，也沒有正式部署、Pages URL 或 domain。

@@ -20,11 +20,8 @@
 | P2 | Three lazy chunk 約 851 kB／224 kB transfer；延後、目前幾何／頁面可見性 first-load gate 與局部 scene fallback 完成後，同一 immutable artifact／source content／profile 的 3 次 mobile run 為 Performance 96–97、LCP 2.258–2.407 s、TBT 23–34 ms | 本機 simulated profile 支持目前保留場景，但仍不能代表低階實機、GPU／耗電或 production network | 保留 visibility-aware lazy／device gating；以低階 Android／iOS、Save-Data 與正式 Pages field evidence 再判斷是否簡化 shader scene |
 | P2 | sound 自動測試已有 5 個 mapping 與 13 個 controller lifecycle tests；React controls、Escape、offscreen 與 live region 目前只有 rendered smoke evidence | 核心 AudioContext race／cleanup 可重跑，但 component UI regression 尚未自動化 | 若未來加入正式 browser test runner，再補 React interaction tests；不要依賴間接 Puppeteer dependency |
 | P2 | 單頁 anchors | 獨立分享、case SEO、browser history 能力有限 | 只有確定有分享需求時再評估 router/static routes |
-| P2 | 隱藏 scrollbar | 長頁位置感可能不足 | 使用者測試後考慮恢復 scrollbar 或閱讀進度 |
-| P2 | 已有 manual-only Pages workflow，但沒有一般 PR CI、lint、formatter 或廣泛 tests；空 `.git` 使遠端 workflow 無法驗證 | 品質仍依賴本機 `doctor` 與人工矩陣 | Git 恢復後遠端執行 Pages workflow，再評估最小 PR CI 與 a11y smoke tests |
+| P2 | 已有 manual-only Pages workflow 與 Draft PR，但沒有一般 PR CI、lint、formatter 或廣泛 tests；目前 connector 可見 checks／workflow runs 都是 0 | 品質仍依賴本機 `doctor` 與人工矩陣 | 評估加入不含部署權限的最小 Windows PR CI 與 a11y smoke tests；由使用者另行決定何時執行 manual Pages workflow |
 | P2 | social preview 為 SVG，無 canonical hosting | 平台相容性與 SEO 未完成 | 部署前補 raster 1200×630、canonical URL、實際 domain |
-| P2 | workspace root 有兩個零位元不明檔案 `[k`、`({id` | 看似工具／shell 遺留物，無 runtime import，但污染 repository 結構 | 確認 ownership 後刪除；文件工作未擅自移除 |
-| P0 | workspace 的 `.git` 是空目錄，不是有效 repository | 無法追蹤變更、查 branch/history、commit、push、PR 或驗證 Pages remote run | 從原 repository 還原 `.git` 或重新 clone；不要用 `git init` 冒充既有歷史 |
 
 ## 已解決且應保留
 
@@ -39,10 +36,12 @@
 - draft/submission bundling boundary，而非 CSS 隱藏。
 - mapping pure functions 與 Node tests。
 - DOM-first Hero、R3F lazy/device gating/offscreen pause。
-- GitHub Pages 相對 base、public asset `BASE_URL`、submission Pages audit 與 manual-only Windows build workflow；仍待 Git 恢復後遠端執行。
+- GitHub Pages 相對 base、public asset `BASE_URL`、submission Pages audit 與 manual-only Windows build workflow；仍待使用者另行決定遠端執行與部署時機。
 - 全站 `RootErrorBoundary`、首屏主要內容不再 mount-hide、行動 anchor 目標焦點與 fine-pointer custom cursor gating。
 - Web Audio 第四個鍵盤控制、可讀 readout、starting／busy、3 秒 resume timeout 及 pending context cleanup。
 - 320px 繁中 display heading 越界修正與暖紙主題 accent 對比 5.71:1。
+- 長頁平台 scrollbar 已恢復並跟隨深色／暖紙 theme token；`body` 最小寬度不再超出 scrollbar 扣除後的可用寬度，320×568、375×812、1440×900 均 0 global horizontal overflow。
+- 有效 Git history、`origin`、`main`／working branch 與既有 Draft PR #1 已確認；後續不得重複初始化或建立重複 PR。
 - 生成式 AI 協作方法區段、Prompt v1／v2、兩個實際失敗案例及人類最終責任揭露。
 - submission-only Lighthouse harness 的跨程序鎖、stale-lock dead-PID 驗證、archive completion marker、canonical rollback／summary-last、完整受測 `dist`／source manifests、CLI transcript、完整 profile／environment fingerprint、freshness／runtime 驗證與 mobile／desktop 分流；Hero LCP、current-geometry first-load、scene fallback、離散主題對比、theme-aware nav、sound-pad ARIA、busy/live-region 與 pending-start 取消問題已修正。
 
@@ -52,7 +51,7 @@
 2. **聲音作品：** 選擇 Pure Data 或 REAPER 其中一項，產出一個可公開、可解釋的最小 artifact。
 3. **支持案例：** 為 AI 介面補 prototype，完成資料影片字幕與 Power BI 授權決策。
 4. **可及性：** 在已完成的鍵盤／viewport／contrast 基礎上，補 screen reader、真實 zoom、行動 touch、system reduced-motion 與多瀏覽器 Web Audio matrix。
-5. **Production：** 先恢復 Git metadata，再確認聯絡／CV、domain、metadata、遠端 Pages workflow、正式 URL Lighthouse／field evidence 與 submission artifact。
+5. **Production：** 確認聯絡／CV、domain、metadata、遠端 Pages workflow、正式 URL Lighthouse／field evidence 與 submission artifact；由使用者決定部署時機。
 
 ## 安全延伸點
 
@@ -67,4 +66,4 @@
 
 ## 本次無法確認
 
-利害關係人簽核、當年度官方申請要求、真實使用者測試、Pure Data／REAPER 原始作品、Power BI 授權文件、production hosting/domain、analytics、screen reader、真實 200% zoom、system reduced-motion、實機／field performance 與 Git history 均不在目前可驗證證據中。本機 Lighthouse 與內建瀏覽器 smoke test 已完成，但不能把 localhost simulated scores 或未支援的輔具／實機模擬宣稱為 production 通過。
+利害關係人簽核、當年度官方申請要求、真實使用者測試、Pure Data／REAPER 原始作品、Power BI 授權文件、production hosting/domain、analytics、screen reader、真實 200% zoom、system reduced-motion、實機／field performance 與遠端 workflow／Pages 執行均不在目前可驗證證據中。本機 Lighthouse 與內建瀏覽器 smoke test 已完成，但不能把 localhost simulated scores 或未支援的輔具／實機模擬宣稱為 production 通過。
