@@ -127,7 +127,7 @@ export default function ImmersiveHero() {
         ) : (
           <HeroSceneErrorBoundary fallback={<div className="h-full w-full bg-[radial-gradient(circle_at_70%_30%,rgba(203,232,107,0.13),transparent_28vw),var(--color-bg)]" />}>
             <Suspense fallback={<div className="h-full w-full bg-[var(--color-bg)]" />}>
-              <HeroScene active={sceneActive} />
+              <HeroScene active={sceneActive} eventSource={heroRef} />
             </Suspense>
           </HeroSceneErrorBoundary>
         )}

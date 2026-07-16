@@ -1,6 +1,30 @@
-import { Canvas, useFrame } from "@react-three/fiber";
+import { extend, useFrame } from "@react-three/fiber";
 import { useMemo, useRef } from "react";
-import * as THREE from "three";
+import {
+  AmbientLight,
+  BufferAttribute,
+  BufferGeometry,
+  Color,
+  MathUtils,
+  Mesh,
+  Points,
+  PointsMaterial,
+  ShaderMaterial,
+  SphereGeometry,
+  Vector2,
+} from "three";
+import LeanR3FCanvas from "./LeanR3FCanvas.jsx";
+
+extend({
+  AmbientLight,
+  BufferAttribute,
+  BufferGeometry,
+  Mesh,
+  Points,
+  PointsMaterial,
+  ShaderMaterial,
+  SphereGeometry,
+});
 
 const vertexShader = `
   uniform float uTime;
@@ -35,9 +59,9 @@ function FluidOrb({ active, segments, radius }) {
   const uniforms = useMemo(
     () => ({
       uTime: { value: 0 },
-      uPointer: { value: new THREE.Vector2(0, 0) },
-      uColorA: { value: new THREE.Color("#c2d873") },
-      uColorB: { value: new THREE.Color("#b45f77") },
+      uPointer: { value: new Vector2(0, 0) },
+      uColorA: { value: new Color("#c2d873") },
+      uColorB: { value: new Color("#b45f77") },
     }),
     [],
   );
@@ -50,7 +74,7 @@ function FluidOrb({ active, segments, radius }) {
     materialRef.current.uniforms.uTime.value = clock.elapsedTime;
     materialRef.current.uniforms.uPointer.value.lerp(pointer, 0.08);
     meshRef.current.rotation.y += delta * 0.18;
-    meshRef.current.rotation.x = THREE.MathUtils.lerp(meshRef.current.rotation.x, pointer.y * 0.18, 0.08);
+    meshRef.current.rotation.x = MathUtils.lerp(meshRef.current.rotation.x, pointer.y * 0.18, 0.08);
   });
   // Codex-Fix: R3F plus native shader uniforms create a free interactive fluid orb.
 
@@ -89,7 +113,7 @@ function ParticleField({ active, count }) {
     if (document.hidden) return;
     if (!pointsRef.current) return;
     pointsRef.current.rotation.y += delta * 0.025;
-    pointsRef.current.rotation.x = THREE.MathUtils.lerp(pointsRef.current.rotation.x, pointer.y * 0.05, 0.05);
+    pointsRef.current.rotation.x = MathUtils.lerp(pointsRef.current.rotation.x, pointer.y * 0.05, 0.05);
   });
 
   return (
@@ -102,7 +126,7 @@ function ParticleField({ active, count }) {
   );
 }
 
-export default function HeroScene({ active = true }) {
+export default function HeroScene({ active = true, eventSource }) {
   const sceneQuality = useMemo(() => {
     const isCompact = window.matchMedia("(max-width: 767px)").matches;
     const isLowPower = (navigator.hardwareConcurrency ?? 8) <= 4;
@@ -118,17 +142,16 @@ export default function HeroScene({ active = true }) {
   // Codex-Fix: Adapt R3F quality for mobile and low-core devices instead of removing the 3D identity.
 
   return (
-    <Canvas
-      camera={{ position: [0, 0, 6], fov: 42 }}
-      dpr={[1, sceneQuality.maxDpr]}
-      frameloop={active ? "always" : "demand"}
-      gl={{ antialias: sceneQuality.antialias, alpha: true, powerPreference: "high-performance" }}
-      performance={{ min: 0.5 }}
+    <LeanR3FCanvas
+      active={active}
+      maxDpr={sceneQuality.maxDpr}
+      antialias={sceneQuality.antialias}
+      eventSource={eventSource}
     >
       <ambientLight intensity={0.22} />
       <FluidOrb active={active} segments={sceneQuality.sphereSegments} radius={sceneQuality.sphereRadius} />
       <ParticleField active={active} count={sceneQuality.particles} />
-    </Canvas>
+    </LeanR3FCanvas>
   );
 }
 // Codex-Fix: Accept an active flag from IntersectionObserver so offscreen WebGL does not burn frames.

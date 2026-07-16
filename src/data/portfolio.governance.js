@@ -26,11 +26,14 @@ export const portfolioContentChecklist = [
   {
     group: "流程圖與架構圖",
     level: "recommended",
-    paths: ["diagrams"],
+    appliesTo: "submission-visible",
+    mode: "any",
+    paths: ["diagrams", "workflow"],
   },
   {
     group: "媒體證據",
     level: "recommended",
+    appliesTo: "submission-visible",
     mode: "any",
     paths: ["media.visualDrafts", "media.screenshots", "media.videos", "media.audio", "media.demos", "interactivePrototype"],
   },
@@ -65,10 +68,11 @@ export const portfolioContentChecklist = [
 
 export const getProjectCompleteness = (project) => {
   const groups = portfolioContentChecklist.map((item) => {
+    const applicable = item.appliesTo !== "submission-visible" || project.submissionVisibility !== "hidden";
     const presentCount = item.paths.filter((path) =>
       hasUsefulValue(getValueAtPath(project, path)) || project.metadataOmissions?.includes(path),
     ).length;
-    const complete =
+    const complete = applicable && (
       item.mode === "any"
         ? presentCount > 0
         : item.mode === "testingState"
@@ -77,18 +81,20 @@ export const getProjectCompleteness = (project) => {
             (project.testing.statusKey === "notValidated"
               ? hasUsefulValue(project.testing.plannedMethods)
               : hasUsefulValue(project.testing.metrics) || hasUsefulValue(project.testing.insights))
-          : presentCount === item.paths.length;
+          : presentCount === item.paths.length
+    );
 
     return {
       ...item,
+      applicable,
       presentCount,
       totalCount: item.paths.length,
       complete,
     };
   });
 
-  const required = groups.filter((item) => item.level === "required");
-  const recommended = groups.filter((item) => item.level === "recommended");
+  const required = groups.filter((item) => item.level === "required" && item.applicable);
+  const recommended = groups.filter((item) => item.level === "recommended" && item.applicable);
 
   return {
     groups,
@@ -100,7 +106,8 @@ export const getProjectCompleteness = (project) => {
 };
 
 export const getEvidenceAvailability = (project) => [
-  { label: "流程圖", available: project.diagrams?.length > 0 },
+  { label: "流程圖 / 工作流", available: project.diagrams?.length > 0 || project.workflow?.stages?.length > 0 },
+  { label: "分鏡", available: project.storyboard?.frames?.length > 0 },
   { label: "視覺稿", available: project.media?.visualDrafts?.length > 0 },
   { label: "截圖", available: project.media?.screenshots?.length > 0 },
   { label: "影片", available: project.media?.videos?.length > 0 },

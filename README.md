@@ -12,6 +12,7 @@ pnpm run workspace:check
 pnpm run audit:media
 pnpm run audit:text
 pnpm run audit:cjk
+pnpm run audit:evidence
 pnpm run content:check
 pnpm run test:sound
 pnpm run build:draft
@@ -46,6 +47,9 @@ package scripts 會透過 `scripts/run-node.ps1` 執行，所以 Windows/Codex s
 - Current implementation handoff: `docs/CODEX_HANDOFF.md`
 - Portfolio audit: `docs/PORTFOLIO_AUDIT.md`
 - Content matrix: `docs/CONTENT_MATRIX.md`
+- Hamlet evidence manifest: `docs/evidence/hamlet-media-manifest.json`
+- Hamlet formative test plan: `docs/evidence/hamlet-formative-test-plan.md`
+- Hamlet rights checklist: `docs/evidence/hamlet-rights-checklist.md`
 - Product and technical documentation index: `docs/website/README.md`
 - AI-assisted workflow evidence: `docs/ai-workflow/README.md`
 
@@ -71,8 +75,11 @@ decisions.
 
 - `pnpm run dev:draft`: 施工模式，會顯示內部備註與內容完整度。
 - `pnpm run dev:submission`: 送審模式預覽，只渲染公開內容。
-- `pnpm run check:submission`: 建置 submission、執行內建禁用詞掃描與
-  GitHub Pages 路徑檢查。這是必要門檻，不是完整的公開邊界證明。
+- `pnpm run check:submission`: 先核對 Hamlet 證據與字幕，再建置 submission、稽核
+  initial/lazy bundle budgets、執行內建禁用詞掃描與 GitHub Pages 路徑檢查。
+  這是必要門檻，不是完整的公開邊界證明。
+- `pnpm run check:publication`: 額外的公開發佈授權門檻。Hamlet 權利審查目前是
+  `unverified`，因此這條命令預期會中止；不得為了讓命令通過而自行改成已授權。
 - 正式送審前仍須獨立檢查 `dist/`：hidden-only 媒體、施工措辭、
   `public/llms.txt`、`public/favicon.svg`、失效 anchor 與 restricted
   檔名都必須納入。已知限制與目前狀態見

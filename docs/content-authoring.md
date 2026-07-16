@@ -46,7 +46,42 @@ These can be empty without breaking the page:
 - `media.audio`
 - `media.demos`
 - `testing`
-- `reflection`
+- `promptTemplate`: 可追溯的原始 Prompt，或清楚標示來源的衍生模板
+- `evidenceBoundary`: 分開可核對 artifact、核准規格與尚未獨立驗證項目
+- `evaluationPlan`: 尚未執行的形成性評估計畫
+
+Structured long-form modules can also be omitted without breaking other cases:
+
+- `englishTitle`, `tags`, `projectInfo`
+- `challenge`
+- `workflow.stages`
+- `promptDecisions`
+- `storyboard.frames`
+- `featuredExample`, `mediaLayers`
+- `deliverables`, `outcomes`
+- `keyInsight`, `nextSteps`, `ctas`
+
+`reflection` is part of the required case-study contract even when structured modules are absent.
+
+## Prompt And Deliverable Provenance
+
+Do not turn a reconstructed workflow into an original production record.
+
+- An original Prompt log needs the real conversation, exported record, or another source that can be traced to the production run.
+- A template reconstructed after the work must use `originStatus: "derived"`, a stable `evidenceRef`, and `usedForExistingVideo: false` when it did not generate the existing artifact.
+- State the derivation date and source in `provenance`. A derived Prompt Template can be a useful reusable process artifact, but it does not close the missing-original-log gap.
+- Give each `promptDecisions` item an evidence status and source. Do not attach artifact references to a decision that is supported only by an approved brief.
+
+Structured `deliverables` need an `id`, public label, `statusKey`, `evidenceRefs`, and `attributionSource`. Use these status keys consistently:
+
+- `artifactVerified`: a delivered file is independently present and checked
+- `artifactDerived`: a derivative was reproducibly made from a verified artifact
+- `processDerived`: a process artifact was reconstructed or organized after production
+- `specificationOnly`: an approved rule or intended direction, not a delivered file
+
+Every non-empty `evidenceRefs` value must resolve to the project evidence manifest. A production specification may intentionally keep `evidenceRefs: []`; that empty list must not be replaced with a reference to an unrelated completed asset.
+
+For the Hamlet case, the current evidence source is `docs/evidence/hamlet-media-manifest.json`. It verifies the clean MP4, bilingual WebVTT files, responsive derivatives, and their relationships. It does not establish the missing original Prompt log or the right to publish every source element.
 
 ## Media Rules
 
@@ -67,6 +102,8 @@ Videos should:
 - include a poster image
 - use `preload="none"` unless the video is the main above-the-fold media
 - include a caption or short transcript summary
+- use `tracks[]` for multiple WebVTT languages; keep `captionsSrc` only as a legacy single-track fallback
+- use `transcriptCues[]` when a complete on-page transcript is available
 
 Audio should:
 
@@ -92,6 +129,8 @@ Testing data can be partial. Use honest labels such as:
 - learning-outcome notes
 - survey or interview takeaways
 
+When a study has not happened, use `evaluationPlan.status: "planned"` and define participant roles, tasks, evidence to collect, decision use, and a privacy/data policy. Do not add participant counts, dates, metrics, findings, quotations, or a validation status until records exist. The Hamlet plan in `docs/evidence/hamlet-formative-test-plan.md` is a protocol, not a result.
+
 Reflection should cover:
 
 - strengths
@@ -108,11 +147,23 @@ pnpm run workspace:check
 pnpm run audit:media
 pnpm run audit:text
 pnpm run audit:cjk
+pnpm run audit:evidence
 pnpm run content:check
 pnpm run test:sound
 pnpm run build:draft
 pnpm run check:submission
 ```
+
+`audit:evidence` checks manifest references, direct-copy and derivative-inventory hashes, AVIF/WebP dimensions, WebVTT timing, and transcript consistency. It does not grant publication rights. Before publishing Hamlet media, also run:
+
+```powershell
+pnpm run check:publication
+```
+
+That command is expected to fail while `docs/evidence/hamlet-rights-checklist.md` remains `unverified` and the applicant attestation is missing. `check:submission` passing is therefore not equivalent to publication approval.
+
+Completeness checks apply evidence-heavy recommended groups only to submission-visible projects. A submission-hidden case may display `不適用 · submission-hidden` for workflow/media groups; this is an intentional governance state, not a missing-evidence warning and not permission to ship placeholder files.
+
 ## Interactive sound content fields
 
 For a public interactive sound case, author the research evidence in `src/data/portfolio.js`: `researchQuestion`, `mappings`, `signalFlow`, `listeningGuide`, and `interactivePrototype`. Each mapping needs an input, output audio parameter, reason, and bounded range where applicable. Use `testing.statusKey: "notValidated"` plus `plannedMethods` until real validation exists. Keep asset gaps, privacy concerns, and replacement reminders in `portfolio.internal.js` only.

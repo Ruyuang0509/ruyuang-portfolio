@@ -171,6 +171,18 @@ test("submission scanner regression fixtures", async (t) => {
     assert.match(result.stderr, /\[TEXT\] assets\/react-fixture\.js:/);
   });
 
+  await t.test("caption, web manifest, and source map text are scanned", () => {
+    const directory = createFixture(t);
+    writeFixtureFile(directory, "captions/example.vtt", "WEBVTT\n\n00:00.000 --> 00:01.000\nNextgen Portfolio");
+    writeFixtureFile(directory, "site.webmanifest", JSON.stringify({ name: "Nextgen Portfolio" }));
+    writeFixtureFile(directory, "assets/app.js.map", JSON.stringify({ sourcesContent: ["Nextgen Portfolio"] }));
+    const result = runScanner(directory);
+    assert.equal(result.status, 1);
+    assert.match(result.stderr, /\[TEXT\] captions\/example\.vtt:/);
+    assert.match(result.stderr, /\[TEXT\] site\.webmanifest:/);
+    assert.match(result.stderr, /\[TEXT\] assets\/app\.js\.map:/);
+  });
+
   await t.test("CSS placeholder selector exception is occurrence-specific", () => {
     const safeDirectory = createFixture(t);
     writeFixtureFile(safeDirectory, "styles.css", "input::placeholder { color: currentColor; }");

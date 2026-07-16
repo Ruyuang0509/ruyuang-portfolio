@@ -16,7 +16,7 @@
 | Three.js 0.179 + React Three Fiber 9 | Hero shader orb 與粒子 | 選配、lazy 漸進增強 |
 | Web Audio API | 旗艦案例合成聲音、pan/pitch/filter/gain | 核心產品證據；瀏覽器原生、無額外依賴 |
 | Node test runner | `soundMapping.js` 純函式與 `webAudioEngineCore.js` lifecycle 測試 | 已使用；18 tests，不需 DOM 或真實聲卡 |
-| Submission scanner core | Text rules、binary inventory、redacted diagnostics 與 isolated CLI fixtures | 已使用；31 tests，不需網路或正式 `dist/` |
+| Submission scanner core | Text rules、binary inventory、redacted diagnostics 與 isolated CLI fixtures | 已使用；33 tests，不需網路或正式 `dist/` |
 | Lighthouse 13.4 | submission mobile／desktop lab audit、freshness 與 lineage summary | 開發工具；非 runtime |
 | Python | 本機媒體產生腳本 | 開發工具 |
 
@@ -47,8 +47,9 @@ flowchart LR
 - [`../../src/App.jsx`](../../src/App.jsx)：頁面順序、旗艦／支持案例拆分、AI 方法、Reviewer Path 與頂層區段 error boundaries；`main` 首幀直接可見。
 - [`../../src/components/Navbar.jsx`](../../src/components/Navbar.jsx)：桌面／行動 anchor 導覽、reduced-motion scroll、目標 heading focus、focus restore、hash 更新。
 - [`../../src/components/ImmersiveHero.jsx`](../../src/components/ImmersiveHero.jsx)：資料驅動 Hero、首幀可讀標題／介紹、CTA Motion、延後 3D progressive loading。
+- [`../../src/components/LeanR3FCanvas.jsx`](../../src/components/LeanR3FCanvas.jsx)：以 R3F public `createRoot`／`events` 建立 Hero 專用 canvas，只註冊實際使用的 8 個 Three constructors；同步尺寸、DPR 與 frameloop，並以可取消 disposal 避免 StrictMode replay 的舊清理銷毀新 root。
 - [`../../src/components/ResearchPositioning.jsx`](../../src/components/ResearchPositioning.jsx)：定位、軌道、術語轉譯與本所連結。
-- [`../../src/components/CaseStudyShowcase.jsx`](../../src/components/CaseStudyShowcase.jsx)：索引、長篇案例、媒體、testing、credits、lazy flagship demo。
+- [`../../src/components/CaseStudyShowcase.jsx`](../../src/components/CaseStudyShowcase.jsx)：索引、長篇案例、16:9／多字幕影片、workflow、Prompt 決策、storyboard、媒體分層、證據分類、testing、credits 與 lazy flagship demo。
 - [`../../src/components/SoundInteractionPrototype.jsx`](../../src/components/SoundInteractionPrototype.jsx)：具圖像語意的 pointer pad、touch／四個 range input、readout、節流 live announcement、聲音生命週期、mapping 說明。
 - [`../../src/hooks/useWebAudioEngine.js`](../../src/hooks/useWebAudioEngine.js)：React state、StrictMode-safe controller lifecycle 與 `visibilitychange` 即時清理。
 - [`../../src/audio/webAudioEngineCore.js`](../../src/audio/webAudioEngineCore.js)：可注入／可測試的 AudioContext controller，負責 resume cancel／timeout、graph、release、context interruption、參數與 destroy。
@@ -92,7 +93,7 @@ flowchart LR
 
 `VITE_PORTFOLIO_MODE=submission` 時，Vite alias `#portfolio-draft` 指向空元件，`#portfolio-hidden` 指向空資料模組；draft mode 則分別解析治理 UI 與 `portfolio.hidden.js`。這些是 build/dev module boundaries，不依賴 CSS 隱藏。
 
-Hidden case 使用空 media state；原有 13 個 `ph-after-*`／`mv-soft-*` placeholders、generator entries、captions 與 references 已移除。Submission dev 另保留 Vite 預設 deny，並封鎖 `.tmp`、`dist`、`reports`、`restricted-media`、internal／hidden modules 等根目錄直連；submission-only middleware 讓缺少的 `/media/portfolio/*` 與所有 `/dist/*` dev URL 明確回 404，而不是落入 SPA HTML fallback，有效 public media 仍照常服務。`submission-output-scanner.mjs` 對 HTML／JS／CSS／JSON／TXT／SVG／XML 套用 46 個 text rules，並對所有相對路徑套用 6 個 inventory rules；binary 不作 UTF-8 掃描。32 個 isolated CLI fixtures 驗證 bad output exit 1、clean fixture exit 0、separator／case normalization、中文佔位語句與 redacted diagnostics。
+Hidden case 使用空 media state；原有 13 個 `ph-after-*`／`mv-soft-*` placeholders、generator entries、captions 與 references 已移除。Submission dev 另保留 Vite 預設 deny，並封鎖 `.tmp`、`dist`、`reports`、`restricted-media`、internal／hidden modules 等根目錄直連；submission-only middleware 讓缺少的 `/media/portfolio/*` 與所有 `/dist/*` dev URL 明確回 404，而不是落入 SPA HTML fallback，有效 public media 仍照常服務。`submission-output-scanner.mjs` 對 HTML／JS／CSS／JSON／source map／TXT／SVG／VTT／Web Manifest／XML 套用 46 個 text rules，並對所有相對路徑套用 6 個 inventory rules；binary 不作 UTF-8 掃描。33 個 isolated CLI fixtures 驗證 bad output exit 1、clean fixture exit 0、separator／case normalization、新增文字格式、中文佔位語句與 redacted diagnostics。
 
 ## Styling 與 motion lifecycle
 
@@ -100,12 +101,14 @@ Tailwind utility 負責局部 grid/spacing；[`../../src/styles.css`](../../src/
 
 ## 資產與 build pipeline
 
-- `public/` 靜態資產原樣提供；案例圖使用 AVIF/WebP `srcset` 與固定 dimensions。任何放入 public 的檔案都應視為可公開，即使 submission React tree 沒有引用。
-- R3F 與 Web Audio UI 都以 `React.lazy` 分 chunk；Three 不進 initial modulepreload。
-- Vite manual chunks：`react`、`three`、`motion`、`scroll`、`vendor`。
-- 2026-07-17 fresh submission build 包含約 13.45 kB 的 Sound prototype chunk 與 851.22 kB／gzip 225.76 kB 的 Three chunk；後者觸發 Vite >500 kB warning，但為延遲載入。
+- `public/` 靜態資產原樣提供；案例圖使用 AVIF/WebP `srcset` 與固定 dimensions。Hamlet clean MP4 使用外掛英文／繁中 WebVTT，renderer 不自動播放並以同頁逐字稿補足。任何放入 public 的檔案都應視為可公開，即使 submission React tree 沒有引用。
+- R3F 與 Web Audio UI 都以 `React.lazy` 分 chunk；Three 不進 initial modulepreload。Hero section 作為 R3F `eventSource`，pointer 以 section 的 `clientX/Y` 換算；離開 preload window 後改為 `frameloop="demand"`。
+- Vite manual chunks：`react`、`three-core`、`motion`、`scroll`、`vendor`；R3F 自然留在 lazy `HeroScene`，避免強制打包整個 Three namespace。
+- 2026-07-17 fresh submission build 的 lazy 3D closure 為 `HeroScene` 151272 B、`three-core` 483687 B、`vendor` 3273 B，合計 638232 raw／169223 gzip B；initial JS closure 為 187397 gzip B。`audit-build-budgets.mjs` 以 attribute-order-independent HTML 解析和 built import closure 計算 initial／lazy 成本，並逐檔限制 500000 raw B，因此沒有 >500 kB warning。
+- `audit-portfolio-evidence.mjs` 核對 Hamlet direct-copy bytes／SHA-256、衍生 AVIF/WebP inventory SHA-256、實際 dimensions、VTT timing／逐字稿及 public inventory。Publication mode 另外要求頂層核准狀態、逐項 rights checks／evidence refs 與完整 applicant attestation；只改一個 status 不能解除 gate。
 - `run-lighthouse.mjs` 明確建置 submission／相對 base並先跑 submission／Pages scan；以完整 path／size／SHA-256 manifest 複製 immutable artifact，再由動態 port preview。它動態納入根目錄 Vite `.env*`，在 audit 前後核對 build-input path set／manifest，並驗證 mtime、fetchTime、URL、完整 resolved mobile／desktop config、runtime、categories、metrics 與 diagnostics；profile fingerprint 保存完整設定，environment／comparability fingerprint 另納入 benchmark、OS 與穩定 CPU identity，繼承環境只保存名稱與值雜湊。
 - 每次 Lighthouse run 從 build 前至發布完成持有跨程序獨占鎖，只有 metadata 完整且 PID 回報 `ESRCH` 的 stale lock 可用 token quarantine 回收。唯一 archive 先寫入 raw reports、conditions、CLI stdout／stderr transcript、artifact／source manifests 與完整受測 `dist`，重驗所有雜湊後最後原子建立 `archive-complete.json`；沒有 marker 的孤兒目錄不算成功。canonical reports／history 以 sibling temp＋rename 更新並可整組 rollback，latest summary 最後 atomic replace 作權威指標；失敗 run 保留上一份成功 summary。最近 20 次索引在 `reports/lighthouse-history.json`。只有 fresh report 通過全部驗證，且非零輸出精確指向該 run Chrome temp 的已知 cleanup `EPERM` 簽章時才降為具名 warning並封存原始輸出。
+- Current-fingerprint Lighthouse：mobile Performance 95／Accessibility 97／LCP 2558 ms／TBT 37 ms／transfer 452016 B；desktop 100／100／552 ms／0 ms／435687 B。此為 localhost simulated lab，不是 production field evidence。
 - `restricted-media/` 在 `public/` 外，不會被 Vite 複製；submission dev 也以 filesystem deny 阻擋直接 URL。
 - 外部 runtime 只有資料案例的 YouTube privacy-enhanced iframe；沒有 fetch/API。
 - `index.html`、JSON-LD、`public/llms.txt`、favicon、social preview 與案例 SEO title 已同步為 RU / YUAN／Sound, Interaction & Learning；canonical URL 與 raster preview 仍等待 hosting 決策。
@@ -127,6 +130,7 @@ pnpm run workspace:check
 pnpm run audit:media
 pnpm run audit:text
 pnpm run audit:cjk
+pnpm run audit:evidence
 pnpm run content:check
 pnpm run test:sound
 pnpm run test:submission-scanner
@@ -135,7 +139,7 @@ pnpm run check:submission
 pnpm run doctor
 ```
 
-開發：`pnpm run dev:draft`；正式內容預覽：`pnpm run dev:submission`。需要效能證據時才執行 `pnpm run audit:lighthouse`；它產生 fresh mobile／desktop JSON 與 `reports/lighthouse-summary.json`，仍應把 localhost lab 與 production field evidence 分開解讀。
+開發：`pnpm run dev:draft`；正式內容預覽：`pnpm run dev:submission`。需要效能證據時才執行 `pnpm run audit:lighthouse`；它產生 fresh mobile／desktop JSON 與 `reports/lighthouse-summary.json`，仍應把 localhost lab 與 production field evidence 分開解讀。Hamlet 正式公開前另執行 `pnpm run check:publication`；目前因權利與 applicant attestation 未完成而預期失敗。
 
 正式提交驗證需在 `check:submission` 之後再做獨立檢查：
 
@@ -178,4 +182,4 @@ pnpm run doctor
 
 ### 建議續作順序
 
-Submission hygiene（hidden media、scanner、metadata）已完成本機 closure；下一步補 Web Audio／AI 使用者證據與 Pure Data／REAPER artifact，其後完成人工 accessibility／device matrix，最後才執行 current-fingerprint Lighthouse、遠端 Pages workflow 與 production hosting 決策。
+Submission hygiene（hidden media、scanner、metadata）與 current-fingerprint Lighthouse 已完成本機 closure；AI 文學故事 MV 已有公開媒體證據，下一步補 Web Audio／AI 學習者證據、Hamlet 申請者權利聲明與 Pure Data／REAPER artifact，其後完成人工 accessibility／device matrix，最後才執行遠端 Pages workflow 與 production hosting 決策。

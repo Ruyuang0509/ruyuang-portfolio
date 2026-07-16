@@ -567,6 +567,40 @@ details summary::marker {
 .case-reading-map {
   scroll-margin-top: 7.5rem;
 }
+
+.case-anchor {
+  scroll-margin-top: 7.5rem;
+}
+
+.case-cta {
+  min-height: 2.75rem;
+}
+
+.case-prompt-template {
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.case-storyboard {
+  scroll-snap-type: x proximity;
+  overscroll-behavior-inline: contain;
+  scrollbar-gutter: stable;
+}
+
+.case-storyboard__item {
+  flex: 0 0 clamp(18rem, 62vw, 34rem);
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+.case-storyboard:focus-visible {
+  outline: 2px solid var(--theme-accent);
+  outline-offset: 0.35rem;
+}
+
+.case-workflow-grid > li {
+  min-width: 0;
+}
 /* Codex-Fix: Keep case-study reading-map anchors comfortable under the fixed navigation. */
 
 @media print {
@@ -594,6 +628,16 @@ details summary::marker {
   .paper-panel {
     box-shadow: none !important;
     break-inside: avoid;
+  }
+
+  .case-storyboard {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    overflow: visible;
+  }
+
+  .case-storyboard__item {
+    flex-basis: auto;
   }
 }
 /* Codex-Fix: Add admissions-review print safeguards so case studies can be exported without nav/cursor noise. */

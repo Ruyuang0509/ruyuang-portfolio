@@ -107,12 +107,6 @@ export default defineConfig({
     : {}),
   // Submission dev denies draft, restricted, generated, and historical artifact paths while preserving Vite's default deny rules.
   build: {
-    modulePreload: {
-      resolveDependencies(_url, deps) {
-        return deps.filter((dep) => !/assets\/(HeroScene|three)-/.test(dep));
-      },
-    },
-    // Codex-Fix: Keep lazy R3F/Three chunks out of initial modulepreload so the DOM hero wins LCP priority.
     rollupOptions: {
       output: {
         manualChunks(id) {
@@ -120,11 +114,12 @@ export default defineConfig({
           if (!normalizedId.includes("/node_modules/")) return undefined;
           if (
             /\/node_modules\/(?:\.pnpm\/)?three@/.test(normalizedId) ||
-            normalizedId.includes("/node_modules/three/") ||
-            normalizedId.includes("/node_modules/@react-three/")
+            normalizedId.includes("/node_modules/three/")
           ) {
-            return "three";
+            return "three-core";
           }
+          // Keep R3F attached to the delayed HeroScene instead of forcing a second oversized vendor chunk.
+          if (normalizedId.includes("/node_modules/@react-three/")) return undefined;
           if (
             /\/node_modules\/(?:\.pnpm\/)?(?:motion|framer-motion)@/.test(normalizedId) ||
             normalizedId.includes("/node_modules/motion/")
