@@ -58,6 +58,27 @@ test("submission scanner regression fixtures", async (t) => {
     assert.match(result.stderr, /\[TEXT\] assets\/app\.js:1:/);
   });
 
+  await t.test("known editorial framework phrases fail closed with redacted diagnostics", async (editorialTest) => {
+    for (const [phrase, ruleId] of [
+      [
+        "優先放入能展現 AI、互動媒體、聲響或沉浸式經驗的作品",
+        "text.editorial.priority-selection",
+      ],
+      [
+        "每件作品都要回答：為什麼做、給誰用、如何互動、證據在哪裡",
+        "text.editorial.case-evidence-checklist",
+      ],
+    ]) {
+      await editorialTest.test(ruleId, () => {
+        const directory = createFixture(editorialTest);
+        writeFixtureFile(directory, "assets/app.js", `export default ${JSON.stringify(phrase)};`);
+        const result = runScanner(directory);
+        assertRuleFailure(result, ruleId, "assets/app.js");
+        assert.doesNotMatch(result.stderr, new RegExp(phrase, "u"));
+      });
+    }
+  });
+
   await t.test("Chinese placeholder wording fixture fails", () => {
     const directory = createFixture(t);
     writeFixtureFile(directory, "media/dashboard.svg", "<title>公開截圖佔位圖</title><text>公開截圖尚未提供</text>");

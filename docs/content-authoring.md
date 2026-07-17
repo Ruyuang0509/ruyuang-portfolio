@@ -34,6 +34,8 @@ Each work should include:
 - `tools`
 - `roles`
 - `instituteConnections`
+- `themeRationales`: one non-empty rationale for every declared institute theme
+- `themeEvidenceStatus`: classify every declared theme as `demonstrated` or `researchDirection`
 
 ## Optional Evidence Fields
 

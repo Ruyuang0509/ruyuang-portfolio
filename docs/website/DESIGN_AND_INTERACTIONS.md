@@ -2,7 +2,7 @@
 
 ## 視覺概念（已驗證）
 
-目前方向是「聲響科技研究檔案 × 編輯式作品集」：深墨背景、暖紙反轉、酸綠重點、大型繁中標題、長篇證據卡與一個可操作的聲音座標場。設計避免純黑白與英文海報式字距，並要求效果不能壓過研究可信度。規範見 [`../visual-system.md`](../visual-system.md) 與 [`../chinese-visual-system.md`](../chinese-visual-system.md)。
+目前方向是「聲響科技研究檔案 × 編輯式作品集」：穩定深墨 root、局部暖紙閱讀表面、酸綠重點、大型繁中標題、長篇證據卡與一個可操作的聲音座標場。設計避免純黑白與英文海報式字距，並要求效果不能壓過研究可信度。規範見 [`../visual-system.md`](../visual-system.md) 與 [`../chinese-visual-system.md`](../chinese-visual-system.md)。
 
 ## Verified design tokens
 
@@ -27,7 +27,8 @@
 - Hero 由單欄轉 1.15/0.85 雙欄；長文 section 多由單欄轉 0.32/0.68；索引在 lg 為 3 欄。
 - 桌面顯示完整導覽；行動顯示 menu trigger 和浮出選單，不再隱藏閱讀路徑。
 - `100svh` 可用時取代 `100vh`；`body` 以 `min(320px, 100%)` 配合 `overflow-x:hidden` 避免最窄 viewport 產生全頁水平捲動。
-- 平台 scrollbar 保持可見，`scrollbar-gutter: stable` 預留空間，並以目前深色／暖紙 theme accent 和 background 配色；不再用全域規則隱藏 Firefox／WebKit scrollbar。
+- 平台 scrollbar 保持可見，`scrollbar-gutter: stable` 預留空間，並穩定繼承 root 深色 accent 與 background；局部暖紙 section 不改變整頁 scrollbar。不再用全域規則隱藏 Firefox／WebKit scrollbar。
+- 支持作品 gallery 與 Reviewer Path 各自使用 `paper-surface` tokens。`#project-index` 前有 `clamp(96px, 14vw, 240px)` 高的靜態深墨→暖紙 bridge；該 bridge `aria-hidden`、不放文字，避免文字落在中間色上。
 - sound pad 高度為 `clamp(18rem,48vw,32rem)`，pointer/touch 使用 `touch-action:none`；右側 range controls 在 lg 與 pad 並排。
 - 結構化案例的五階段 workflow 在手機單欄、`md` 兩欄、`xl` 五欄；八幕 storyboard 使用可聚焦的水平 `scroll-snap`，不攔截整頁垂直捲動，print 改為兩欄靜態網格。
 
@@ -35,9 +36,10 @@
 
 - **Hero：** 主標與研究介紹首幀即可讀，不再以 opacity／transform 隱藏主要內容；兩個 CTA 保留低比重進場並直達 demo 與 learning trail。
 - **3D：** shader sphere 以波形與 fresnel 混色回應 pointer，粒子場緩慢旋轉。精簡 R3F canvas 將整個 Hero section 作為 event source，以 `clientX`／`clientY` 相對 section 幾何計算 pointer；延遲完成後仍重新檢查頁面與 Hero 位置，首次載入前若已導航至 offscreen 就不 mount canvas，回到 preload window 才載入；已 mounted 的場景離屏後改用 demand frameloop。場景錯誤只由 Hero 內的局部 boundary 接住，不會移除標題、介紹或 CTA。
-- **捲動：** Lenis 與 GSAP 共用 RAF；在作品 index 附近由 ScrollTrigger 於已驗證的深色／暖紙端點間離散切換，不插值前景與背景色，避免經過低對比中間色。
+- **捲動：** Lenis 與 GSAP 共用 RAF；作品內容的深色／暖紙分界是靜態 section surface 與 bridge，ScrollTrigger 只在 gallery 門檻切換 fixed navbar chrome，不再切換 document root 或內容主題。
+- **Navbar：** 表面提高不透明度以維持兩種局部 palette 的對比，移除固定 `backdrop-blur-2xl`。
 - **Custom cursor：** fine pointer 且非 reduced-motion 時顯示；`data-magnetic` 元素有吸附與 label variants；以 MotionValue、spring、rAF batching 避免每次 pointermove 觸發 React render。
-- **卡片：** hover y -8、scale .99、媒體輕微放大；reduced-motion 時不執行 Motion hover。
+- **卡片：** hover y -8、scale .99、媒體輕微放大；reduced-motion 時不執行 Motion hover。永久 `will-change` 只保留給 Hero canvas，圖像／影片只在 hover 或 focus-within 時晉升，magnetic hit targets 不預留 compositor layer。
 - **圖解：** `<details>/<summary>` 可展開文字等價敘述。
 - **影片／demo：** YouTube iframe 採 privacy-enhanced URL；本機影片維持 16:9、controls、`playsInline`、`preload="none"`、多語 WebVTT 與同頁逐字稿；一般 demo renderer 需按鈕同意後才 mount iframe。
 - **區段錯誤：** 可在原位重試，不使整頁消失。
@@ -66,13 +68,13 @@
 - 圖像有 alt 和 dimensions；圖解有 caption／長描述；video 結構支援多語 track、摘要與可展開逐字稿；storyboard 容器可鍵盤聚焦並保留可見 focus。
 - sound controls 有 labels、live status、busy／disabled states、明確 start/stop、四個鍵盤 range 與可讀參數 readout；pointer pad 以具說明的 `role="img"` 呈現，不要求 microphone。
 - custom cursor `aria-hidden` 且 pointer-events none。
-- `prefers-reduced-motion` 在 JS 停用 Lenis、cursor、R3F，在 CSS 取消 animation/transition；主題本來就沒有 tween，仍只在兩個合格端點間瞬時切換。
-- print 隱藏 nav、skip、draft banner、cursor，切換暖紙背景。
+- `prefers-reduced-motion` 在 JS 停用 Lenis、cursor、R3F，在 CSS 取消 animation/transition；靜態 bridge 不是 motion，因此仍保留，且內容 palette 不依賴捲動切換。
+- print 隱藏 nav、skip、draft banner、cursor 與 transition bridge，並將主要 section 強制為紙色背景，保持 paper-safe 輸出。
 - section error fallback 使用 `role="alert"`。
 
 ## Accessibility 與視覺缺口
 
-- 已完成桌面六個導覽連結、Logo、行動導覽與四個 sound range 的 rendered keyboard/focus smoke test，也確認淺色 accent 對比 5.71:1；current-fingerprint Lighthouse accessibility 為 mobile 97／desktop 100，但尚未完成 screen reader、touch target 或完整 WCAG 人工 audit。
+- 已完成桌面六個導覽連結、Logo、行動導覽與四個 sound range 的 rendered keyboard/focus smoke test，也確認淺色 accent 對比 5.71:1；current-fingerprint Lighthouse accessibility 為 mobile／desktop 100／100，但尚未完成 screen reader、touch target 或完整 WCAG 人工 audit。
 - sound pad 的 pointer 操作區本身不是 keyboard widget；它以圖像語意說明映射，鍵盤使用者改用四個 range controls，仍需真實使用者研究確認是否足夠易懂。
 - visible readout 由四個 range 的 `aria-describedby` 關聯，另以節流 `aria-live` 宣告參數；仍需 screen reader 實測確認訊息頻率。
 - 行動 menu 沒有 focus trap；它是非 modal nav，但仍應做實際 tab-order 測試。
@@ -82,6 +84,6 @@
 
 ## Performance 現況
 
-DOM `#hero-title` 是預期且實測的 LCP；Three 與 sound prototype lazy 分 chunk，3D closure 不進 initial modulepreload，並在窄螢幕延後 1.4 秒後再等 idle；callback 重新檢查目前幾何與頁面可見性，只有 Hero 仍在 240 px preload window 內才首次下載。建置預算透過遞迴解析 built imports 稽核完整 lazy 3D closure；目前為 638232 raw／169223 gzip bytes，每個 lazy chunk 上限 500000 raw bytes，initial JS 為 187397 gzip bytes。
+DOM `#hero-title` 是預期且實測的 LCP；Three 與 sound prototype lazy 分 chunk，3D closure 不進 initial modulepreload，並在窄螢幕延後 1.4 秒後再等 idle；callback 重新檢查目前幾何與頁面可見性，只有 Hero 仍在 240 px preload window 內才首次下載。建置預算透過遞迴解析 built imports 稽核完整 lazy 3D closure；目前為 638232 raw／169223 gzip bytes，每個 lazy chunk 上限 500000 raw bytes，initial JS 為 187915 gzip bytes。
 
-Current-fingerprint submission Lighthouse mobile 為 Performance 95、Accessibility 97、LCP 2558 ms、TBT 37 ms、transfer 452016 bytes；desktop 為 Performance 100、Accessibility 100、LCP 552 ms、TBT 0、transfer 435687 bytes。這是 localhost simulated lab，不是正式 hosting field data；仍需低階真機、耗電／GPU 與 production URL 驗證。
+Current-fingerprint submission Lighthouse mobile 為 Performance 95、Accessibility 100、LCP 2557 ms、TBT 35 ms、transfer 452708 bytes；desktop 為 Performance 100、Accessibility 100、LCP 554 ms、TBT 0、transfer 436379 bytes。這是 localhost simulated lab，不是正式 hosting field data；仍需低階真機、耗電／GPU 與 production URL 驗證。

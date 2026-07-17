@@ -1141,32 +1141,54 @@ function ReflectionPanel({ id, reflection }) {
 }
 
 function InstituteConnection({ project }) {
-  const rationales = Object.entries(project.themeRationales ?? {});
+  const themeGroups = [
+    {
+      status: "demonstrated",
+      label: "Demonstrated / 已有作品證據",
+      items: project.instituteConnections
+        .filter((theme) => project.themeEvidenceStatus?.[theme] === "demonstrated")
+        .map((theme) => ({ theme, rationale: project.themeRationales?.[theme] })),
+    },
+    {
+      status: "researchDirection",
+      label: "Research direction / 未來研究方向",
+      items: project.instituteConnections
+        .filter((theme) => project.themeEvidenceStatus?.[theme] === "researchDirection")
+        .map((theme) => ({ theme, rationale: project.themeRationales?.[theme] })),
+    },
+  ].filter((group) => group.items.length > 0);
 
   return (
     <section id={`${project.id}-themes`} className="grid gap-5 border-t border-[color:var(--theme-line)] pt-8">
       <h3 className="meta-label text-[var(--theme-accent)]">
         本所連結
       </h3>
-      <ChipList items={project.instituteConnections} accent label={`${project.title} 與研究所主題連結`} />
-      {rationales.length ? (
-        <dl className="grid gap-3 md:grid-cols-2">
-          {rationales.map(([theme, rationale]) => (
-            <div key={theme} className="soft-panel rounded-[var(--radius-sm)] p-4">
-              <dt className="zh-label text-[var(--theme-accent)]">
-                {theme}
-              </dt>
-              <dd className="zh-caption mt-2 text-[color:var(--theme-muted)]">
-                {rationale}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      ) : null}
+      {themeGroups.map((group) => (
+        <div key={group.status} className="grid gap-3">
+          <p className="zh-label text-[color:var(--theme-muted)]">{group.label}</p>
+          <ChipList
+            items={group.items.map((item) => item.theme)}
+            accent={group.status === "demonstrated"}
+            label={`${project.title} 的${group.status === "demonstrated" ? "已有作品證據" : "未來研究方向"}`}
+          />
+          <dl className="grid gap-3 md:grid-cols-2">
+            {group.items.map(({ theme, rationale }) => (
+              <div key={theme} className="soft-panel rounded-[var(--radius-sm)] p-4">
+                <dt className="zh-label text-[var(--theme-accent)]">
+                  {theme}
+                </dt>
+                <dd className="zh-caption mt-2 text-[color:var(--theme-muted)]">
+                  {rationale}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      ))}
     </section>
   );
 }
-// Codex-Fix: Institute-theme tags require visible rationale, so alignment reads as evidence rather than decoration.
+// Codex-Fix: Keep demonstrated evidence separate from explicitly prospective graduate-study directions.
 
 function ProjectLinksCredits({ project }) {
   if (!project.links?.length && !project.credits) return null;
@@ -1326,31 +1348,37 @@ export default function CaseStudyShowcase({ scope = "all", showIndex = true }) {
       : sortedProjectCaseStudies;
 
   return (
-    <section id={showIndex ? "gallery" : undefined} className="bg-[var(--theme-bg)] text-[var(--theme-text)]">
+    <section
+      id={showIndex ? "gallery" : undefined}
+      className={`${showIndex ? "paper-surface supporting-case-studies" : ""} bg-[var(--theme-bg)] text-[var(--theme-text)]`}
+    >
       {showIndex ? (
-        <section id="project-index" aria-labelledby="project-index-title" className="min-h-screen px-[clamp(1.25rem,6vw,10vw)] py-28 md:py-40">
-          <div className="mx-auto grid max-w-7xl gap-16">
-            <div className="grid gap-8 md:grid-cols-[0.42fr_0.58fr] md:items-end">
-              <div className="grid gap-4">
-                <p className="meta-label text-[var(--theme-accent)]">Case Study / 作品證據</p>
-                <EditorialHeading as="h2" id="project-index-title" className="gallery-title editorial-heading zh-display" lines={[["作品", "證據鏈"]]}>作品證據鏈</EditorialHeading>
+        <>
+          <div className="theme-transition-bridge" aria-hidden="true" />
+          <section id="project-index" aria-labelledby="project-index-title" className="min-h-screen px-[clamp(1.25rem,6vw,10vw)] py-28 md:py-40">
+            <div className="mx-auto grid max-w-7xl gap-16">
+              <div className="grid gap-8 md:grid-cols-[0.42fr_0.58fr] md:items-end">
+                <div className="grid gap-4">
+                  <p className="meta-label text-[var(--theme-accent)]">Case Study / 作品證據</p>
+                  <EditorialHeading as="h2" id="project-index-title" className="gallery-title editorial-heading zh-display" lines={[["作品", "證據鏈"]]}>作品證據鏈</EditorialHeading>
+                </div>
+                <div className="grid gap-5">
+                  <p className="zh-lead text-[color:var(--theme-muted)]">先從互動聲響原型進入，再閱讀 AI 文學內容、資料視覺化與跨媒介能力如何支持研究方向。</p>
+                  <PortfolioDraftLayer placement="overview" />
+                </div>
               </div>
-              <div className="grid gap-5">
-                <p className="zh-lead text-[color:var(--theme-muted)]">先從互動聲響原型進入，再閱讀 AI 文學內容、資料視覺化與跨媒介能力如何支持研究方向。</p>
-                <PortfolioDraftLayer placement="overview" />
+
+              <div id="themes" className="grid gap-4">
+                <p className="meta-label text-[var(--theme-accent)]">研究所主題</p>
+                <ChipList items={instituteThemes} accent label="研究所主題標籤" />
+              </div>
+
+              <div className="grid gap-16 lg:grid-cols-3">
+                {sortedProjectCaseStudies.map((project, index) => <ProjectOverviewCard key={project.id} project={project} index={index} />)}
               </div>
             </div>
-
-            <div id="themes" className="grid gap-4">
-              <p className="meta-label text-[var(--theme-accent)]">研究所主題</p>
-              <ChipList items={instituteThemes} accent label="研究所主題標籤" />
-            </div>
-
-            <div className="grid gap-16 lg:grid-cols-3">
-              {sortedProjectCaseStudies.map((project, index) => <ProjectOverviewCard key={project.id} project={project} index={index} />)}
-            </div>
-          </div>
-        </section>
+          </section>
+        </>
       ) : null}
 
       {renderedProjects.map((project) => {

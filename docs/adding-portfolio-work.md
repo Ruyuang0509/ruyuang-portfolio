@@ -50,6 +50,7 @@ Required narrative fields:
 - `reflection.graduateDirection`
 - `instituteConnections`
 - `themeRationales`
+- `themeEvidenceStatus`: every declared institute theme must be `demonstrated` or `researchDirection`
 
 Recommended evidence fields:
 
@@ -119,7 +120,7 @@ Available `trackIds`:
 - `edtech-digital-content`: 數位內容與學習設計
 - `user-research-outcomes-process`: 使用者研究與成效資料
 
-Choose tracks by evidence, not by wishful positioning. If a project only has future potential for a theme, explain that in `themeRationales` instead of overstating it.
+Choose tracks by evidence, not by wishful positioning. If a project only has future potential for a theme, keep the rationale specific and classify that connection as `researchDirection`; use `demonstrated` only when the project itself provides direct evidence.
 
 ## 5. Priority Rules
 
@@ -195,15 +196,20 @@ Allowed themes:
 - 數位孿生
 - 跨域創生
 
-Only add a theme if the project can explain it. Add the explanation to `themeRationales`.
+Only add a theme if the project can explain it. Declare the same keys in `instituteConnections`, `themeRationales`, and `themeEvidenceStatus`.
 
 Example:
 
 ```js
+instituteConnections: ["AI", "互動媒體"],
 themeRationales: {
   AI: "研究核心是生成式 AI 在創作流程中的角色與限制。",
-  互動媒體: "介面必須處理輸入、回饋、比較與修正等互動狀態。",
-}
+  互動媒體: "後續可把目前的生成流程延伸為可操作、可比較的互動介面。",
+},
+themeEvidenceStatus: {
+  AI: "demonstrated",
+  互動媒體: "researchDirection",
+},
 ```
 
 ## 9. Verification

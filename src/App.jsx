@@ -15,7 +15,7 @@ import PortfolioDraftLayer from "#portfolio-draft";
 
 const ReviewerPathSection = memo(function ReviewerPathSection() {
   return (
-    <footer id="reviewer-path" className="relative bg-[var(--theme-bg)] px-[clamp(1.25rem,6vw,10vw)] py-28 text-[var(--theme-text)] md:py-36" aria-labelledby="reviewer-path-title">
+    <footer id="reviewer-path" className="paper-surface relative bg-[var(--theme-bg)] px-[clamp(1.25rem,6vw,10vw)] py-28 text-[var(--theme-text)] md:py-36" aria-labelledby="reviewer-path-title">
       <div className="mx-auto grid max-w-7xl gap-12 border-t border-[color:var(--theme-line)] pt-12 md:grid-cols-[0.8fr_1.2fr] md:gap-20">
         <p className="meta-label text-[var(--theme-accent)]">Reviewer path / 審查路徑</p>
         <div className="grid gap-8">

@@ -45,6 +45,12 @@ export const hiddenProjectCaseStudies = [
       graduateDirection: "進入研究所後可深化為數位孿生、沉浸式聲景、互動展演與場域資料視覺化研究。",
     },
     instituteConnections: ["聲響", "沉浸式體驗", "數位孿生", "跨域創生"],
+    themeEvidenceStatus: {
+      聲響: "researchDirection",
+      沉浸式體驗: "researchDirection",
+      數位孿生: "researchDirection",
+      跨域創生: "researchDirection",
+    },
     themeRationales: {
       聲響: "環境聲與口述聲音可成為空間記憶的引導線索。",
       沉浸式體驗: "作品以空間探索、媒體觸發與觀眾路徑為核心。",

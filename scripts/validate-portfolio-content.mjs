@@ -3,9 +3,11 @@ import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 import {
+  instituteEvidenceGroups,
   projectCaseStudies,
   researchTracks,
   instituteThemes,
+  sortedProjectCaseStudies,
 } from "../src/data/portfolio.js";
 import { getProjectCompleteness } from "../src/data/portfolio.governance.js";
 import { getProjectInternalNotes } from "../src/data/portfolio.internal.js";
@@ -16,6 +18,8 @@ const warnings = [];
 const seenIds = new Set();
 const validTrackIds = new Set(researchTracks.map((track) => track.id));
 const validInstituteThemes = new Set(instituteThemes);
+const validThemeEvidenceStatuses = new Set(["demonstrated", "researchDirection"]);
+const validSubmissionVisibilities = new Set(["public", "hidden"]);
 const validDiagramTypes = new Set(["interactionFlow", "systemArchitecture", "informationArchitecture"]);
 const validTestingStatuses = new Set(["notValidated", "exploratory", "validated"]);
 const validMetadataOmissions = new Set(["year"]);
@@ -104,6 +108,10 @@ for (const project of projectCaseStudies) {
   }
   // Codex-Fix: Block private data-file and local-path references from the public portfolio data model.
 
+  if (!validSubmissionVisibilities.has(project.submissionVisibility)) {
+    errors.push(`${project.id}: missing or invalid submissionVisibility`);
+  }
+
   const completeness = getProjectCompleteness(project);
   if (!completeness.requiredComplete) {
     errors.push(`${project.id}: missing required groups ${completeness.requiredMissing.join(", ")}`);
@@ -162,6 +170,9 @@ for (const project of projectCaseStudies) {
     }
   }
 
+  const connectedThemes = new Set(project.instituteConnections ?? []);
+  const themeEvidenceStatus = project.themeEvidenceStatus;
+
   if (!project.instituteConnections?.length) {
     errors.push(`${project.id}: missing institute connection themes`);
   } else {
@@ -169,9 +180,35 @@ for (const project of projectCaseStudies) {
       if (!validInstituteThemes.has(theme)) {
         errors.push(`${project.id}: unknown institute theme ${theme}`);
       }
-      if (!project.themeRationales?.[theme]) {
+      if (!project.themeRationales?.[theme]?.trim()) {
         errors.push(`${project.id}: missing theme rationale for ${theme}`);
       }
+      if (!Object.prototype.hasOwnProperty.call(themeEvidenceStatus ?? {}, theme)) {
+        errors.push(`${project.id}: missing theme evidence status for ${theme}`);
+      }
+    }
+  }
+
+  for (const theme of Object.keys(project.themeRationales ?? {})) {
+    if (!validInstituteThemes.has(theme)) {
+      errors.push(`${project.id}: theme rationale uses unknown institute theme ${theme}`);
+    } else if (!connectedThemes.has(theme)) {
+      errors.push(`${project.id}: theme rationale is not declared in instituteConnections: ${theme}`);
+    }
+  }
+
+  if (!themeEvidenceStatus || typeof themeEvidenceStatus !== "object" || Array.isArray(themeEvidenceStatus)) {
+    errors.push(`${project.id}: project needs a themeEvidenceStatus mapping`);
+  }
+
+  for (const [theme, status] of Object.entries(themeEvidenceStatus ?? {})) {
+    if (!validInstituteThemes.has(theme)) {
+      errors.push(`${project.id}: theme evidence status uses unknown institute theme ${theme}`);
+    } else if (!connectedThemes.has(theme)) {
+      errors.push(`${project.id}: theme evidence status is not declared in instituteConnections: ${theme}`);
+    }
+    if (!validThemeEvidenceStatuses.has(status)) {
+      errors.push(`${project.id}: unknown theme evidence status ${status} for ${theme}`);
     }
   }
 
@@ -539,6 +576,76 @@ for (const project of projectCaseStudies) {
       errors.push(`${project.id}: project link entries need label and href`);
     }
   }
+}
+
+const expectedPublicProjects = [...projectCaseStudies]
+  .filter((project) => project.submissionVisibility === "public")
+  .sort((a, b) => (a.priority ?? 99) - (b.priority ?? 99));
+const expectedPublicProjectIds = expectedPublicProjects.map((project) => project.id);
+const sortedPublicProjectIds = sortedProjectCaseStudies.map((project) => project.id);
+
+if (JSON.stringify(sortedPublicProjectIds) !== JSON.stringify(expectedPublicProjectIds)) {
+  errors.push("sortedProjectCaseStudies must contain only public projects in priority order");
+}
+
+const expectedInstituteEvidenceGroups = instituteThemes
+  .map((theme, themeIndex) => ({
+    id: `institute-evidence-${themeIndex + 1}`,
+    theme,
+    projects: expectedPublicProjects
+      .filter((project) => project.themeEvidenceStatus?.[theme] === "demonstrated")
+      .map((project) => ({
+        id: project.id,
+        title: project.title,
+        status: project.status,
+        roles: [...(project.roles ?? [])],
+        tools: [...(project.tools ?? [])],
+        rationale: project.themeRationales[theme],
+        href: `#${project.id}`,
+      })),
+  }))
+  .filter((group) => group.projects.length > 0);
+
+const publicProjectsById = new Map(expectedPublicProjects.map((project) => [project.id, project]));
+const seenEvidenceThemes = new Set();
+
+if (!Array.isArray(instituteEvidenceGroups)) {
+  errors.push("instituteEvidenceGroups must be an array derived from public projects");
+} else {
+  for (const group of instituteEvidenceGroups) {
+    if (!validInstituteThemes.has(group.theme)) {
+      errors.push(`instituteEvidenceGroups: unknown institute theme ${group.theme}`);
+    }
+    if (seenEvidenceThemes.has(group.theme)) {
+      errors.push(`instituteEvidenceGroups: duplicate theme ${group.theme}`);
+    }
+    seenEvidenceThemes.add(group.theme);
+
+    if (!group.projects?.length) {
+      errors.push(`instituteEvidenceGroups: ${group.theme} has no demonstrated public projects`);
+      continue;
+    }
+
+    const seenGroupProjectIds = new Set();
+    for (const evidenceProject of group.projects) {
+      const sourceProject = publicProjectsById.get(evidenceProject.id);
+      if (!sourceProject) {
+        errors.push(`instituteEvidenceGroups: ${group.theme} references a non-public project`);
+        continue;
+      }
+      if (seenGroupProjectIds.has(evidenceProject.id)) {
+        errors.push(`instituteEvidenceGroups: duplicate ${evidenceProject.id} evidence for ${group.theme}`);
+      }
+      seenGroupProjectIds.add(evidenceProject.id);
+      if (sourceProject.themeEvidenceStatus?.[group.theme] !== "demonstrated") {
+        errors.push(`instituteEvidenceGroups: ${evidenceProject.id} ${group.theme} is not demonstrated evidence`);
+      }
+    }
+  }
+}
+
+if (JSON.stringify(instituteEvidenceGroups) !== JSON.stringify(expectedInstituteEvidenceGroups)) {
+  errors.push("instituteEvidenceGroups must exactly derive demonstrated relationships and metadata from public projects");
 }
 
 if (warnings.length) {

@@ -15,6 +15,14 @@ export const authoringNotes = {
     "待補欄位、範例指標與 planned evidence slots 是刻意保留的作者提示，不應被誤認為真實成果。",
 };
 
+export const portfolioPriorityRules = [
+  "優先放入能展現 AI、互動媒體、聲響或沉浸式經驗的作品。",
+  "每件作品都要回答：為什麼做、給誰用、如何互動、證據在哪裡。",
+  "只有平面或概念稿時，也要補足流程、角色、技術方法與可深化方向。",
+  "若是團隊作品，要明確標出個人負責的企劃、UX、介面、程式、影音或分析工作。",
+  "作品敘事以公開內容為主，內部準備事項不納入正式內容。",
+];
+
 export const projectInternalNotes = {
   "interactive-sound-learning": {
     status: internalStatusLabels.prototype,

@@ -216,14 +216,6 @@ export const terminologyMap = [
   ["跨域專題", "跨域創生 / Creative Technology", "把設計、程式、影音、研究方法與 AI 工具整合成可展示的作品系統。"],
 ];
 
-export const portfolioPriorityRules = [
-  "優先放入能展現 AI、互動媒體、聲響或沉浸式經驗的作品。",
-  "每件作品都要回答：為什麼做、給誰用、如何互動、證據在哪裡。",
-  "只有平面或概念稿時，也要補足流程、角色、技術方法與可深化方向。",
-  "若是團隊作品，要明確標出個人負責的企劃、UX、介面、程式、影音或分析工作。",
-  "作品敘事以公開內容為主，內部準備事項不納入正式內容。",
-];
-
 export const projectCaseStudies = [
   {
     id: "interactive-sound-learning",
@@ -306,6 +298,12 @@ export const projectCaseStudies = [
       graduateDirection: "進入研究所後可深化為聲響互動、AI 輔助學習回饋與沉浸式教育媒體研究。",
     },
     instituteConnections: ["互動媒體", "聲響", "沉浸式體驗", "跨域創生"],
+    themeEvidenceStatus: {
+      互動媒體: "demonstrated",
+      聲響: "demonstrated",
+      沉浸式體驗: "researchDirection",
+      跨域創生: "demonstrated",
+    },
     themeRationales: {
       互動媒體: "核心是使用者操作、即時回饋與互動流程。",
       聲響: "聲音不是背景素材，而是理解狀態與回饋的資訊層。",
@@ -600,6 +598,11 @@ export const projectCaseStudies = [
       graduateDirection: "後續可深化生成式 AI 內容治理、聲音情緒設計與文學學習任務的形成性評估。",
     },
     instituteConnections: ["AI", "聲響", "跨域創生"],
+    themeEvidenceStatus: {
+      AI: "demonstrated",
+      聲響: "demonstrated",
+      跨域創生: "demonstrated",
+    },
     themeRationales: {
       AI: "以限制條件、人工核對與工具交接建立可重複的 Prompt workflow。",
       聲響: "以無歌詞配樂、情緒弧線與未來旁白混音規則服務故事主次。",
@@ -739,6 +742,12 @@ export const projectCaseStudies = [
         "進入研究所後可深化為學習歷程資料的互動視覺化、AI 輔助個人化回饋、聲響化資料提示與沉浸式學習分析介面。",
     },
     instituteConnections: ["AI", "互動媒體", "聲響", "跨域創生"],
+    themeEvidenceStatus: {
+      AI: "demonstrated",
+      互動媒體: "researchDirection",
+      聲響: "researchDirection",
+      跨域創生: "demonstrated",
+    },
     themeRationales: {
       AI: "生成式 AI 可作為案例蒐整與資料回饋構想的輔助工具，但最終論述需由人工判斷。",
       互動媒體: "資料視覺化可延伸為可操作、可探索的學習回饋介面。",
@@ -919,6 +928,12 @@ export const projectCaseStudies = [
         "進入研究所後可深化為學習分析、數位孿生學習歷程、互動儀表板、AI 輔助回饋與聲響化資料提示研究。",
     },
     instituteConnections: ["互動媒體", "數位孿生", "聲響", "跨域創生"],
+    themeEvidenceStatus: {
+      互動媒體: "demonstrated",
+      數位孿生: "researchDirection",
+      聲響: "researchDirection",
+      跨域創生: "demonstrated",
+    },
     themeRationales: {
       互動媒體: "Power BI 儀表板讓使用者透過篩選與圖表互動探索資料分布。",
       數位孿生: "未來可把學習歷程資料轉成可觀察的數位模型，支援教學決策與反思。",
@@ -935,8 +950,26 @@ export const projectCaseStudies = [
 ];
 
 export const sortedProjectCaseStudies = [...projectCaseStudies]
-  .filter((project) => project.submissionVisibility !== "hidden")
+  .filter((project) => project.submissionVisibility === "public")
   .sort((a, b) => (a.priority ?? 99) - (b.priority ?? 99));
+
+export const instituteEvidenceGroups = instituteThemes
+  .map((theme, themeIndex) => ({
+    id: `institute-evidence-${themeIndex + 1}`,
+    theme,
+    projects: sortedProjectCaseStudies
+      .filter((project) => project.themeEvidenceStatus?.[theme] === "demonstrated")
+      .map((project) => ({
+        id: project.id,
+        title: project.title,
+        status: project.status,
+        roles: [...(project.roles ?? [])],
+        tools: [...(project.tools ?? [])],
+        rationale: project.themeRationales[theme],
+        href: `#${project.id}`,
+      })),
+  }))
+  .filter((group) => group.projects.length > 0);
 
 export const getTrackProjects = (trackId) =>
   sortedProjectCaseStudies.filter((project) => project.trackIds?.includes(trackId));

@@ -44,6 +44,14 @@ export const TEXT_RULES = [
   { ruleId: "text.draft.future-insertion", pattern: /未來可放入/u },
   { ruleId: "text.draft.reviewer", pattern: /審查者/u },
   { ruleId: "text.draft.reviewer-can", pattern: /評審可以/u },
+  {
+    ruleId: "text.editorial.priority-selection",
+    pattern: /優先放入能展現 AI、互動媒體、聲響或沉浸式經驗的作品/u,
+  },
+  {
+    ruleId: "text.editorial.case-evidence-checklist",
+    pattern: /每件作品都要回答：為什麼做、給誰用、如何互動、證據在哪裡/u,
+  },
   { ruleId: "text.brand.legacy-nextgen", pattern: /Nextgen Portfolio/i },
   { ruleId: "text.anchor.graphic", pattern: /#graphic\b/i },
   { ruleId: "text.anchor.video", pattern: /#video\b/i },

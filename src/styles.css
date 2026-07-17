@@ -54,7 +54,8 @@
 }
 /* Codex-Fix: Shift the palette away from pure black/white into warm paper and ink tones to reduce dark/light eye strain. */
 
-:root.theme-paper {
+.paper-surface,
+.nav-surface--paper {
   --theme-bg: #d8cfbd;
   --theme-text: #1a1711;
   --theme-muted: rgba(26, 23, 17, 0.64);
@@ -65,7 +66,11 @@
   --theme-inverse-bg: #272319;
   --theme-inverse-text: #eee7d8;
 }
-/* Codex-Fix: Switch between two contrast-safe endpoint palettes; never tween foreground and background through low-contrast midpoints. */
+
+.paper-surface {
+  color-scheme: light;
+}
+/* Codex-Fix: Paper tokens are section-scoped; the scroll trigger only applies the same endpoint to fixed navigation chrome. */
 
 * {
   box-sizing: border-box;
@@ -186,9 +191,9 @@ section {
 
 @supports (color: color-mix(in srgb, black, white)) {
   .nav-surface {
-    background: color-mix(in srgb, var(--theme-bg) 74%, transparent);
+    background: color-mix(in srgb, var(--theme-bg) 92%, transparent);
   }
-  /* Codex-Fix: Progressive-enhance translucent navbar color only where color-mix is supported. */
+  /* Codex-Fix: A mostly opaque nav surface preserves contrast without a fixed 40px backdrop blur. */
 }
 
 .page-shell {
@@ -197,6 +202,13 @@ section {
     radial-gradient(circle at 70% 0%, color-mix(in srgb, var(--theme-accent) 10%, transparent), transparent 32rem),
     linear-gradient(180deg, var(--theme-bg), color-mix(in srgb, var(--theme-bg) 92%, var(--theme-text) 8%));
 }
+
+.theme-transition-bridge {
+  min-block-size: clamp(96px, 14vw, 240px);
+  background: linear-gradient(180deg, var(--color-bg), var(--color-paper));
+  pointer-events: none;
+}
+/* Codex-Fix: Keep copy outside a static two-endpoint bridge so either scroll direction has the same calm tonal passage. */
 
 .portfolio-card,
 .evidence-panel,
@@ -396,14 +408,18 @@ section {
 }
 /* Codex-Fix: Use transform-only micro-interactions for tactile but cheap CTA feedback. */
 
-[data-magnetic],
-.hero-canvas-shell canvas,
-.group img,
-.group video {
-  will-change: transform, opacity;
-  transform: translateZ(0);
+.hero-canvas-shell canvas {
+  will-change: transform;
 }
-/* Codex-Fix: Promote only actively animated layers, avoiding broad GPU memory pressure from every image. */
+
+@media (hover: hover) and (pointer: fine) {
+  .portfolio-card:is(:hover, :focus-within),
+  .group:is(:hover, :focus-within) img,
+  .group:is(:hover, :focus-within) video {
+    will-change: transform;
+  }
+}
+/* Codex-Fix: Promote hover layers only while active; magnetic hit targets no longer reserve permanent compositor layers. */
 
 @supports (min-height: 100svh) {
   .min-h-screen {
@@ -572,6 +588,10 @@ details summary::marker {
   scroll-margin-top: 7.5rem;
 }
 
+.institute-evidence-group {
+  scroll-margin-top: 7.5rem;
+}
+
 .case-cta {
   min-height: 2.75rem;
 }
@@ -616,10 +636,29 @@ details summary::marker {
     background: #f3eee4;
   }
 
+  .page-shell,
+  .paper-surface {
+    --theme-bg: #f3eee4;
+    --theme-text: #1a1711;
+    --theme-muted: rgba(26, 23, 17, 0.7);
+    --theme-line: rgba(26, 23, 17, 0.24);
+    --theme-accent: #405016;
+    --theme-surface: rgba(26, 23, 17, 0.04);
+    --theme-panel: rgba(255, 255, 255, 0.42);
+    --theme-inverse-bg: #e4dac8;
+    --theme-inverse-text: #1a1711;
+    color: var(--theme-text) !important;
+    color-scheme: light;
+  }
+
   .case-study-detail,
   .research-section,
   .page-shell {
     background: #f3eee4 !important;
+  }
+
+  .theme-transition-bridge {
+    display: none !important;
   }
 
   .portfolio-card,

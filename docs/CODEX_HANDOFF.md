@@ -1,10 +1,10 @@
 # Current State
 
 - **Repository：** canonical local workspace 為 `C:\Users\911su\Documents\Codex\如願個人網站`；`origin` 為 `https://github.com/Ruyuang0509/ruyuang-portfolio.git`。
-- **Base branch：** `main`，本機與 `origin/main` 目前均指向 `e3d14cc`；本輪全程留在既有 feature branch，沒有切換、merge 或改寫 `main`。
+- **Base branch：** `main`，本機與 `origin/main` 目前均指向 `6b6e689`；本輪全程留在既有 feature branch，沒有切換、merge 或改寫 `main`。
 - **Working branch：** `feat/portfolio-admission-foundation`，追蹤同名遠端分支。
-- **Last verified commit：** `cfac22e`（`usual update`）；本機 HEAD 與 `origin/feat/portfolio-admission-foundation` 一致。
-- **Git status：** 本輪所有修改仍未 stage、commit、push 或 stash；包含既有文件／runtime 變更、證據與稽核腳本，以及 63 個新增 Hamlet public media 檔。本輪沒有重新確認 PR、checks、workflow runs、reviews 或 production deploy 狀態。
+- **Last verified commit：** `12710dc`（`usual optimization`）；本機 HEAD 與 `origin/feat/portfolio-admission-foundation` 一致。
+- **Git status：** 本任務開始時工作樹為 clean；目前本任務實作與文件修改仍未 stage、commit、push 或 stash。本任務沒有 merge 或 production deploy。
 - **Current site status：** 已知 hidden asset、built construction wording、scanner 假陰性、metadata drift、hidden completeness 假警告與 Three 超大 lazy chunk 均已在本機 closure。`generative-interface-study` 已重構為 AI 文學故事 MV，含成片、雙語字幕、八幕實際畫面、衍生 Prompt Template 與 planned evaluation，但維持 `notValidated`；權利 publication gate 仍刻意 blocked。正式使用者研究、權利簽核、輔具／實機與 production hosting 仍未完成。
 
 # Documentation Package Refresh
@@ -33,25 +33,30 @@
 - harness 現在從 build 前到發布完成持有跨程序獨占鎖；只回收 metadata 完整且 PID 明確不存在的 stale lock。每個唯一 archive 先寫齊 raw reports、conditions、CLI transcript、manifests 與完整受測 `dist`，最後原子建立 `archive-complete.json`；沒有 completion marker 的目錄不算成功。canonical reports／history 具 rollback，latest summary 最後 atomic replace 作權威指標。
 - 每次 audit 保留 mobile／desktop raw JSON、CLI stdout／stderr 與雜湊、latest summary、最近 20 次 history 與 timestamp archive；latest summary 最後才發布，失敗時保留上一份成功證據。
 - 修正 Hero LCP：整頁與主標不再 opacity／transform 隱藏，介紹與標題首幀可讀；Three 從約 0.29 秒延後至 mobile 約 1.67 秒後請求。延遲完成後仍重新檢查目前幾何位置與頁面可見性，只有 Hero 在 240 px preload window 內才首次下載；首次載入後保持 mounted、離屏只暫停 frame loop。場景 lazy／WebGL 錯誤由 Hero 內局部 boundary 接住，不移除標題、介紹或 CTA。
-- 主題改為深色／暖紙兩個已驗證端點的離散切換，不再插值低對比中間色；navbar 與行動選單 fallback 都使用 theme token。
+- 移除 document root 的捲動主題切換；支持作品 gallery 與 Reviewer Path 改用局部 `paper-surface` tokens，作品索引前加入無文字、`aria-hidden` 的 `clamp(96px, 14vw, 240px)` 靜態過渡橋。ScrollTrigger 只切換 fixed nav chrome，不再修改內容或 root palette。
 - 已封存的對照 run（主要文字已靜態、Three 尚未延後）為 mobile Performance 87／LCP 3.463 s；其後同一 artifact、source content fingerprint 與 profile fingerprint 的三次 run 為 Performance 96–97、LCP 2.258–2.407 s、TBT 23–34 ms，LCP node 均是 `#hero-title`。
 - 修正 Lighthouse 找到的兩項可及性問題：暖紙研究卡的 contextual text color，以及 sound pad 無角色卻使用 `aria-label`；pad 現為具說明的 `role="img"`，四個 range 仍是鍵盤操作入口。
 - 將聲音 `role="status"`／live region 移出 `aria-busy` 控制群組，啟用中的 pending 期間仍可立即向輔具宣告；停止按鈕、Escape、離屏與 cleanup 都能取消 pending start，不會在使用者離開後才延遲啟動。
-- 恢復長頁的平台 scrollbar，使用已驗證的深色／暖紙 theme token 呈現；移除 Firefox、WebKit 與舊 Edge 的全域隱藏規則。
+- 恢復長頁的平台 scrollbar 後，本輪進一步讓它穩定繼承 root 深色 tokens；局部暖紙 section 不再造成整頁 scrollbar 變色。
 - 將 `body` 最小寬度改為不超過實際可用寬度，避免 320 px viewport 加上 15 px 平台 scrollbar 後產生水平溢位。
 - 即時核對有效 Git history、`origin` 與既有 Draft PR #1；更新 handoff、audit 與 content matrix 中已失效的「空 `.git`」敘述，沒有建立重複 PR、merge 或 deploy。
 - 完成 submission boundary closure：hidden case 移至 draft-only data alias 與空 media state，移除 13 個孤立 `ph-after-*`／`mv-soft-*` placeholders 及 generator refs；submission-only middleware 讓舊 media／`dist` URL 明確回 404且有效媒體維持 200，filesystem deny 讓 restricted／internal／hidden／historical paths 回 403。
-- Scanner 拆成 injectable core 與 thin CLI，加入 46 個 text rules、6 個 inventory rules、fail-closed／redacted diagnostics 及 32 個 Node fixtures；bad output exit 1、clean output exit 0。
+- Scanner 拆成 injectable core 與 thin CLI，目前共有 48 個 text rules、6 個 inventory rules、fail-closed／redacted diagnostics 及 36 個 Node fixtures；bad output exit 1、clean output exit 0。
 - 對齊 `llms.txt`、favicon、social preview、index／JSON-LD、案例 SEO 與可及性 label 的 RU / YUAN／Sound, Interaction & Learning 品牌；不新增未知 URL、聯絡或社群資料。
 - 保留 `generative-interface-study` anchor，將案例重構為「AI 文學故事 MV」：匯入 40 秒／8 幕 clean MP4、英文／繁中 WebVTT，從實際成片衍生 responsive poster、4:5 索引封面與八幕 storyboard；共用 renderer 新增可選 workflow、Prompt 決策、媒體分層、證據分類、價值卡、next steps、CTA、多字幕與完整逐字稿，沒有新增 runtime dependency。
 - 補齊案例行動可及性：CTA 明確維持至少 44 px 高；八幕 storyboard 可聚焦，支援左右方向鍵、Home 與 End，並提供螢幕閱讀器操作說明；reduced-motion 下取消平滑捲動。
 - 新增 Hamlet evidence manifest／形成性計畫／權利 checklist；`audit:evidence` 驗證 direct-copy hashes、60 份 derivative inventory hashes／dimensions、VTT／逐字稿與 63-file public inventory。`check:publication` 需要 applicant attestation 與每一 rights item 的完成狀態／evidence refs，不能只改頂層 status。
 - 以 `LeanR3FCanvas` 取代通用 `<Canvas>` namespace extension，只註冊 8 個 Three constructors；Hero section 接收 pointer events，StrictMode cleanup 可取消，離屏使用 demand frameloop。Vite 3D lazy closure 降為 638232 raw／169223 gzip B，最大單檔 483687 B，並由遞迴 built-import budget audit 防回歸。
-- Submission scanner 新增 VTT、Web Manifest 與 source map 文字掃描；regression fixtures 增至 33 個。
+- Submission scanner 新增 VTT、Web Manifest 與 source map 文字掃描；本輪加入編輯框架 regression 後共有 36 個 fixtures。
+- 將編輯用 `portfolioPriorityRules` 移至 draft-only `portfolio.internal.js`；submission scanner 另對其中兩個已知編輯框架句建立 fail-closed regression，避免它們回流公開 bundle。
+- 公開案例以 `themeEvidenceStatus` 把本所連結分為 `demonstrated` 與 `researchDirection`；`instituteEvidenceGroups` 只從正確公開案例的 demonstrated 關係派生。公開對齊摘要因此不列尚無直接作品證據的「沉浸式體驗」與「數位孿生」；案例內頁仍可保留，但必須明標為未來研究方向。
+- navbar 移除高成本的固定 backdrop blur，改用較不透明表面；永久 `will-change` 縮限至 Hero canvas，案例媒體只在 hover／focus-within 時晉升。Reduced motion 仍保留靜態過渡橋；print 隱藏橋並強制紙色可列印表面。
 
 # Verification
 
 ## Commands and results
+
+- **2026-07-17 institute alignment／theme boundary 最終重驗：** 1276×720 submission preview 在同一段邊界往返三次的 Chrome trace，style recalculation 由修改前 614 次／68.56 ms 降至 7 次／1.25 ms；Paint 由 5022 次／487.12 ms 降至 7 次／4.39 ms；`#document` Paint 由 612 次／282.18 ms 降至 7 次／4.39 ms。前後都沒有大於 50 ms 的主執行緒長任務或 console issue。DrawFrame signal 未呈現改善：修改前 p95／max 為 13.97／48.10 ms，修改後為 20.99／48.87 ms，因此本輪只確認全域 repaint closure，不把 headless trace 解讀為 FPS 已提升。六個指定 viewport 都是 0 horizontal overflow、0 evidence-card overflow、0 loaded broken image；bridge 為 96–200 px。五條舊編輯規則均未出現在 submission `body.innerText`，四個 evidence group 與 10 個案例 links 全部可解析。
 
 - **2026-07-17 known-gap optimization 最終重驗：** `pnpm run doctor` exit 0；workspace、media、text、CJK、evidence、5 件 content validation、18/18 sound tests、draft/submission builds、33/33 scanner fixtures、46 個 text rules、6 個 inventory rules與 Pages audit 全部通過。Submission scan 盤點 127 files／22 text files；initial JS 187397 gzip B，lazy 3D closure 638232 raw／169223 gzip B，三個 lazy chunks 均低於 500000 B，無 Vite oversized warning。獨立 `dist` 稽核確認 manifest／public／dist 各 63 個 Hamlet assets、public↔dist hash 差異 0，hidden／restricted／delivery-only／local paths／舊品牌與 dead anchors 全為 0。`check:publication` 預期 exit 1，逐項指出 rights、attestation 與 evidence refs 尚未完成。
 - **2026-07-17 Power BI metadata closure 重驗：** Spotify Wrapped 製作日期依申請者更正為 `2026/04/23`；Power BI 實作日期依日期備註與申請者確認為 `2026/06/11–2026/06/12`。`pnpm run content:check`、`pnpm run test:submission-scanner`、`pnpm run build:draft`、`pnpm run check:submission`、`pnpm run doctor` 與 `git diff --check` 全為 exit 0；content 5 件、sound 18/18、scanner 32/32，submission 套用 46 個 text rules／6 個 inventory rules。獨立 `dist/` 盤點為 63 files／19 text files；兩個日期各出現 1 次，4 個公開案例 ID 存在，hidden ID、中文佔位語句、受限／raw data、local paths 與敏感檔名皆為 0。未執行 Lighthouse、deployment 或 Git delivery。
@@ -68,9 +73,9 @@
 - `pnpm run content:check`：通過 5 個資料項目；AI 文學故事 MV 的 provenance／workflow／媒體／deliverables／evaluation plan 均通過，submission-hidden completeness 群組正確標為不適用，無 warning。
 - `pnpm run test:sound`：18/18 通過；5 個 mapping tests、13 個 Web Audio controller lifecycle tests。
 - `pnpm run build:draft`：通過。
-- `pnpm run check:submission`：通過；33 個 scanner regression fixtures、46 個 text rules、6 個 inventory rules、22 個 built text files 與 Pages root-relative asset audit 通過。
-- `pnpm run build:submission`：通過；entry 135994 B、CSS 38112 B、initial JS 187397 gzip B；lazy `HeroScene` 151272 B、`three-core` 483687 B、`vendor` 3273 B，完整 closure 638232 raw／169223 gzip B，無 oversized warning。
-- `pnpm run audit:lighthouse`：history 現有 17 個成功 archive；本輪最新 archive `2026-07-16T20-55-59-369Z` 對應 artifact `b3e87c66…`、source `c651c68d…` 與 mobile profile `718e69b4…`。mobile Performance／Accessibility 95／97、LCP 2558 ms、TBT 37 ms、CLS 0、transfer 452016 B；desktop 100／100、LCP 552 ms、TBT 0、CLS 0、transfer 435687 B。這是 localhost simulated lab evidence，不是 production field data。
+- `pnpm run check:submission`：通過；36 個 scanner regression fixtures、48 個 text rules、6 個 inventory rules、22 個 built text files 與 Pages root-relative asset audit 通過。
+- `pnpm run build:submission`：通過；entry 139513 B、CSS 39081 B、initial JS 187915 gzip B；lazy `HeroScene` 151272 B、`three-core` 483687 B、`vendor` 3273 B，完整 closure 638232 raw／169223 gzip B，無 oversized warning。
+- `pnpm run audit:lighthouse`：history 現有 20 個成功 archive；最新 archive `2026-07-16T22-36-38-651Z` 對應 artifact `37715044…`、source `332b04f0…` 與 mobile profile `718e69b4…`。mobile Performance／Accessibility 95／100、LCP 2557 ms、TBT 35 ms、CLS 0、transfer 452708 B；desktop 100／100、LCP 554 ms、TBT 0、CLS 0、transfer 436379 B。兩份 fresh report 都通過 runtime／fingerprint／manifest 驗證；mobile CLI 只在報告完成後遇到已具名的 Chrome profile cleanup `EPERM`，由 harness 驗證並保留。這是 localhost simulated lab evidence，不是 production field data。
 - 另做真實雙程序互動測試：持鎖 audit exit 0、競爭 audit 快速 exit 1、競爭期間既有 summary SHA-256 不變，完成後無 lock 殘留；此測試結果未另封存成 archive evidence。Lighthouse CLI 在目前 Windows 環境有時會在完成 JSON 後因 Chrome profile cleanup `EPERM` 回傳 1；harness 只有在 fresh report 通過全部驗證，且 stderr 精確符合該 run 專屬 Chrome temp 的已知 `rm`／`Launcher.destroyTmp` 簽章時才降為具名 warning並封存完整輸出。其他非零退出一律失敗。
 
 ## Browser viewports
@@ -86,8 +91,6 @@
 - 1024×768：聲音無 autoplay；啟用後顯示 busy，AudioContext 未恢復時逾時為可讀 error fallback。
 - refactor 後 1024×768 再驗證 `尚未啟用 → 聲音啟用中 → 聲音啟用失敗`，`aria-busy` 回到 false、按鈕可重試，console error 為 0。
 - 700px fine pointer 不啟用 custom cursor；800px fine pointer 才啟用。
-- 412×823 與 1440×900 最終回歸：Hero 標題／介紹首幀 opacity 1、0 global horizontal overflow；暖紙 body、navbar 與行動選單皆為紙色底／墨色字且 transition 0 s；sound pad 為具名稱的 `img` role、4 個 slider 完整；pending start 可立即按停止並回到「聲音已停止」；console error／warning 皆為 0。
-- 本輪 scrollbar 回歸：1440×900 的平台 scrollbar 實際佔 15 px，`scrollbar-width` computed value 為 `auto`，深色端為 `rgb(203, 232, 107) / rgb(17, 16, 13)`，暖紙端為 `rgb(64, 80, 22) / rgb(216, 207, 189)`；1440×900、375×812 與修正後 320×568 均為 0 global horizontal overflow，broken image 0，滑輪捲動有效，桌面 Logo 的 Enter 導覽回到 `#top` 並把焦點交給 `#hero-title`，console error／warning 0。
 - 未能可靠模擬真實 200% zoom、系統 reduced-motion、screen reader 與實機觸控，不能視為已通過。
 
 ## Screenshots

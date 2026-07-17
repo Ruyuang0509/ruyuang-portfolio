@@ -4,23 +4,34 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export function useThemeInversion() {
   useEffect(() => {
+    const navSurface = document.querySelector(".nav-surface");
+    if (!navSurface) return undefined;
+
     const matchMedia = gsap.matchMedia();
 
     const createThemeSwitch = (start) => {
+      const setPaperChrome = (isPaper) => {
+        navSurface.classList.toggle("nav-surface--paper", isPaper);
+      };
+
       const trigger = ScrollTrigger.create({
-        id: "macro-to-gallery-theme-inversion",
+        id: "gallery-nav-chrome-inversion",
         trigger: "#gallery",
         start,
-        end: () => ScrollTrigger.maxScroll(window) + 1,
         invalidateOnRefresh: true,
-        toggleClass: {
-          targets: document.documentElement,
-          className: "theme-paper",
-        },
+        onEnter: () => setPaperChrome(true),
+        onEnterBack: () => setPaperChrome(true),
+        onLeaveBack: () => setPaperChrome(false),
+        onRefresh: (self) => setPaperChrome(self.scroll() >= self.start),
       });
 
-      return () => trigger.kill();
-      // Codex-Fix: Toggle between contrast-safe palettes instead of interpolating foreground and background through unreadable colors.
+      setPaperChrome(window.scrollY >= trigger.start);
+
+      return () => {
+        trigger.kill();
+        navSurface.classList.remove("nav-surface--paper");
+      };
+      // Codex-Fix: The trigger now recolors fixed navigation chrome only; content surfaces are static and section-scoped.
     };
 
     matchMedia.add("(min-width: 768px)", () => createThemeSwitch("top 55%"));
@@ -28,8 +39,8 @@ export function useThemeInversion() {
 
     return () => {
       matchMedia.revert();
-      document.documentElement.classList.remove("theme-paper");
+      navSurface.classList.remove("nav-surface--paper");
     };
-    // Codex-Fix: GSAP matchMedia replaces the discrete trigger at breakpoints and restores the dark endpoint on cleanup.
+    // Codex-Fix: Preserve GSAP matchMedia cleanup while keeping the document root palette stable.
   }, []);
 }
