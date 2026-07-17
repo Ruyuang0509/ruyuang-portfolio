@@ -42,6 +42,12 @@ export default function LeanR3FCanvas({ active, maxDpr, antialias, eventSource, 
     const root = rootRef.current ?? createRoot(canvas);
     rootRef.current = root;
     let mounted = true;
+    const pointerMetrics = {
+      documentLeft: 0,
+      documentTop: 0,
+      width: 0,
+      height: 0,
+    };
 
     const sync = async () => {
       if (!mounted) return;
@@ -51,6 +57,11 @@ export default function LeanR3FCanvas({ active, maxDpr, antialias, eventSource, 
 
       const latest = latestRef.current;
       const pointerTarget = latest.eventSource?.current ?? canvas;
+      const pointerRect = pointerTarget.getBoundingClientRect();
+      pointerMetrics.documentLeft = pointerRect.left + window.scrollX;
+      pointerMetrics.documentTop = pointerRect.top + window.scrollY;
+      pointerMetrics.width = pointerRect.width;
+      pointerMetrics.height = pointerRect.height;
       try {
         await root.configure({
           camera: { position: [0, 0, 6], fov: 42 },
@@ -72,11 +83,13 @@ export default function LeanR3FCanvas({ active, maxDpr, antialias, eventSource, 
           onCreated: (state) => {
             state.setEvents({
               compute: (event, currentState) => {
-                const pointerRect = pointerTarget.getBoundingClientRect();
-                if (pointerRect.width <= 0 || pointerRect.height <= 0) return;
+                const { documentLeft, documentTop, width, height } = pointerMetrics;
+                if (width <= 0 || height <= 0) return;
+                const left = documentLeft - window.scrollX;
+                const top = documentTop - window.scrollY;
                 currentState.pointer.set(
-                  ((event.clientX - pointerRect.left) / pointerRect.width) * 2 - 1,
-                  -((event.clientY - pointerRect.top) / pointerRect.height) * 2 + 1,
+                  ((event.clientX - left) / width) * 2 - 1,
+                  -((event.clientY - top) / height) * 2 + 1,
                 );
                 currentState.raycaster.setFromCamera(currentState.pointer, currentState.camera);
               },
@@ -104,7 +117,7 @@ export default function LeanR3FCanvas({ active, maxDpr, antialias, eventSource, 
         ? null
         : new ResizeObserver(() => void sync());
     resizeObserver?.observe(measureTarget);
-    window.addEventListener("resize", sync, { passive: true });
+    if (!resizeObserver) window.addEventListener("resize", sync, { passive: true });
     void sync();
 
     return () => {
@@ -112,7 +125,7 @@ export default function LeanR3FCanvas({ active, maxDpr, antialias, eventSource, 
       syncVersionRef.current += 1;
       syncRef.current = null;
       resizeObserver?.disconnect();
-      window.removeEventListener("resize", sync);
+      if (!resizeObserver) window.removeEventListener("resize", sync);
       disposeTimerRef.current = window.setTimeout(() => {
         root.unmount();
         if (rootRef.current === root) rootRef.current = null;

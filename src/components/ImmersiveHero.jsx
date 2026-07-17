@@ -1,11 +1,11 @@
 import { motion, useReducedMotion } from "motion/react";
 import { Component, lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { homepageNarrative } from "../data/portfolio.js";
+import EditorialHeading from "./EditorialHeading.jsx";
 
 const HeroScene = lazy(() => import("./HeroScene.jsx"));
 // Codex-Fix: Lazy-load the R3F scene so kinetic type can paint before the heavy 3D runtime.
 
-const heroLines = homepageNarrative.headlineLines.map((line) => line.join(""));
 const SCENE_PRELOAD_MARGIN = 240;
 
 class HeroSceneErrorBoundary extends Component {
@@ -49,6 +49,22 @@ export default function ImmersiveHero() {
   const reduceMotion = useReducedMotion();
   const [canMountScene, setCanMountScene] = useState(false);
   const [sceneActive, setSceneActive] = useState(false);
+  const renderHeroLine = reduceMotion
+    ? undefined
+    : (content, lineIndex) => (
+        <motion.span
+          className="phrase-line__motion"
+          initial={{ y: "112%", rotate: lineIndex % 2 === 0 ? -3 : 3 }}
+          animate={{ y: 0, rotate: 0 }}
+          transition={{
+            delay: 0.12 + lineIndex * 0.09,
+            duration: 0.95,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+        >
+          {content}
+        </motion.span>
+      );
 
   const evaluateSceneActivity = useCallback(() => {
     const active = isHeroNearViewport(heroRef.current);
@@ -101,14 +117,14 @@ export default function ImmersiveHero() {
     } else {
       window.addEventListener("scroll", evaluateSceneActivity, { passive: true });
     }
-    window.addEventListener("resize", evaluateSceneActivity, { passive: true });
+    if (!supportsObserver) window.addEventListener("resize", evaluateSceneActivity, { passive: true });
     document.addEventListener("visibilitychange", evaluateSceneActivity);
     evaluateSceneActivity();
 
     return () => {
       observer?.disconnect();
       if (!supportsObserver) window.removeEventListener("scroll", evaluateSceneActivity);
-      window.removeEventListener("resize", evaluateSceneActivity);
+      if (!supportsObserver) window.removeEventListener("resize", evaluateSceneActivity);
       document.removeEventListener("visibilitychange", evaluateSceneActivity);
     };
   }, [evaluateSceneActivity, reduceMotion]);
@@ -137,31 +153,42 @@ export default function ImmersiveHero() {
 
       <div className="grid w-full gap-10 md:grid-cols-[1.15fr_0.85fr] md:items-end">
         <div className="overflow-hidden">
-          <p className="meta-label mb-5 max-w-md text-[var(--color-accent)]">
-            {homepageNarrative.eyebrow}
-          </p>
-          <h1
-            id="hero-title"
-            className="zh-display text-[18vw] md:text-[12vw]"
+          <motion.p
+            className="meta-label mb-5 max-w-md text-[var(--color-accent)]"
+            initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: reduceMotion ? 0 : 0.08, duration: reduceMotion ? 0.01 : 0.62, ease: [0.22, 1, 0.36, 1] }}
           >
-            {heroLines.map((line) => (
-              <span key={line} className="block overflow-hidden pb-[0.08em]">
-                <span className="block">{line}</span>
-              </span>
-            ))}
-          </h1>
+            {homepageNarrative.eyebrow}
+          </motion.p>
+          <EditorialHeading
+            as="h1"
+            id="hero-title"
+            className="hero-title editorial-heading zh-display"
+            lines={homepageNarrative.headlineLines}
+            renderLine={renderHeroLine}
+          >
+            {homepageNarrative.headline}
+          </EditorialHeading>
         </div>
 
         <div className="grid max-w-xl justify-self-end gap-6 md:pb-7">
-          <p className="zh-copy-wide text-[color:var(--color-muted)]">{homepageNarrative.introduction}</p>
+          <motion.p
+            className="zh-copy-wide text-[color:var(--color-muted)]"
+            initial={reduceMotion ? false : { opacity: 0.35, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: reduceMotion ? 0 : 0.54, duration: reduceMotion ? 0.01 : 0.76, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {homepageNarrative.introduction}
+          </motion.p>
           <motion.div
             className="flex flex-wrap gap-3"
             initial={reduceMotion ? false : { opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: reduceMotion ? 0 : 0.5, duration: reduceMotion ? 0.01 : 0.65, ease: [0.22, 1, 0.36, 1] }}
           >
-            <a className="cta-button interactive-link chip-text rounded-full px-6 py-3 text-sm font-extrabold" href={homepageNarrative.primaryCta.target}>{homepageNarrative.primaryCta.label}</a>
-            <a className="interactive-link chip-text rounded-full border border-[color:var(--theme-line)] px-6 py-3 text-sm font-extrabold" href={homepageNarrative.secondaryCta.target}>{homepageNarrative.secondaryCta.label}</a>
+            <a className="hero-cta cta-button interactive-link chip-text inline-flex items-center rounded-full px-6 py-3 text-sm font-extrabold" href={homepageNarrative.primaryCta.target}>{homepageNarrative.primaryCta.label}</a>
+            <a className="hero-cta interactive-link chip-text inline-flex items-center rounded-full border border-[color:var(--theme-line)] px-6 py-3 text-sm font-extrabold" href={homepageNarrative.secondaryCta.target}>{homepageNarrative.secondaryCta.label}</a>
           </motion.div>
         </div>
       </div>

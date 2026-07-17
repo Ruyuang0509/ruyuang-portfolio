@@ -25,7 +25,7 @@ const DataVisualizationSeries = memo(function DataVisualizationSeries() {
   return (
     <section
       id={dataVisualizationSeries.id}
-      className="relative bg-[var(--theme-bg)] px-[clamp(1.25rem,6vw,10vw)] py-28 text-[var(--theme-text)] md:py-36"
+      className="theme-transition-source relative bg-[var(--theme-bg)] px-[clamp(1.25rem,6vw,10vw)] py-28 text-[var(--theme-text)] md:py-36"
       aria-labelledby="data-visualization-series-title"
     >
       <div className="mx-auto grid max-w-7xl gap-12">

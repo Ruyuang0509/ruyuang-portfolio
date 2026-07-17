@@ -2,8 +2,7 @@ import { memo } from "react";
 import {
   getTrackProjects,
   homepageNarrative,
-  instituteThemes,
-  portfolioPriorityRules,
+  instituteEvidenceGroups,
   researchTracks,
   terminologyMap,
 } from "../data/portfolio.js";
@@ -167,34 +166,79 @@ const ResearchPositioning = memo(function ResearchPositioning() {
       <SectionShell
         id="institute-alignment"
         label="Institute alignment"
-        title="主題連結要有證據，而不是只有標籤。"
+        title="主題連結要有證據，不只是標籤。"
         titleLines={[["主題連結", "要有證據，"], ["不只是", "標籤。"]]}
       >
-        <div className="grid gap-8 md:grid-cols-[0.42fr_0.58fr]">
-          <div className="grid content-start gap-4">
+        <div className="grid gap-10 md:grid-cols-[0.34fr_0.66fr] md:gap-12">
+          <div className="grid content-start gap-5 md:sticky md:top-28 md:self-start">
             <p className="zh-copy-wide text-[color:var(--theme-muted)]">
-              這些主題會在作品案例中被逐一對應。公開頁面只呈現能支撐研究敘事的內容；內部準備事項不納入正式內容。
+              以下連結依公開案例中的實際作品、角色、工具與媒體證據整理；每個主題都能回到案例與連結理由。
             </p>
-            <div className="flex flex-wrap gap-2" aria-label="研究所主題">
-              {instituteThemes.map((theme) => (
-                <span
-                  key={theme}
-                  className="inverted-pill chip-text rounded-full px-4 py-2 text-sm font-extrabold"
-                >
-                  {theme}
-                </span>
-              ))}
-            </div>
+            <nav aria-label="已有公開作品證據的研究所主題">
+              <ul className="flex flex-wrap gap-2">
+                {instituteEvidenceGroups.map((group) => (
+                  <li key={group.id}>
+                    <a
+                      className="institute-jump-link inverted-pill interactive-link chip-text inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-extrabold"
+                      href={`#${group.id}`}
+                      aria-label={`查看「${group.theme}」的作品證據`}
+                    >
+                      <span>{group.theme}</span>
+                      <span aria-hidden="true">↘</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </div>
-          <div className="grid gap-3">
-            {portfolioPriorityRules.map((rule, index) => (
-              <p
-                key={rule}
-                className="soft-panel zh-caption rounded-[var(--radius-sm)] p-4 text-[color:var(--theme-muted)]"
+          <div className="grid gap-5">
+            {instituteEvidenceGroups.map((group) => (
+              <section
+                key={group.id}
+                id={group.id}
+                className="institute-evidence-group evidence-panel grid gap-5 rounded-[var(--radius-md)] p-5 md:p-6"
+                aria-labelledby={`${group.id}-title`}
               >
-                <span className="mr-3 text-[var(--theme-accent)]">0{index + 1}</span>
-                {rule}
-              </p>
+                <div className="flex flex-wrap items-end justify-between gap-3 border-b border-[color:var(--theme-line)] pb-4">
+                  <div className="grid gap-2">
+                    <p className="meta-label text-[var(--theme-accent)]">Demonstrated evidence / 已有作品證據</p>
+                    <h3 id={`${group.id}-title`} className="zh-heading text-[clamp(1.45rem,2.6vw,2.35rem)]">
+                      {group.theme}
+                    </h3>
+                  </div>
+                  <span className="chip-text rounded-full border border-[color:var(--theme-line)] px-3 py-1 text-xs font-bold text-[color:var(--theme-muted)]">
+                    {group.projects.length} 件公開案例
+                  </span>
+                </div>
+
+                <div className="grid gap-3">
+                  {group.projects.map((project) => (
+                    <article key={project.id} className="soft-panel grid gap-4 rounded-[var(--radius-sm)] p-4 md:p-5">
+                      <div className="flex flex-wrap items-start justify-between gap-3">
+                        <h4 className="zh-heading text-[clamp(1.15rem,1.7vw,1.5rem)]">{project.title}</h4>
+                        <span className="zh-label text-[var(--theme-accent)]">{project.status}</span>
+                      </div>
+                      <p className="zh-caption text-[color:var(--theme-muted)]">{project.rationale}</p>
+                      <dl className="grid gap-3 border-t border-[color:var(--theme-line)] pt-3 sm:grid-cols-2">
+                        <div>
+                          <dt className="zh-label text-[var(--theme-accent)]">角色</dt>
+                          <dd className="zh-caption mt-1 text-[var(--theme-text)]">{project.roles.slice(0, 2).join(" / ")}</dd>
+                        </div>
+                        <div>
+                          <dt className="zh-label text-[var(--theme-accent)]">工具</dt>
+                          <dd className="zh-caption mt-1 text-[var(--theme-text)]">{project.tools.slice(0, 2).join(" / ")}</dd>
+                        </div>
+                      </dl>
+                      <a
+                        className="interactive-link zh-label inline-flex min-h-11 w-fit items-center font-black underline decoration-[var(--theme-accent)] decoration-2 underline-offset-4"
+                        href={project.href}
+                      >
+                        閱讀案例：{project.title}
+                      </a>
+                    </article>
+                  ))}
+                </div>
+              </section>
             ))}
           </div>
         </div>

@@ -201,7 +201,7 @@ if (!video || video.transcriptCues?.length !== 8) {
 } else {
   const languageTracks = [
     { lang: "en", expected: video.transcriptCues.map((cue) => cue.en) },
-    { lang: "zh-Hant", expected: video.transcriptCues.map((cue) => cue.zh) },
+    { lang: "zh-TW", expected: video.transcriptCues.map((cue) => cue.zh) },
   ];
   for (const language of languageTracks) {
     const track = video.tracks.find((entry) => entry.srcLang === language.lang);

@@ -50,4 +50,4 @@
 - screen reader、真實 zoom、system reduced-motion、行動實機與多瀏覽器 Web Audio 有人工紀錄；
 - 研究結果、授權、角色、credits、聯絡與申請資訊均由 stakeholder 確認，沒有 AI 代填或未驗證成效。
 
-目前已完成前兩項的本機 asset／metadata closure；current-fingerprint performance evidence、輔具／實機矩陣、研究結果、授權與 production hosting 仍未完成，因此仍應視為 submission-safe 的本機 artifact，而非 production-ready publication。
+目前已完成本機 asset／metadata closure 與 current-fingerprint Lighthouse；輔具／實機矩陣、研究結果、授權與 production hosting 仍未完成，因此仍應視為 submission-safe 的本機 artifact，而非 production-ready publication。

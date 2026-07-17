@@ -34,6 +34,8 @@ Each work should include:
 - `tools`
 - `roles`
 - `instituteConnections`
+- `themeRationales`: one non-empty rationale for every declared institute theme
+- `themeEvidenceStatus`: classify every declared theme as `demonstrated` or `researchDirection`
 
 ## Optional Evidence Fields
 
@@ -53,6 +55,7 @@ These can be empty without breaking the page:
 Structured long-form modules can also be omitted without breaking other cases:
 
 - `englishTitle`, `tags`, `projectInfo`
+- `titleLines`: 只控制視覺片語與換行；攤平並正規化空白後必須與完整 `title` 完全相同，不能為了排版省略作品名稱
 - `challenge`
 - `workflow.stages`
 - `promptDecisions`
@@ -100,10 +103,12 @@ Videos should:
 
 - use local MP4/WebM when possible
 - include a poster image
-- use `preload="none"` unless the video is the main above-the-fold media
+- use `preload="metadata"` for a featured case video that supports duration-aware scene seek; reduce to `none` when Save-Data is enabled
 - include a caption or short transcript summary
 - use `tracks[]` for multiple WebVTT languages; keep `captionsSrc` only as a legacy single-track fallback
-- use `transcriptCues[]` when a complete on-page transcript is available
+- use `transcriptCues[]` when a complete on-page transcript is available; onscreen text without speech may add `visualDescription` and `musicMood`, but must not be labelled as speech recognition
+- add a visible `accessibilitySummary` when subtitle languages or a no-narration boundary must remain understandable without opening native controls
+- keep Poster, summary, direct-file fallback, transcript, and surrounding case copy available when runtime media or subtitle loading fails
 
 Audio should:
 

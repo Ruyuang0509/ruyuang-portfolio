@@ -77,9 +77,9 @@ Hidden case 現在使用空 media state。原有 13 個 `ph-after-*`／`mv-soft-
 
 - **身份：** `id`、`title`、`titleLines`、`year` 或 `metadataOmissions`、`source`、`category`、`status`、`priority`、`submissionVisibility`。
 - **論證：** `summary`、`valueProposition`、`problemAwareness`、`audience`、`whatThisProves`、`designGoal`。
-- **方法：** `designProcess`、`technologyAndMedia`、`outcomeShowcase`、`extendedSections`；可選 `challenge`、`workflow`、`promptDecisions`、`mediaLayers`。
-- **證據：** `diagrams`、`media.*`、可選 `storyboard`、`featuredExample`、`deliverables`、`outcomes`、`interactivePrototype`／`interactionMappings`／`signalFlow`／`listeningGuide`。
-- **收束：** 可選 `keyInsight`、`nextSteps`、`ctas`；站內 CTA 必須對應實際 renderer anchor。
+- **方法：** `designProcess`、`technologyAndMedia`、`outcomeShowcase`、`extendedSections`；可選 `challenge`、五階段 `workflow`（工具／輸入／產出／控制／人工檢查）、`promptDecisions`、`mediaLayers`。
+- **證據：** `diagrams`、`media.*`、可選 `storyboard`（每幕含 bilingual title、`seekSeconds` 與 control）、`featuredExample`、`deliverables`、`outcomes`、`interactivePrototype`／`interactionMappings`／`signalFlow`／`listeningGuide`。
+- **收束：** 可選 `keyInsight`、`nextSteps`、`ctas`；站內 CTA 必須對應實際 renderer anchor，可選 `focusTarget` 也必須指向已渲染控制項。
 - **責任與誠信：** `tools`、`roles`、`testing.statusKey`、`testing.status`、實際 evidence 或 `plannedMethods`、`reflection`、`instituteConnections`、`themeRationales`、`credits`、`links`、`seo`。
 
 ## 使用者可見文字狀態

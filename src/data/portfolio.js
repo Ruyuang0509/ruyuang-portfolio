@@ -216,14 +216,6 @@ export const terminologyMap = [
   ["跨域專題", "跨域創生 / Creative Technology", "把設計、程式、影音、研究方法與 AI 工具整合成可展示的作品系統。"],
 ];
 
-export const portfolioPriorityRules = [
-  "優先放入能展現 AI、互動媒體、聲響或沉浸式經驗的作品。",
-  "每件作品都要回答：為什麼做、給誰用、如何互動、證據在哪裡。",
-  "只有平面或概念稿時，也要補足流程、角色、技術方法與可深化方向。",
-  "若是團隊作品，要明確標出個人負責的企劃、UX、介面、程式、影音或分析工作。",
-  "作品敘事以公開內容為主，內部準備事項不納入正式內容。",
-];
-
 export const projectCaseStudies = [
   {
     id: "interactive-sound-learning",
@@ -306,6 +298,12 @@ export const projectCaseStudies = [
       graduateDirection: "進入研究所後可深化為聲響互動、AI 輔助學習回饋與沉浸式教育媒體研究。",
     },
     instituteConnections: ["互動媒體", "聲響", "沉浸式體驗", "跨域創生"],
+    themeEvidenceStatus: {
+      互動媒體: "demonstrated",
+      聲響: "demonstrated",
+      沉浸式體驗: "researchDirection",
+      跨域創生: "demonstrated",
+    },
     themeRationales: {
       互動媒體: "核心是使用者操作、即時回饋與互動流程。",
       聲響: "聲音不是背景素材，而是理解狀態與回饋的資訊層。",
@@ -338,6 +336,7 @@ export const projectCaseStudies = [
       "以文學教育為情境，讓 ChatGPT 拆解故事與字幕、Suno 設計情緒配樂、Canva 完成剪輯，建立可重複檢查的跨工具故事影音流程。",
     tags: ["文學教育", "生成式 AI", "Prompt Design", "視覺敘事", "聲音情緒設計"],
     valueProposition: "把教學需求轉譯成有明確工具分工、輸出限制與人工檢查點的生成式影音流程。",
+    overviewFacts: "40 秒 / 8 幕 / EN + zh-TW 字幕 / 影音原型完成，學習成效未驗證",
     whatThisProves: "這件作品證明我能整合內容拆解、Prompt Design、視覺敘事、聲音情緒設計與跨工具製作。",
     designGoal:
       "把複雜影音製作拆成文本理解、分鏡拆解、圖像與字幕、情緒配樂、剪輯輸出五個階段，為每階段指定工具與檢查點，讓文學判讀能一路連到可播放成片。",
@@ -373,31 +372,46 @@ export const projectCaseStudies = [
           title: "文本理解",
           description: "確認故事背景、主要衝突與結局，先建立不偏離原作的敘事骨架。",
           tool: "人工判讀 / 原作文本",
+          input: "《Hamlet》原作情節與本案例的 40 秒任務範圍",
+          output: "背景、人物關係、核心衝突與結局的敘事骨架",
           constraint: "保留開頭、衝突、結尾與關鍵人物關係",
+          humanCheck: "逐項核對人物、事件因果與結局是否能由原作支持。",
         },
         {
           title: "分鏡拆解",
           description: "用 ChatGPT 將長篇情節切成可視覺化節點，安排每幕的敘事功能。",
           tool: "ChatGPT",
+          input: "已核對的敘事骨架與 40 秒時長",
+          output: "八個五秒場景節點、每幕事件與字幕草稿",
           constraint: "8–10 scenes；每張圖片一個關鍵情節",
+          humanCheck: "確認八幕順序、人物與事件因果沒有跳躍或重複。",
         },
         {
           title: "圖像字幕",
           description: "同步產生場景圖規格與清楚英文字幕，讓畫面與語言描述同一事件。",
           tool: "ChatGPT / 生成式圖像工具",
+          input: "八幕節點、B1 語言目標與 Gothic 視覺方向",
+          output: "16:9 場景圖、英文畫面文字與繁中對照",
           constraint: "以 B1 為目標；每句 12–18 words；一至兩行；圖內無文字",
+          humanCheck: "核對字幕字數、換行、情節正確性與跨幕角色／光線一致性。",
         },
         {
           title: "情緒配樂",
           description: "以 Suno 產生無歌詞配樂，讓悲傷、神祕與緊張在段落間漸進。",
           tool: "Suno",
+          input: "八幕情緒弧線與 40 秒節奏",
+          output: "服務神祕、悲傷與高潮轉折的無歌詞配樂",
           constraint: "instrumental / mysterious / sad / slow build / no lyrics",
+          humanCheck: "逐段聆聽情緒轉折，確認音樂不與字幕閱讀競爭。",
         },
         {
           title: "剪輯輸出",
-          description: "在 Canva 對齊圖像、字幕、旁白與音樂，檢查節奏後輸出影片。",
+          description: "在 Canva 對齊圖像、字幕與音樂，檢查節奏後輸出影片。",
           tool: "Canva",
+          input: "八幕場景圖、雙語字幕時間碼與無歌詞配樂",
+          output: "40 秒 clean MP4、Poster 與 English／繁中 WebVTT",
           constraint: "16:9；每幕 5–8 秒；有旁白時降低背景音樂",
+          humanCheck: "逐幕核對字幕同步、畫面完整、音樂主次與結尾收束。",
         },
       ],
     },
@@ -478,14 +492,14 @@ export const projectCaseStudies = [
       title: "《Hamlet》八幕分鏡",
       summary: "以下畫面直接擷取自 40 秒 clean 成片；每幕對應一個 5 秒敘事節點與實際英文字幕，不是另製的示意圖。",
       frames: [
-        { title: "Ghost 的秘密", time: "00:00–00:05", subtitle: "On a cold night, Hamlet sees his father's ghost and learns a terrible secret.", description: "Ghost 揭露秘密，建立故事衝突。", image: responsivePortfolioImage("hamlet-story-mv-scene-01", 1200, 675, "月夜城牆上，Hamlet 面對父親 Ghost 的第一幕。") },
-        { title: "悲傷與遲疑", time: "00:05–00:10", subtitle: "Hamlet feels deep grief and doubt, and he cannot decide how to act.", description: "悲傷與懷疑讓行動延宕。", image: responsivePortfolioImage("hamlet-story-mv-scene-02", 1200, 675, "Hamlet 獨處並陷入悲傷與遲疑的第二幕。") },
-        { title: "假裝瘋癲", time: "00:10–00:15", subtitle: "Hamlet pretends to be mad while he watches the king for signs of guilt.", description: "以假裝瘋癲觀察國王的罪惡反應。", image: responsivePortfolioImage("hamlet-story-mv-scene-03", 1200, 675, "Hamlet 假裝瘋癲並觀察國王的第三幕。") },
-        { title: "戲中戲揭露", time: "00:15–00:20", subtitle: "A play at court mirrors the murder, and Claudius reacts with sudden fear.", description: "戲中戲讓 truth 與 betrayal 浮現。", image: responsivePortfolioImage("hamlet-story-mv-scene-04", 1200, 675, "宮廷戲劇重現謀殺並使 Claudius 恐懼的第四幕。") },
-        { title: "Ophelia 的絕望", time: "00:20–00:25", subtitle: "Rejected and heartbroken, Ophelia loses her peace and slowly falls into despair.", description: "個人選擇的代價進入敘事。", image: responsivePortfolioImage("hamlet-story-mv-scene-05", 1200, 675, "Ophelia 因拒絕與心碎陷入絕望的第五幕。") },
-        { title: "墓園與死亡", time: "00:25–00:30", subtitle: "In the graveyard, Hamlet holds a skull and thinks about death and time.", description: "以墓園場景推進死亡與 morality 的思考。", image: responsivePortfolioImage("hamlet-story-mv-scene-06", 1200, 675, "Hamlet 在墓園手持頭骨思考死亡的第六幕。") },
-        { title: "決鬥與復仇", time: "00:30–00:35", subtitle: "The final duel begins, but poison and revenge soon destroy the royal court.", description: "action、毒藥與 revenge 匯入高潮。", image: responsivePortfolioImage("hamlet-story-mv-scene-07", 1200, 675, "最後決鬥以毒藥與復仇摧毀王室的第七幕。") },
-        { title: "丹麥的悲劇", time: "00:35–00:40", subtitle: "After great loss and silence, Hamlet dies, and Denmark faces a tragic end.", description: "以失落與沉默收束悲劇。", image: responsivePortfolioImage("hamlet-story-mv-scene-08", 1200, 675, "Hamlet 死去、丹麥迎向悲劇結局的第八幕。") },
+        { title: "幽靈揭露真相", titleEn: "The Ghost Reveals the Truth", time: "00:00–00:05", seekSeconds: 0, subtitle: "On a cold night, Hamlet sees his father's ghost and learns a terrible secret.", description: "Ghost 揭露秘密，建立故事衝突。", control: "一幕只承擔秘密揭露；人物關係與復仇動機需能由原作核對。", image: responsivePortfolioImage("hamlet-story-mv-scene-01", 1200, 675, "月夜城牆上，Hamlet 面對父親 Ghost 的第一幕。") },
+        { title: "悲傷與遲疑", titleEn: "Grief and Doubt", time: "00:05–00:10", seekSeconds: 5, subtitle: "Hamlet feels deep grief and doubt, and he cannot decide how to act.", description: "悲傷與懷疑讓行動延宕。", control: "以一個決策困境推進情節；字幕維持 12–18 words。", image: responsivePortfolioImage("hamlet-story-mv-scene-02", 1200, 675, "Hamlet 獨處並陷入悲傷與遲疑的第二幕。") },
+        { title: "假裝瘋狂並暗中觀察", titleEn: "Feigned Madness", time: "00:10–00:15", seekSeconds: 10, subtitle: "Hamlet pretends to be mad while he watches the king for signs of guilt.", description: "以假裝瘋癲觀察國王的罪惡反應。", control: "畫面只呈現觀察行動，不把尚未證實的罪惡寫成已揭露事實。", image: responsivePortfolioImage("hamlet-story-mv-scene-03", 1200, 675, "Hamlet 假裝瘋癲並觀察國王的第三幕。") },
+        { title: "戲中戲暴露罪惡", titleEn: "The Play Exposes Guilt", time: "00:15–00:20", seekSeconds: 15, subtitle: "A play at court mirrors the murder, and Claudius reacts with sudden fear.", description: "戲中戲讓 truth 與 betrayal 浮現。", control: "以 Claudius 的反應作為單一視覺重點，保留事件因果。", image: responsivePortfolioImage("hamlet-story-mv-scene-04", 1200, 675, "宮廷戲劇重現謀殺並使 Claudius 恐懼的第四幕。") },
+        { title: "Ophelia 的絕望", titleEn: "Ophelia's Despair", time: "00:20–00:25", seekSeconds: 20, subtitle: "Rejected and heartbroken, Ophelia loses her peace and slowly falls into despair.", description: "個人選擇的代價進入敘事。", control: "避免把複雜因果簡化為單一責任；字幕只描述此幕可見情節。", image: responsivePortfolioImage("hamlet-story-mv-scene-05", 1200, 675, "Ophelia 因拒絕與心碎陷入絕望的第五幕。") },
+        { title: "墓園中的生死反思", titleEn: "Graveyard Reflection", time: "00:25–00:30", seekSeconds: 25, subtitle: "In the graveyard, Hamlet holds a skull and thinks about death and time.", description: "以墓園場景推進死亡與 morality 的思考。", control: "用頭骨與墓園聚焦死亡反思，不加入圖內生成文字。", image: responsivePortfolioImage("hamlet-story-mv-scene-06", 1200, 675, "Hamlet 在墓園手持頭骨思考死亡的第六幕。") },
+        { title: "決鬥與復仇", titleEn: "The Final Duel", time: "00:30–00:35", seekSeconds: 30, subtitle: "The final duel begins, but poison and revenge soon destroy the royal court.", description: "action、毒藥與 revenge 匯入高潮。", control: "動作、毒藥與復仇在同一高潮節點匯合，仍維持 16:9 構圖。", image: responsivePortfolioImage("hamlet-story-mv-scene-07", 1200, 675, "最後決鬥以毒藥與復仇摧毀王室的第七幕。") },
+        { title: "悲劇性的結局", titleEn: "Tragic Aftermath", time: "00:35–00:40", seekSeconds: 35, subtitle: "After great loss and silence, Hamlet dies, and Denmark faces a tragic end.", description: "以失落與沉默收束悲劇。", control: "保留完整結局並以單一收束畫面結束，不循環影片。", image: responsivePortfolioImage("hamlet-story-mv-scene-08", 1200, 675, "Hamlet 死去、丹麥迎向悲劇結局的第八幕。") },
       ],
     },
     featuredExample: {
@@ -498,11 +512,11 @@ export const projectCaseStudies = [
       focusDescription: "這一幕同時提供角色關係、秘密、復仇動機與視覺情緒，是把抽象主題轉成可見衝突的最有效起點。",
     },
     mediaLayers: [
-      { label: "圖像", status: "已實作", role: "每幕聚焦一個事件，以一致場景風格承載文學情節。", check: "人物、光源、構圖與前後情緒是否連續。" },
-      { label: "字幕", status: "已實作", role: "以 B1 為目標濃縮事件，維持 12–18 words 與一至兩行。", check: "字數、換行、可讀時間與情節正確性。" },
-      { label: "旁白 / 對話", status: "製作規格", role: "可在延伸版本補充人物動機，不把未錄製語音說成現有成果。", check: "資訊是否補充而非逐字重複字幕。" },
-      { label: "音樂", status: "已實作", role: "無歌詞配樂以慢速堆疊悲傷、神祕與緊張。", check: "情緒轉折是否服務敘事且不搶走語言注意力。" },
-      { label: "最終剪輯", status: "已實作", role: "把八幕畫面、字幕時間碼與音樂整合為 40 秒 16:9 成片。", check: "每幕節奏、字幕同步與結尾收束。" },
+      { label: "故事節點", status: "已實作", role: "先用八個可核對事件建立開端、衝突、轉折與悲劇結局。", check: "人物、事件因果與前後順序是否能由原作支持。" },
+      { label: "場景圖像", status: "已實作", role: "每幕聚焦一個事件，以一致場景風格承載文學情節。", check: "人物、光源、構圖與前後情緒是否連續。" },
+      { label: "英文字幕／情節文字", status: "已實作", role: "以 B1 為目標濃縮事件，維持 12–18 words 與一至兩行。", check: "字數、換行、可讀時間與情節正確性。" },
+      { label: "情緒配樂", status: "已實作", role: "無歌詞配樂以慢速堆疊悲傷、神祕與緊張。", check: "情緒轉折是否服務敘事且不搶走語言注意力。" },
+      { label: "Canva 剪輯與最終影片", status: "已實作", role: "把八幕畫面、字幕時間碼與音樂整合為 40 秒 16:9 成片。", check: "每幕節奏、字幕同步與結尾收束。" },
     ],
     deliverables: [
       { id: "clean-video", title: "40 秒、8 幕故事 MV", statusKey: "artifactVerified", status: "實際成果", evidenceRefs: ["hamlet-clean-video"], attributionSource: "deliveryPackage", description: "clean 版本已具 H.264 影像、AAC 音訊、16:9 畫幅與可切換字幕。" },
@@ -544,9 +558,9 @@ export const projectCaseStudies = [
       "加入學生測試、學習回饋與教師版 / 學生版指南，再評估課堂使用方式。",
     ],
     ctas: [
-      { label: "播放案例影片", href: "#generative-interface-study-featured-media" },
-      { label: "查看製作流程", href: "#generative-interface-study-workflow" },
-      { label: "閱讀 Prompt 系統", href: "#generative-interface-study-prompt-system" },
+      { label: "播放案例影片", href: "#generative-interface-study-featured-media", focusTarget: "#generative-interface-study-featured-media-player" },
+      { label: "查看八幕分鏡", href: "#generative-interface-study-storyboard" },
+      { label: "閱讀 Prompt 設計", href: "#generative-interface-study-prompt-system" },
     ],
     diagrams: [],
     featuredMediaIntro: "這是可核對的 40 秒 clean 成片，不是流程示意或假播放器；可切換 English 與繁體中文字幕。",
@@ -559,20 +573,22 @@ export const projectCaseStudies = [
           src: publicAssetUrl("media/portfolio/hamlet-story-mv-clean-web-1080p.mp4"),
           poster: responsivePortfolioImage("hamlet-story-mv-poster", 1200, 675, "《Hamlet》故事 MV 首圖，Hamlet 在月夜城牆上面對父親的 Ghost。"),
           caption: "40 秒、8 幕的 clean 版本；每幕 5 秒，外掛英文與繁中 WebVTT 字幕，影片不自動播放。",
+          technicalSummary: "00:40 · 8 scenes · 16:9 · EN / zh-TW subtitles · instrumental / no narration",
+          accessibilitySummary: "字幕：English／繁體中文 · 全片無旁白",
           transcript: "影片由 Ghost 揭密開始，依序經過 Hamlet 的遲疑、戲中戲、Ophelia、墓園、決鬥與悲劇結局；全片持續播放無歌詞音樂，沒有旁白。",
           transcriptCues: [
-            { time: "00:00–00:05", en: "On a cold night, Hamlet sees his father's ghost and learns a terrible secret.", zh: "在寒冷的夜晚，哈姆雷特見到父親的鬼魂，並得知一個可怕的秘密。" },
-            { time: "00:05–00:10", en: "Hamlet feels deep grief and doubt, and he cannot decide how to act.", zh: "哈姆雷特深陷悲痛與疑惑，無法決定自己該如何行動。" },
-            { time: "00:10–00:15", en: "Hamlet pretends to be mad while he watches the king for signs of guilt.", zh: "哈姆雷特假裝瘋癲，同時觀察國王是否露出罪惡的跡象。" },
-            { time: "00:15–00:20", en: "A play at court mirrors the murder, and Claudius reacts with sudden fear.", zh: "宮廷中的一齣戲重現了謀殺情節，克勞狄斯突然流露出恐懼。" },
-            { time: "00:20–00:25", en: "Rejected and heartbroken, Ophelia loses her peace and slowly falls into despair.", zh: "遭到拒絕又心碎的奧菲莉亞失去平靜，逐漸陷入絕望。" },
-            { time: "00:25–00:30", en: "In the graveyard, Hamlet holds a skull and thinks about death and time.", zh: "在墓園裡，哈姆雷特手持頭骨，思索死亡與時間。" },
-            { time: "00:30–00:35", en: "The final duel begins, but poison and revenge soon destroy the royal court.", zh: "最後的決鬥開始，但毒藥與復仇很快摧毀了王室。" },
-            { time: "00:35–00:40", en: "After great loss and silence, Hamlet dies, and Denmark faces a tragic end.", zh: "在巨大的失落與沉默之後，哈姆雷特死去，丹麥迎來悲劇性的結局。" },
+            { time: "00:00–00:05", en: "On a cold night, Hamlet sees his father's ghost and learns a terrible secret.", zh: "在寒冷的夜晚，哈姆雷特見到父親的鬼魂，並得知一個可怕的秘密。", visualDescription: "月夜城牆上，Hamlet 與父親 Ghost 對望。", musicMood: "神祕、低沉，建立秘密揭露的起點。" },
+            { time: "00:05–00:10", en: "Hamlet feels deep grief and doubt, and he cannot decide how to act.", zh: "哈姆雷特深陷悲痛與疑惑，無法決定自己該如何行動。", visualDescription: "Hamlet 獨處，畫面集中在悲傷與猶豫。", musicMood: "悲傷而遲疑，維持緩慢推進。" },
+            { time: "00:10–00:15", en: "Hamlet pretends to be mad while he watches the king for signs of guilt.", zh: "哈姆雷特假裝瘋癲，同時觀察國王是否露出罪惡的跡象。", visualDescription: "Hamlet 以假裝瘋癲掩護觀察行動。", musicMood: "不安逐步增加，但尚未進入高潮。" },
+            { time: "00:15–00:20", en: "A play at court mirrors the murder, and Claudius reacts with sudden fear.", zh: "宮廷中的一齣戲重現了謀殺情節，克勞狄斯突然流露出恐懼。", visualDescription: "宮廷戲劇重現謀殺，Claudius 顯露恐懼。", musicMood: "緊張升高，對應真相浮現。" },
+            { time: "00:20–00:25", en: "Rejected and heartbroken, Ophelia loses her peace and slowly falls into despair.", zh: "遭到拒絕又心碎的奧菲莉亞失去平靜，逐漸陷入絕望。", visualDescription: "Ophelia 在孤立畫面中逐漸陷入絕望。", musicMood: "悲傷下沉，暫時離開衝突高潮。" },
+            { time: "00:25–00:30", en: "In the graveyard, Hamlet holds a skull and thinks about death and time.", zh: "在墓園裡，哈姆雷特手持頭骨，思索死亡與時間。", visualDescription: "Hamlet 在墓園手持頭骨，思考死亡與時間。", musicMood: "低沉、反思，保留敘事空間。" },
+            { time: "00:30–00:35", en: "The final duel begins, but poison and revenge soon destroy the royal court.", zh: "最後的決鬥開始，但毒藥與復仇很快摧毀了王室。", visualDescription: "最後決鬥、毒藥與復仇匯入同一高潮。", musicMood: "緊張達到高點，推向悲劇結果。" },
+            { time: "00:35–00:40", en: "After great loss and silence, Hamlet dies, and Denmark faces a tragic end.", zh: "在巨大的失落與沉默之後，哈姆雷特死去，丹麥迎來悲劇性的結局。", visualDescription: "Hamlet 死去，丹麥以失落與沉默收束。", musicMood: "悲劇性收束，不循環回到開場。" },
           ],
           tracks: [
             { src: publicAssetUrl("media/portfolio/hamlet-story-mv.en.vtt"), srcLang: "en", label: "English", kind: "subtitles", default: true },
-            { src: publicAssetUrl("media/portfolio/hamlet-story-mv.zh-TW.vtt"), srcLang: "zh-Hant", label: "繁體中文", kind: "subtitles" },
+            { src: publicAssetUrl("media/portfolio/hamlet-story-mv.zh-TW.vtt"), srcLang: "zh-TW", label: "繁體中文", kind: "subtitles" },
           ],
           featured: true,
         },
@@ -584,7 +600,7 @@ export const projectCaseStudies = [
     roles: ["AI 工作流程與提示詞設計", "內容拆解", "Prompt Design", "影音敘事規格"],
     testing: {
       statusKey: "notValidated",
-      status: "目前已核對 40 秒、8 幕影片、雙語字幕與逐字稿；尚未進行學生測試、教師評閱或學習成效驗證。",
+      status: "影音原型已完成；尚未進行學習者測試與成效驗證。已核對 40 秒、8 幕影片、雙語字幕與逐字稿。",
       metrics: [],
       insights: [],
       learningOutcomes: [],
@@ -600,6 +616,11 @@ export const projectCaseStudies = [
       graduateDirection: "後續可深化生成式 AI 內容治理、聲音情緒設計與文學學習任務的形成性評估。",
     },
     instituteConnections: ["AI", "聲響", "跨域創生"],
+    themeEvidenceStatus: {
+      AI: "demonstrated",
+      聲響: "demonstrated",
+      跨域創生: "demonstrated",
+    },
     themeRationales: {
       AI: "以限制條件、人工核對與工具交接建立可重複的 Prompt workflow。",
       聲響: "以無歌詞配樂、情緒弧線與未來旁白混音規則服務故事主次。",
@@ -617,7 +638,7 @@ export const projectCaseStudies = [
     id: "data-visualization-cases",
     slug: "data-visualization-cases",
     title: "資料視覺化實際案例與數位學習應用探討",
-    titleLines: [["資料視覺化"], ["實際案例與數位學習"]],
+    titleLines: [["資料視覺化"], ["實際案例與", "數位學習"], ["應用探討"]],
     year: "2026",
     productionDate: "2026/04/23",
     category: "Data Visualization / Motion",
@@ -739,6 +760,12 @@ export const projectCaseStudies = [
         "進入研究所後可深化為學習歷程資料的互動視覺化、AI 輔助個人化回饋、聲響化資料提示與沉浸式學習分析介面。",
     },
     instituteConnections: ["AI", "互動媒體", "聲響", "跨域創生"],
+    themeEvidenceStatus: {
+      AI: "demonstrated",
+      互動媒體: "researchDirection",
+      聲響: "researchDirection",
+      跨域創生: "demonstrated",
+    },
     themeRationales: {
       AI: "生成式 AI 可作為案例蒐整與資料回饋構想的輔助工具，但最終論述需由人工判斷。",
       互動媒體: "資料視覺化可延伸為可操作、可探索的學習回饋介面。",
@@ -756,7 +783,7 @@ export const projectCaseStudies = [
     id: "learning-dashboard-analysis",
     slug: "learning-dashboard-analysis",
     title: "線上學習互動行為與學科成績之資料視覺化分析",
-    titleLines: [["線上學習互動行為"], ["與學科成績資料視覺化"]],
+    titleLines: [["線上學習", "互動行為與"], ["學科成績之", "資料視覺化"], ["分析"]],
     year: "2026",
     productionDate: "2026/06/11–2026/06/12",
     category: "Learning Analytics / Power BI",
@@ -919,6 +946,12 @@ export const projectCaseStudies = [
         "進入研究所後可深化為學習分析、數位孿生學習歷程、互動儀表板、AI 輔助回饋與聲響化資料提示研究。",
     },
     instituteConnections: ["互動媒體", "數位孿生", "聲響", "跨域創生"],
+    themeEvidenceStatus: {
+      互動媒體: "demonstrated",
+      數位孿生: "researchDirection",
+      聲響: "researchDirection",
+      跨域創生: "demonstrated",
+    },
     themeRationales: {
       互動媒體: "Power BI 儀表板讓使用者透過篩選與圖表互動探索資料分布。",
       數位孿生: "未來可把學習歷程資料轉成可觀察的數位模型，支援教學決策與反思。",
@@ -935,8 +968,26 @@ export const projectCaseStudies = [
 ];
 
 export const sortedProjectCaseStudies = [...projectCaseStudies]
-  .filter((project) => project.submissionVisibility !== "hidden")
+  .filter((project) => project.submissionVisibility === "public")
   .sort((a, b) => (a.priority ?? 99) - (b.priority ?? 99));
+
+export const instituteEvidenceGroups = instituteThemes
+  .map((theme, themeIndex) => ({
+    id: `institute-evidence-${themeIndex + 1}`,
+    theme,
+    projects: sortedProjectCaseStudies
+      .filter((project) => project.themeEvidenceStatus?.[theme] === "demonstrated")
+      .map((project) => ({
+        id: project.id,
+        title: project.title,
+        status: project.status,
+        roles: [...(project.roles ?? [])],
+        tools: [...(project.tools ?? [])],
+        rationale: project.themeRationales[theme],
+        href: `#${project.id}`,
+      })),
+  }))
+  .filter((group) => group.projects.length > 0);
 
 export const getTrackProjects = (trackId) =>
   sortedProjectCaseStudies.filter((project) => project.trackIds?.includes(trackId));

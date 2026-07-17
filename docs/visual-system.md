@@ -1,16 +1,18 @@
 # Visual System Notes
 
-Updated: 2026-07-09
+Updated: 2026-07-17
 
-This site should feel like a calm research dossier, not a flashing demo reel. The visual system now uses warm ink and paper tones to reduce the brightness jump between the immersive hero and the case-study evidence sections.
+This site should feel like a calm research dossier, not a flashing demo reel. The document root stays warm ink; supporting case studies and the reviewer endpoint use section-scoped paper tokens, while a dedicated fixed viewport field carries the scroll-linked passage between the two states.
 
 ## Tone Strategy
 
 - Avoid pure black and pure white for major surfaces.
 - Default dark tone: warm ink, used for the proposal entrance and research framing.
-- Light tone: warm paper, used for portfolio evidence and long reading.
+- Light tone: warm paper, scoped to the supporting gallery and Reviewer Path rather than applied to the document root.
 - Inverse elements use `--theme-inverse-bg` and `--theme-inverse-text`, not direct black/white.
-- Scroll theme changes should cover a generous viewport range so the viewer feels a tonal ramp instead of a sudden flash.
+- The deep-ink-to-paper passage uses the text-free, `aria-hidden`, `pointer-events: none` `ViewportThemeTransition` fixed layer. It covers the viewport without adding layout height.
+- ScrollTrigger scrubs only that layer's paper/mist opacity and three low-contrast radial-field transforms from `#data-visualization-series` bottom 85% to `#project-index-title` top 15%; fixed navigation chrome follows the same progress threshold.
+- Keep foreground and root tokens section-scoped. Do not interpolate text colors or rewrite document-root palette variables during scroll.
 
 ## Surface Rules
 
@@ -18,6 +20,7 @@ This site should feel like a calm research dossier, not a flashing demo reel. Th
 - Use `.evidence-panel` for structured evidence and navigation blocks.
 - Use `.soft-panel` for compact notes, metrics, and rationales.
 - Use `.paper-panel` only when the content needs deliberate emphasis.
+- Use `.paper-surface` only for a complete local reading region whose descendants should inherit the paper tokens.
 - Use `.media-frame` around images, diagrams, and videos so thumbnails do not float harshly on the page.
 - Use `.cta-button` for primary action buttons.
 
@@ -31,9 +34,11 @@ This site should feel like a calm research dossier, not a flashing demo reel. Th
 ## Motion And Accessibility
 
 - Motion should support comprehension, not create brightness flashes.
-- Switch themes only between verified dark and paper endpoints; never scrub or interpolate foreground and background colors through low-contrast intermediate states.
-- Respect `prefers-reduced-motion`; theme changes remain discrete while decorative motion is removed.
+- Keep foreground palettes static and section-scoped; only the dedicated background field may pass through low-contrast intermediate colors, with no text placed on the transition itself.
+- Respect `prefers-reduced-motion`; remove mist/radial motion and switch the fixed field directly between its dark and paper endpoints at the same geometric boundary.
 - Keep focus rings visible on both warm dark and warm paper backgrounds.
+- Keep navigation mostly opaque instead of relying on a large fixed backdrop blur. Reserve permanent `will-change` for the Hero canvas; promote case media only during hover/focus interaction.
+- Print hides the fixed transition field, expands disclosure content, and forces major sections onto a paper-safe background.
 
 ## Future Edits
 
@@ -44,3 +49,4 @@ Before introducing a new section, check:
 3. Does it avoid a sudden full-screen luminance jump?
 4. Does media have a stable `.media-frame` or explicit aspect ratio?
 5. Does the section help admissions reviewers follow the evidence chain?
+6. Is a paper treatment local, with the root palette and scrollbar left stable?

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useReducedMotion } from "motion/react";
 import { getSoundParameters, normalizePointerSpeed } from "../audio/soundMapping.js";
 import { useWebAudioEngine } from "../hooks/useWebAudioEngine.js";
@@ -21,6 +21,7 @@ export default function SoundInteractionPrototype({ project }) {
   const padRef = useRef(null);
   const pointRef = useRef(null);
   const readoutRef = useRef(null);
+  const padRectRef = useRef(null);
   const xInputRef = useRef(null);
   const yInputRef = useRef(null);
   const sizeInputRef = useRef(null);
@@ -33,6 +34,18 @@ export default function SoundInteractionPrototype({ project }) {
   const reduceMotion = useReducedMotion();
   const { audioStatus, errorMessage, start, stop, updateParameters } = useWebAudioEngine();
   const readoutId = `${project.id}-sound-parameter-readout`;
+
+  const refreshPadRect = useCallback(() => {
+    const rect = padRef.current?.getBoundingClientRect();
+    if (!rect) return null;
+    padRectRef.current = {
+      left: rect.left,
+      top: rect.top,
+      width: rect.width,
+      height: rect.height,
+    };
+    return padRectRef.current;
+  }, []);
 
   useEffect(() => {
     audioActiveRef.current = audioStatus === "starting" || audioStatus === "running";
@@ -47,9 +60,10 @@ export default function SoundInteractionPrototype({ project }) {
     frameRef.current = 0;
     const { x, y, size } = pointerRef.current;
     const parameters = getSoundParameters(pointerRef.current);
-    if (pointRef.current) {
-      pointRef.current.style.setProperty("--sound-x", `${x * 100}%`);
-      pointRef.current.style.setProperty("--sound-y", `${y * 100}%`);
+    const padRect = padRectRef.current;
+    if (pointRef.current && padRect) {
+      pointRef.current.style.setProperty("--sound-x", `${x * padRect.width}px`);
+      pointRef.current.style.setProperty("--sound-y", `${y * padRect.height}px`);
       pointRef.current.style.setProperty("--sound-size", String(0.7 + size * 0.8));
     }
     if (readoutRef.current) {
@@ -82,7 +96,7 @@ export default function SoundInteractionPrototype({ project }) {
   }, []);
 
   const readPointerPosition = useCallback((event) => {
-    const rect = padRef.current?.getBoundingClientRect();
+    const rect = padRectRef.current ?? refreshPadRect();
     if (!rect) return;
     const now = performance.now();
     const x = Math.min(1, Math.max(0, (event.clientX - rect.left) / rect.width));
@@ -98,9 +112,10 @@ export default function SoundInteractionPrototype({ project }) {
       lastTime: now,
     });
     syncInputs();
-  }, [applyValues, syncInputs]);
+  }, [applyValues, refreshPadRect, syncInputs]);
 
   const handlePointerDown = (event) => {
+    refreshPadRect();
     pointerRef.current.id = event.pointerId;
     pointerRef.current.lastX = event.clientX;
     pointerRef.current.lastY = event.clientY;
@@ -127,8 +142,12 @@ export default function SoundInteractionPrototype({ project }) {
     queueReadoutAnnouncement();
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    refreshPadRect();
     renderValues();
+  }, [refreshPadRect, renderValues]);
+
+  useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === "Escape" && audioActiveRef.current) cancelAudio();
     };
@@ -139,14 +158,29 @@ export default function SoundInteractionPrototype({ project }) {
     }, { rootMargin: "80px 0px", threshold: 0.01 });
     if (padRef.current) observer.observe(padRef.current);
 
+    const resizeObserver = typeof ResizeObserver === "undefined"
+      ? null
+      : new ResizeObserver(() => {
+          refreshPadRect();
+          scheduleRender();
+        });
+    if (padRef.current) resizeObserver?.observe(padRef.current);
+    const handleResize = () => {
+      refreshPadRect();
+      scheduleRender();
+    };
+    if (!resizeObserver) window.addEventListener("resize", handleResize, { passive: true });
+
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
+      if (!resizeObserver) window.removeEventListener("resize", handleResize);
       observer.disconnect();
+      resizeObserver?.disconnect();
       if (frameRef.current) window.cancelAnimationFrame(frameRef.current);
       if (announcementTimerRef.current) window.clearTimeout(announcementTimerRef.current);
       cancelAudio();
     };
-  }, [cancelAudio, renderValues]);
+  }, [cancelAudio, refreshPadRect, scheduleRender]);
 
   const handleStart = async () => {
     audioActiveRef.current = true;

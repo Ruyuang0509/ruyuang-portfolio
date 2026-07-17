@@ -1,5 +1,5 @@
 import { extend, useFrame } from "@react-three/fiber";
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   AmbientLight,
   BufferAttribute,
@@ -126,23 +126,34 @@ function ParticleField({ active, count }) {
   );
 }
 
-export default function HeroScene({ active = true, eventSource }) {
-  const sceneQuality = useMemo(() => {
-    const isCompact = window.matchMedia("(max-width: 767px)").matches;
-    const isLowPower = (navigator.hardwareConcurrency ?? 8) <= 4;
+const getSceneQuality = (isCompact) => {
+  const isLowPower = (navigator.hardwareConcurrency ?? 8) <= 4;
+  return {
+    maxDpr: isCompact || isLowPower ? 1.12 : 1.35,
+    particles: isCompact || isLowPower ? 120 : 180,
+    sphereSegments: isCompact || isLowPower ? 44 : 56,
+    sphereRadius: isCompact ? 1.22 : 1.58,
+    antialias: !(isCompact || isLowPower),
+  };
+};
 
-    return {
-      maxDpr: isCompact || isLowPower ? 1.12 : 1.35,
-      particles: isCompact || isLowPower ? 120 : 180,
-      sphereSegments: isCompact || isLowPower ? 44 : 56,
-      sphereRadius: isCompact ? 1.22 : 1.58,
-      antialias: !(isCompact || isLowPower),
-    };
+export default function HeroScene({ active = true, eventSource }) {
+  const [sceneQuality, setSceneQuality] = useState(() => {
+    const compactQuery = window.matchMedia("(max-width: 767px)");
+    return getSceneQuality(compactQuery.matches);
+  });
+
+  useEffect(() => {
+    const compactQuery = window.matchMedia("(max-width: 767px)");
+    const syncQuality = () => setSceneQuality(getSceneQuality(compactQuery.matches));
+    compactQuery.addEventListener?.("change", syncQuality);
+    return () => compactQuery.removeEventListener?.("change", syncQuality);
   }, []);
   // Codex-Fix: Adapt R3F quality for mobile and low-core devices instead of removing the 3D identity.
 
   return (
     <LeanR3FCanvas
+      key={sceneQuality.antialias ? "hero-aa" : "hero-no-aa"}
       active={active}
       maxDpr={sceneQuality.maxDpr}
       antialias={sceneQuality.antialias}

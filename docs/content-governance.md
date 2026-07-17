@@ -11,7 +11,7 @@ The site should not be split into two unrelated websites because that would crea
 
 1. Public portfolio content lives in `src/data/portfolio.js`.
 2. Hidden case text lives in `src/data/portfolio.hidden.js`; submission mode resolves `#portfolio-hidden` to an empty module.
-3. Internal build notes live in `src/data/portfolio.internal.js`.
+3. Internal build notes and editorial selection rules (`portfolioPriorityRules`) live in `src/data/portfolio.internal.js`.
 4. Draft-only rendering lives in `src/draft/DraftModeEnabled.jsx`.
 5. Submission builds resolve `#portfolio-draft` to `src/draft/DraftModeDisabled.jsx`, so internal panels are not imported.
 6. `scripts/submission-output-scanner.mjs` independently scans supported text files and the complete `dist/` inventory; the CLI and regression fixtures share that core.
@@ -27,7 +27,7 @@ Use `src/data/portfolio.js` for content that may appear in formal review:
 - outcome showcase
 - diagrams, public media, captions, transcripts
 - optional structured workflow, Prompt decisions, provenance-labelled Prompt templates, real storyboard frames, media layers, evidence-linked deliverables, evidence boundaries, planned evaluation, value cards, next steps, and working CTAs
-- tools, roles, reflection, institute connections
+- tools, roles, reflection, institute connections, and a `themeEvidenceStatus` value for every declared institute theme
 - public links, credits, SEO title and description
 
 Public content must not include authoring reminders or construction wording.
@@ -46,8 +46,9 @@ Use `src/data/portfolio.internal.js` for preparation material:
 - content readiness notes
 - evidence manifest/readiness paths and open gates
 - rights-review status and applicant attestation requirement
+- editorial portfolio selection/checklist rules (`portfolioPriorityRules`)
 
-These notes are visible only in Draft Mode.
+These notes belong only to the draft/authoring path; submission builds must not import or expose them.
 
 ## Status Labels
 
@@ -63,9 +64,20 @@ Internal-only statuses:
 - Missing Materials / 待補資料
 - Hidden from Submission / 不進入送審版
 
+## Institute Alignment Evidence
+
+Every authored project, including submission-hidden draft cases, must classify each declared `instituteConnections` theme in `themeEvidenceStatus`:
+
+- `demonstrated`: the project's work, role, tools, and rationale directly support that theme; only public projects can contribute this relationship to the public evidence summary.
+- `researchDirection`: the connection is a future graduate-study direction, not current project evidence.
+
+`instituteEvidenceGroups` is derived exactly from `submissionVisibility === "public"` projects and their `demonstrated` relationships. The public institute-alignment summary therefore currently omits `沉浸式體驗` and `數位孿生`, because no public project marks either as demonstrated. They may remain in the overall taxonomy and in individual case details only when visibly labelled as future research directions.
+
+The editorial `portfolioPriorityRules` are authoring guidance, not applicant evidence. Keep them draft-only; do not import or restate them in submission-facing sections.
+
 ## Completeness Applicability
 
-Completeness is not the same as publication visibility. Required identity, narrative, role, reflection, and institute-link fields are still governed for every authored case. Evidence-heavy recommended groups such as workflow/diagrams and public media apply only when `submissionVisibility !== "hidden"`.
+Completeness is not the same as publication visibility. Required identity, narrative, role, reflection, and institute-link fields are still governed for every authored case. Evidence-heavy recommended groups such as workflow/diagrams and public media apply only when `submissionVisibility === "public"`.
 
 Draft Mode therefore reports those groups as `不適用 · submission-hidden` for a hidden case and excludes them from `recommendedMissing`. This prevents an intentional submission boundary from appearing as an unresolved public-evidence warning. It does not permit placeholder assets in `public/`, weaken the submission alias, or bypass the output scanner.
 
@@ -123,6 +135,8 @@ The submission scan fails if generated output contains construction-stage wordin
 - 未來可放入
 - 審查者
 - 評審可以
+- 優先放入能展現 AI、互動媒體、聲響或沉浸式經驗的作品
+- 每件作品都要回答：為什麼做、給誰用、如何互動、證據在哪裡
 
 It also rejects legacy branding and dead anchors, hidden case IDs and filenames,
 restricted-media paths, local absolute paths, known sensitive source filenames,
