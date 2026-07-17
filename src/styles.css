@@ -176,6 +176,25 @@ section {
 
 .mobile-section-trigger {
   display: inline-flex;
+  min-height: 2.75rem;
+}
+
+.nav-home-link {
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  place-content: center;
+}
+
+.nav-section-link {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+}
+
+.nav-section-link--active {
+  color: var(--theme-text);
+  background: var(--theme-surface);
+  box-shadow: inset 0 0 0 1px var(--theme-line);
 }
 
 @media (min-width: 768px) {
@@ -203,12 +222,54 @@ section {
     linear-gradient(180deg, var(--theme-bg), color-mix(in srgb, var(--theme-bg) 92%, var(--theme-text) 8%));
 }
 
-.theme-transition-bridge {
-  min-block-size: clamp(96px, 14vw, 240px);
-  background: linear-gradient(180deg, var(--color-bg), var(--color-paper));
+.viewport-theme-transition {
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  overflow: hidden;
   pointer-events: none;
+  contain: paint;
 }
-/* Codex-Fix: Keep copy outside a static two-endpoint bridge so either scroll direction has the same calm tonal passage. */
+
+.viewport-theme-transition > div {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+.viewport-theme-transition__paper {
+  background: var(--color-paper);
+}
+
+.viewport-theme-transition__mist {
+  inset: -12vmax !important;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(137, 132, 111, 0.72), transparent 58%),
+    #706b5f;
+  transform: scale(1.04);
+}
+
+.viewport-theme-transition__field {
+  inset: -18vmax !important;
+}
+
+.viewport-theme-transition__field--a {
+  background: radial-gradient(circle at 22% 35%, rgba(104, 111, 83, 0.7), transparent 45%);
+}
+
+.viewport-theme-transition__field--b {
+  background: radial-gradient(circle at 78% 28%, rgba(196, 187, 162, 0.76), transparent 43%);
+}
+
+.viewport-theme-transition__field--c {
+  background: radial-gradient(circle at 58% 82%, rgba(91, 87, 73, 0.52), transparent 48%);
+}
+
+html.theme-transition-ready .theme-transition-source,
+html.theme-transition-ready .supporting-case-studies {
+  background: transparent;
+}
+/* Codex-Fix: The dark-to-paper passage is now a fixed viewport field; only adjacent sections become transparent after ScrollTrigger is ready. */
 
 .portfolio-card,
 .evidence-panel,
@@ -320,6 +381,13 @@ section {
   overflow-wrap: break-word;
 }
 
+.mobile-section-trigger.chip-text,
+.hero-cta.chip-text,
+.institute-jump-link.chip-text,
+.case-reading-link.chip-text {
+  min-height: 2.75rem;
+}
+
 .mixed-token {
   font-family: var(--font-sans-zh);
   letter-spacing: 0.005em;
@@ -381,6 +449,27 @@ section {
 }
 /* Codex-Fix: Give the lazy R3F canvas a stable shell so it cannot shift first-screen content. */
 
+.hero-title {
+  max-inline-size: 100%;
+  font-size: clamp(2.8rem, 14vw, 4.6rem);
+}
+
+.hero-title .phrase-line {
+  overflow: hidden;
+  padding-block-end: 0.08em;
+}
+
+.phrase-line__motion {
+  display: block;
+  transform-origin: 50% 100%;
+}
+
+@media (min-width: 768px) {
+  .hero-title {
+    font-size: clamp(4.5rem, 7.25vw, 8.5rem);
+  }
+}
+
 .gallery-panel {
   container-type: inline-size;
 }
@@ -408,10 +497,6 @@ section {
 }
 /* Codex-Fix: Use transform-only micro-interactions for tactile but cheap CTA feedback. */
 
-.hero-canvas-shell canvas {
-  will-change: transform;
-}
-
 @media (hover: hover) and (pointer: fine) {
   .portfolio-card:is(:hover, :focus-within),
   .group:is(:hover, :focus-within) img,
@@ -432,6 +517,17 @@ section {
   .case-study-detail {
     content-visibility: auto;
     contain-intrinsic-size: auto 1800px;
+  }
+
+  .case-study-detail:target,
+  .case-study-detail[data-hash-target-active="true"] {
+    content-visibility: visible;
+  }
+
+  @supports selector(.case-study-detail:has(:target)) {
+    .case-study-detail:has(:target) {
+      content-visibility: visible;
+    }
   }
   /* Codex-Fix: Skip painting offscreen long-form case studies while keeping the project index immediately available. */
 }
@@ -488,14 +584,54 @@ section {
 }
 /* Codex-Fix: Add stable long-form case-study rules for readable text, embedded media, and future demos. */
 
-details summary {
-  list-style-position: outside;
+.animated-disclosure__summary {
+  display: flex;
+  min-block-size: 2.75rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  list-style: none;
 }
 
-details summary::marker {
-  color: var(--theme-accent);
+.animated-disclosure__summary::-webkit-details-marker {
+  display: none;
 }
-/* Codex-Fix: Make expandable diagram text equivalents visible and keyboard-friendly without extra JavaScript. */
+
+.animated-disclosure__summary::marker {
+  content: "";
+}
+
+.animated-disclosure__summary:focus-visible {
+  outline: 2px solid var(--theme-accent);
+  outline-offset: 0.35rem;
+  border-radius: var(--radius-sm);
+}
+
+.animated-disclosure__indicator {
+  flex: 0 0 auto;
+  color: var(--theme-accent);
+  font-size: 1.1em;
+  transition: transform var(--motion-duration-normal) var(--motion-ease-standard);
+}
+
+.animated-disclosure[data-expanded="true"] .animated-disclosure__indicator {
+  transform: rotate(90deg);
+}
+
+.animated-disclosure__content {
+  display: flow-root;
+  opacity: 0;
+  transform: translate3d(0, -0.35rem, 0);
+  transition:
+    opacity 260ms var(--motion-ease-standard),
+    transform 300ms var(--motion-ease-standard);
+}
+
+.animated-disclosure:is([data-state="opening"], [data-state="open"]) .animated-disclosure__content {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+/* Codex-Fix: Preserve native details/summary semantics while animating both opening and closing height with synchronized content and indicator feedback. */
 
 .sound-pad {
   position: relative;
@@ -535,19 +671,19 @@ details summary::marker {
 }
 
 .sound-pad__point {
-  --sound-x: 50%;
-  --sound-y: 50%;
+  --sound-x: 0px;
+  --sound-y: 0px;
   --sound-size: 1.1;
   position: absolute;
-  left: var(--sound-x);
-  top: var(--sound-y);
+  left: 0;
+  top: 0;
   width: 4.5rem;
   height: 4.5rem;
   border: 2px solid var(--theme-text);
   border-radius: 999px;
   background: var(--theme-accent);
   box-shadow: 0 0 0 0.8rem color-mix(in srgb, var(--theme-accent) 16%, transparent);
-  transform: translate(-50%, -50%) scale(var(--sound-size));
+  transform: translate3d(var(--sound-x), var(--sound-y), 0) translate(-50%, -50%) scale(var(--sound-size));
   transition: box-shadow var(--motion-duration-fast) var(--motion-ease-standard);
   pointer-events: none;
 }
@@ -657,8 +793,19 @@ details summary::marker {
     background: #f3eee4 !important;
   }
 
-  .theme-transition-bridge {
+  .viewport-theme-transition {
     display: none !important;
+  }
+
+  .animated-disclosure {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .animated-disclosure > .animated-disclosure__content {
+    display: flow-root !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 
   .portfolio-card,

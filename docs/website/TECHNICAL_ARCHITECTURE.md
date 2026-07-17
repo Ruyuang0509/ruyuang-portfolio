@@ -11,7 +11,7 @@
 | Tailwind CSS 4.3 | JSX utility layout；Vite plugin 零 runtime | 核心 |
 | 自訂 CSS tokens/primitives | 繁中排版、surface、sound pad、reduced-motion、print | 核心 |
 | Motion for React 12 | Hero CTA、卡片、custom cursor、reduced-motion | 核心 |
-| GSAP 3.13 + ScrollTrigger | Lenis ticker 與 gallery 門檻的 fixed-nav chrome 切換 | 核心 |
+| GSAP 3.13 + ScrollTrigger | Lenis ticker、固定 viewport 場域 scroll scrub 與 fixed-nav chrome threshold | 核心 |
 | Lenis 1.3 | 平滑 wheel／anchor scroll | 核心；reduced-motion 停用 |
 | Three.js 0.179 + React Three Fiber 9 | Hero shader orb 與粒子 | 選配、lazy 漸進增強 |
 | Web Audio API | 旗艦案例合成聲音、pan/pitch/filter/gain | 核心產品證據；瀏覽器原生、無額外依賴 |
@@ -29,6 +29,7 @@ flowchart LR
   A["index.html"] --> B["src/main.jsx"]
   B --> C["React StrictMode / RootErrorBoundary / App"]
   C --> D["Lenis + ScrollTrigger hooks"]
+  C --> N["ViewportThemeTransition + AnimatedDetails"]
   C --> E["Navbar + CustomCursor + Draft alias"]
   C --> F["HomePage sections"]
   F --> G["portfolio.js public data"]
@@ -44,12 +45,14 @@ flowchart LR
 
 ## 頁面與元件責任
 
-- [`../../src/App.jsx`](../../src/App.jsx)：頁面順序、旗艦／支持案例拆分、AI 方法、Reviewer Path 與頂層區段 error boundaries；`main` 首幀直接可見。
-- [`../../src/components/Navbar.jsx`](../../src/components/Navbar.jsx)：桌面／行動 anchor 導覽、reduced-motion scroll、目標 heading focus、focus restore、hash 更新；nav 表面不再使用固定 backdrop blur。
+- [`../../src/App.jsx`](../../src/App.jsx)：頁面順序、旗艦／支持案例拆分、AI 方法、Reviewer Path、固定 viewport transition mount 與頂層區段 error boundaries；`main` 首幀直接可見；初始 deep link 會為目標長案例解除 placeholder layout、重算既有 Lenis range，再進行一次性定位。
+- [`../../src/components/ViewportThemeTransition.jsx`](../../src/components/ViewportThemeTransition.jsx)：`aria-hidden`、pointer-inert 的固定 viewport layer；只提供 paper、mist 與 3 個 radial field DOM，沒有獨立 loop 或內容 blur。
+- [`../../src/components/AnimatedDetails.jsx`](../../src/components/AnimatedDetails.jsx)：共用 native `<details>/<summary>` disclosure；以 Web Animations API 動畫實際高度，處理兩向、快速反轉、鍵盤與 reduced-motion，完成後發出 `portfolio:layout-change`。
+- [`../../src/components/Navbar.jsx`](../../src/components/Navbar.jsx)：桌面／行動 anchor 導覽、reduced-motion scroll、目標 heading focus、focus restore、hash 更新；行動選單以 Motion 動畫 height／opacity，nav 表面不再使用固定 backdrop blur。
 - [`../../src/components/ImmersiveHero.jsx`](../../src/components/ImmersiveHero.jsx)：資料驅動 Hero、首幀可讀標題／介紹、CTA Motion、延後 3D progressive loading。
 - [`../../src/components/LeanR3FCanvas.jsx`](../../src/components/LeanR3FCanvas.jsx)：以 R3F public `createRoot`／`events` 建立 Hero 專用 canvas，只註冊實際使用的 8 個 Three constructors；同步尺寸、DPR 與 frameloop，並以可取消 disposal 避免 StrictMode replay 的舊清理銷毀新 root。
 - [`../../src/components/ResearchPositioning.jsx`](../../src/components/ResearchPositioning.jsx)：定位、軌道、術語轉譯，以及從 `instituteEvidenceGroups` 呈現可回到正確公開案例的 demonstrated 本所證據。
-- [`../../src/components/CaseStudyShowcase.jsx`](../../src/components/CaseStudyShowcase.jsx)：索引、長篇案例、16:9／多字幕影片、workflow、Prompt 決策、storyboard、媒體分層、證據分類、testing、credits 與 lazy flagship demo；支持作品包含局部暖紙 surface 和作品索引前的靜態 transition bridge，案例本所連結分開 demonstrated 與 research direction。
+- [`../../src/components/CaseStudyShowcase.jsx`](../../src/components/CaseStudyShowcase.jsx)：索引、長篇案例、16:9／多字幕影片、媒體／字幕錯誤 fallback、具輸入與人工檢查的 workflow、Prompt 決策、storyboard、媒體分層、證據分類、testing、credits 與 lazy flagship demo；Prompt Template、圖解長描述與雙語逐字稿使用共用 `AnimatedDetails`，支持作品沿用局部暖紙 tokens，案例本所連結分開 demonstrated 與 research direction。
 - [`../../src/components/SoundInteractionPrototype.jsx`](../../src/components/SoundInteractionPrototype.jsx)：具圖像語意的 pointer pad、touch／四個 range input、readout、節流 live announcement、聲音生命週期、mapping 說明。
 - [`../../src/hooks/useWebAudioEngine.js`](../../src/hooks/useWebAudioEngine.js)：React state、StrictMode-safe controller lifecycle 與 `visibilitychange` 即時清理。
 - [`../../src/audio/webAudioEngineCore.js`](../../src/audio/webAudioEngineCore.js)：可注入／可測試的 AudioContext controller，負責 resume cancel／timeout、graph、release、context interruption、參數與 destroy。
@@ -99,20 +102,20 @@ Hidden case 使用空 media state；原有 13 個 `ph-after-*`／`mv-soft-*` pla
 
 ## Styling 與 motion lifecycle
 
-Tailwind utility 負責局部 grid/spacing；[`../../src/styles.css`](../../src/styles.css) 負責語意 tokens、繁中排版、mobile menu、surface、focus、sound pad、reduced-motion 與 print。Document root 始終使用深墨 tokens；`.paper-surface` 將暖紙 tokens 限定在支持作品 gallery 與 Reviewer Path，`#project-index` 前另有 `clamp(96px, 14vw, 240px)` 的無文字靜態 bridge。`useLenisGsap` 讓 Lenis 與 GSAP 共用 ticker；`useThemeInversion` 現在只以 `#gallery` 為 trigger 切換 `.nav-surface--paper`，不再修改 document root。Motion 與 R3F 各自讀取 reduced-motion 或裝置能力。
+Tailwind utility 負責局部 grid/spacing；[`../../src/styles.css`](../../src/styles.css) 負責語意 tokens、繁中排版、mobile menu、surface、focus、sound pad、disclosure、fixed viewport field、reduced-motion 與 print。Document root 與 foreground tokens 保持穩定；`.paper-surface` 將暖紙 tokens 限定在支持作品 gallery 與 Reviewer Path。`useLenisGsap` 讓 Lenis 與 GSAP 共用 ticker，並在 `portfolio:layout-change` 時以 rAF 合併 Lenis resize 與 ScrollTrigger refresh。`useThemeInversion` 由 `#data-visualization-series` bottom 85% 到 `#project-index-title` top 15% 使用 `scrub:true`／`invalidateOnRefresh:true`，只動畫固定 field 子層的 opacity／transform；`.nav-surface--paper` 依同一 progress 切換，不再修改 document root。
 
-Navbar 改用較不透明的 theme-aware 背景，不再使用固定 `backdrop-blur-2xl`。永久 `will-change` 縮到 Hero canvas 的 transform；案例圖片／影片只在 fine-pointer hover 或 focus-within 時晉升，magnetic targets 不再長駐 compositor layer。Reduced motion 仍呈現靜態 bridge，因為它不依賴 animation；print 則隱藏 bridge 並將主要 section 強制為 paper-safe 背景。
+Navbar 改用較不透明的 theme-aware 背景，不再使用固定 `backdrop-blur-2xl`。永久 `will-change` 縮到 Hero canvas 的 transform；案例圖片／影片只在 fine-pointer hover 或 focus-within 時晉升，magnetic targets 不再長駐 compositor layer。Reduced motion 將 fixed field 改為同一邊界的離散 dark／paper endpoint，AnimatedDetails 與行動選單立即開關；print 隱藏 field、展開 disclosure，並將主要 section 強制為 paper-safe 背景。
 
 ## 資產與 build pipeline
 
 - `public/` 靜態資產原樣提供；案例圖使用 AVIF/WebP `srcset` 與固定 dimensions。Hamlet clean MP4 使用外掛英文／繁中 WebVTT，renderer 不自動播放並以同頁逐字稿補足；根目錄 `.gitattributes` 強制 `*.vtt` 使用 LF，讓 Windows checkout 仍維持 manifest 已驗證的 bytes／SHA-256。任何放入 public 的檔案都應視為可公開，即使 submission React tree 沒有引用。
 - R3F 與 Web Audio UI 都以 `React.lazy` 分 chunk；Three 不進 initial modulepreload。Hero section 作為 R3F `eventSource`，pointer 以 section 的 `clientX/Y` 換算；離開 preload window 後改為 `frameloop="demand"`。
 - Vite manual chunks：`react`、`three-core`、`motion`、`scroll`、`vendor`；R3F 自然留在 lazy `HeroScene`，避免強制打包整個 Three namespace。
-- 2026-07-17 fresh submission build 的 lazy 3D closure 為 `HeroScene` 151272 B、`three-core` 483687 B、`vendor` 3273 B，合計 638232 raw／169223 gzip B；initial JS closure 為 187915 gzip B。`audit-build-budgets.mjs` 以 attribute-order-independent HTML 解析和 built import closure 計算 initial／lazy 成本，並逐檔限制 500000 raw B，因此沒有 >500 kB warning。
+- 2026-07-17 fresh submission build 的 lazy 3D closure 為 `HeroScene` 151272 B、`three-core` 483687 B、`vendor` 3273 B，合計 638232 raw／169223 gzip B；initial JS closure 為 193157 gzip B，entry 157531 B，CSS 43103 B。`audit-build-budgets.mjs` 以 attribute-order-independent HTML 解析和 built import closure 計算 initial／lazy 成本，並逐檔限制 500000 raw B，因此沒有 >500 kB warning。
 - `audit-portfolio-evidence.mjs` 核對 Hamlet direct-copy bytes／SHA-256、衍生 AVIF/WebP inventory SHA-256、實際 dimensions、VTT timing／逐字稿及 public inventory。Publication mode 另外要求頂層核准狀態、逐項 rights checks／evidence refs 與完整 applicant attestation；只改一個 status 不能解除 gate。
 - `run-lighthouse.mjs` 明確建置 submission／相對 base並先跑 submission／Pages scan；以完整 path／size／SHA-256 manifest 複製 immutable artifact，再由動態 port preview。它動態納入根目錄 Vite `.env*`，在 audit 前後核對 build-input path set／manifest，並驗證 mtime、fetchTime、URL、完整 resolved mobile／desktop config、runtime、categories、metrics 與 diagnostics；profile fingerprint 保存完整設定，environment／comparability fingerprint 另納入 benchmark、OS 與穩定 CPU identity，繼承環境只保存名稱與值雜湊。
 - 每次 Lighthouse run 從 build 前至發布完成持有跨程序獨占鎖，只有 metadata 完整且 PID 回報 `ESRCH` 的 stale lock 可用 token quarantine 回收。唯一 archive 先寫入 raw reports、conditions、CLI stdout／stderr transcript、artifact／source manifests 與完整受測 `dist`，重驗所有雜湊後最後原子建立 `archive-complete.json`；沒有 marker 的孤兒目錄不算成功。canonical reports／history 以 sibling temp＋rename 更新並可整組 rollback，latest summary 最後 atomic replace 作權威指標；失敗 run 保留上一份成功 summary。最近 20 次索引在 `reports/lighthouse-history.json`。只有 fresh report 通過全部驗證，且非零輸出精確指向該 run Chrome temp 的已知 cleanup `EPERM` 簽章時才降為具名 warning並封存原始輸出。
-- Current-fingerprint Lighthouse：mobile Performance 95／Accessibility 100／LCP 2557 ms／TBT 35 ms／transfer 452708 B；desktop 100／100／554 ms／0 ms／436379 B。此為 localhost simulated lab，不是 production field evidence。
+- Current-fingerprint Lighthouse（archive `2026-07-17T10-53-04-160Z`）：mobile Performance 94／Accessibility 100／LCP 2632 ms／TBT 56 ms／transfer 459090 B；desktop 100／100／548 ms／0 ms／442761 B；兩者 CLS 0。此為 localhost simulated lab，不是 production field evidence。
 - `restricted-media/` 在 `public/` 外，不會被 Vite 複製；submission dev 也以 filesystem deny 阻擋直接 URL。
 - 外部 runtime 只有資料案例的 YouTube privacy-enhanced iframe；沒有 fetch/API。
 - `index.html`、JSON-LD、`public/llms.txt`、favicon、social preview 與案例 SEO title 已同步為 RU / YUAN／Sound, Interaction & Learning；canonical URL 與 raster preview 仍等待 hosting 決策。

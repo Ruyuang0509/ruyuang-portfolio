@@ -17,7 +17,7 @@
 | P1 | 資料視覺化影片字幕／transcript 品質未人工確認 | 聽覺可及性與快速審查不足 | 檢查 YouTube captions，另提供同頁 transcript summary |
 | P1 | 沒有公開聯絡／CV | Reviewer Path 只能站內循環，不能完成外部轉換 | 由 stakeholder 決定是否加入；沒有資料前維持明示「無公開聯絡」 |
 | P1 | 已完成 6 組 viewport、桌面六個導覽連結與 Logo、行動 menu、focus、contrast 與 Web Audio timeout fallback；screen reader、真實 200% zoom、system reduced-motion 與實機仍未驗證 | 部分 rendered smoke test 不能替代輔具與實機驗收 | 以 VoiceOver／NVDA、真實 zoom、系統偏好、iOS／Android 及多瀏覽器補完矩陣 |
-| P2 | 歷史 851 kB 單一 Three chunk 已改為 638232 raw／169223 gzip B 的完整 lazy 3D closure，最大 chunk 483687 B；initial preload 排除 3D，current-fingerprint mobile 為 Performance 95、LCP 2557 ms、TBT 35 ms | 本機 simulated profile 與 build budget 支持目前保留場景，但仍不能代表低階實機、GPU／耗電或 production network | 保留 visibility-aware lazy／device gating 與 closure budget；以低階 Android／iOS、Save-Data 與正式 Pages field evidence 再判斷是否簡化 shader scene |
+| P2 | 歷史 851 kB 單一 Three chunk 已改為 638232 raw／169223 gzip B 的完整 lazy 3D closure，最大 chunk 483687 B；initial preload 排除 3D，current-fingerprint mobile 為 Performance 94、LCP 2632 ms、TBT 56 ms | 本機 simulated profile 與 build budget 支持目前保留場景，但仍不能代表低階實機、GPU／耗電或 production network | 保留 visibility-aware lazy／device gating 與 closure budget；以低階 Android／iOS、Save-Data 與正式 Pages field evidence 再判斷是否簡化 shader scene |
 | P2 | sound 自動測試已有 5 個 mapping 與 13 個 controller lifecycle tests；React controls、Escape、offscreen 與 live region 目前只有 rendered smoke evidence | 核心 AudioContext race／cleanup 可重跑，但 component UI regression 尚未自動化 | 若未來加入正式 browser test runner，再補 React interaction tests；不要依賴間接 Puppeteer dependency |
 | P2 | 單頁 anchors | 獨立分享、case SEO、browser history 能力有限 | 只有確定有分享需求時再評估 router/static routes |
 | P2 | 已有 manual-only Pages workflow 與 Draft PR，但沒有一般 PR CI、lint、formatter 或廣泛 tests；目前 connector 可見 checks／workflow runs 都是 0 | 品質仍依賴本機 `doctor` 與人工矩陣 | 評估加入不含部署權限的最小 Windows PR CI 與 a11y smoke tests；由使用者另行決定何時執行 manual Pages workflow |
@@ -51,7 +51,7 @@
 - 長頁平台 scrollbar 已恢復並跟隨深色／暖紙 theme token；`body` 最小寬度不再超出 scrollbar 扣除後的可用寬度，320×568、375×812、1440×900 均 0 global horizontal overflow。
 - 有效 Git history、`origin`、`main`／working branch 與既有 Draft PR #1 已確認；後續不得重複初始化或建立重複 PR。
 - 生成式 AI 協作方法區段、Prompt v1／v2、兩個實際失敗案例及人類最終責任揭露。
-- submission-only Lighthouse harness 的跨程序鎖、stale-lock dead-PID 驗證、archive completion marker、canonical rollback／summary-last、完整受測 `dist`／source manifests、CLI transcript、完整 profile／environment fingerprint、freshness／runtime 驗證與 mobile／desktop 分流；Hero LCP、current-geometry first-load、scene fallback、離散主題對比、theme-aware nav、sound-pad ARIA、busy/live-region 與 pending-start 取消問題已修正。
+- submission-only Lighthouse harness 的跨程序鎖、stale-lock dead-PID 驗證、archive completion marker、canonical rollback／summary-last、完整受測 `dist`／source manifests、CLI transcript、完整 profile／environment fingerprint、freshness／runtime 驗證與 mobile／desktop 分流；Hero LCP、current-geometry first-load、scene fallback、前一輪離散主題對比、theme-aware nav、sound-pad ARIA、busy/live-region 與 pending-start 取消問題已修正。本輪再以 fixed viewport field 恢復可逆、可停留的深墨→暖灰→暖紙 scrub，並補齊 disclosure 兩向高度動畫。
 
 ## 建議里程碑
 

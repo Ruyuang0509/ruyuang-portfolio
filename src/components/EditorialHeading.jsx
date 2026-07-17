@@ -7,6 +7,7 @@ export default function EditorialHeading({
   id,
   className = "",
   lines,
+  renderLine,
   children,
 }) {
   const hasStructuredLines = Array.isArray(lines) && lines.length > 0;
@@ -26,6 +27,14 @@ export default function EditorialHeading({
       {lines.map((line, lineIndex) => {
         const phrases = Array.isArray(line) ? line : [line];
         const visualText = lineToText(line);
+        const phraseContent = phrases.map((phrase, phraseIndex) => (
+          <span
+            key={`${phraseIndex}-${phrase}`}
+            className="phrase-unit"
+          >
+            {phrase}
+          </span>
+        ));
 
         return (
           <span
@@ -33,14 +42,7 @@ export default function EditorialHeading({
             className="phrase-line"
             aria-hidden="true"
           >
-            {phrases.map((phrase, phraseIndex) => (
-              <span
-                key={`${phraseIndex}-${phrase}`}
-                className="phrase-unit"
-              >
-                {phrase}
-              </span>
-            ))}
+            {renderLine ? renderLine(phraseContent, lineIndex) : phraseContent}
           </span>
         );
       })}

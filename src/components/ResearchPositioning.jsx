@@ -179,7 +179,7 @@ const ResearchPositioning = memo(function ResearchPositioning() {
                 {instituteEvidenceGroups.map((group) => (
                   <li key={group.id}>
                     <a
-                      className="inverted-pill interactive-link chip-text inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-extrabold"
+                      className="institute-jump-link inverted-pill interactive-link chip-text inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-extrabold"
                       href={`#${group.id}`}
                       aria-label={`查看「${group.theme}」的作品證據`}
                     >
@@ -230,7 +230,7 @@ const ResearchPositioning = memo(function ResearchPositioning() {
                         </div>
                       </dl>
                       <a
-                        className="interactive-link zh-label w-fit font-black underline decoration-[var(--theme-accent)] decoration-2 underline-offset-4"
+                        className="interactive-link zh-label inline-flex min-h-11 w-fit items-center font-black underline decoration-[var(--theme-accent)] decoration-2 underline-offset-4"
                         href={project.href}
                       >
                         閱讀案例：{project.title}

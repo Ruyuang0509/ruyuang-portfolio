@@ -71,16 +71,16 @@ Optional fields:
 - `seo`: project-specific title and description
 - `englishTitle`, `tags`, `projectInfo`: richer case header and metadata
 - `challenge`: a titled core challenge
-- `workflow.stages`: repeated stages with `title`, `description`, `tool`, and `constraint`
+- `workflow.stages`: exactly five stages with `title`, `description`, `tool`, `input`, `output`, `constraint`, and `humanCheck`
 - `promptDecisions`: decision cards with concrete constraint, rationale, avoided output problem, human check, and provenance status
 - `promptTemplate`: reusable Prompt artifact with explicit original/derived provenance
-- `storyboard.frames`: real scene evidence with image metadata, time, subtitle, and description
+- `storyboard.frames`: real scene evidence with image metadata, bilingual titles, time, numeric `seekSeconds`, subtitle, description, and a human-check control condition
 - `featuredExample`, `mediaLayers`: a representative case and cross-media responsibility model
 - `deliverables`: 5-7 items classified as `實際成果`, `流程產出`, or `製作規格`, with structured status and evidence references
 - `evidenceBoundary`: verified artifacts, approved specifications, and items not independently verified
 - `evaluationPlan`: a planned study protocol when no test result exists yet
 - `outcomes`: three evidence-safe value cards
-- `keyInsight`, `nextSteps`, `ctas`: closing perspective, future work, and working links
+- `keyInsight`, `nextSteps`, `ctas`: closing perspective, future work, and working links; an optional `focusTarget` may move focus to a rendered control after a same-page CTA
 
 Internal authoring fields belong in `src/data/portfolio.internal.js`, not in the public project object:
 
@@ -165,11 +165,11 @@ Videos:
 
 - Use local MP4/WebM where practical.
 - Provide a poster image.
-- Use `preload="none"` unless the video becomes the true hero/LCP media.
+- Use `preload="metadata"` for the featured case video so duration and scene seek are ready; reduce it to `none` when Save-Data is available and enabled. Supporting audio remains `none` by default.
 - Add `captionsSrc` when a WebVTT file exists.
 - Prefer `tracks[]` when more than one WebVTT language exists. Each track needs `src`, `srcLang`, `label`, and `kind`; only one may be default.
 - Add a short transcript summary even before full captions are ready.
-- Add `transcriptCues[]` when the full transcript should remain readable on the page.
+- Add `transcriptCues[]` when the full transcript should remain readable on the page. For onscreen story text without speech, keep `en`／`zh` separate from `visualDescription` and `musicMood`, and state that the section is not speech recognition.
 
 Audio:
 

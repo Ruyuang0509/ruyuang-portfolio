@@ -56,3 +56,39 @@ The package scripts call `scripts/run-node.ps1`, which first uses Node from PATH
 - Put public-facing portfolio copy in `src/data/portfolio.js`.
 - Put construction-stage notes in `src/data/portfolio.internal.js`, which is draft-only.
 - Never rely on CSS hiding for internal notes; submission mode aliases draft UI to an empty component.
+
+### Animation Preservation Requirement
+
+The existing motion system is part of the approved visual identity and
+admissions narrative. Content simplification must not be interpreted as
+animation removal.
+
+Before modifying motion:
+
+1. Inventory the existing animations and classify each as:
+   - narrative guidance;
+   - interaction feedback;
+   - atmosphere / authorship;
+   - decorative;
+   - performance risk.
+
+2. Preserve narrative guidance, interaction feedback, and authorship motion
+   by default.
+
+3. Do not remove an animation unless profiling demonstrates a material
+   performance, accessibility, or usability problem.
+
+4. When an effect is expensive, first attempt:
+   - smaller paint area;
+   - transform / opacity implementation;
+   - lazy or intersection-based activation;
+   - reduced complexity on mobile or low-power devices;
+   - reduced-motion fallback;
+   - lower update frequency.
+
+5. Replacing the global full-document theme switch does not authorize removing
+   Hero motion, card transitions, custom cursor behavior, sound feedback,
+   section reveals, or other unrelated animations.
+
+6. Record every animation removed or materially changed, the evidence supporting
+   that decision, and the replacement interaction used to preserve its UX role.

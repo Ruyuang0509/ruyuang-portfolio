@@ -2,7 +2,7 @@
 
 Updated: 2026-07-17
 
-This site should feel like a calm research dossier, not a flashing demo reel. The document root stays warm ink; supporting case studies and the reviewer endpoint use section-scoped paper surfaces, with a static tonal bridge between them.
+This site should feel like a calm research dossier, not a flashing demo reel. The document root stays warm ink; supporting case studies and the reviewer endpoint use section-scoped paper tokens, while a dedicated fixed viewport field carries the scroll-linked passage between the two states.
 
 ## Tone Strategy
 
@@ -10,8 +10,9 @@ This site should feel like a calm research dossier, not a flashing demo reel. Th
 - Default dark tone: warm ink, used for the proposal entrance and research framing.
 - Light tone: warm paper, scoped to the supporting gallery and Reviewer Path rather than applied to the document root.
 - Inverse elements use `--theme-inverse-bg` and `--theme-inverse-text`, not direct black/white.
-- Immediately before `#project-index`, use the text-free, `aria-hidden` static bridge at `clamp(96px, 14vw, 240px)`; do not place copy on transitional colors.
-- ScrollTrigger may switch fixed navigation chrome at the gallery threshold, but must not swap the root or content palette.
+- The deep-ink-to-paper passage uses the text-free, `aria-hidden`, `pointer-events: none` `ViewportThemeTransition` fixed layer. It covers the viewport without adding layout height.
+- ScrollTrigger scrubs only that layer's paper/mist opacity and three low-contrast radial-field transforms from `#data-visualization-series` bottom 85% to `#project-index-title` top 15%; fixed navigation chrome follows the same progress threshold.
+- Keep foreground and root tokens section-scoped. Do not interpolate text colors or rewrite document-root palette variables during scroll.
 
 ## Surface Rules
 
@@ -33,11 +34,11 @@ This site should feel like a calm research dossier, not a flashing demo reel. Th
 ## Motion And Accessibility
 
 - Motion should support comprehension, not create brightness flashes.
-- Keep content palettes static and section-scoped; never scrub or interpolate foreground and background colors through low-contrast intermediate states.
-- Respect `prefers-reduced-motion`; remove decorative motion but keep the static bridge because it does not animate.
+- Keep foreground palettes static and section-scoped; only the dedicated background field may pass through low-contrast intermediate colors, with no text placed on the transition itself.
+- Respect `prefers-reduced-motion`; remove mist/radial motion and switch the fixed field directly between its dark and paper endpoints at the same geometric boundary.
 - Keep focus rings visible on both warm dark and warm paper backgrounds.
 - Keep navigation mostly opaque instead of relying on a large fixed backdrop blur. Reserve permanent `will-change` for the Hero canvas; promote case media only during hover/focus interaction.
-- Print hides the transition bridge and forces major sections onto a paper-safe background.
+- Print hides the fixed transition field, expands disclosure content, and forces major sections onto a paper-safe background.
 
 ## Future Edits
 

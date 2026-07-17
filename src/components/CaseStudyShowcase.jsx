@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import {
   sortedProjectCaseStudies,
@@ -7,6 +7,7 @@ import {
 import EditorialHeading from "./EditorialHeading.jsx";
 import SectionErrorBoundary from "./SectionErrorBoundary.jsx";
 import PortfolioDraftLayer from "#portfolio-draft";
+import AnimatedDetails from "./AnimatedDetails.jsx";
 
 const SoundInteractionPrototype = lazy(() => import("./SoundInteractionPrototype.jsx"));
 
@@ -32,6 +33,15 @@ const defaultCaseReadingAnchors = [
   { key: "themes", label: "連結", title: "本所主題" },
 ];
 
+const hasSupportingMediaEvidence = (media = {}) => Boolean(
+  media.visualDrafts?.length
+  || media.screenshots?.length
+  || media.videos?.some((video) => !video.featured)
+  || media.audio?.length
+  || media.demos?.length
+  || media.restricted?.length,
+);
+
 const getCaseReadingAnchors = (project) => project.workflow
   ? [
       { key: "problem", label: "背景", title: "專案背景" },
@@ -41,7 +51,9 @@ const getCaseReadingAnchors = (project) => project.workflow
       { key: "outcomes", label: "價值", title: "成果與價值" },
       { key: "next-steps", label: "後續", title: "洞察與下一步" },
     ]
-  : defaultCaseReadingAnchors;
+  : defaultCaseReadingAnchors.filter(
+      (anchor) => anchor.key !== "media" || hasSupportingMediaEvidence(project.media),
+    );
 // Codex-Fix: Give every case study a repeatable reviewer reading path instead of forcing long-scroll guessing.
 
 const countMediaEvidence = (media = {}) =>
@@ -83,6 +95,20 @@ function ChipList({ items = [], accent = false, label = "標籤" }) {
 }
 
 function ResponsiveImage({ image, className = "", sizes = "100vw", loading = "lazy", fetchPriority = "auto" }) {
+  const [hasError, setHasError] = useState(false);
+
+  if (hasError) {
+    return (
+      <div
+        className={`${className} grid place-items-center bg-[color:var(--theme-surface)] p-4 text-center`}
+        role="img"
+        aria-label={`影像載入失敗：${image.alt}`}
+      >
+        <span className="zh-caption max-w-[24rem] text-[color:var(--theme-muted)]">影像暫時無法顯示；請參考同一卡片的文字、時間碼與操作。</span>
+      </div>
+    );
+  }
+
   return (
     <picture>
       {image.avifSrcSet ? <source type="image/avif" srcSet={image.avifSrcSet} sizes={sizes} /> : null}
@@ -97,6 +123,7 @@ function ResponsiveImage({ image, className = "", sizes = "100vw", loading = "la
         loading={loading}
         decoding="async"
         fetchPriority={fetchPriority}
+        onError={() => setHasError(true)}
       />
     </picture>
   );
@@ -122,7 +149,7 @@ function ProjectOverviewCard({ project, index }) {
       >
         <ResponsiveImage
           image={project.cover}
-          className="aspect-[4/5] h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.035]"
+          className="aspect-[4/5] h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.035] group-focus-within:scale-[1.035]"
           sizes="(min-width: 1024px) 29vw, (min-width: 768px) 44vw, 92vw"
           loading={index === 0 ? "eager" : "lazy"}
           fetchPriority={index === 0 ? "high" : "auto"}
@@ -143,6 +170,11 @@ function ProjectOverviewCard({ project, index }) {
         <p className="zh-caption text-[color:var(--theme-muted)]">
           {project.valueProposition}
         </p>
+        {project.overviewFacts ? (
+          <p className="mixed-token rounded-[var(--radius-sm)] bg-[color:var(--theme-surface)] p-4 text-sm font-extrabold text-[var(--theme-text)]">
+            {project.overviewFacts}
+          </p>
+        ) : null}
         <p className="zh-caption rounded-[var(--radius-sm)] border border-[color:var(--theme-line)] p-4 font-bold text-[var(--theme-text)]">
           證明：{project.whatThisProves}
         </p>
@@ -182,7 +214,7 @@ function ProjectReadingMap({ project }) {
           {anchors.map((anchor) => (
             <a
               key={anchor.key}
-              className="interactive-link chip-text rounded-full border border-[color:var(--theme-line)] px-3.5 py-1.5 text-xs font-extrabold text-[color:var(--theme-muted)] hover:text-[var(--theme-text)]"
+              className="case-reading-link interactive-link chip-text inline-flex items-center rounded-full border border-[color:var(--theme-line)] px-3.5 py-1.5 text-xs font-extrabold text-[color:var(--theme-muted)] hover:text-[var(--theme-text)]"
               href={`#${project.id}-${anchor.key}`}
             >
               {anchor.label}
@@ -240,7 +272,13 @@ function CaseCtas({ ctas = [], label = "案例快速連結" }) {
               : "case-cta interactive-link chip-text inline-flex items-center rounded-full border border-[color:var(--theme-line)] px-5 py-3 text-sm font-extrabold text-[var(--theme-text)]"}
             href={cta.href}
             target={isExternal ? "_blank" : undefined}
-            rel={isExternal ? "noreferrer" : undefined}
+            rel={isExternal ? "noopener noreferrer" : undefined}
+            onClick={() => {
+              if (!cta.focusTarget) return;
+              window.requestAnimationFrame(() => {
+                document.querySelector(cta.focusTarget)?.focus({ preventScroll: true });
+              });
+            }}
           >
             {cta.label}
           </a>
@@ -298,10 +336,19 @@ function WorkflowSection({ id, workflow }) {
             </div>
             <h4 className="zh-heading text-[clamp(1.2rem,1.7vw,1.55rem)]">{stage.title}</h4>
             <p className="zh-caption text-[color:var(--theme-muted)]">{stage.description}</p>
-            <div className="mt-auto border-t border-[color:var(--theme-line)] pt-4">
-              <p className="zh-label text-[var(--theme-accent)]">控制條件</p>
-              <p className="zh-caption mt-2 text-[var(--theme-text)]">{stage.constraint}</p>
-            </div>
+            <dl className="mt-auto grid gap-3 border-t border-[color:var(--theme-line)] pt-4">
+              {[
+                ["輸入", stage.input],
+                ["產出", stage.output],
+                ["控制條件", stage.constraint],
+                ["人工檢查點", stage.humanCheck],
+              ].map(([label, value]) => (
+                <div key={label}>
+                  <dt className="zh-label text-[var(--theme-accent)]">{label}</dt>
+                  <dd className="zh-caption mt-1.5 text-[var(--theme-text)]">{value}</dd>
+                </div>
+              ))}
+            </dl>
           </li>
         ))}
       </ol>
@@ -334,10 +381,13 @@ function PromptTemplatePanel({ id, template }) {
       </dl>
 
       <div className="grid gap-4 lg:grid-cols-[0.64fr_0.36fr]">
-        <details className="rounded-[var(--radius-md)] border border-[color:var(--theme-line)] p-5">
-          <summary className="interactive-link cursor-pointer font-extrabold text-[var(--theme-text)]">展開 Prompt Template v1</summary>
+        <AnimatedDetails
+          className="rounded-[var(--radius-md)] border border-[color:var(--theme-line)] p-5"
+          summary="展開 Prompt Template v1"
+          summaryClassName="interactive-link cursor-pointer font-extrabold text-[var(--theme-text)]"
+        >
           <pre className="case-prompt-template zh-caption mt-5 rounded-[var(--radius-sm)] bg-[color:var(--theme-surface)] p-4 text-[var(--theme-text)]">{template.prompt.join("\n\n")}</pre>
-        </details>
+        </AnimatedDetails>
         <aside className="soft-panel rounded-[var(--radius-md)] p-5" aria-label="Prompt Template 人工核對清單">
           <h5 className="meta-label text-[var(--theme-accent)]">Human review / 人工核對</h5>
           <ul className="mt-4 grid gap-3">
@@ -391,8 +441,63 @@ function PromptDecisionSection({ id, decisions = [], template }) {
   );
 }
 
-function StoryboardStrip({ id, storyboard }) {
+function StoryboardStrip({ id, storyboard, videoId }) {
+  const [seekStatus, setSeekStatus] = useState("");
+  const [activeFrameIndex, setActiveFrameIndex] = useState(0);
+  const pendingSeekRef = useRef(null);
+  const storyboardListRef = useRef(null);
+
+  useEffect(() => () => {
+    const pendingSeek = pendingSeekRef.current;
+    pendingSeek?.video.removeEventListener("loadedmetadata", pendingSeek.applySeek);
+  }, []);
+
   if (!storyboard?.frames?.length) return null;
+
+  const handleSceneSeek = (frame, index) => {
+    const video = document.getElementById(videoId);
+    if (!(video instanceof HTMLVideoElement)) {
+      setSeekStatus("目前找不到案例影片，請使用上方作品摘要與逐字稿。");
+      return;
+    }
+
+    const applySeek = () => {
+      pendingSeekRef.current = null;
+      setActiveFrameIndex(index);
+      video.pause();
+      video.currentTime = frame.seekSeconds;
+      video.scrollIntoView({
+        block: "center",
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+      });
+      setSeekStatus(`已將影片定位至 Scene ${String(index + 1).padStart(2, "0")}，${frame.time}。`);
+    };
+
+    if (video.readyState === HTMLMediaElement.HAVE_NOTHING) {
+      const pendingSeek = pendingSeekRef.current;
+      pendingSeek?.video.removeEventListener("loadedmetadata", pendingSeek.applySeek);
+      pendingSeekRef.current = { video, applySeek };
+      video.addEventListener("loadedmetadata", applySeek, { once: true });
+      video.load();
+    } else {
+      applySeek();
+    }
+  };
+
+  const moveToFrame = (index) => {
+    const storyboardList = storyboardListRef.current;
+    if (!storyboardList) return;
+    const clampedIndex = Math.max(0, Math.min(index, storyboard.frames.length - 1));
+    const firstFrame = storyboardList.querySelector(".case-storyboard__item");
+    const styles = window.getComputedStyle(storyboardList);
+    const gap = Number.parseFloat(styles.columnGap || styles.gap) || 0;
+    const step = (firstFrame?.getBoundingClientRect().width || storyboardList.clientWidth * 0.85) + gap;
+    storyboardList.scrollTo({
+      left: step * clampedIndex,
+      behavior: "auto",
+    });
+    setActiveFrameIndex(clampedIndex);
+  };
 
   const handleKeyDown = (event) => {
     const storyboardList = event.currentTarget;
@@ -412,8 +517,9 @@ function StoryboardStrip({ id, storyboard }) {
     event.preventDefault();
     storyboardList.scrollTo({
       left: Math.max(0, Math.min(nextPosition, maxScroll)),
-      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+      behavior: "auto",
     });
+    setActiveFrameIndex(Math.round(Math.max(0, Math.min(nextPosition, maxScroll)) / step));
   };
 
   return (
@@ -425,8 +531,16 @@ function StoryboardStrip({ id, storyboard }) {
           <p className="zh-copy text-[color:var(--theme-muted)]">{storyboard.summary}</p>
         </div>
       </div>
-      <p id={`${id}-instructions`} className="sr-only">使用左右方向鍵瀏覽分鏡，Home 跳到第一幕，End 跳到最後一幕。</p>
+      <div className="flex flex-wrap items-center justify-between gap-3" aria-label="分鏡上一幕與下一幕控制">
+        <p className="zh-label text-[color:var(--theme-muted)]" aria-live="polite">目前 Scene {String(activeFrameIndex + 1).padStart(2, "0")} / {String(storyboard.frames.length).padStart(2, "0")}</p>
+        <div className="flex gap-2">
+          <button type="button" className="interactive-link min-h-11 rounded-full border border-[color:var(--theme-line)] px-4 py-2 text-sm font-extrabold disabled:cursor-not-allowed disabled:opacity-45" disabled={activeFrameIndex === 0} onClick={() => moveToFrame(activeFrameIndex - 1)}>上一幕</button>
+          <button type="button" className="interactive-link min-h-11 rounded-full border border-[color:var(--theme-line)] px-4 py-2 text-sm font-extrabold disabled:cursor-not-allowed disabled:opacity-45" disabled={activeFrameIndex === storyboard.frames.length - 1} onClick={() => moveToFrame(activeFrameIndex + 1)}>下一幕</button>
+        </div>
+      </div>
+      <p id={`${id}-instructions`} className="sr-only">使用左右方向鍵瀏覽分鏡，Home 跳到第一幕，End 跳到最後一幕；每張卡的「跳至此幕」按鈕可定位上方影片。</p>
       <ol
+        ref={storyboardListRef}
         className="case-storyboard flex gap-4 overflow-x-auto pb-4"
         tabIndex={0}
         aria-label={`${storyboard.title}，可水平捲動`}
@@ -449,13 +563,24 @@ function StoryboardStrip({ id, storyboard }) {
                   <p className="zh-label text-[color:var(--theme-muted)]">{frame.time}</p>
                 </div>
                 <h4 className="zh-heading text-[clamp(1.15rem,1.7vw,1.5rem)]">{frame.title}</h4>
+                <p className="mixed-token text-sm font-extrabold text-[var(--theme-accent)]" lang="en">{frame.titleEn}</p>
                 <p className="zh-caption font-semibold text-[var(--theme-text)]" lang="en">{frame.subtitle}</p>
                 <p className="zh-caption text-[color:var(--theme-muted)]">{frame.description}</p>
+                <p className="zh-caption border-t border-[color:var(--theme-line)] pt-3 text-[color:var(--theme-muted)]"><span className="zh-label text-[var(--theme-accent)]">控制條件：</span>{frame.control}</p>
+                <button
+                  type="button"
+                  className="interactive-link mt-auto min-h-11 w-fit rounded-full border border-[color:var(--theme-line)] px-4 py-2 text-sm font-extrabold"
+                  aria-controls={videoId}
+                  onClick={() => handleSceneSeek(frame, index)}
+                >
+                  跳至此幕
+                </button>
               </figcaption>
             </figure>
           </li>
         ))}
       </ol>
+      <p className="sr-only" role="status" aria-live="polite">{seekStatus}</p>
     </section>
   );
 }
@@ -492,8 +617,8 @@ function MediaLayerSection({ id, layers = [] }) {
       <div className="grid gap-4 md:grid-cols-[0.32fr_0.68fr] md:gap-12">
         <p className="meta-label text-[var(--theme-accent)]">Narrative layers / 敘事分層</p>
         <div className="grid gap-3">
-          <h3 id={`${id}-title`} className="zh-heading text-[clamp(1.55rem,3vw,2.8rem)]">五種媒體，共同服務同一段故事</h3>
-          <p className="zh-copy text-[color:var(--theme-muted)]">分層不是軟體清單，而是用來確認每一種媒體負責什麼、如何被檢查，以及哪些仍只是製作規格。</p>
+          <h3 id={`${id}-title`} className="zh-heading text-[clamp(1.55rem,3vw,2.8rem)]">從故事節點到最終影片的五層敘事</h3>
+          <p className="zh-copy text-[color:var(--theme-muted)]">故事節點依序轉成場景圖像、英文字幕／情節文字、情緒配樂，再由 Canva 整合為最終影片；本片沒有旁白軌。</p>
         </div>
       </div>
       <ol className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
@@ -739,12 +864,13 @@ function DiagramGallery({ id, diagrams = [] }) {
               <p className="zh-caption text-[color:var(--theme-muted)]">
                 {diagram.caption}
               </p>
-              <details className="zh-caption text-[color:var(--theme-muted)]">
-                <summary className="interactive-link cursor-pointer font-extrabold text-[var(--theme-text)]">
-                  圖像文字說明
-                </summary>
+              <AnimatedDetails
+                className="zh-caption text-[color:var(--theme-muted)]"
+                summary="圖像文字說明"
+                summaryClassName="interactive-link cursor-pointer font-extrabold text-[var(--theme-text)]"
+              >
                 <p className="mt-2">{diagram.description}</p>
-              </details>
+              </AnimatedDetails>
             </figcaption>
           </figure>
         ))}
@@ -783,13 +909,20 @@ function ImageEvidenceGrid({ title, items = [] }) {
   );
 }
 
-function VideoFigure({ video, featured = false }) {
-  const transcriptId = `${video.title.replace(/[^a-zA-Z0-9\u3400-\u9fff-]+/g, "-")}-transcript`;
+function VideoFigure({ video, featured = false, id }) {
+  const mediaIdBase = video.title.replace(/[^a-zA-Z0-9\u3400-\u9fff-]+/g, "-");
+  const transcriptId = `${mediaIdBase}-transcript`;
+  const accessibilitySummaryId = `${mediaIdBase}-accessibility-summary`;
+  const [mediaStatus, setMediaStatus] = useState("loading");
+  const [subtitleTrackError, setSubtitleTrackError] = useState(false);
   const tracks = video.tracks?.length
     ? video.tracks
     : video.captionsSrc
       ? [{ kind: "captions", src: video.captionsSrc, srcLang: "zh-Hant", label: "繁體中文字幕", default: true }]
       : [];
+  const describedBy = [video.transcript ? transcriptId : null, video.accessibilitySummary ? accessibilitySummaryId : null]
+    .filter(Boolean)
+    .join(" ") || undefined;
 
   return (
     <figure className="grid gap-4">
@@ -806,18 +939,37 @@ function VideoFigure({ video, featured = false }) {
             referrerPolicy="strict-origin-when-cross-origin"
             aria-describedby={video.transcript ? transcriptId : undefined}
           />
+        ) : mediaStatus === "error" ? (
+          <div className="relative aspect-video overflow-hidden">
+            <ResponsiveImage
+              image={video.poster}
+              className="absolute inset-0 h-full w-full object-contain"
+              sizes="(min-width: 1024px) 72vw, 100vw"
+              loading="eager"
+              fetchPriority={featured ? "high" : "auto"}
+            />
+            <div className="absolute inset-x-3 bottom-3 grid gap-2 rounded-[var(--radius-sm)] bg-[color:var(--theme-surface)] p-4 shadow-lg sm:inset-x-auto sm:bottom-5 sm:left-5 sm:max-w-[28rem]">
+              <p className="zh-caption font-extrabold text-[var(--theme-text)]">影片暫時無法載入；Poster、分鏡與逐字稿仍可閱讀。</p>
+              <a className="interactive-link zh-caption w-fit font-extrabold text-[var(--theme-accent)] underline" href={video.src}>直接開啟 MP4</a>
+            </div>
+          </div>
         ) : (
           <video
-            className="aspect-video h-full w-full object-cover"
+            id={id}
+            className="aspect-video h-full w-full object-contain"
             controls
             playsInline
-            preload="none"
+            tabIndex={0}
+            preload={typeof navigator !== "undefined" && navigator.connection?.saveData ? "none" : "metadata"}
             poster={video.poster.src}
             width={video.poster.width}
             height={video.poster.height}
-            aria-describedby={video.transcript ? transcriptId : undefined}
+            aria-label={video.title}
+            aria-describedby={describedBy}
+            onLoadedMetadata={() => setMediaStatus("ready")}
+            onError={() => setMediaStatus("error")}
           >
-            <source src={video.src} type={video.mimeType ?? "video/mp4"} />
+            <source src={video.src} type={video.mimeType ?? "video/mp4"} onError={() => setMediaStatus("error")} />
             {tracks.map((track) => (
               <track
                 key={`${track.srcLang}-${track.src}`}
@@ -826,12 +978,19 @@ function VideoFigure({ video, featured = false }) {
                 srcLang={track.srcLang}
                 label={track.label}
                 default={Boolean(track.default)}
+                onError={() => setSubtitleTrackError(true)}
               />
             ))}
-            你的瀏覽器不支援嵌入影片，請改用作品連結或文字說明。
+            你的瀏覽器不支援嵌入影片，請改用<a className="interactive-link" href={video.src}>直接影片檔</a>或文字說明。
           </video>
         )}
       </div>
+      <p className="sr-only" role="status" aria-live="polite">
+        {mediaStatus === "loading" ? "影片資料載入中；可先閱讀下方摘要與逐字稿。" : mediaStatus === "ready" ? "影片已可播放。" : "影片載入失敗，已顯示 Poster 與直接檔案連結。"}
+      </p>
+      {video.technicalSummary ? <p className="mixed-token text-sm font-extrabold text-[var(--theme-accent)]">{video.technicalSummary}</p> : null}
+      {video.accessibilitySummary ? <p id={accessibilitySummaryId} className="zh-caption font-extrabold text-[var(--theme-text)]">{video.accessibilitySummary}</p> : null}
+      {subtitleTrackError ? <p className="zh-caption rounded-[var(--radius-sm)] border border-[color:var(--theme-line)] p-3 text-[color:var(--theme-muted)]" role="status">字幕檔暫時無法載入；請改讀下方「中英畫面文字逐字稿」。</p> : null}
       <figcaption className={featured ? "grid gap-3 md:grid-cols-[0.36fr_0.64fr] md:gap-8" : "grid gap-2"}>
         <div>
           <p className="zh-heading text-[clamp(1.12rem,1.7vw,1.55rem)]">{video.title}</p>
@@ -843,18 +1002,24 @@ function VideoFigure({ video, featured = false }) {
               文字摘要：{video.transcript}
             </p>
             {video.transcriptCues?.length ? (
-              <details className="zh-caption rounded-[var(--radius-sm)] border border-[color:var(--theme-line)] p-3 text-[color:var(--theme-muted)]">
-                <summary className="interactive-link cursor-pointer font-extrabold text-[var(--theme-text)]">閱讀中英雙語逐字稿</summary>
+              <AnimatedDetails
+                className="zh-caption rounded-[var(--radius-sm)] border border-[color:var(--theme-line)] p-3 text-[color:var(--theme-muted)]"
+                summary="中英畫面文字逐字稿"
+                summaryClassName="interactive-link cursor-pointer font-extrabold text-[var(--theme-text)]"
+              >
+                <p className="mt-4 rounded-[var(--radius-sm)] bg-[color:var(--theme-surface)] p-3 text-[color:var(--theme-muted)]">本片使用無歌詞配樂，沒有旁白或對話語音；下列內容整理影片中的畫面文字與場景描述，不是語音辨識結果。</p>
                 <ol className="mt-4 grid gap-4">
                   {video.transcriptCues.map((cue) => (
                     <li key={cue.time} className="grid gap-1 border-t border-[color:var(--theme-line)] pt-3">
                       <span className="zh-label text-[var(--theme-accent)]">{cue.time}</span>
                       <span lang="en">EN: {cue.en}</span>
                       <span lang="zh-Hant-TW">中：{cue.zh}</span>
+                      {cue.visualDescription ? <span>畫面：{cue.visualDescription}</span> : null}
+                      {cue.musicMood ? <span>配樂情緒（設計意圖）：{cue.musicMood}</span> : null}
                     </li>
                   ))}
                 </ol>
-              </details>
+              </AnimatedDetails>
             ) : null}
           </div>
         ) : null}
@@ -876,7 +1041,7 @@ function FeaturedMedia({ id, project }) {
           <p className="zh-copy text-[color:var(--theme-muted)]">{project.featuredMediaIntro}</p>
         </div>
       </div>
-      <VideoFigure video={video} featured />
+      <VideoFigure id={`${id}-player`} video={video} featured />
     </section>
   );
 }
@@ -1018,15 +1183,7 @@ function RestrictedMediaEvidence({ items = [] }) {
 // Codex-Fix: Restricted media is represented as policy text only, so private videos/files never enter the public build.
 
 function MediaEvidence({ id, media }) {
-  const hasSupportingEvidence = Boolean(
-    media?.visualDrafts?.length
-    || media?.screenshots?.length
-    || media?.videos?.some((video) => !video.featured)
-    || media?.audio?.length
-    || media?.demos?.length
-    || media?.restricted?.length,
-  );
-  if (!hasSupportingEvidence) return null;
+  if (!hasSupportingMediaEvidence(media)) return null;
 
   return (
     <section id={id} className="grid gap-10 border-t border-[color:var(--theme-line)] pt-8">
@@ -1295,7 +1452,7 @@ function ProjectDetail({ project, previousProject, nextProject }) {
           </>
         )}
         <StructuredProjectSections sections={project.extendedSections} />
-        <StoryboardStrip id={`${project.id}-storyboard`} storyboard={project.storyboard} />
+        <StoryboardStrip id={`${project.id}-storyboard`} storyboard={project.storyboard} videoId={`${project.id}-featured-media-player`} />
         <FeaturedExample id={`${project.id}-featured-example`} example={project.featuredExample} />
         <MediaLayerSection id={`${project.id}-media-layers`} layers={project.mediaLayers} />
         <DeliverablesSection id={`${project.id}-deliverables`} deliverables={project.deliverables} />
@@ -1354,7 +1511,6 @@ export default function CaseStudyShowcase({ scope = "all", showIndex = true }) {
     >
       {showIndex ? (
         <>
-          <div className="theme-transition-bridge" aria-hidden="true" />
           <section id="project-index" aria-labelledby="project-index-title" className="min-h-screen px-[clamp(1.25rem,6vw,10vw)] py-28 md:py-40">
             <div className="mx-auto grid max-w-7xl gap-16">
               <div className="grid gap-8 md:grid-cols-[0.42fr_0.58fr] md:items-end">

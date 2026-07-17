@@ -59,7 +59,8 @@ export const projectInternalNotes = {
       "待補：若旁白或對話版本完成，再補音訊層、混音核對紀錄與相應逐字稿。",
     ],
     replaceableAssets: [
-      "INTERNAL_REPLACE：若未來提供 Canva 公開連結，需先確認分享權限與可長期開啟，再加入公開 CTA。",
+      "INTERNAL_REPLACE：2026/07/17 已確認 Canva 短網址可在未登入狀態讀到 40 秒 Hamlet 專案內容，但會導向可編輯介面；完成分享權限與權利來源核對前不加入 submission CTA。",
+      "INTERNAL_REPLACE：四個 ChatGPT share URL 只能在未登入頁讀到標題，對話內容顯示登入牆；目前從 submission UI 省略。",
     ],
     sampleCopy:
       "INTERNAL_SAMPLE：實際成片完成不等於教學成效已驗證，testing 必須維持 notValidated 直到有真實資料。",
