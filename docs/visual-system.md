@@ -11,7 +11,8 @@ This site should feel like a calm research dossier, not a flashing demo reel. Th
 - Light tone: warm paper, scoped to the supporting gallery and Reviewer Path rather than applied to the document root.
 - Inverse elements use `--theme-inverse-bg` and `--theme-inverse-text`, not direct black/white.
 - The deep-ink-to-paper passage uses the text-free, `aria-hidden`, `pointer-events: none` `ViewportThemeTransition` fixed layer. It covers the viewport without adding layout height.
-- ScrollTrigger scrubs only that layer's paper/mist opacity and three low-contrast radial-field transforms from `#data-visualization-series` bottom 85% to `#project-index-title` top 15%; fixed navigation chrome follows the same progress threshold.
+- ScrollTrigger scrubs only that layer's paper/mist opacity and three low-contrast radial-field transforms. The natural bounds begin near `#data-visualization-series` bottom 70% and finish with `#project-index-title` top 25%; current DOM geometry then clamps the distance to 0.8–1.2 viewport heights. This keeps draft/submission layouts and resize recalculation consistent while fixed navigation chrome follows the same progress threshold.
+- The fixed “作品索引” navigation target is the title/end-trigger itself, so a cross-theme jump traverses the same reversible field and settles on the complete paper endpoint rather than stopping in the warm-gray midpoint. Legacy `#project-index` links still map to the same active navigation item.
 - Keep foreground and root tokens section-scoped. Do not interpolate text colors or rewrite document-root palette variables during scroll.
 
 ## Surface Rules
@@ -38,6 +39,7 @@ This site should feel like a calm research dossier, not a flashing demo reel. Th
 - Respect `prefers-reduced-motion`; remove mist/radial motion and switch the fixed field directly between its dark and paper endpoints at the same geometric boundary.
 - Keep focus rings visible on both warm dark and warm paper backgrounds.
 - Keep navigation mostly opaque instead of relying on a large fixed backdrop blur. Reserve permanent `will-change` for the Hero canvas; promote case media only during hover/focus interaction.
+- Overview cards may restore the original poster-first motion preview only when a project has a local featured MP4. Assign the video source after pointer or keyboard intent, crossfade after playback begins, reset on leave/blur, and keep the cover static for reduced motion or save-data sessions. Evidence players remain user-controlled.
 - Print hides the fixed transition field, expands disclosure content, and forces major sections onto a paper-safe background.
 
 ## Future Edits

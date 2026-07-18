@@ -3,6 +3,23 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const PAPER_NAV_THRESHOLD = 0.62;
+const MIN_TRANSITION_VIEWPORTS = 0.8;
+const MAX_TRANSITION_VIEWPORTS = 1.2;
+
+const getTransitionBounds = (sourceSection, targetTitle) => {
+  const viewportHeight = Math.max(window.innerHeight, 1);
+  const scrollTop = window.scrollY;
+  const sourceBottom = sourceSection.getBoundingClientRect().bottom + scrollTop;
+  const targetTop = targetTitle.getBoundingClientRect().top + scrollTop;
+  const end = targetTop - viewportHeight * 0.25;
+  const naturalStart = sourceBottom - viewportHeight * 0.7;
+  const range = Math.min(
+    viewportHeight * MAX_TRANSITION_VIEWPORTS,
+    Math.max(viewportHeight * MIN_TRANSITION_VIEWPORTS, end - naturalStart),
+  );
+
+  return { start: end - range, end };
+};
 
 export function useThemeInversion() {
   useEffect(() => {
@@ -51,9 +68,8 @@ export function useThemeInversion() {
         scrollTrigger: {
           id: "viewport-paper-field-transition",
           trigger: sourceSection,
-          start: "bottom 85%",
-          endTrigger: targetTitle,
-          end: "top 15%",
+          start: () => getTransitionBounds(sourceSection, targetTitle).start,
+          end: () => getTransitionBounds(sourceSection, targetTitle).end,
           scrub: true,
           invalidateOnRefresh: true,
           onUpdate: (self) => setPaperChrome(self.progress >= PAPER_NAV_THRESHOLD),
@@ -95,9 +111,8 @@ export function useThemeInversion() {
       const trigger = ScrollTrigger.create({
         id: "viewport-paper-field-transition-reduced",
         trigger: sourceSection,
-        start: "bottom 85%",
-        endTrigger: targetTitle,
-        end: "top 15%",
+        start: () => getTransitionBounds(sourceSection, targetTitle).start,
+        end: () => getTransitionBounds(sourceSection, targetTitle).end,
         invalidateOnRefresh: true,
         onUpdate: (self) => setEndpoint(self.progress >= 0.5),
         onRefresh: (self) => setEndpoint(self.progress >= 0.5),

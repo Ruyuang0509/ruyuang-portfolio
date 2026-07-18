@@ -5,7 +5,7 @@ const navItems = [
   { label: "研究定位", target: "#research-positioning" },
   { label: "聲響原型", target: "#interactive-sound-learning" },
   { label: "學習歷程", target: "#learning-trail" },
-  { label: "作品索引", target: "#project-index" },
+  { label: "作品索引", target: "#project-index-title" },
   { label: "支持證據", target: "#data-visualization-series" },
   { label: "閱讀路徑", target: "#reviewer-path" },
 ];
@@ -51,8 +51,9 @@ const getActiveNavTarget = (targetId) => {
   if (caseStudy) {
     return caseStudy.id === "interactive-sound-learning"
       ? "#interactive-sound-learning"
-      : "#project-index";
+      : "#project-index-title";
   }
+  if (target?.id === "project-index" || target?.closest("#project-index")) return "#project-index-title";
   if (target?.closest("#data-visualization-series")) return "#data-visualization-series";
   if (target?.closest("#learning-trail")) return "#learning-trail";
   if (target?.id?.startsWith("institute-evidence-")) return "#research-positioning";

@@ -26,7 +26,7 @@ export default class SectionErrorBoundary extends Component {
           <p className="zh-copy text-[color:var(--theme-muted)]">其他作品內容仍可繼續閱讀；你可以重試此區段或返回作品索引。</p>
           <div className="flex flex-wrap gap-3">
             <button className="cta-button chip-text rounded-full px-5 py-3 text-sm font-extrabold" type="button" onClick={this.reset}>重新嘗試</button>
-            <a className="interactive-link chip-text rounded-full border border-[color:var(--theme-line)] px-5 py-3 text-sm font-extrabold" href="#project-index">返回作品索引</a>
+            <a className="interactive-link chip-text rounded-full border border-[color:var(--theme-line)] px-5 py-3 text-sm font-extrabold" href="#project-index-title">返回作品索引</a>
           </div>
         </div>
       </section>
