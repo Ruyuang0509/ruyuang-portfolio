@@ -130,6 +130,147 @@ function ResponsiveImage({ image, className = "", sizes = "100vw", loading = "la
 }
 // Codex-Fix: Reusable responsive image primitive preserves prior local AVIF/WebP and CLS protections.
 
+const getOverviewPreview = (project) => project.media?.videos?.find(
+  (video) => video.featured && video.src && !video.youtubeId,
+);
+
+const resetOverviewPreview = (video) => {
+  if (!video) return;
+  video.pause();
+  if (video.readyState > 0) video.currentTime = 0;
+};
+
+function ProjectOverviewMedia({ project, index, reduceMotion }) {
+  const mediaRef = useRef(null);
+  const previewRef = useRef(null);
+  const [previewReady, setPreviewReady] = useState(false);
+  const preview = getOverviewPreview(project);
+
+  const playPreview = (event) => {
+    const video = previewRef.current;
+    const saveData = navigator.connection?.saveData === true;
+    if (!preview || !video || reduceMotion || saveData || event?.pointerType === "touch") return;
+    if (video.dataset.loaded && !video.paused) return;
+
+    if (!video.dataset.loaded) {
+      video.src = preview.src;
+      video.dataset.loaded = "true";
+      video.load();
+    }
+
+    video.play().catch(() => {
+      setPreviewReady(false);
+    });
+  };
+
+  const pausePreview = () => {
+    const video = previewRef.current;
+    if (!video) return;
+
+    resetOverviewPreview(video);
+    setPreviewReady(false);
+  };
+
+  useEffect(() => () => {
+    resetOverviewPreview(previewRef.current);
+  }, []);
+
+  useEffect(() => {
+    if (!reduceMotion || !previewRef.current) return;
+    resetOverviewPreview(previewRef.current);
+    setPreviewReady(false);
+  }, [reduceMotion]);
+
+  useEffect(() => {
+    if (!preview || !mediaRef.current || !("IntersectionObserver" in window)) return undefined;
+
+    const stopWhenInactive = () => {
+      const video = previewRef.current;
+      if (!video || video.paused) return;
+      resetOverviewPreview(video);
+      setPreviewReady(false);
+    };
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) stopWhenInactive();
+    }, { threshold: 0.05 });
+    const handleVisibilityChange = () => {
+      if (document.hidden) stopWhenInactive();
+    };
+
+    observer.observe(mediaRef.current);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [preview]);
+
+  useEffect(() => {
+    if (!previewReady) return undefined;
+
+    const stopPreview = () => {
+      const video = previewRef.current;
+      if (!video || video.paused) return;
+      resetOverviewPreview(video);
+      setPreviewReady(false);
+    };
+    const handlePointerMove = (event) => {
+      if (event.pointerType === "touch" || mediaRef.current?.contains(event.target)) return;
+      stopPreview();
+    };
+    const handleScroll = () => {
+      const media = mediaRef.current;
+      if (media?.matches(":hover") || media?.contains(document.activeElement)) return;
+      stopPreview();
+    };
+
+    window.addEventListener("pointermove", handlePointerMove, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [previewReady]);
+
+  return (
+    <div
+      ref={mediaRef}
+      className="relative h-full overflow-hidden"
+      data-overview-preview={preview ? "intent-gated" : undefined}
+      onPointerEnter={playPreview}
+      onPointerMove={playPreview}
+      onPointerLeave={pausePreview}
+      onPointerCancel={pausePreview}
+      onFocusCapture={playPreview}
+      onBlurCapture={pausePreview}
+      onClickCapture={pausePreview}
+    >
+      <ResponsiveImage
+        image={project.cover}
+        className="aspect-[4/5] h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.035] group-focus-within:scale-[1.035]"
+        sizes="(min-width: 1024px) 29vw, (min-width: 768px) 44vw, 92vw"
+        loading={index === 0 ? "eager" : "lazy"}
+        fetchPriority={index === 0 ? "high" : "auto"}
+      />
+      {preview ? (
+        <video
+          ref={previewRef}
+          className={`pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-500 ease-out ${previewReady ? "group-hover:opacity-100 group-focus-within:opacity-100" : ""}`}
+          muted
+          playsInline
+          loop
+          preload="none"
+          tabIndex={-1}
+          aria-hidden="true"
+          onPlaying={() => setPreviewReady(true)}
+          onError={() => setPreviewReady(false)}
+        />
+      ) : null}
+    </div>
+  );
+}
+// Codex-Fix: Restore the original poster-first hover/focus preview without loading local MP4 media before reviewer intent.
+
 function ProjectOverviewCard({ project, index }) {
   const reduceMotion = useReducedMotion();
 
@@ -147,13 +288,7 @@ function ProjectOverviewCard({ project, index }) {
         href={`#${project.id}`}
         aria-label={`閱讀作品案例：${project.title}`}
       >
-        <ResponsiveImage
-          image={project.cover}
-          className="aspect-[4/5] h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.035] group-focus-within:scale-[1.035]"
-          sizes="(min-width: 1024px) 29vw, (min-width: 768px) 44vw, 92vw"
-          loading={index === 0 ? "eager" : "lazy"}
-          fetchPriority={index === 0 ? "high" : "auto"}
-        />
+        <ProjectOverviewMedia project={project} index={index} reduceMotion={reduceMotion} />
       </a>
       <div className="grid gap-5 border-t border-[color:var(--theme-line)] pt-5">
         <div className="grid grid-cols-[1fr_auto] gap-4">
@@ -1475,7 +1610,7 @@ function ProjectDetail({ project, previousProject, nextProject }) {
               <span className="zh-heading mt-2 block text-xl">{previousProject.title}</span>
             </a>
           ) : (
-            <a className="evidence-panel interactive-link rounded-[var(--radius-md)] p-5" href="#project-index">
+            <a className="evidence-panel interactive-link rounded-[var(--radius-md)] p-5" href="#project-index-title">
               <span className="meta-label block text-[var(--theme-accent)]">Back</span>
               <span className="zh-heading mt-2 block text-xl">Project index</span>
             </a>

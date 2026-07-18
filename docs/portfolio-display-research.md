@@ -180,6 +180,7 @@ This document records the research-backed presentation decisions used for the gr
 5. Use progressive media loading.
    - Local responsive images use AVIF/WebP and stable intrinsic dimensions.
    - Video uses poster and `preload="none"`.
+   - Overview cards with a local featured MP4 may start a muted loop only after hover or keyboard focus, and return to the cover on leave/blur. Reduced-motion and save-data sessions keep the cover; external YouTube media stays poster-only in the overview.
    - Interactive demos load only after explicit user action.
    - The R3F hero is progressive enhancement: low-core compact devices or save-data sessions keep the CSS fallback instead of loading WebGL.
 

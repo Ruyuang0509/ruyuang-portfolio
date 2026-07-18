@@ -36,7 +36,7 @@ const ReviewerPathSection = memo(function ReviewerPathSection() {
           <p className="zh-lead text-[var(--theme-text)]">目前沒有公開聯絡資料；這個區段只提供真實可執行的站內閱讀路徑。</p>
           <div className="flex flex-wrap gap-3">
             <a className="cta-button interactive-link chip-text w-fit rounded-full px-7 py-4 text-sm font-extrabold" href="#interactive-sound-learning" data-magnetic data-cursor-variant="media" data-cursor-label="SOUND">回到聲響原型</a>
-            <a className="interactive-link chip-text w-fit rounded-full border border-[color:var(--theme-line)] px-7 py-4 text-sm font-extrabold" href="#project-index">閱讀作品索引</a>
+            <a className="interactive-link chip-text w-fit rounded-full border border-[color:var(--theme-line)] px-7 py-4 text-sm font-extrabold" href="#project-index-title">閱讀作品索引</a>
           </div>
         </div>
       </div>
