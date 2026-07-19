@@ -9,6 +9,7 @@ pnpm run workspace:check
 pnpm run audit:media
 pnpm run audit:text
 pnpm run audit:cjk
+pnpm run audit:evidence
 pnpm run content:check
 pnpm run test:sound
 pnpm run test:submission-scanner
@@ -16,6 +17,16 @@ pnpm run check:submission
 ```
 
 `check:submission` first runs isolated scanner regression fixtures, then performs a submission-mode production build, scans supported text-based files and the complete `dist/` file inventory, and audits the output for GitHub Pages-breaking root-relative asset paths. It is a required baseline; the independent checks below remain defense in depth.
+
+## Production Publication Gate
+
+`check:submission` 不包含素材權利核准。正式公開前另執行：
+
+```powershell
+pnpm run check:publication
+```
+
+Hamlet manifest 目前仍是 `rightsReview.status: unverified`、`rightsManifestPresent: false`，因此這條命令預期失敗；不得由工程端或 AI 把 status 改成已核准來消除錯誤。2026-07-18 已確認 GitHub Pages 為 public／`built`，而 MP4、英文 VTT 與 poster 均可由 production URL 取得。現行 deploy workflow 只跑 `check:submission`，所以在 stakeholder 完成逐項 rights evidence 與 applicant attestation 前，應停止公開或移除未核准資產，並把 `check:publication` 接入 production deploy gate。
 
 ## Content Review
 
@@ -49,12 +60,12 @@ pnpm run check:submission
 After `pnpm run check:submission` passes, independently inspect `dist/` before treating it as formal-review output:
 
 ```powershell
-rg -n -a "施工模式|Nextgen Portfolio|#graphic|#video|#photo|#contact" dist
+rg -n "施工模式|Nextgen Portfolio|#graphic|#video|#photo|#contact" dist -g "*.html" -g "*.js" -g "*.css" -g "*.json" -g "*.map" -g "*.txt" -g "*.svg" -g "*.vtt" -g "*.webmanifest" -g "*.xml"
 rg --files dist/media/portfolio | rg "ph-after|mv-soft"
-rg -n -a "work-02-powerbi-screenshot|C:\\|/Users/|/home/|\.pbix|\.xlsx|\.csv|\.tsv" dist
+rg -n "work-02-powerbi-screenshot|C:\\|/Users/|/home/|\.pbix|\.xlsx|\.csv|\.tsv" dist -g "*.html" -g "*.js" -g "*.css" -g "*.json" -g "*.map" -g "*.txt" -g "*.svg" -g "*.vtt" -g "*.webmanifest" -g "*.xml"
 ```
 
-The expected result is no matches. Also compare the built favicon／TXT／SVG metadata with the actual page information architecture.
+The expected result is no matches. Do not add \`-a\` to these text searches: forcing MP4／AVIF／WebP bytes through a text regex can create meaningless false positives such as a random \`C:\\\` byte sequence. Audit binaries by relative filename, size and hash inventory instead. Also compare the built favicon／TXT／SVG metadata with the actual page information architecture.
 
 ## Sound portfolio checks added 2026-07-16
 

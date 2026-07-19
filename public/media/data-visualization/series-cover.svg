@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
-  <title id="title">資料視覺化在數位學習應用系列主視覺</title>
-  <desc id="desc">抽象資料點、折線與學習介面卡片構成的系列主視覺，不含真實學習者資料。</desc>
+  <title id="title">資料視覺化與數位學習應用系列主視覺</title>
+  <desc id="desc">抽象資料點、折線與介面卡片構成的系列主視覺，不含真實學習者資料或分析結果。</desc>
   <rect width="1200" height="900" fill="#14130f"/>
   <circle cx="950" cy="135" r="210" fill="#cbe86b" opacity="0.16"/>
   <circle cx="210" cy="730" r="260" fill="#6ea8ff" opacity="0.12"/>
@@ -17,5 +17,5 @@
     <circle cx="1028" cy="450" r="22"/>
   </g>
   <text x="172" y="672" fill="#1b1a15" font-family="PingFang TC, Microsoft JhengHei, sans-serif" font-size="56" font-weight="800">資料視覺化</text>
-  <text x="174" y="728" fill="#1b1a15" font-family="Inter, sans-serif" font-size="24" font-weight="700" letter-spacing="4">DIGITAL LEARNING</text>
+  <text x="174" y="728" fill="#1b1a15" font-family="Inter, sans-serif" font-size="24" font-weight="700" letter-spacing="4">與數位學習應用</text>
 </svg>

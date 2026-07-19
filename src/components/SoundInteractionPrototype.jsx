@@ -195,9 +195,9 @@ export default function SoundInteractionPrototype({ project }) {
   return (
     <section id={`${project.id}-demo`} className="sound-prototype grid gap-8 border-t border-[color:var(--theme-line)] pt-8" aria-labelledby={`${project.id}-demo-title`}>
       <div className="grid gap-4 md:grid-cols-[0.32fr_0.68fr] md:gap-12">
-        <p className="meta-label text-[var(--theme-accent)]">Interactive Web Audio</p>
+        <p className="meta-label text-[var(--theme-accent)]">Web Audio 互動原型</p>
         <div className="grid gap-3">
-          <h3 id={`${project.id}-demo-title`} className="zh-heading text-[clamp(1.55rem,3vw,2.8rem)]">可操作視聽映射原型</h3>
+          <h3 id={`${project.id}-demo-title`} className="zh-heading text-[clamp(1.55rem,3vw,2.8rem)]">拖曳圖形，聽聲音怎麼變</h3>
           <p className="zh-copy text-[color:var(--theme-muted)]">{project.researchQuestion}</p>
         </div>
       </div>
@@ -233,7 +233,7 @@ export default function SoundInteractionPrototype({ project }) {
 
         <div className="grid content-start gap-5">
           <div className="soft-panel grid gap-4 rounded-[var(--radius-md)] p-5">
-            <h4 className="meta-label text-[var(--theme-accent)]">Keyboard controls</h4>
+            <h4 className="meta-label text-[var(--theme-accent)]">鍵盤控制</h4>
             <label className="grid gap-2 zh-label">水平位置<input ref={xInputRef} className="sound-range" type="range" min="0" max="100" defaultValue="50" aria-describedby={readoutId} onInput={handleRangeInput("x")} /></label>
             <label className="grid gap-2 zh-label">垂直位置<input ref={yInputRef} className="sound-range" type="range" min="0" max="100" defaultValue="50" aria-describedby={readoutId} onInput={handleRangeInput("y")} /></label>
             <label className="grid gap-2 zh-label">物件大小<input ref={sizeInputRef} className="sound-range" type="range" min="0" max="100" defaultValue="50" aria-describedby={readoutId} onInput={handleRangeInput("size")} /></label>
@@ -241,7 +241,7 @@ export default function SoundInteractionPrototype({ project }) {
             <p className="zh-caption text-[color:var(--theme-muted)]">{keyboardControlInstructions}</p>
           </div>
           <div className="soft-panel rounded-[var(--radius-md)] p-5">
-            <p className="zh-caption text-[color:var(--theme-muted)]">此原型以瀏覽器合成聲音呈現，不是 REAPER 或 Pure Data 成果；尚未進行正式使用者驗證。</p>
+            <p className="zh-caption text-[color:var(--theme-muted)]">這段聲音由瀏覽器即時合成，不是 Pure Data 或 REAPER 的輸出。</p>
           </div>
         </div>
       </div>
@@ -257,13 +257,13 @@ export default function SoundInteractionPrototype({ project }) {
 
       <div className="grid gap-6 md:grid-cols-2">
         <div className="grid gap-4">
-          <h4 className="meta-label text-[var(--theme-accent)]">Signal flow</h4>
+          <h4 className="meta-label text-[var(--theme-accent)]">聲音處理順序</h4>
           <ol className="grid gap-2">
             {project.signalFlow.map((step, index) => <li key={step} className="zh-caption rounded-[var(--radius-sm)] border border-[color:var(--theme-line)] p-3"><span className="mr-3 text-[var(--theme-accent)]">{String(index + 1).padStart(2, "0")}</span>{step}</li>)}
           </ol>
         </div>
         <div className="grid gap-4">
-          <h4 className="meta-label text-[var(--theme-accent)]">Listening guide</h4>
+          <h4 className="meta-label text-[var(--theme-accent)]">聆聽方式</h4>
           <ol className="grid gap-2">
             {project.listeningGuide.map((item) => <li key={item} className="zh-caption rounded-[var(--radius-sm)] bg-[color:var(--theme-surface)] p-3">{item}</li>)}
           </ol>

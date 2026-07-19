@@ -43,7 +43,7 @@ function SectionShell({ id, label, title, titleLines, children }) {
 
 function LogicChain() {
   return (
-    <ol className="grid gap-3 md:grid-cols-4" aria-label="作品集證據鏈">
+    <ol className="grid gap-3 md:grid-cols-4" aria-label="作品集閱讀順序">
       {homepageNarrative.logicChain.map((item, index) => (
         <li
           key={item}
@@ -64,15 +64,15 @@ const ResearchPositioning = memo(function ResearchPositioning() {
     <>
       <SectionShell
         id="research-positioning"
-        label="Research positioning"
-        title="從視覺與學習設計，走向可測試的聲響互動。"
-        titleLines={[["從視覺與", "學習設計，"], ["走向可測試的", "聲響互動。"]]}
+        label="研究定位"
+        title="我從視覺與學習設計，走到聲響互動。"
+        titleLines={[["我從視覺與", "學習設計，"], ["走到", "聲響互動。"]]}
       >
         <div className="grid gap-10 md:grid-cols-[0.42fr_0.58fr] md:items-start">
           <div className="paper-panel grid gap-5 rounded-[var(--radius-lg)] p-6 md:p-8">
-            <SmallHeading inverse>{homepageNarrative.eyebrow}</SmallHeading>
+            <SmallHeading inverse>目前的研究題目</SmallHeading>
             <p className="zh-heading text-[clamp(1.55rem,3vw,3rem)]">{homepageNarrative.thesis}</p>
-            <p className="zh-copy text-[color:var(--theme-inverse-text)] opacity-75">核心問題：{homepageNarrative.researchQuestion}</p>
+            <p className="zh-copy text-[color:var(--theme-inverse-text)] opacity-75">我想確認：{homepageNarrative.researchQuestion}</p>
           </div>
           <div className="grid gap-6">
             <p className="zh-lead">{homepageNarrative.credibility}</p>
@@ -97,9 +97,9 @@ const ResearchPositioning = memo(function ResearchPositioning() {
 
       <SectionShell
         id="research-tracks"
-        label="Research tracks"
-        title="一條聲響主線，五個互相支援的研究軌道。"
-        titleLines={[["一條聲響主線，"], ["五個互相支援的", "研究軌道。"]]}
+        label="研究方向"
+        title="五個方向，回到同一個聲響問題。"
+        titleLines={[["五個方向，"], ["回到同一個", "聲響問題。"]]}
       >
         <div className="grid gap-5 lg:grid-cols-3 2xl:grid-cols-5">
           {researchTracks.map((track, index) => {
@@ -112,7 +112,7 @@ const ResearchPositioning = memo(function ResearchPositioning() {
               >
                 <div className="grid gap-4">
                   <span className="meta-label text-[var(--theme-accent)]">
-                    Track 0{index + 1}
+                    方向 0{index + 1}
                   </span>
                   <h3 className="zh-heading text-[clamp(1.35rem,2.2vw,2rem)]">{track.title}</h3>
                   <p className="zh-caption text-[color:var(--theme-muted)]">
@@ -121,7 +121,7 @@ const ResearchPositioning = memo(function ResearchPositioning() {
                 </div>
                 <div className="grid gap-4">
                   <p className="meta-label text-[var(--theme-accent)]">
-                    Includes
+                    目前包含
                   </p>
                   <ul className="grid gap-2 text-sm font-semibold leading-relaxed text-[var(--theme-text)]">
                     {track.includes.map((item) => (
@@ -129,7 +129,7 @@ const ResearchPositioning = memo(function ResearchPositioning() {
                     ))}
                   </ul>
                   <p className="zh-caption text-[color:var(--theme-muted)]">
-                    {projectCount} linked {projectCount === 1 ? "case" : "cases"} · {track.instituteAlignment.join(" / ")}
+                    {projectCount} 件相關案例 · {track.instituteAlignment.join(" / ")}
                   </p>
                 </div>
               </article>
@@ -140,15 +140,15 @@ const ResearchPositioning = memo(function ResearchPositioning() {
 
       <SectionShell
         id="translation-map"
-        label="Translation map"
-        title="把原本的學習與媒體經驗，轉譯成研究能力。"
-        titleLines={[["把原本的", "學習與媒體經驗，"], ["轉譯成", "研究能力。"]]}
+        label="經驗如何轉用"
+        title="我把過去的經驗，用在現在的聲響研究。"
+        titleLines={[["我把過去的經驗，"], ["用在現在的", "聲響研究。"]]}
       >
         <div className="overflow-hidden rounded-[var(--radius-lg)] border border-[color:var(--theme-line)]">
           <div className="hidden grid-cols-[0.28fr_0.3fr_0.42fr] border-b border-[color:var(--theme-line)] bg-[color:var(--color-surface)] p-4 md:grid">
-            <span className="meta-label text-[var(--theme-accent)]">原始經驗</span>
-            <span className="meta-label text-[var(--theme-accent)]">作品集語言</span>
-            <span className="meta-label text-[var(--theme-accent)]">公開作品能讀到的能力</span>
+            <span className="meta-label text-[var(--theme-accent)]">過去的經驗</span>
+            <span className="meta-label text-[var(--theme-accent)]">現在怎麼做</span>
+            <span className="meta-label text-[var(--theme-accent)]">在作品裡可以看到什麼</span>
           </div>
           {terminologyMap.map(([from, to, meaning]) => (
             <div
@@ -165,23 +165,23 @@ const ResearchPositioning = memo(function ResearchPositioning() {
 
       <SectionShell
         id="institute-alignment"
-        label="Institute alignment"
-        title="主題連結要有證據，不只是標籤。"
-        titleLines={[["主題連結", "要有證據，"], ["不只是", "標籤。"]]}
+        label="研究所主題對照"
+        title="每個研究主題，都要回到我做過的作品。"
+        titleLines={[["每個研究主題，"], ["都要回到我做過的", "作品。"]]}
       >
         <div className="grid gap-10 md:grid-cols-[0.34fr_0.66fr] md:gap-12">
           <div className="grid content-start gap-5 md:sticky md:top-28 md:self-start">
             <p className="zh-copy-wide text-[color:var(--theme-muted)]">
-              以下連結依公開案例中的實際作品、角色、工具與媒體證據整理；每個主題都能回到案例與連結理由。
+              這裡只列公開案例已經呈現的角色、工具與成果。點選主題，就能直接查看對應案例。
             </p>
-            <nav aria-label="已有公開作品證據的研究所主題">
+            <nav aria-label="已有對應公開案例的研究所主題">
               <ul className="flex flex-wrap gap-2">
                 {instituteEvidenceGroups.map((group) => (
                   <li key={group.id}>
                     <a
                       className="institute-jump-link inverted-pill interactive-link chip-text inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-extrabold"
                       href={`#${group.id}`}
-                      aria-label={`查看「${group.theme}」的作品證據`}
+                      aria-label={`查看「${group.theme}」的對應案例`}
                     >
                       <span>{group.theme}</span>
                       <span aria-hidden="true">↘</span>
@@ -201,7 +201,7 @@ const ResearchPositioning = memo(function ResearchPositioning() {
               >
                 <div className="flex flex-wrap items-end justify-between gap-3 border-b border-[color:var(--theme-line)] pb-4">
                   <div className="grid gap-2">
-                    <p className="meta-label text-[var(--theme-accent)]">Demonstrated evidence / 已有作品證據</p>
+                    <p className="meta-label text-[var(--theme-accent)]">公開作品裡做過的事</p>
                     <h3 id={`${group.id}-title`} className="zh-heading text-[clamp(1.45rem,2.6vw,2.35rem)]">
                       {group.theme}
                     </h3>

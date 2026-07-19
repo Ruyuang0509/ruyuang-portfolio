@@ -42,7 +42,7 @@
 
 - **Hero：** 主標各片語以 overflow mask 從 `y:112%`、交錯 `±3deg` 進入，沿用初代 `.22,1,.36,1` easing 與逐行 stagger；研究介紹只由部分可見的 opacity 與 `y:28px` 收束到終態，不讓整個 main 或 LCP 文字從透明開始。兩個 CTA 保留低比重進場並直達 demo 與 learning trail。
 - **3D：** shader sphere 以波形與 fresnel 混色回應 pointer，粒子場緩慢旋轉。精簡 R3F canvas 將整個 Hero section 作為 event source，以 `clientX`／`clientY` 相對 section 幾何計算 pointer；延遲完成後仍重新檢查頁面與 Hero 位置，首次載入前若已導航至 offscreen 就不 mount canvas，回到 preload window 才載入；已 mounted 的場景離屏後改用 demand frameloop。場景錯誤只由 Hero 內的局部 boundary 接住，不會移除標題、介紹或 CTA。
-- **捲動：** Lenis 與 GSAP 共用 RAF，並會在 `prefers-reduced-motion` 執行期間變更時即時建立／銷毀 smooth-scroll runtime；ScrollTrigger 由 `#data-visualization-series` bottom 85% scrub 到 `#project-index-title` top 15%，只控制固定 field 的 paper／mist／radial opacity 與 transform。實際 range 依 viewport 與 section 幾何維持約 0.8–1.2 viewport；使用者停止時保留中間狀態，反向捲動平順倒放，document root 與前景色 tokens 不參與插值。
+- **捲動：** Lenis 與 GSAP 共用 RAF，並會在 `prefers-reduced-motion` 執行期間變更時即時建立／銷毀 smooth-scroll runtime；ScrollTrigger 以 `#data-visualization-series` bottom 70% 與 `#project-index-title` top 25% 計算自然邊界，再把 range clamp 為 0.8–1.2 viewport，只控制固定 field 的 paper／mist／radial opacity 與 transform。使用者停止時保留中間狀態，反向捲動平順倒放，document root 與前景色 tokens 不參與插值。
 - **Navbar：** 表面提高不透明度以維持兩種局部 palette 的對比，移除固定 `backdrop-blur-2xl`；依 fragment／可見區段提供 active state 與 `aria-current="location"`，桌面、行動及首頁入口的主要 target 至少 44 px。行動選單以 Motion 在開／關兩向動畫 height、opacity 與輕微 y 位移，仍保留 Escape、outside click、focus restore 與 closed-state `inert`。
 - **Custom cursor：** fine pointer 且非 reduced-motion 時顯示；`data-magnetic` 元素有吸附與 label variants；以 MotionValue、spring、rAF batching 避免每次 pointermove 觸發 React render。
 - **卡片：** hover y -8、scale .99、媒體輕微放大，focus-within 提供同等媒體回饋；reduced-motion 時不執行 Motion hover。Hero canvas、magnetic hit targets 與靜止媒體都不保留永久 `will-change`，圖像／影片只在 hover 或 focus-within 時暫時晉升。
@@ -51,13 +51,27 @@
 - **深層連結：** fragment 位於 `content-visibility:auto` 長案例內時，只讓該案例維持完整 layout 並重算既有 Lenis range；初始載入、`hashchange` 與站內導覽先做 double-rAF layout settle，再最多校正兩次 fixed-nav offset。wheel、touch、pointer 或 scroll key 會取消尚未完成的校正，避免與使用者輸入競爭；其他離屏案例仍沿用 paint skip。Header 的「播放案例影片」在 anchor 完成後把焦點交給 native video。
 - **區段錯誤：** 可在原位重試，不使整頁消失。
 
-### 本輪 motion inventory
+### 完整 motion preservation inventory
 
-- 固定 viewport transition：`narrative guidance` + `atmosphere / authorship`；以捲動進度驅動，不獨立循環。
-- Hero line-mask stagger：`narrative guidance` + `atmosphere / authorship`；只復原初代來源與影片可驗證的片語揭示，不加入整頁 mount transition。
-- Details 與行動選單展開／收合：`interaction feedback`；狀態、焦點與內容高度同步。
-- 移除：只移除不具動畫角色、佔據 layout 高度的靜態 gradient bridge；以固定場域保存同一段敘事轉場。
-- 取代：只取代原生瞬間 disclosure toggle；R3F、卡片、Custom Cursor、聲音與其他已存在的 motion 均未移除或改寫。初代原始碼與錄影未證明通用 section reveal／卡片 opacity stagger 存在，因此不把它們寫成既有系統，也不另行新增。
+下表依 [`../../AGENTS.md`](../../AGENTS.md) 的五類要求盤點目前原始碼；一個效果可同時具有多種 UX 角色。`performance risk` 表示需要量測與回退，不等於應移除。
+
+| 系統／效果 | 分類 | 目前實作與保存理由 | 風險／回退 |
+| --- | --- | --- | --- |
+| Hero 片語 line-mask stagger | narrative guidance；atmosphere／authorship | [`../../src/components/ImmersiveHero.jsx`](../../src/components/ImmersiveHero.jsx) 以 Motion 將片語由 `y:112%`、交錯旋轉帶入，建立主張的閱讀次序與初代辨識度 | DOM heading 保留完整 accessible name；reduced motion 直接到終態，且不把整個 Hero／LCP 文字設為透明 |
+| Hero 介紹與 CTA 進場 | narrative guidance | 介紹只由部分可見狀態收束；CTA 低比重進場後提供聲響 demo／學習歷程下一步 | 不能恢復整頁 mount-hide；需維持首幀可讀與 CTA 可操作 |
+| Hero shader orb／粒子 | atmosphere／authorship；performance risk | [`../../src/components/HeroScene.jsx`](../../src/components/HeroScene.jsx) 與 `LeanR3FCanvas` 提供聲音／互動視覺語彙，是漸進增強而非內容來源 | lazy、visibility／device gate、低 DPR／segments、離屏 demand frameloop；Save-Data、reduced-motion 與弱裝置不載入 |
+| 深墨→暖灰→暖紙 fixed viewport field | narrative guidance；atmosphere／authorship；performance risk | [`../../src/hooks/useThemeInversion.js`](../../src/hooks/useThemeInversion.js) 用 ScrollTrigger 將研究證據帶入作品閱讀面，支援停留與反向 scrub | 只動 opacity／transform；不改 root／前景 tokens、不 blur 內容；reduced motion 使用同邊界離散端點 |
+| Lenis smooth scroll／anchor 定位 | narrative guidance；performance risk | [`../../src/hooks/useLenisGsap.js`](../../src/hooks/useLenisGsap.js) 與 Navbar 維持長頁閱讀節奏；deep-link double-rAF settle 避免案例落點錯位 | reduced motion 即時銷毀；使用者 wheel／touch／pointer／scroll-key 取消未完成校正；不允許無界 rAF loop |
+| Navbar active state／行動選單 | interaction feedback | [`../../src/components/Navbar.jsx`](../../src/components/Navbar.jsx) 以 Motion 呈現選單高度、opacity、位移，並同步 `aria-current`、Escape、outside click、focus restore | reduced motion 立即完成；closed state 保持 `inert`／`aria-hidden`；不改成視覺-only drawer |
+| `AnimatedDetails` disclosures | interaction feedback；performance risk | Prompt Template、7 個長描述與雙語逐字稿以 WAAPI 同步實際高度、箭頭、opacity、位移與 native details state | 快速反轉取消前序列、ResizeObserver retarget、完成後清 effect；reduced motion 立即切換並刷新 Lenis／ScrollTrigger |
+| 作品卡 hover／focus-within | interaction feedback；decorative | [`../../src/components/CaseStudyShowcase.jsx`](../../src/components/CaseStudyShowcase.jsx) 與 CSS 提供小幅 y／scale／媒體放大，focus-within 保留同等回饋 | 只在 active hover／focus 暫時 compositor promotion；coarse pointer／reduced motion 不依賴此效果 |
+| Custom Cursor／magnetic targets | interaction feedback；atmosphere／authorship；performance risk | [`../../src/components/CustomCursor.jsx`](../../src/components/CustomCursor.jsx) 以 label variant 與吸附強化個人風格及可點狀態 | 只在 ≥768px fine pointer 且非 reduced motion 啟用；MotionValue／spring／rAF batching，原生焦點與游標以外的操作仍完整 |
+| Sound pad 位置點 breathing／live readout | interaction feedback；decorative | [`../../src/components/SoundInteractionPrototype.jsx`](../../src/components/SoundInteractionPrototype.jsx) 與 CSS 讓映射位置、狀態及聲音參數可見 | breathing 在 reduced motion 停用；真正操作仍由 pointer／touch／四個 range 與文字狀態提供 |
+| Storyboard scroll-snap／seek feedback | interaction feedback | 水平 scene cards、前後／每幕按鈕、影片 seek 與 polite status 讓八幕選擇結果可確認 | 不攔截垂直捲動；鍵盤使用立即 snap；print 改靜態網格 |
+
+保存決策：narrative guidance、interaction feedback 與 atmosphere／authorship 預設保留。若 profiling 顯示問題，依序縮小 paint area、改用 transform／opacity、延後或 intersection 啟用、降低 mobile／low-power 複雜度、提供 reduced-motion、降低更新頻率；只有具體效能、可及性或可用性證據才移除，並記錄替代互動。
+
+變更紀錄：過去移除的是佔據 layout 高度、沒有動畫角色的靜態 gradient bridge，並以 fixed field 保存同一敘事功能；原生瞬間 disclosure 由可逆 WAAPI feedback 取代；Hero line-mask 只依初代證據復原。Hero canvas 的永久 `will-change` 被移除是資源提示調整，不是視覺動畫移除。本次 2026-07-18 Markdown 打包沒有修改或移除任何 runtime 動效。
 
 ## Web Audio 互動
 
@@ -99,6 +113,6 @@
 
 ## Performance 現況
 
-DOM 首屏文字是預期且實測的 LCP path；本輪 mobile／desktop LCP 都是首幀部分可見的 Hero 研究介紹，line-mask 主標不會讓整個首屏一起透明。Three 與 sound prototype lazy 分 chunk，3D closure 不進 initial modulepreload，並在窄螢幕延後 1.4 秒後再等 idle；callback 重新檢查目前幾何與頁面可見性，只有 Hero 仍在 240 px preload window 內才首次下載。建置預算透過遞迴解析 built imports 稽核完整 lazy 3D closure；目前為 638680 raw／169383 gzip bytes，每個 lazy chunk 上限 500000 raw bytes。Submission build 為 initial JS 194195 gzip B、entry 160462 B、CSS 43286 B。
+DOM 首屏文字是預期且實測的 LCP path；本輪 mobile／desktop LCP 都是首幀部分可見的 Hero 研究介紹，line-mask 主標不會讓整個首屏一起透明。Three 與 sound prototype lazy 分 chunk，3D closure 不進 initial modulepreload，並在窄螢幕延後 1.4 秒後再等 idle；callback 重新檢查目前幾何與頁面可見性，只有 Hero 仍在 240 px preload window 內才首次下載。建置預算透過遞迴解析 built imports 稽核完整 lazy 3D closure；目前為 638680 raw／169383 gzip bytes，每個 lazy chunk 上限 500000 raw bytes。2026-07-18 fresh submission build 為 initial JS 195067 gzip B、entry 162901 B、CSS 43688 B。
 
 Motion-forensics 的直接前後對照使用相同 submission harness。修正前 archive `2026-07-17T16-21-04-610Z`：mobile Performance 94、LCP 2634 ms、TBT 75 ms、transfer 459090 B；desktop 100、LCP 555 ms、TBT 0 ms、transfer 442761 B。最終原始碼連跑兩次仍為 mobile 94、desktop 100；最新 archive `2026-07-17T17-31-33-225Z` 為 mobile LCP 2651 ms、TBT 90 ms、transfer 460502 B，desktop LCP 560 ms、TBT 0 ms、transfer 444173 B。重跑範圍是 mobile LCP 2651–2654 ms／TBT 90–98 ms、desktop LCP 560–602 ms／TBT 0–38 ms；兩者 Accessibility／Best Practices／SEO 100、CLS 0。最新對直接基線只增加 mobile LCP 17 ms、TBT 15 ms、desktop LCP 5 ms 與 transfer 1412 B；這是 localhost simulated lab，不是正式 hosting field data。

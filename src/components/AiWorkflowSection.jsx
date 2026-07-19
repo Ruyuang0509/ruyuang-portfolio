@@ -39,7 +39,7 @@ export default function AiWorkflowSection() {
 
         <div className="grid gap-8 lg:grid-cols-2">
           <div className="grid content-start gap-4">
-            <p className="meta-label text-[var(--theme-accent)]">Prompt versions</p>
+            <p className="meta-label text-[var(--theme-accent)]">兩次提示詞調整</p>
             {aiWorkflow.versions.map((item) => (
               <article key={item.version} className="evidence-panel grid gap-3 rounded-[var(--radius-md)] p-5">
                 <p className="meta-label text-[var(--theme-accent)]">{item.version}</p>
@@ -50,20 +50,20 @@ export default function AiWorkflowSection() {
           </div>
 
           <div className="grid content-start gap-4">
-            <p className="meta-label text-[var(--theme-accent)]">Failure → diagnosis → correction</p>
+            <p className="meta-label text-[var(--theme-accent)]">實際出錯與修正</p>
             {aiWorkflow.failureCases.map((item) => (
               <article key={item.problem} className="evidence-panel grid gap-3 rounded-[var(--radius-md)] p-5">
                 <h3 className="zh-heading text-xl">{item.problem}</h3>
-                <p className="zh-caption text-[color:var(--theme-muted)]">診斷：{item.diagnosis}</p>
-                <p className="zh-caption text-[color:var(--theme-muted)]">修正：{item.correction}</p>
+                <p className="zh-caption text-[color:var(--theme-muted)]">原因：{item.diagnosis}</p>
+                <p className="zh-caption text-[color:var(--theme-muted)]">我怎麼改：{item.correction}</p>
               </article>
             ))}
           </div>
         </div>
 
         <div className="paper-panel grid gap-4 rounded-[var(--radius-lg)] p-6 md:grid-cols-[0.34fr_0.66fr] md:p-8">
-          <p className="meta-label">Repository evidence</p>
-          <ul className="grid gap-2" aria-label="生成式 AI 協作證據路徑">
+          <p className="meta-label">可查閱的文件</p>
+          <ul className="grid gap-2" aria-label="生成式 AI 使用說明文件">
             {aiWorkflow.evidencePaths.map((path) => (
               <li key={path} className="mixed-token text-sm font-semibold leading-relaxed">{path}</li>
             ))}

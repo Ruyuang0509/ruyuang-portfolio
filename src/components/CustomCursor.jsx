@@ -56,7 +56,7 @@ export default function CustomCursor() {
         target
           ? {
               variant: target.dataset.cursorVariant || "media",
-              label: target.dataset.cursorLabel || "VIEW",
+              label: target.dataset.cursorLabel || "查看",
             }
           : { variant: "default", label: "" },
       );

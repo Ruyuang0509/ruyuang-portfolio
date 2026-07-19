@@ -5,18 +5,18 @@
 | 技術 | 實際用途 | 地位／影響 |
 | --- | --- | --- |
 | JavaScript ES modules + JSX | 全部應用、資料與自訂驗證腳本 | 核心；沒有 TypeScript |
-| React 19 / React DOM 19 | SPA 元件樹、hooks、lazy/Suspense、class error boundary | 核心 |
+| React 19 / React DOM 19（目前安裝 19.2.7） | SPA 元件樹、hooks、lazy/Suspense、class error boundary | 核心 |
 | Vite 8.1.x（目前安裝 8.1.3） | dev/build、模式 alias、Tailwind plugin、chunk 拆分 | 核心 |
 | pnpm 11.7 package contract | lockfile 與全部 scripts；本機實際 CLI 可更高但 lock/packageManager 以 11.7 為可重現基準 | 核心 |
-| Tailwind CSS 4.3 | JSX utility layout；Vite plugin 零 runtime | 核心 |
+| Tailwind CSS 4.3（目前安裝 4.3.2） | JSX utility layout；Vite plugin 零 runtime | 核心 |
 | 自訂 CSS tokens/primitives | 繁中排版、surface、sound pad、reduced-motion、print | 核心 |
-| Motion for React 12 | Hero CTA、卡片、custom cursor、reduced-motion | 核心 |
-| GSAP 3.13 + ScrollTrigger | Lenis ticker、固定 viewport 場域 scroll scrub 與 fixed-nav chrome threshold | 核心 |
-| Lenis 1.3 | 平滑 wheel／anchor scroll | 核心；reduced-motion 停用 |
-| Three.js 0.179 + React Three Fiber 9 | Hero shader orb 與粒子 | 選配、lazy 漸進增強 |
+| Motion for React 12（目前安裝 12.42.2） | Hero CTA、卡片、custom cursor、reduced-motion | 核心 |
+| GSAP package contract `^3.13.0`（目前安裝 3.15.0）+ ScrollTrigger | Lenis ticker、固定 viewport 場域 scroll scrub 與 fixed-nav chrome threshold | 核心；未使用付費 plugin |
+| Lenis 1.3（目前安裝 1.3.25） | 平滑 wheel／anchor scroll | 核心；reduced-motion 停用 |
+| Three.js 0.179.1 + React Three Fiber 9.6.1 | Hero shader orb 與粒子 | 選配、lazy 漸進增強 |
 | Web Audio API | 旗艦案例合成聲音、pan/pitch/filter/gain | 核心產品證據；瀏覽器原生、無額外依賴 |
 | Node test runner | `soundMapping.js` 純函式與 `webAudioEngineCore.js` lifecycle 測試 | 已使用；18 tests，不需 DOM 或真實聲卡 |
-| Submission scanner core | Text rules、binary inventory、redacted diagnostics 與 isolated CLI fixtures | 已使用；33 tests，不需網路或正式 `dist/` |
+| Submission scanner core | Text rules、binary inventory、redacted diagnostics 與 isolated CLI fixtures | 已使用；36 tests，不需網路或正式 `dist/` |
 | Lighthouse 13.4 | submission mobile／desktop lab audit、freshness 與 lineage summary | 開發工具；非 runtime |
 | Python | 本機媒體產生腳本 | 開發工具 |
 
@@ -102,16 +102,18 @@ Hidden case 使用空 media state；原有 13 個 `ph-after-*`／`mv-soft-*` pla
 
 ## Styling 與 motion lifecycle
 
-Tailwind utility 負責局部 grid/spacing；[`../../src/styles.css`](../../src/styles.css) 負責語意 tokens、繁中排版、mobile menu、surface、focus、sound pad、disclosure、fixed viewport field、reduced-motion 與 print。Document root 與 foreground tokens 保持穩定；`.paper-surface` 將暖紙 tokens 限定在支持作品 gallery 與 Reviewer Path。`useLenisGsap` 讓 Lenis 與 GSAP 共用 ticker，並在 `portfolio:layout-change` 時以 rAF 合併 Lenis resize 與 ScrollTrigger refresh。`useThemeInversion` 由 `#data-visualization-series` bottom 85% 到 `#project-index-title` top 15% 使用 `scrub:true`／`invalidateOnRefresh:true`，只動畫固定 field 子層的 opacity／transform；`.nav-surface--paper` 依同一 progress 切換，不再修改 document root。
+Tailwind utility 負責局部 grid/spacing；[`../../src/styles.css`](../../src/styles.css) 負責語意 tokens、繁中排版、mobile menu、surface、focus、sound pad、disclosure、fixed viewport field、reduced-motion 與 print。Document root 與 foreground tokens 保持穩定；`.paper-surface` 將暖紙 tokens 限定在支持作品 gallery 與 Reviewer Path。`useLenisGsap` 讓 Lenis 與 GSAP 共用 ticker，並在 `portfolio:layout-change` 時以 rAF 合併 Lenis resize 與 ScrollTrigger refresh。`useThemeInversion` 以 `#data-visualization-series` bottom 70% 與 `#project-index-title` top 25% 計算自然邊界，再把 range clamp 為 0.8–1.2 viewport；`scrub:true`／`invalidateOnRefresh:true` 只動畫固定 field 子層的 opacity／transform，`.nav-surface--paper` 依同一 progress 切換，不再修改 document root。
 
 Navbar 改用較不透明的 theme-aware 背景，不再使用固定 `backdrop-blur-2xl`。永久 `will-change` 縮到 Hero canvas 的 transform；案例圖片／影片只在 fine-pointer hover 或 focus-within 時晉升，magnetic targets 不再長駐 compositor layer。Reduced motion 將 fixed field 改為同一邊界的離散 dark／paper endpoint，AnimatedDetails 與行動選單立即開關；print 隱藏 field、展開 disclosure，並將主要 section 強制為 paper-safe 背景。
+
+動效延續以 [`../../AGENTS.md`](../../AGENTS.md) 的 preservation contract 為架構約束：Hero line-mask、fixed viewport theme field 與深層連結 settle 屬 narrative guidance；menu、disclosure、card、sound feedback 與 active navigation 屬 interaction feedback；R3F、custom cursor 與色場屬 atmosphere／authorship。這三類預設保留。若效能有疑慮，先縮小 paint area、改用 transform／opacity、延後或降低啟用頻率、提供 mobile／low-power／reduced-motion 回退；只有 profiling 證明實質問題時才移除，並在 handoff 記錄證據與替代互動。
 
 ## 資產與 build pipeline
 
 - `public/` 靜態資產原樣提供；案例圖使用 AVIF/WebP `srcset` 與固定 dimensions。Hamlet clean MP4 使用外掛英文／繁中 WebVTT，renderer 不自動播放並以同頁逐字稿補足；根目錄 `.gitattributes` 強制 `*.vtt` 使用 LF，讓 Windows checkout 仍維持 manifest 已驗證的 bytes／SHA-256。任何放入 public 的檔案都應視為可公開，即使 submission React tree 沒有引用。
 - R3F 與 Web Audio UI 都以 `React.lazy` 分 chunk；Three 不進 initial modulepreload。Hero section 作為 R3F `eventSource`，pointer 以 section 的 `clientX/Y` 換算；離開 preload window 後改為 `frameloop="demand"`。
 - Vite manual chunks：`react`、`three-core`、`motion`、`scroll`、`vendor`；R3F 自然留在 lazy `HeroScene`，避免強制打包整個 Three namespace。
-- 2026-07-17 fresh submission build 的 lazy 3D closure 為 `HeroScene` 151272 B、`three-core` 483687 B、`vendor` 3273 B，合計 638232 raw／169223 gzip B；initial JS closure 為 193157 gzip B，entry 157531 B，CSS 43103 B。`audit-build-budgets.mjs` 以 attribute-order-independent HTML 解析和 built import closure 計算 initial／lazy 成本，並逐檔限制 500000 raw B，因此沒有 >500 kB warning。
+- 2026-07-18 fresh submission build 的 lazy 3D closure 為 `HeroScene` 151720 B、`three-core` 483687 B、`vendor` 3273 B，合計 638680 raw／169383 gzip B；initial JS closure 為 195067 gzip B，entry 162901 B，CSS 43688 B。`audit-build-budgets.mjs` 以 attribute-order-independent HTML 解析和 built import closure 計算 initial／lazy 成本，並逐檔限制 500000 raw B，因此沒有 >500 kB warning。
 - `audit-portfolio-evidence.mjs` 核對 Hamlet direct-copy bytes／SHA-256、衍生 AVIF/WebP inventory SHA-256、實際 dimensions、VTT timing／逐字稿及 public inventory。Publication mode 另外要求頂層核准狀態、逐項 rights checks／evidence refs 與完整 applicant attestation；只改一個 status 不能解除 gate。
 - `run-lighthouse.mjs` 明確建置 submission／相對 base並先跑 submission／Pages scan；以完整 path／size／SHA-256 manifest 複製 immutable artifact，再由動態 port preview。它動態納入根目錄 Vite `.env*`，在 audit 前後核對 build-input path set／manifest，並驗證 mtime、fetchTime、URL、完整 resolved mobile／desktop config、runtime、categories、metrics 與 diagnostics；profile fingerprint 保存完整設定，environment／comparability fingerprint 另納入 benchmark、OS 與穩定 CPU identity，繼承環境只保存名稱與值雜湊。
 - 每次 Lighthouse run 從 build 前至發布完成持有跨程序獨占鎖，只有 metadata 完整且 PID 回報 `ESRCH` 的 stale lock 可用 token quarantine 回收。唯一 archive 先寫入 raw reports、conditions、CLI stdout／stderr transcript、artifact／source manifests 與完整受測 `dist`，重驗所有雜湊後最後原子建立 `archive-complete.json`；沒有 marker 的孤兒目錄不算成功。canonical reports／history 以 sibling temp＋rename 更新並可整組 rollback，latest summary 最後 atomic replace 作權威指標；失敗 run 保留上一份成功 summary。最近 20 次索引在 `reports/lighthouse-history.json`。只有 fresh report 通過全部驗證，且非零輸出精確指向該 run Chrome temp 的已知 cleanup `EPERM` 簽章時才降為具名 warning並封存原始輸出。
@@ -126,7 +128,8 @@ Navbar 改用較不透明的 theme-aware 背景，不再使用固定 `backdrop-b
 - PowerShell wrappers 優先使用 PATH Node，否則回退 Codex bundled Node，顯示主要開發環境為 Windows／PowerShell。
 - Vite 預設使用相對 `base`，也可由 `VITE_BASE_PATH` 覆寫；public assets 以 `BASE_URL` 組路徑。應用沒有 client routes，因此不需要獨立 application 404 頁；submission dev 仍針對媒體／`dist` 邊界阻止 Vite 的通用 SPA fallback。
 - `check:submission` 先跑 scanner regression suite，再 build、掃描 text／inventory，最後執行 `audit:pages` 拒絕 GitHub Pages-breaking root-relative assets。
-- `.github/workflows/deploy-pages.yml` 是 manual-only：Windows build job 使用 Node 22／pnpm 11.7 驗證 submission，再交給 Pages deploy job。workflow 已存在於追蹤遠端的 feature branch／Draft PR；尚無可確認的遠端執行、production deploy、Pages URL 或 domain。
+- `.github/workflows/deploy-pages.yml` 會在 push 到 `main` 或 `workflow_dispatch` 時執行：Windows build job 使用 Node 22／pnpm 11.7 驗證 submission，再交給 Pages deploy job。`ca956c9` 的遠端 run `29643814012` 已成功，Pages API 回報 public／`built`，公開 URL 為 `https://ruyuang0509.github.io/ruyuang-portfolio/`；沒有 custom domain。
+- 部署 job 目前執行 `check:submission`，沒有執行 `check:publication`。因此 Hamlet `rightsReview`／applicant attestation 尚未完成時，技術上仍可部署；目前 MP4、VTT 與 poster 已在 Pages 可公開存取。這是 deployment architecture 的 P0 policy gap，不得把 workflow success 解讀為 rights clearance。
 - Hero、旗艦、支持案例及聲音 demo 有 section error boundaries；React 根另有共同 recovery boundary。
 
 ## 開發與驗證命令
@@ -189,4 +192,4 @@ pnpm run doctor
 
 ### 建議續作順序
 
-Submission hygiene（hidden media、scanner、metadata）與 current-fingerprint Lighthouse 已完成本機 closure；AI 文學故事 MV 已有公開媒體證據，下一步補 Web Audio／AI 學習者證據、Hamlet 申請者權利聲明與 Pure Data／REAPER artifact，其後完成人工 accessibility／device matrix，最後才執行遠端 Pages workflow 與 production hosting 決策。
+Submission hygiene（hidden media、scanner、metadata）與 current-fingerprint Lighthouse 已完成本機 closure；GitHub Pages 也已公開。下一步應先處理「公開部署但 Hamlet rights gate 未解除」的 policy gap：由 stakeholder 完成權利聲明與 attestation，或在核准前停止／移除該公開資產。其後補 Web Audio／AI 學習者證據與 Pure Data／REAPER artifact，再完成人工 accessibility／device matrix、custom domain／canonical 與 production field 驗證。

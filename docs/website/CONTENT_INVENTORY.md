@@ -1,5 +1,7 @@
 # 公開內容清單
 
+更新日期：2026-07-18。下列內容依目前 source、submission build 邊界與公開 GitHub Pages 盤點；公開可達不代表權利或研究驗證已完成。
+
 ## 內容治理
 
 公開文案、案例順序、媒體 metadata 與測試狀態的唯一來源是 [`../../src/data/portfolio.js`](../../src/data/portfolio.js)。Hidden case 文字位於 [`../../src/data/portfolio.hidden.js`](../../src/data/portfolio.hidden.js)，施工／風險文字位於 [`../../src/data/portfolio.internal.js`](../../src/data/portfolio.internal.js)；submission mode 會把前者 alias 到空模組，正式內容不得複製後者 wording。欄位契約見 [`../content-authoring.md`](../content-authoring.md)、[`../adding-portfolio-work.md`](../adding-portfolio-work.md) 與 [`../content-governance.md`](../content-governance.md)。
@@ -103,7 +105,7 @@ Hidden case 現在使用空 media state。原有 13 個 `ph-after-*`／`mv-soft-
 
 - 旗艦原型與 AI 文學故事 MV 都沒有正式使用者驗證結果。
 - Pure Data／REAPER 沒有可公開 artifact。
-- AI 文學故事 MV 已有公開成片、字幕與實際分鏡，但沒有 Prompt log、旁白版本、課堂測試或素材權利／來源清單。
+- AI 文學故事 MV 已有成片、字幕與實際分鏡；rights checklist／publication gate 文件已存在，但逐項 rights evidence、applicant attestation 與 manifest 核准仍未完成。原始 Prompt log、旁白版本與課堂測試也仍缺。2026-07-18 實測公開 Pages 已能直接取得 MP4、英文 VTT 與海報，因此這不是「尚未發布」狀態。
 - Power BI 實作日期已確認為 2026/06/11–06/12；資料使用說明不支持公開分析結果，清洗規則與部分 measure 定義仍需核對。
 - 案例 `links` 皆空；沒有公開 email、履歷或外部個人連結。
-- 未確認 production canonical URL、hosting、analytics、隱私文件與最終社群分享圖相容性。
+- GitHub Pages hosting 與公開 URL `https://ruyuang0509.github.io/ruyuang-portfolio/` 已確認；仍未確認 canonical metadata／custom domain、analytics、隱私文件、最終 raster 社群分享圖相容性與 production field performance。
