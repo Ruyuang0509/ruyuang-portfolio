@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
-  <title id="title">Power BI 學習分析儀表板架構示意圖</title>
+  <title id="title">Power BI 學習資料儀表板版面示意圖</title>
   <desc id="desc">概念化呈現單頁儀表板的圖表布局與閱讀順序，不含原始資料、真實學習者資訊或分析數值。</desc>
   <rect width="1280" height="720" fill="#e7deca"/>
   <rect x="48" y="48" width="1184" height="624" rx="34" fill="#f8f2e6"/>
@@ -21,5 +21,5 @@
   <rect x="404" y="520" width="72" height="46" rx="10" fill="#cbe86b"/>
   <rect x="526" y="462" width="72" height="104" rx="10" fill="#7dc4ff"/>
   <rect x="648" y="404" width="72" height="162" rx="10" fill="#6b4cff"/>
-  <text x="82" y="662" fill="#1c2938" font-family="PingFang TC, Microsoft JhengHei, sans-serif" font-size="24" font-weight="800">概念化儀表板架構示意，不含原始資料、真實學習者資訊或分析數值。</text>
+  <text x="82" y="662" fill="#1c2938" font-family="PingFang TC, Microsoft JhengHei, sans-serif" font-size="24" font-weight="800">概念化儀表板版面示意，不含原始資料、真實學習者資訊或分析數值。</text>
 </svg>

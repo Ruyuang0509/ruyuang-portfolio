@@ -58,7 +58,7 @@ const DataVisualizationSeries = memo(function DataVisualizationSeries() {
         <div className="grid gap-6 md:grid-cols-[0.36fr_0.64fr]">
           <div className="grid content-start gap-4">
             <p className="meta-label text-[var(--theme-accent)]">
-              Series logic
+              我從兩件作品看到的事
             </p>
             <p className="zh-copy text-[color:var(--theme-muted)]">
               {dataVisualizationSeries.reflection}

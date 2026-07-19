@@ -6,11 +6,11 @@ export default function LearningTrail() {
     <section id="learning-trail" className="research-section px-[clamp(1.25rem,6vw,10vw)] py-24 text-[var(--theme-text)] md:py-32" aria-labelledby="learning-trail-title">
       <div className="mx-auto grid max-w-7xl gap-12">
         <div className="grid gap-5 md:grid-cols-[0.36fr_0.64fr] md:gap-16">
-          <p className="meta-label text-[var(--theme-accent)]">Learning trail / 學習歷程</p>
+          <p className="meta-label text-[var(--theme-accent)]">學習進度</p>
           <div className="grid gap-5">
-            <EditorialHeading as="h2" id="learning-trail-title" className="editorial-heading zh-display text-[length:var(--font-size-fluid-section)]" lines={[["把正在學習的", "工具，"], ["分成已有證據", "與尚無公開材料。"]]}>把正在學習的工具，分成已有證據與尚無公開材料。</EditorialHeading>
-            <p className="zh-copy-wide text-[color:var(--theme-muted)]">這裡只列出目前能誠實說明的學習狀態；沒有 patch、project 或聲音輸出的工具，不以成果方式呈現。</p>
-            <a className="interactive-link chip-text w-fit rounded-full border border-[color:var(--theme-line)] px-5 py-3 text-sm font-extrabold" href="#ai-workflow">閱讀生成式 AI 協作方法</a>
+            <EditorialHeading as="h2" id="learning-trail-title" className="editorial-heading zh-display text-[length:var(--font-size-fluid-section)]" lines={[["聲音工具", "學到哪裡，"], ["目前有哪些材料", "可以看。"]]}>聲音工具學到哪裡，目前有哪些材料可以看。</EditorialHeading>
+            <p className="zh-copy-wide text-[color:var(--theme-muted)]">Web Audio 已有可操作原型。Pure Data 和 REAPER 還在學習，目前沒有可公開的 Pure Data 補丁檔、REAPER 工程檔或聲音作品。</p>
+            <a className="interactive-link chip-text w-fit rounded-full border border-[color:var(--theme-line)] px-5 py-3 text-sm font-extrabold" href="#ai-workflow">查看我如何使用生成式 AI</a>
           </div>
         </div>
         <div className="grid gap-4 md:grid-cols-3">

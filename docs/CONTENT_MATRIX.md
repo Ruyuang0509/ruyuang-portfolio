@@ -1,6 +1,6 @@
 # 作品集內容矩陣
 
-更新日期：2026-07-17。公開內容的 source of truth 是 `src/data/portfolio.js`；hidden case 文字在 `src/data/portfolio.hidden.js`，施工與風險備註只放 `src/data/portfolio.internal.js`。此表不會把待補素材或 AI 推論直接曝光為完成內容。
+更新日期：2026-07-18。公開內容的 source of truth 是 `src/data/portfolio.js`；hidden case 文字在 `src/data/portfolio.hidden.js`，施工與風險備註只放 `src/data/portfolio.internal.js`。此表不會把待補素材或 AI 推論直接曝光為完成內容，也區分「HTTP 可公開取得」與「權利已核准」。
 
 | 模組 | 現有內容 | 真實來源 | 完整度 | 公開站處理 | 待補資料 | 不可由 AI 代填的內容 |
 |---|---|---|---|---|---|---|
@@ -14,10 +14,10 @@
 | 資料視覺化實際案例 | Spotify Wrapped 等資料敘事分析、流程圖、YouTube 影片 | 既有影片與案例文案 | `exploratory` | privacy-enhanced iframe、使用者意圖後載入；不宣稱成效 | 人工字幕／transcript 核對、影片 credit | 學習效果、觀看者研究結果、未確認字幕內容 |
 | Power BI 學習資料探索 | 概念 SVG、互動／影片觀看／成績探索、限制說明 | 日期備註、清洗檔、Power BI 實作檔與隔離素材 | 2026/06/11–06/12 實作；公開方法敘事可用 | 只公開不含資料值的概念圖；實際結果維持隔離；不作因果宣稱 | 清洗規則、measure 定義、另行公開許可 | 實際資料值、因果關係、授權狀態、學習成效 |
 | About／履歷／聯絡 | Reviewer Path 明示沒有公開聯絡資料 | 現行 repository 無真實公開資料 | 未完成 | 不建立假連結或占位 CTA | 簡歷 PDF、Email、GitHub／社群、公開範圍決策 | 私人電話／住址、未授權帳號、虛構履歷或技能 |
-| 媒體與 credit | 本機 AVIF/WebP/MP4、公開 SVG、YouTube privacy-enhanced embed | `public/media`、案例 metadata、既有影片 | 大多可公開；部分授權待核 | lazy、固定尺寸、poster、no autoplay；restricted media 隔離 | 各作品最終作者／團隊 credit、字幕、外部素材授權證明 | 著作權歸屬、授權聲明、未提供的 alt／transcript 事實 |
+| 媒體與 credit | 本機 AVIF/WebP/MP4、公開 SVG、YouTube privacy-enhanced embed | `public/media`、案例 metadata、既有影片 | 技術邊界可發布；Hamlet rights 未核准 | lazy、固定尺寸、poster、no autoplay；restricted media 隔離。Pages 已公開 Hamlet MP4／VTT／poster，但這不是 rights clearance | Hamlet 逐項 rights evidence／attestation；各作品最終作者／團隊 credit、字幕、外部素材授權證明 | 著作權歸屬、授權聲明、未提供的 alt／transcript 事實 |
 | 公開 metadata | index、JSON-LD、`llms.txt`、favicon、social preview 與案例 SEO title 已統一為 RU / YUAN | `index.html`、`public/llms.txt`、`public/favicon.svg`、`public/social-preview.svg`、`portfolio.js` | 本機品牌與 anchors 已一致 | Vite 原樣發布 public metadata；scanner 會攔截舊品牌與失效 anchors | canonical URL、正式 domain、raster social preview | 未確認 URL、hosting domain、公開個資 |
 | Hidden immersive concept | `immersive-memory-map` 完整文字在 `portfolio.hidden.js`；施工備註在 `portfolio.internal.js`；media 為空 | `portfolio.hidden.js`、`portfolio.internal.js` | draft 文字保留；submission data／asset 隔離完成；submission-visible 專用 completeness 項目不適用 | submission alias 解析為空模組；流程圖／媒體 readiness 顯示 `不適用 · submission-hidden`，不列為缺失；13 個 `ph-after-*`／`mv-soft-*` placeholder 已移除，舊 URL 為 404 | 真實場域、完整原型、影像／聲音與觀眾證據 | 場域成果、參與者回饋、技術完成度 |
-| GitHub／部署證據 | 有效 Git history、`origin`、working branch、Draft PR #1、相對 base、Pages audit、manual workflow | 本機 Git、GitHub connector、原始碼與本機 build | branch／Draft PR 可確認；remote checks、workflow run 與 Pages deployment 尚無證據 | 不在公開站宣稱已部署；只在 feature branch 續作並更新既有 Draft PR | PR checks／workflow run、Pages URL、正式 hosting 與 domain 決策 | 未執行的 workflow、部署成功狀態、field performance |
+| GitHub／部署證據 | 有效 Git history、`origin`、working branch、PR #1–#4 merged、相對 base、Pages audit、push／manual workflow | 本機 Git、GitHub CLI/API、原始碼、本機 build 與公開 HTTP | branch／PR／成功 run／public Pages 均可確認；沒有 custom domain 或 field evidence | `main` push 會自動 build／deploy；`ca956c9` run `29643814012` 成功，首頁 HTTP 200。Deploy 尚未執行 `check:publication` | PR-stage CI、publication gate 串接、canonical／custom domain、production device／field matrix | 未執行的測試、權利核准、field performance、未確認 domain |
 | 研究計畫與申請資訊 | 候選研究命題與能力轉譯 | 使用者提示詞與現行作品 | 候選方向 | 以問題與「可深化」語氣呈現 | 正式研究計畫、申請年度、官方課程／師資對應與申請者簽核 | 最終學術主張、官方要求、研究可行性結論 |
 
 ## 公開前資料規則

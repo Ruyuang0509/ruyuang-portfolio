@@ -1,6 +1,6 @@
 # Visual System Notes
 
-Updated: 2026-07-17
+Updated: 2026-07-18
 
 This site should feel like a calm research dossier, not a flashing demo reel. The document root stays warm ink; supporting case studies and the reviewer endpoint use section-scoped paper tokens, while a dedicated fixed viewport field carries the scroll-linked passage between the two states.
 
@@ -38,7 +38,8 @@ This site should feel like a calm research dossier, not a flashing demo reel. Th
 - Keep foreground palettes static and section-scoped; only the dedicated background field may pass through low-contrast intermediate colors, with no text placed on the transition itself.
 - Respect `prefers-reduced-motion`; remove mist/radial motion and switch the fixed field directly between its dark and paper endpoints at the same geometric boundary.
 - Keep focus rings visible on both warm dark and warm paper backgrounds.
-- Keep navigation mostly opaque instead of relying on a large fixed backdrop blur. Reserve permanent `will-change` for the Hero canvas; promote case media only during hover/focus interaction.
+- Keep navigation mostly opaque instead of relying on a large fixed backdrop blur. Do not reserve permanent `will-change` for the Hero canvas or magnetic targets; promote case media only during active hover/focus interaction.
+- Treat narrative guidance, interaction feedback, and atmosphere／authorship motion as part of the approved identity. Profile before removal; first reduce paint area, prefer transform／opacity, gate or lower complexity on mobile／low-power devices, support reduced motion, and lower update frequency. Record any material removal with evidence and a replacement interaction.
 - Overview cards may restore the original poster-first motion preview only when a project has a local featured MP4. Assign the video source after pointer or keyboard intent, crossfade after playback begins, reset on leave/blur, and keep the cover static for reduced motion or save-data sessions. Evidence players remain user-controlled.
 - Print hides the fixed transition field, expands disclosure content, and forces major sections onto a paper-safe background.
 

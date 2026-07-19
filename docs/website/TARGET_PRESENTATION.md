@@ -8,10 +8,11 @@
 4. **研究構想不冒充驗證成果。** testing 必須使用 `notValidated`／`exploratory`／`validated` 狀態；未驗證時只能列 planned methods，不可填入成果 metrics。
 5. **公開資料安全。** Power BI 實作日期使用已確認值；原始資料、清洗檔、儀表板與實際結果 media 不進 public；探索關聯不能寫成因果。
 6. **繁中優先的編輯式呈現。** 片語分行、合宜行高、暖紙墨色與研究檔案節奏是既定方向。
-7. **動效是漸進增強。** R3F、smooth scroll、custom cursor 與音訊不能阻礙 DOM 閱讀；reduced-motion、Save-Data、低效能和不支援 Web Audio 的環境仍要完整閱讀。
+7. **動效是漸進增強，也是既定視覺身份。** Narrative guidance、interaction feedback 與 atmosphere／authorship motion 預設保留；R3F、smooth scroll、custom cursor 與音訊不能阻礙 DOM 閱讀。效能問題先以 paint area、transform／opacity、lazy／intersection、mobile／low-power 複雜度、更新頻率與 reduced-motion 回退處理，只有 profiling 證明實質問題時才移除並記錄替代互動。
 8. **draft／submission 強隔離。** construction notes 與 hidden immersive case 不得進正式輸出。
 9. **送審可驗證。** formal output 必須通過 workspace、media、text、CJK、content、sound mapping、build 與 submission scan。
 10. **公開資產與 metadata 一致。** 所有位於 `public/` 的檔案都視為可發布；favicon、LLM-readable summary、robots、social preview、Open Graph 與頁面 anchors 必須與實際 RU / YUAN 資訊架構一致。
+11. **發布權利先於自動部署。** `check:submission` 證明建置邊界，`check:publication` 才代表 Hamlet 權利清單與申請者 attestation 完成；production workflow 不應繞過後者。
 
 來源：[`../../AGENTS.md`](../../AGENTS.md)、[`../portfolio-display-research.md`](../portfolio-display-research.md)、[`../content-governance.md`](../content-governance.md)、[`../visual-system.md`](../visual-system.md) 及現行應用組合。
 
@@ -34,7 +35,7 @@
 - hidden `immersive-memory-map` 是否永久排除，還是待真實場域與觀眾證據補齊後恢復。
 - Power BI 的清洗規則與 measure 定義何時可完成核對、能否另取得資料提供方公開許可，以及哪些原始畫面永遠不得公開。
 - 是否需要每件案例獨立 route／SEO、英文版、PDF／print portfolio。
-- production hosting、domain、canonical URL、social preview raster、analytics 與 privacy policy。
+- 是否沿用目前 GitHub Pages、加入 custom domain／canonical URL、social preview raster、analytics 與 privacy policy；Pages 本身已存在，不再是未知 hosting。
 
 ## 理想完成畫面
 
@@ -50,4 +51,4 @@
 - screen reader、真實 zoom、system reduced-motion、行動實機與多瀏覽器 Web Audio 有人工紀錄；
 - 研究結果、授權、角色、credits、聯絡與申請資訊均由 stakeholder 確認，沒有 AI 代填或未驗證成效。
 
-目前已完成本機 asset／metadata closure 與 current-fingerprint Lighthouse；輔具／實機矩陣、研究結果、授權與 production hosting 仍未完成，因此仍應視為 submission-safe 的本機 artifact，而非 production-ready publication。
+目前已完成本機 asset／metadata closure、current-fingerprint Lighthouse，且 GitHub Pages 已公開部署；但這反而暴露一個必須先處理的 policy gap：Hamlet 權利／attestation 尚未完成，部署 workflow 又沒有執行 `check:publication`。因此線上可達性不能視為 production-ready publication；輔具／實機矩陣、研究結果、授權、canonical／custom domain 與 production field evidence 仍未完成。
