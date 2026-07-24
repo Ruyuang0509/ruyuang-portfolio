@@ -57,26 +57,73 @@ export const publicStatusLabels = {
 // Codex-Fix: Public-safe statuses are separated from internal readiness labels.
 
 export const homepageNarrative = {
-  eyebrow: "研究所作品集／聲響、互動與學習",
-  headline: "讓視覺成為聲音的入口，讓聲音成為學習的回饋。",
-  headlineLines: [["讓視覺成為", "聲音的入口，"], ["讓聲音成為", "學習的回饋。"]],
+  eyebrow: "116學年度研究所申請作品集｜聲響、互動與數位學習",
+  headline: "從數位學習與視覺敘事出發，走向聲響互動與空間監聽研究。",
+  headlineLines: [["從數位學習與", "視覺敘事出發，"], ["走向", "聲響互動與", "空間監聽研究。"]],
+  supportingLine:
+    "讓視覺成為聲音的入口，也讓抽象的聽覺差異成為可以理解、操作與討論的經驗。",
   introduction:
-    "我在國立嘉義大學學習數位學習設計與管理，也做過插畫、動畫與影像。現在我用 Web Audio 做聲響互動原型。",
-  primaryCta: { label: "體驗互動聲響原型", target: "#interactive-sound-learning-demo" },
-  secondaryCta: { label: "查看學習與製作紀錄", target: "#learning-trail" },
+    "我是蕭智仁，現就讀國立嘉義大學數位學習設計與管理學系，預計 2026 年畢業。過去累積的能力主要來自視覺設計、影音剪輯、互動介面與學習內容整理；目前已完成可操作的 Web Audio 原型，並從 2026/07/24 開始拆解由 AI 協作產生的 Pure Data 初版 Patch。REAPER 尚未形成可公開作品。",
+  currentEvidence:
+    "目前最完整的聲音技術證據，是可直接操作的 Web Audio 跨模態映射原型；Pure Data 仍處於 AI 協作後的拆解與重建階段，REAPER 尚未形成可公開作品。",
+  researchStatement:
+    "我希望將視覺化、資訊架構與使用者理解方法帶入聲響研究，探討精簡揚聲器與開放式耳機能否組成較低門檻的混合多聲道監聽方式。",
+  primaryCta: { label: "體驗聲響互動原型", target: "#interactive-sound-learning-demo" },
+  secondaryCta: { label: "查看學習與研究路線", target: "#learning-roadmap" },
   thesis:
-    "我想研究視覺形態與互動行為如何對應聲音參數，並成為數位學習中的回饋。",
+    "我希望將視覺化、資訊架構與使用者理解方法，帶入精簡揚聲器與開放式耳機混合監聽系統的研究。",
   researchQuestion:
-    "當畫面中的位置、速度或大小被轉成聲音時，使用者是否能聽懂差異，並用它理解正在操作的內容？",
+    "如何以視覺化校準介面，協助小型創作者理解、建置與操作混合多聲道監聽系統？",
   credibility:
-    "目前能在網站上操作的是原生 Web Audio 原型。其他案例則說明我如何處理學習內容、影像與資料。",
+    "目前可操作的主要證據是 Web Audio 跨模態映射原型；Pure Data 正在學習，REAPER 已安裝但尚未開始系統性練習；混合多聲道監聽與視覺化校準尚未建置或驗證。",
   argument:
-    "網站先說明我關心的研究問題，再進入聲響原型與其他作品。每件案例都交代我為什麼做、實際負責什麼、目前有哪些材料，以及還不能下哪些結論。",
-  logicChain: ["為什麼做", "怎麼操作", "目前做到什麼", "還沒證明什麼"],
+    "網站依序呈現我轉向聲音的問題意識、Web Audio 可操作證據、Pure Data 學習紀錄、代表作品與申請階段研究構想；已完成、學習中、尚待驗證與未公開的內容分開標示。",
+  soundTransition: {
+    turningPoint:
+      "2020 年的一次聆聽經驗，讓我開始注意同一段聲音在不同播放方式下會呈現不同的距離、位置與細節，也讓我想追問這些差異如何被理解。",
+    problem:
+      "當時我能找到的說明多半依賴器材玩家熟悉的術語。對剛進入聲音領域的人而言，聽見差異並不等於能描述差異，更不等於知道如何操作與比較。",
+    method:
+      "數位學習訓練讓我習慣拆解抽象概念、安排理解順序；視覺敘事與資訊架構則讓我能把關係轉成可見的介面。這些方法成為我進入聲響互動與空間監聽研究的起點。",
+  },
+  logicChain: ["數位學習與視覺敘事", "聲音描述門檻", "Web Audio 與 Pure Data 實作", "混合監聽研究構想"],
   reviewerPaths: [
-    { label: "研究問題", target: "#research-positioning" },
-    { label: "聲響原型", target: "#interactive-sound-learning" },
-    { label: "學習歷程", target: "#learning-trail" },
+    {
+      label: "最強可操作證據",
+      title: "Web Audio 跨模態映射",
+      description: "直接操作四組聲音參數，並查看它目前能證明與不能證明的範圍。",
+      target: "#interactive-sound-learning",
+    },
+    {
+      label: "當前工具學習",
+      title: "Pure Data v0.2.1",
+      description: "查看本機功能測試、AI 協作邊界、觀看指南與逆向拆解進度。",
+      target: "#pure-data-learning",
+    },
+    {
+      label: "原創影音敘事",
+      title: "《畫本》與代表作品",
+      description: "先看原創短劇的故事、攝影與剪輯角色，再閱讀其他可核對案例。",
+      target: "#selected-work",
+    },
+    {
+      label: "申請階段研究",
+      title: "混合監聽研究構想",
+      description: "分開閱讀問題、初步構想、可帶入能力與入學後需補強內容。",
+      target: "#research-positioning",
+    },
+    {
+      label: "能力補強時序",
+      title: "聲音學習與研究路線",
+      description: "區分已有證據、正在學習、尚未形成作品與研究所階段。",
+      target: "#learning-roadmap",
+    },
+    {
+      label: "協作與作者性",
+      title: "AI 協助與本人責任",
+      description: "查看 AI 協助範圍、申請者決策責任，以及實際出錯與修正案例。",
+      target: "#ai-workflow",
+    },
   ],
 };
 // Codex-Fix: Public homepage copy now describes the portfolio strategy without construction-stage reminders.
@@ -149,63 +196,28 @@ export const researchTracks = [
 ];
 
 export const learningTrail = [
-  { id: "web-audio", title: "Web Audio", status: "已有可操作原型", evidence: "我已用瀏覽器原生 Web Audio API，把位置、速度與大小連到聲像、音高、濾波亮度與音量。" },
-  { id: "pure-data", title: "Pure Data", status: "學習中", evidence: "目前沒有可公開的 Pure Data 補丁檔或操作紀錄，所以這裡只記錄學習進度。" },
-  { id: "reaper", title: "REAPER", status: "學習中", evidence: "目前沒有可公開的 REAPER 工程檔或聲音輸出，不列為已完成作品。" },
+  {
+    id: "web-audio",
+    title: "Web Audio",
+    status: "可操作原型",
+    validationStatus: "尚待驗證",
+    evidence: "我已用瀏覽器原生 Web Audio API，把位置、速度與大小連到聲像、音高、濾波亮度與音量；目前只能證明映射與互動已實作。",
+  },
+  {
+    id: "pure-data",
+    title: "Pure Data",
+    status: "學習中",
+    startedAt: "2026/07/24",
+    evidence: "目前有一段 v0.2.1 本機功能測試影片，可核對四組參數映射、Preset、Reset、Panic 與輸出監看；Patch 原檔仍留在非公開工作區。",
+    aiAssistance: "現有 Patch 曾由生成式 AI 協助產生；我正逆向拆解訊號流程，分開記錄能自行解釋、能重建與尚不能獨立完成的模組。",
+  },
+  {
+    id: "reaper",
+    title: "REAPER",
+    status: "學習中",
+    evidence: "軟體已安裝，但尚未開始系統性練習，也沒有可公開的 REAPER 工程檔、混音成果或聲音輸出。",
+  },
 ];
-
-export const aiWorkflow = {
-  id: "ai-workflow",
-  eyebrow: "生成式 AI 使用說明",
-  title: "AI 協助整理與檢查，最後的選擇由我負責。",
-  titleLines: [["AI 協助", "整理與檢查，"], ["最後的選擇", "由我負責。"]],
-  summary:
-    "這個網站的程式草稿、文件整理與部分稽核曾使用生成式 AI。我決定作品內容、研究主張與視覺方向，也逐項驗收修改結果。這些是開發紀錄，不代表我訓練或部署了大型語言模型。",
-  responsibilityGroups: [
-    {
-      label: "AI 協助的工作",
-      items: ["整理程式草稿，找出重複內容", "整理文件結構，提供除錯線索", "列出建置、媒體與可及性檢查項目"],
-    },
-    {
-      label: "我負責的判斷",
-      items: ["確認作品事實，決定哪些案例公開", "決定研究主張、資訊順序與視覺方向", "取捨修改內容，完成最後驗收"],
-    },
-    {
-      label: "我不交給 AI 的事",
-      items: ["不虛構作品、測試資料或研究結果", "不把學習中的技術寫成已熟練", "不把 AI 輸出當成已核對的成品"],
-    },
-  ],
-  versions: [
-    {
-      version: "提示詞 v1",
-      title: "作品集主提示詞",
-      change: "先訂出作品事實、公開媒體、GitHub Pages、可及性與驗收規則。",
-    },
-    {
-      version: "提示詞 v2",
-      title: "續作提示詞",
-      change: "要求後續工作先讀交接文件與現有程式，再依可核對材料繼續。",
-    },
-  ],
-  failureCases: [
-    {
-      problem: "GitHub Pages 找不到網站資源",
-      diagnosis: "建置檔與媒體使用網域根目錄，但 GitHub Pages 專案網站部署在儲存庫子路徑。",
-      correction: "改用符合專案子路徑的 base path，並在每次送審建置後檢查資源網址。",
-    },
-    {
-      problem: "不支援 Web Audio 時，狀態訊息顯示錯誤",
-      diagnosis: "無 Web Audio 的瀏覽器曾顯示為「聲音已停止」，沒有傳達真正原因。",
-      correction: "載入時先檢查瀏覽器支援狀態，再用實際操作確認訊息與控制項。",
-    },
-  ],
-  evidencePaths: [
-    "docs/ai-workflow/portfolio-master-prompt.md",
-    "docs/ai-workflow/portfolio-continuation-prompt.md",
-    "docs/ai-workflow/prompt-changelog.md",
-    "docs/ai-workflow/failure-cases.md",
-  ],
-};
 
 export const terminologyMap = [
   ["教學設計", "互動體驗設計", "我先寫清楚學習目標與任務，再決定使用者要做什麼、會收到什麼回饋。"],
@@ -226,7 +238,7 @@ export const projectCaseStudies = [
     category: "互動學習",
     source: "課程專題／研究整理",
     statusKey: "prototype",
-    status: publicStatusLabels.prototype,
+    status: "可操作原型",
     submissionVisibility: "public",
     featured: true,
     priority: 1,
@@ -248,7 +260,17 @@ export const projectCaseStudies = [
       { id: "speed-brightness", input: "移動速度／亮度滑桿", parameter: "濾波亮度", rationale: "拖動越快，音色越亮；使用滑桿時，也可以直接調整亮度。節奏密度不在這一版的範圍內。", inputRange: [0, 1], outputRange: [700, 5000] },
       { id: "size-loudness", input: "物件大小", parameter: "音量", rationale: "物件變大時，音量會在受控範圍內提高。這是設計映射，不是正式響度測量。", inputRange: [0, 1], outputRange: [0.04, 0.12] },
     ],
-    signalFlow: ["滑鼠／觸控／鍵盤輸入", "三角波振盪器", "低通濾波器", "音量包絡", "立體聲聲像", "動態範圍壓縮器", "主音量"],
+    signalFlow: [
+      "使用者輸入：滑鼠／觸控／鍵盤",
+      "數值正規化",
+      "聲音參數映射",
+      "Oscillator：三角波振盪器",
+      "Filter：低通濾波器",
+      "Gain / Envelope：受控音量與啟停包絡",
+      "Stereo Panner：左右聲像",
+      "Compressor：動態範圍壓縮",
+      "Master Output：主音量與裝置輸出",
+    ],
     listeningGuide: [
       "先把控制點左右移動，聽聲音是否跟著換邊。",
       "再比較控制點位於上方與下方時的音高。",
@@ -294,9 +316,25 @@ export const projectCaseStudies = [
     media: { visualDrafts: [], screenshots: [], videos: [], audio: [], demos: [] },
     tools: ["React", "Web Audio API", "HTML/CSS/JS", "Figma"],
     roles: ["企劃", "教學設計", "UX", "介面設計", "程式", "聲音設計"],
+    evidenceBoundary: {
+      title: "可操作原型能證明的事，與目前不能證明的事",
+      groupLabels: ["目前可以證明", "申請者與 AI 分工", "目前不能證明"],
+      verifiedArtifacts: [
+        "四組視聽映射已在站內原型實作，並可由滑鼠、觸控或鍵盤改變參數。",
+        "Web Audio graph、停止／Escape、不支援提示與生命週期清理都有原始碼與自動測試可核對。",
+      ],
+      approvedSpecifications: [
+        "申請者決定問題意識、四組映射、介面方向、公開內容與功能驗收。",
+        "生成式 AI 協助程式草稿、除錯方向、文件與稽核整理；程式完整度不直接等同本人能自行理解、修改與重建的能力。",
+      ],
+      notIndependentlyVerified: [
+        "尚無真實使用者測試，不能證明學習成效、理解正確率或映射容易辨認。",
+        "尚無聲學量測、空間音訊製作成果，也不能把本原型視為已完成的混合多聲道系統。",
+      ],
+    },
     testing: {
       statusKey: "notValidated",
-      status: "目前還沒有使用者測試結果。現有材料只有可操作原型與技術行為檢查。",
+      status: "尚待驗證。目前沒有使用者測試結果；現有材料只有可操作原型與技術行為檢查。",
       metrics: [], insights: [], learningOutcomes: [],
       plannedMethods: ["先不提供說明，觀察使用者能否辨識左右聲像與高低音的對應。", "安排短任務，記錄完成情形、操作錯誤與口述理解。", "比較減少動態效果模式與不同輸入方式下的操作理解情形。"],
     },
@@ -319,7 +357,7 @@ export const projectCaseStudies = [
       跨域創生: "這個原型需要我安排學習任務、寫互動程式、設計聲音映射，也處理視覺介面。",
     },
     links: [],
-    credits: "我規劃學習任務、UX、介面與程式，也設計四組聲音回饋。",
+    credits: "我規劃問題、四組映射、UX、介面方向與公開內容，並完成原型功能驗收。生成式 AI 曾協助程式草稿、除錯與稽核整理；原型可運作不等於我已能獨立重建所有程式。",
     seo: {
       title: "互動聲響學習原型 | RU / YUAN",
       description: "用 Web Audio 把位置、速度與大小連到聲像、音高、濾波亮度與音量的互動原型。",
@@ -536,6 +574,7 @@ export const projectCaseStudies = [
       { id: "integrated-video-output", title: "整合影片輸出", statusKey: "artifactVerified", status: "實際成果", evidenceRefs: ["hamlet-clean-video"], attributionSource: "approvedBrief", description: "目前只有輸出的 MP4 可以核對；尚未取得可編輯 Canva 專案或工具執行紀錄。" },
     ],
     evidenceBoundary: {
+      governanceRef: "hamlet-media-manifest",
       title: "成片可以核對，素材權利與學習成效仍未確認",
       verifiedArtifacts: ["MP4 與技術規格", "英文／繁中 WebVTT 與八段時間碼", "由成片衍生的影片封面、首頁封面與八幕畫面"],
       approvedSpecifications: ["五階段工具分工", "四項提示詞限制", "若未來加入旁白時的混音規則"],

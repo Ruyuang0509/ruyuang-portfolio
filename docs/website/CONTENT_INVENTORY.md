@@ -1,60 +1,84 @@
 # 公開內容清單
 
-更新日期：2026-07-18。下列內容依目前 source、submission build 邊界與公開 GitHub Pages 盤點；公開可達不代表權利或研究驗證已完成。
+更新日期：2026-07-24。下列內容依共享工作樹的最新 source、public 資產與最終自動驗證盤點。本輪變更尚未 commit、push 或 deploy；2026-07-23 Pages 狀態只保留為歷史公開邊界證據。互動式 Browser 因本機連線隔離未能執行；公開可達仍不代表權利或研究驗證已完成。
 
 ## 內容治理
 
-公開文案、案例順序、媒體 metadata 與測試狀態的唯一來源是 [`../../src/data/portfolio.js`](../../src/data/portfolio.js)。Hidden case 文字位於 [`../../src/data/portfolio.hidden.js`](../../src/data/portfolio.hidden.js)，施工／風險文字位於 [`../../src/data/portfolio.internal.js`](../../src/data/portfolio.internal.js)；submission mode 會把前者 alias 到空模組，正式內容不得複製後者 wording。欄位契約見 [`../content-authoring.md`](../content-authoring.md)、[`../adding-portfolio-work.md`](../adding-portfolio-work.md) 與 [`../content-governance.md`](../content-governance.md)。
+公開案例、首頁敘事、媒體 metadata 與測試狀態的來源是 [`../../src/data/portfolio.js`](../../src/data/portfolio.js)；Pure Data／代表作品／合作／學習路線／連結、研究構想與 AI／作者性分別在 [`../../src/data/admission-evidence.js`](../../src/data/admission-evidence.js)、[`../../src/data/admission-research.js`](../../src/data/admission-research.js)、[`../../src/data/ai-workflow.js`](../../src/data/ai-workflow.js)。[`../../src/components/AdmissionEvidenceSections.jsx`](../../src/components/AdmissionEvidenceSections.jsx) 負責呈現 admission evidence 資料。Hidden case 文字位於 [`../../src/data/portfolio.hidden.js`](../../src/data/portfolio.hidden.js)，施工／風險文字位於 [`../../src/data/portfolio.internal.js`](../../src/data/portfolio.internal.js)；submission mode 會把 hidden case alias 到空模組，正式內容不得複製 internal wording。欄位契約見 [`../content-authoring.md`](../content-authoring.md)、[`../adding-portfolio-work.md`](../adding-portfolio-work.md) 與 [`../content-governance.md`](../content-governance.md)。
 
 ## 首頁與固定內容
 
 - 品牌：`RU / YUAN`。
-- Eyebrow：`Graduate Portfolio / Sound, Interaction & Learning`。
-- 主標：`讓視覺成為聲音的入口，讓聲音成為學習的回饋。`
-- 介紹：作者來自國立嘉義大學數位學習設計與管理、插畫、動畫與影像創作，正透過 Pure Data、REAPER 與 Web Audio 探索可測試的跨感官學習經驗。
-- Primary CTA：`體驗互動聲響原型` → `#interactive-sound-learning-demo`。
-- Secondary CTA：`查看研究與製作歷程` → `#learning-trail`。
-- 研究命題：`跨感官映射於數位學習回饋之設計研究：以視覺形態、聲音參數與互動行為為例。`
-- 研究問題：`視覺、聲音與互動如何形成可理解、可操作、可測試的跨感官回饋？`
-- 證據鏈：`問題意識 → 互動流程 → 媒體證據 → 測試反思`。
+- Eyebrow：`116學年度研究所申請作品集｜聲響、互動與數位學習`。
+- 主標：`從數位學習與視覺敘事出發，走向聲響互動與空間監聽研究。`
+- 介紹：申請者現就讀國立嘉義大學數位學習設計與管理學系、預計 2026 年畢業；目前已完成可操作 Web Audio 原型，從 2026/07/24 開始拆解由 AI 協作產生的 Pure Data 初版 Patch，REAPER 尚未形成可公開作品。
+- Primary CTA：`體驗聲響互動原型` → `#interactive-sound-learning-demo`。
+- Secondary CTA：`查看學習與研究路線` → `#learning-roadmap`。
+- 研究命題：將視覺化、資訊架構與使用者理解方法帶入精簡揚聲器與開放式耳機的混合監聽研究。
+- 研究問題：`如何以視覺化校準介面，協助小型創作者理解、建置與操作混合多聲道監聽系統？`
+- 可信度：Web Audio 是目前可操作的主要證據；Pure Data／REAPER 仍在學習，混合監聽系統與視覺化校準尚未建置或驗證。
+- 證據鏈：`背景與轉向 → 可操作證據 → 學習與限制 → 研究構想`。
 - Skip link：`跳到主要內容`。
-- Reviewer path：明示沒有公開聯絡資料，提供 `回到聲響原型` 與 `閱讀作品索引`。
+- Reviewer path：以六張卡依序分流至 Web Audio、Pure Data、《畫本》與代表作品、混合監聽研究構想、學習路線、AI／作者性。頁尾 `#contact` 另提供既有 Pages 與 GitHub Repository；沒有 email、履歷或研究計畫下載，不建立假資料。
 
-## 五個研究軌道
+### 固定導覽文字
 
-| 軌道 | 內容焦點 |
+| 位置 | 標籤 |
 | --- | --- |
-| AI 與互動式創作 | 生成式 AI、Prompt workflow、AI 輔助介面、人機協作 |
-| 互動媒體與使用者經驗 | 互動流程、UX/UI、原型測試、感測／回饋 |
-| 影音聲響敘事 | 影片、聲音、動態影像、情緒節奏 |
-| 數位內容與學習設計 | 內容架構、學習流程、互動腳本、成效評估 |
-| 使用者研究與成效資料 | 使用者測試、學習成效、質性觀察、迭代紀錄 |
+| 桌面與行動選單 | `問題意識`、`Web Audio`、`Pure Data`、`研究構想`、`代表作品`、`學習路線` |
+| 行動 trigger | 關閉時 `閱讀選單`；開啟時 `關閉` |
+| 行動 trigger aria-label | `開啟區段選單`／`關閉區段選單` |
 
-研究所主題固定為 `AI`、`互動媒體`、`聲響`、`沉浸式體驗`、`數位孿生`、`跨域創生`；每個案例必須同時提供 `themeRationales`，不能只有標籤。
+## 11 段 IA 內容順序
+
+| 順序 | Anchor／內容 |
+| --- | --- |
+| 01 | `#top`：Hero、申請者背景、目前證據與研究方向 |
+| 02 | `#sound-transition`：轉向聲音的問題意識 |
+| 03 | `#reviewer-path`：六條證據閱讀路徑 |
+| 04 | `#interactive-sound-learning`：Web Audio 旗艦原型 |
+| 05 | `#pure-data-learning`：Pure Data v0.2.1 本機功能測試與學習紀錄 |
+| 06 | `#research-positioning`／`#research-proposal`：四層申請階段研究構想 |
+| 07 | `#selected-work`：代表作品；資料視覺化系列、作品索引與三件支持案例是此段延伸 |
+| 08 | `#collaboration`：專案與合作事件 |
+| 09 | `#learning-roadmap`：四階段學習路線 |
+| 10 | `#ai-workflow`：AI／作者性與失敗案例 |
+| 11 | `#contact`：研究方向、Pages 與 GitHub Repository |
+
+`researchTracks`、術語轉譯與系所主題資料仍可存在於 `portfolio.js`，但 `#research-tracks`、`#translation-map`、`#institute-alignment` 目前沒有由 `App.jsx` 渲染，不能列為可達 IA。
 
 ## 學習歷程
 
 | 工具 | 公開狀態 | 證據邊界 |
 | --- | --- | --- |
-| Web Audio | 已有可操作原型 | 原生 API 映射 pan、pitch、filter、gain；有 mapping 與 AudioContext lifecycle 程式測試 |
-| Pure Data | 學習中 | 沒有可公開 patch 或操作紀錄，不當成果展示 |
-| REAPER | 學習中 | 沒有可公開 project 或聲音輸出，不建立虛假媒體連結 |
+| Web Audio | 可操作原型；尚待驗證 | `我已用瀏覽器原生 Web Audio API，把位置、速度與大小連到聲像、音高、濾波亮度與音量；目前只能證明映射與互動已實作。`；另有 5 個 mapping 與 13 個 AudioContext lifecycle 程式測試 |
+| Pure Data | 學習中／可操作功能原型；尚待驗證；2026/07/24 開始 | 公開頁已嵌入 v0.2.1 約 63 秒 H.264／AAC 本機功能測試與 poster，可核對四組參數映射、Preset、Reset、Panic 及輸出監看；`.pd` 與版本資料未放入 repository，初版 Patch 曾由生成式 AI 協作產生，不能主張申請者獨立完成或已熟練 |
+| REAPER | 學習中 | 軟體已安裝，但尚未開始系統性練習，也沒有可公開工程、混音成果或聲音輸出 |
 
-## 生成式 AI 協作方法
+## 生成式 AI 使用說明
 
-- 公開名稱使用「生成式 AI 協作流程」；完整說明可補充「大型語言模型（LLM）協作」，不宣稱自研 LLM。
-- AI 協助程式草稿、文件結構、除錯線索與稽核；作品事實、選件、研究主張、視覺方向、修改判斷與最終驗收由作者負責。
-- 網站在 Learning Trail 後以低比重 `#ai-workflow` 區段呈現 Prompt v1／v2、兩個實際失敗案例與完整文件路徑，不取代旗艦作品。
+- Eyebrow：`生成式 AI 使用說明`。
+- 標題：`AI 協助整理與檢查，最後的選擇由我負責。`
+- 摘要：`這個網站的程式草稿、文件整理與部分稽核曾使用生成式 AI。我決定作品內容、研究主張與視覺方向，也逐項驗收修改結果。這些是開發紀錄，不代表我訓練或部署了大型語言模型。`
+- 責任群組分為 `AI 協助`、`申請者負責`、`申請者尚需補強`；作品事實、研究方向、公開內容與最終驗收仍由申請者負責。
+- 網站在代表作品、研究構想、合作事件與學習路線之後，以低比重 `#ai-workflow` 區段呈現提示詞版本與三個實際失敗案例。每案保留問題、發現、診斷、檢查、修正與學習鏈；其中一案明載 AI 產生的 Pure Data 結構超出當下理解能力。
 - 完整 Prompt、changelog 與 failure cases 位於 [`../ai-workflow/`](../ai-workflow/README.md)。
 
 ## 公開案例矩陣（submission：4 件）
 
 | ID／標題 | 狀態 | 核心內容 | 公開證據與限制 |
 | --- | --- | --- | --- |
-| `interactive-sound-learning` 互動聲響學習原型 | 原型中；`notValidated` | 把視覺位置、動態、量感轉成聲音回饋，支援抽象概念理解 | 原生 Web Audio 可操作 prototype、3 張圖解、4 個 mapping、signal flow、listening guide；沒有正式使用者結果 |
-| `generative-interface-study` AI 文學故事 MV | 原型中；`notValidated` | 把文學理解、B1 英文、圖像、配樂與剪輯轉成五階段生成流程 | 40 秒／8 幕 clean MP4、英文與繁中 WebVTT、完整雙語逐字稿、8 張實際畫面；沒有學生／教師測試或學習成效結果 |
-| `data-visualization-cases` 資料視覺化實際案例與數位學習應用探討 | 已完成；`exploratory` | 分析 Spotify Wrapped 等資料敘事，推論數位學習回饋應用 | 1 張流程圖、1 部 YouTube privacy-enhanced 影片、章節化分析；不宣稱已驗證學習成效 |
-| `learning-dashboard-analysis` 線上學習互動行為與學科成績之資料視覺化分析 | 2026/06/11–06/12；原型中；`exploratory` | Power BI 探索互動、影片觀看與成績分布 | 3 張概念圖、公開 SVG；實際資料、儀表板與結果影像隔離；不作因果宣稱 |
+| `interactive-sound-learning` 互動聲響學習原型 | 可操作原型；`notValidated` | 作者把水平／垂直位置、移動速度與物件大小連到聲像、音高、濾波亮度與音量，使用者拖動時可直接聽見參數改變 | 原生 Web Audio 可操作 prototype、3 張視覺方向圖、4 個 mapping、9 階段 signal flow、listening guide 與「可證明／申請者與 AI 分工／不能證明」邊界；不能證明已幫助使用者理解概念 |
+| `generative-interface-study` AI 文學故事 MV | 原型中；`notValidated` | 作者把《Hamlet》拆成八幕，依文本理解、分鏡、圖像與字幕、配樂、剪輯五階段完成 40 秒影片 | 交付版 MP4、英文與繁中 WebVTT、完整雙語逐字稿、8 張實際畫面與 2026/07/17 事後整理且未用於成片的提示詞模板 v1；角色清單為內容理解／視覺與提示詞方向／剪輯與字幕 3 項。原始提示詞紀錄、原始場景檔、獨立音樂、可編輯 Canva、學生／教師測試、素材來源與公開使用權尚未核對完成 |
+| `data-visualization-cases` 資料視覺化實際案例與數位學習應用探討 | 已完成；`exploratory` | 作者以 Spotify Wrapped 等案例拆解資料層級、畫面節奏與個人化回饋，再把觀察帶回數位學習情境 | 1 張流程圖、1 部 YouTube privacy-enhanced 分析影片與章節化分析；尚未做成可操作介面，沒有使用者測試或學習成效資料 |
+| `learning-dashboard-analysis` 線上學習互動行為與學科成績之資料視覺化分析 | 2026/06/11–06/12；原型中；`exploratory` | 作者用 Power BI 整理互動紀錄、影片觀看欄位與學科成績，探索資料分布 | 3 張版面／公開邊界概念圖與圖表定義；配圖不是操作流程、系統架構、IA、真實值或真實比例。原始資料、真實數值、Power BI 儀表板／實作檔與結果影像隔離，關聯線索不能用來判斷因果或學習成效 |
+
+## Admission evidence 代表作品（文字型）
+
+| ID／標題 | 目前公開內容 | 尚缺與不可延伸主張 |
+| --- | --- | --- |
+| `huaben-short-film`《畫本》 | 申請者提供的原創短劇、故事構思、Samsung S24 Ultra 攝影、DaVinci Resolve 剪輯及第 15 屆感動久久競賽情境 | 沒有公開成片、活動紀錄、完整 credit 或權利核對；參賽不等於得獎，不主張名次、評語、觀看數或觀眾成效 |
+| `hope-feathers-wings-mv`《希望有羽毛和翅膀》個人 MV 混剪 | 非商業二次創作／課程練習；只主張選曲、媒體研究、畫面取材、素材篩選與剪輯 | 角色、原始動畫影像與音樂權利屬原權利人；沒有公開成片、來源清單或授權資料，不能把第三方素材列為原創成果 |
 
 ## Draft-only 隱藏案例
 
@@ -62,18 +86,32 @@
 
 Hidden case 現在使用空 media state。原有 13 個 `ph-after-*`／`mv-soft-*` responsive placeholders 與 MP4、其 generator entries、captions 及 references 均已移除；公開案例沒有共用這些檔案。Scanner 以檔名 inventory 防止回歸，submission dev 舊 URL 為 404。
 
+## 申請階段研究構想
+
+- 標題：`以精簡揚聲器、開放式耳機與視覺化校準，探索較低門檻的混合監聽方式。`
+- 研究問題：`精簡揚聲器與開放式耳機能否形成可被理解、校準與比較的混合多聲道監聽配置？`
+- 四層定位：
+  1. `問題`：完整多聲道監聽所需的揚聲器、輸出、空間、校準與成本門檻。
+  2. `初步構想`：保留前方實體揚聲器，以開放式耳機補充側後方資訊，搭配視覺化介面。
+  3. `申請者可帶入的能力`：視覺化介面、資訊架構、使用者操作流程、數位學習方法、互動原型與文件化。
+  4. `入學後需補強`：聲學、心理聲學、DSP、REAPER 多聲道路由、Pure Data／OSC、量測、研究倫理、實驗設計與統計。
+- 預定研究流程共五步，只表示可調整的方法順序，不是已執行的實驗紀錄。
+- 固定聲明：`本內容為申請階段研究構想。系統配置、渲染方法、樣本數、量測程序與技術細節，仍須依課程訓練、指導教授建議、場地設備與先導實驗結果調整。`
+- 完整研究計畫保留在非公開工作區；公開頁沒有 PDF／DOCX 下載連結。
+
 ## 旗艦 Web Audio 內容
 
 - 研究問題：`視覺位置、動態與量感如何被轉譯成可理解的聲音回饋？`
+- 案例內研究問題：`使用者是否能從聲像、音高、濾波亮度與音量的變化，聽懂畫面中的位置、速度與大小？`
 - 四個 mapping：水平位置→左右聲像；垂直位置→音高；移動速度→濾波亮度；物件大小→音量。
-- Signal flow：互動輸入經 mapping 後驅動 oscillator、filter、gain、stereo panner、compressor 與 master output。
+- Signal flow：互動輸入 → 輸入正規化 → 參數映射 → oscillator → filter → voice gain／envelope → stereo panner → compressor → master output；公開說明與實際 controller graph 對齊。
 - Listening guide：引導使用者檢查左右、高低、速度亮度及大小音量。
 - 誠實聲明：聲音由瀏覽器合成，不是 Pure Data 或 REAPER 成果；尚未正式使用者驗證。
 - Planned methods：辨識映射的無提示觀察、短任務錯誤／口述紀錄、不同 motion 與輸入方式比較。
 
 ## 資料視覺化系列
 
-系列名稱為「資料視覺化與數位學習應用」，英文副標 `Data Visualization in Digital Learning`，收錄後兩件資料視覺化案例。系列入口說明資料敘事、學習回饋、Power BI 與聲響化資料提示的連結，但明確保留兩件作品的獨立性。維護規則見 [`../data-visualization-series.md`](../data-visualization-series.md)。
+系列名稱為「資料視覺化與數位學習應用」，英文副標 `Data Visualization in Digital Learning`，收錄後兩件資料視覺化案例。摘要明確說明一件作品分析 Spotify Wrapped 等資料故事，另一件用 Power BI 探索學習互動與成績分布；兩件作品的資料、目的與方法不同，不是同一研究的前後階段。聲響化、AI 與沉浸式分析只列為後續方向，不是目前成果。維護規則見 [`../data-visualization-series.md`](../data-visualization-series.md)。
 
 ## 案例欄位契約
 
@@ -86,26 +124,38 @@ Hidden case 現在使用空 media state。原有 13 個 `ph-after-*`／`mv-soft-
 
 ## 使用者可見文字狀態
 
-- 案例：`原型中`、`研究構想`、`已完成`。
-- 驗證：`尚未驗證`、`探索中`、`已驗證`（目前沒有已驗證案例）。
+- 案例：`可操作原型`、`原型中`、`研究構想`、`已完成`；學習軌跡另使用 `學習中`。
+- 驗證：`尚待驗證`、`探索中`、`已驗證`（目前沒有已驗證案例）。
 - 音訊：`尚未啟用`、`聲音啟用中`、`聲音播放中`、`聲音已停止`、`瀏覽器不支援`、`聲音啟用失敗`。
 - 錯誤 fallback：`暫時無法顯示`、`重新嘗試`、`返回作品索引`。
-- 音訊操作：`啟用聲音`、`停止／靜音`、`水平位置`、`垂直位置`、`物件大小`、`濾波亮度`。
+- 音訊操作：區段標題 `拖曳圖形，聽聲音怎麼變`；控制文字含 `啟用聲音`、`停止／靜音`、`水平位置`、`垂直位置`、`物件大小`、`濾波亮度`。
 
 ## 媒體、替代文字與隱私
 
-- `public/media/portfolio` 使用 420／640／1200 寬 AVIF/WebP 與 3 個本機 MP4；Hamlet 另有兩條 WebVTT。公共 helper 帶固定 dimensions 和 alt。此目錄會被 Vite 全量複製，因此只保留公開案例資產；「未被 React 引用」仍不等於「未公開」。
+- `public/media/portfolio` 使用 420／640／1200 寬 AVIF/WebP、本機 MP4、Hamlet WebVTT，以及新增的 Pure Data PNG poster。Pure Data `pd-crossmodal-mapping-v0.2.1-operation-demo.mp4` 與同名 poster 皆由 `AdmissionEvidenceSections` 引用；影片 metadata 為 1276×720、約 63 秒、H.264／AAC。此目錄會被 Vite 全量複製，因此「未被 React 引用」仍不等於「未公開」。
+- Pure Data 影片與 poster 的畫面都仍可讀到本機 D 槽專案路徑與 `v0.2.1-validated`；頁面文案已將其限定為本機功能測試，但 binary 本身尚未去識別或重錄。這是已知公開風險，不是私有工作檔。
 - `public/media/data-visualization` 只有公開安全的 SVG 系列圖／流程圖／概念圖。
 - Power BI 原始 PNG/WebP 位於 `restricted-media/data-visualization/`，不在 `public/`，不被 Vite 複製；公開資料只保留 restricted 說明，不含路徑。
 - 資料視覺化影片使用 YouTube ID `NrmK31F2S-M`，renderer 採 `youtube-nocookie.com`。
 - 圖解需 alt、caption 與文字長描述；video/audio 架構支援 transcript／caption；iframe demo 需明確使用者操作後載入。
-- `index.html` 的 title、description、Open Graph、Twitter 與 JSON-LD，以及 `public/llms.txt`、favicon、social preview 與案例 SEO title 已同步為 RU / YUAN／Sound, Interaction & Learning。
+- `index.html` 的 title／Open Graph／Twitter title 為 `蕭智仁｜聲響、互動與數位學習作品集`。
+- `index.html` description、Open Graph／Twitter description 與 JSON-LD 說明同步為蕭智仁 116 學年度申請作品集，明列 Web Audio 目前證據、混合監聽研究構想、學習軌跡、跨域作品與尚待驗證限制。
+- Canonical URL、`public/llms.txt`、social preview 與 image alt 使用同一定位與有效 anchors；favicon 維持 RU / YUAN 品牌。Metadata／canonical 已完成，不再列為待補。
+
+## 最新驗證與發布狀態
+
+- `pnpm run doctor` exit 0；draft build 470 modules、submission build 467 modules。
+- Fresh submission `dist/` 為 132 files／25 text files；118 個 `public/` files 為 0 missing／0 SHA-256 mismatch。
+- Submission scanner 使用 54 個 text rules、7 個 inventory rules，另有 57/57 regression fixtures。
+- `pnpm run check:publication` exit 1，原因為 11 個 Hamlet 權利／applicant attestation blockers。
+- 已嘗試 in-app Browser；即使 shell 對本機預覽取得 HTTP 200，Browser 仍受本機連線隔離而無法連線。因此四 viewport、導覽／焦點、Web Audio、Pure Data 影片播放、reduced-motion、overflow 與 console 均未能執行，不可寫為通過。
 
 ## 仍缺少的內容
 
 - 旗艦原型與 AI 文學故事 MV 都沒有正式使用者驗證結果。
-- Pure Data／REAPER 沒有可公開 artifact。
-- AI 文學故事 MV 已有成片、字幕與實際分鏡；rights checklist／publication gate 文件已存在，但逐項 rights evidence、applicant attestation 與 manifest 核准仍未完成。原始 Prompt log、旁白版本與課堂測試也仍缺。2026-07-18 實測公開 Pages 已能直接取得 MP4、英文 VTT 與海報，因此這不是「尚未發布」狀態。
+- Pure Data 已有公開操作影片與 poster，但沒有公開 `.pd`、獨立重建紀錄、去除本機路徑的送審版影片或使用者／研究驗證；REAPER 仍沒有可公開工程、截圖或聲音輸出。
+- 《畫本》與 MV 混剪已加入申請者提供的文字型作品紀錄，但 repository 與可讀 Git history 仍沒有可逐鏡核對的成片、活動紀錄、完整 credit、來源或授權 artifact。
+- AI 文學故事 MV 已有影片、字幕與實際分鏡；rights checklist／publication gate 文件已存在，但逐項 rights evidence、applicant attestation 與 manifest 核准仍未完成。原始 Prompt log、原始場景檔、獨立音樂、可編輯 Canva 與課堂測試也仍缺；成片本來就設計為無旁白，不把「旁白版本」列成已承諾交付物。最新 `pnpm run check:publication` 以 11 個 Hamlet 權利／attestation blockers exit 1，因此現況仍是「技術輸出存在但未取得權利發布核准」。
 - Power BI 實作日期已確認為 2026/06/11–06/12；資料使用說明不支持公開分析結果，清洗規則與部分 measure 定義仍需核對。
-- 案例 `links` 皆空；沒有公開 email、履歷或外部個人連結。
-- GitHub Pages hosting 與公開 URL `https://ruyuang0509.github.io/ruyuang-portfolio/` 已確認；仍未確認 canonical metadata／custom domain、analytics、隱私文件、最終 raster 社群分享圖相容性與 production field performance。
+- 原有 portfolio case `links` 皆空；`#contact` 只新增已知 Pages 與 GitHub Repository。仍沒有公開 email、履歷、研究計畫下載或其他個人聯絡資料。
+- GitHub Pages hosting、run `29680534295` 與公開 URL `https://ruyuang0509.github.io/ruyuang-portfolio/` 是 2026-07-23 歷史部署證據，不含目前未 commit 的 11 段 IA、AdmissionEvidence 與 Pd 媒體整合。最新工作樹已完成本機自動建置與掃描，但尚未 commit／deploy；2026-07-17／07-18 Lighthouse 也只是舊 source fingerprint 的 localhost 歷史快照。

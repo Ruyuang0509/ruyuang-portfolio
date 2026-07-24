@@ -1,5 +1,22 @@
 # 現況與目標差距
 
+## 2026-07-24 判讀基準
+
+- Admission Evidence Pass 已把首頁收斂為 11 段送審 IA：`#top` → `#sound-transition` → `#reviewer-path` → `#interactive-sound-learning` → `#pure-data-learning` → `#research-positioning` → `#selected-work` → `#collaboration` → `#learning-roadmap` → `#ai-workflow` → `#contact`。`#research-proposal` 只保留為相容錨點；`#selected-work` 內依序放《畫本》、既有資料視覺化／supporting cases、最後才是指定 MV。
+- Pure Data、代表作品、合作、Roadmap、AI 與 final links 使用永久 section wrapper 加 lazy-loaded content；原有 motion、R3F、Web Audio、CaseStudyShowcase、reduced-motion、focus 與 error boundary 未因敘事收斂而移除。
+- Web Audio 仍是最強可操作證據，保留 9 階段 signal flow 與可證明／不能證明邊界。Pure Data 現有約 63 秒 v0.2.1 MP4 與 poster，可核對四組模擬參數映射、Preset、Reset、Panic 與 meters；狀態仍是「學習中／可操作功能原型」「本機功能測試／尚待驗證」，且明示 AI 協作、可見本機路徑、`validated` 字樣與裁切限制。REAPER 仍只有安裝狀態，尚未形成作品。
+- 《畫本》與《希望有羽毛和翅膀》已依申請者提供事實加入文字型代表作品，但 Repository 仍沒有可公開成片、活動／課程紀錄或完整 rights ledger；因此不嵌入媒體、不主張得獎，也不把第三方角色、影像或音樂視為申請者原創。
+- 下列 2026-07-23 GitHub Pages／rights 狀態仍是發布邊界事實，但本輪 source 變更尚未 commit、push 或 deploy。
+- **本輪 current-source 驗證：** `pnpm run doctor` exit 0；draft／submission 分別完成 470／467 modules，scanner fixtures 57/57。submission `dist/` 共 132 files／25 text files；118 個 `public/` files 為 0 missing、0 hash mismatch。Pure Data MP4／poster 由本機 HTTP 回應 200，content type 與 bytes 均符合 inventory。`pnpm run check:publication` 仍以 11 個 Hamlet rights／attestation blockers exit 1。
+- **本輪 rendered 驗收邊界：** In-app Browser 已實際嘗試 127.0.0.1 與 localhost；即使 shell 對同一 preview 回應 HTTP 200，瀏覽器工具仍因本機連線隔離轉入 connection-refused／受限頁面。因此 320–1440 四 viewport、anchor／focus、Web Audio、影片播放、reduced-motion、overflow 與 console 均是「未能執行」，不是通過。既有 browser regression 只保留為舊 source snapshot。
+
+## 2026-07-23 判讀基準
+
+- PR #5 已 merged；工作分支 `61ea9d8` 與 `main`／`695b520` tree 相同，最新 Pages run `29680534295` 成功。
+- `pnpm run doctor` exit 0；draft build 為 initial JS 199833 gzip B／entry 181592 B／CSS 43688 B，submission build 為 initial JS 193737 gzip B／entry 160908 B／CSS 43688 B，lazy 3D closure 為 638680 raw／169383 gzip B。
+- 新版自然、第一人稱繁體中文文案已在線上 bundle 出現；這輪只改 copy／labels／metadata，沒有 runtime、motion、styles 或 dependencies 差距。
+- `pnpm run check:publication` 仍為 exit 1，共 11 個權利／attestation blockers；媒體 HTTP 200 不是 rights clearance。
+
 ## 優先級
 
 - **P0：** 可能造成敏感資料外洩、誤導送審或正式建置失敗。
@@ -10,65 +27,69 @@
 
 | 優先級 | 現況 | 風險／目標 | 建議 |
 | --- | --- | --- | --- |
-| P0 | GitHub Pages 已公開，首頁、Hamlet MP4、英文 VTT 與 poster 於 2026-07-18 皆實測 HTTP 200；但 manifest 仍是 `rightsReview.status: unverified`／`rightsManifestPresent: false`，deploy workflow 只跑 `check:submission` | 實際公開範圍已超過 repository 自己定義的 publication gate；workflow success 可能被誤讀為授權完成 | 由 stakeholder 立即二選一：完成逐項 rights evidence、attestation 並讓 `check:publication` 通過；或在核准前停止 Pages／移除 Hamlet 公開資產。之後把 `check:publication` 納入 production deploy gate，保留 draft／submission preview 不受影響 |
+| P0 | GitHub Pages 已公開，最新 run `29680534295` 成功；首頁、Hamlet MP4、英文與繁中 VTT、poster 於 2026-07-23 皆實測 HTTP 200，但 `check:publication` 仍因 rights／attestation 的 11 個 blockers exit 1，deploy workflow 只跑 `check:submission` | 實際公開範圍已超過 repository 自己定義的 publication gate；workflow success 或媒體可達性可能被誤讀為授權完成 | 由 stakeholder 立即二選一：完成逐項 rights evidence、attestation 並讓 `check:publication` 通過；或在核准前停止 Pages／移除 Hamlet 公開資產。之後把 `check:publication` 納入 production deploy gate，保留 draft／submission preview 不受影響 |
+| P0 | GitHub Repository 為 public；tracked hidden／internal data、完整 prompts、evidence docs 與 Git history 可讀。Submission alias 只讓部分內容不進 bundle | 「不渲染／不進 `dist/`」可能被誤認為保密，後續加入原始測試、音訊工程或研究草稿會擴大暴露 | 由申請者決定 public repository scope；個資、原始測試、未核權利文件、AI transcripts、`.pd`／`.rpp`、原始錄音與研究草稿先放 private workbench。新 `docs/admission/*` 目前只在本機，commit／push 前重新核對公開範圍 |
 | P0 | Power BI restricted screenshot 已移出 public；資料使用說明不支持公開分析結果，另行公開許可未取得，部分 measures 仍待核對 | 重新公開原圖或錯誤推論會造成隱私／研究誠信風險 | 維持 quarantine；只有另取得資料提供方明確許可後才重新評估，正式輸出必跑 submission scan |
 | P1 | Web Audio 有可操作 prototype，但 `notValidated` | 旗艦證據仍無使用者理解／學習效果資料 | 執行 planned formative tasks，保留匿名紀錄、錯誤、口述理解與 limitation |
-| P1 | Pure Data／REAPER 只有學習狀態 | 聲響研究敘事的工具面仍薄弱 | 補可公開 patch/project、signal flow、聲音輸出及反思；未完成前維持現有誠實 wording |
+| P1 | Pure Data v0.2.1 MP4／poster 已進 public，可核對本機功能操作；但原始畫面含本機路徑、`validated` 與裁切區，初版有 AI 協作，Repository 沒有可公開 `.pd`、版本差異或獨立重建證據。REAPER 只有已安裝狀態 | 影片能證明功能紀錄，不足以證明獨立作者性、熟練度、使用者驗證或研究系統；現有影片亦有送審觀感與路徑揭露風險 | 優先重錄不含本機路徑／過強 validation 用語且完整框取的作品集版；同步補最小可獨立重建 Patch、signal flow、版本差異、錯誤／修正與反思。REAPER 完成最小 routing 與原創輸出前維持未形成作品 |
+| P1 | 《畫本》與指定 MV 已作為文字型代表作品納入；前者缺成片、日期、完整 credit／權利，後者缺成片、課程紀錄、cue sheet／公開授權 | 申請者提供的作品事實可支持有限角色敘述，但不能視為已有公開 artifact、競賽結果或第三方媒體所有權 | 維持文字、角色與限制；只有申請者補交原始檔、完成日期、完整 credit、公開範圍與可驗證輸出後才加入媒體或提高證據強度 |
 | P1 | AI 文學故事 MV 已有可播放《Hamlet》成片、雙語字幕、八幕實際畫面、可重跑 evidence manifest 與衍生 Prompt Template v1；形成性評估只完成 planned protocol | Template v1 明確不是原始生成對話，成片證據也不等於教學有效；原始 Prompt log、實測紀錄與素材權利／來源簽核仍缺，`check:publication` 應維持 blocked | 維持 `notValidated` 與 `usedForExistingVideo: false`；以另一文本試跑模板並保留版本紀錄，執行學生／教師任務後才寫結果，由申請者完成權利 checklist／attestation 後才開啟發布閘門 |
 | P1 | 資料視覺化影片字幕／transcript 品質未人工確認 | 聽覺可及性與快速審查不足 | 檢查 YouTube captions，另提供同頁 transcript summary |
-| P1 | 沒有公開聯絡／CV | Reviewer Path 只能站內循環，不能完成外部轉換 | 由 stakeholder 決定是否加入；沒有資料前維持明示「無公開聯絡」 |
-| P1 | 已完成 6 組 viewport、桌面六個導覽連結與 Logo、行動 menu、focus、contrast 與 Web Audio timeout fallback；screen reader、真實 200% zoom、system reduced-motion 與實機仍未驗證 | 部分 rendered smoke test 不能替代輔具與實機驗收 | 以 VoiceOver／NVDA、真實 zoom、系統偏好、iOS／Android 及多瀏覽器補完矩陣 |
-| P2 | 歷史 851 kB 單一 Three chunk 已改為 638680 raw／169383 gzip B 的完整 lazy 3D closure，最大 chunk 483687 B；initial preload 排除 3D，latest current-fingerprint mobile 為 Performance 94、LCP 2651 ms、TBT 90 ms | 本機 simulated profile 與 build budget 支持目前保留場景，但仍不能代表低階實機、GPU／耗電或 production network | 保留 visibility-aware lazy／device gating 與 closure budget；以低階 Android／iOS、Save-Data 與目前 Pages URL 的 field evidence 再判斷是否簡化 shader scene |
+| P1 | `#contact` 現在提供可核對的 GitHub Pages 與 public Repository 連結；仍沒有公開 Email、CV、社群或研究計畫下載 | 已有真實外部出口，但不等於申請者已決定公開個資、履歷或完整研究文件 | 保留兩個已確認 URL；其他聯絡／下載只有在申請者提供並核對公開範圍後加入 |
+| P1 | 先前 6 viewport 與同日 1440×900／375×812 smoke 都早於目前 11 段 IA、lazy admission module 與 Pure Data media；目前 source 尚無對應 320／375／768／1024／1440 完整回歸 | 舊 rendered evidence 不能證明新 anchors、deferred focus、影片 fallback、11 段順序與最窄／平板版仍通過 | 對 current submission artifact 重跑 320×568、375×812、768×1024、1024×768、1440×900；檢查 overflow、duplicate ID、11 anchors、lazy deep link／focus、媒體、console、touch targets、reduced-motion 與 Save-Data，再補 VoiceOver／NVDA、真實 zoom 與實機 |
+| P2 | 歷史 851 kB 單一 Three chunk 已改為 638680 raw／169383 gzip B 的完整 lazy 3D closure，initial preload 排除 3D；2026-07-23 fresh submission initial JS 為 193737 gzip B、entry 160908 B、CSS 43688 B。Lighthouse 94／100 與 LCP 2651 ms 是 2026-07-17、文案改寫前的歷史 fingerprint | Fresh build budget 支持目前仍維持 lazy 邊界，但歷史 localhost simulated profile 不能代表目前 source、低階實機、GPU／耗電或 production network | 保留 visibility-aware lazy／device gating 與 closure budget；若要引用目前效能，先重跑 Lighthouse，再以低階 Android／iOS、Save-Data 與 Pages URL 的 field evidence 判斷是否簡化 shader scene |
 | P2 | sound 自動測試已有 5 個 mapping 與 13 個 controller lifecycle tests；React controls、Escape、offscreen 與 live region 目前只有 rendered smoke evidence | 核心 AudioContext race／cleanup 可重跑，但 component UI regression 尚未自動化 | 若未來加入正式 browser test runner，再補 React interaction tests；不要依賴間接 Puppeteer dependency |
 | P2 | 單頁 anchors | 獨立分享、case SEO、browser history 能力有限 | 只有確定有分享需求時再評估 router/static routes |
 | P2 | Pages workflow 會在 push 到 `main` 或手動觸發，已有成功 runs；但沒有一般 PR CI、lint、formatter 或廣泛 tests，完整 submission gate 要到合併後的 deploy job 才執行 | 品質仍依賴本機 `doctor` 與人工矩陣，錯誤可能合併後才由部署 job 發現 | 評估加入不含部署權限的最小 Windows PR CI 與 a11y smoke tests；production job 另補 publication gate |
-| P2 | social preview 為 SVG；GitHub Pages URL 已存在，但沒有 canonical URL 宣告或 custom domain | 分享平台相容性與 SEO identity 未完成 | 補 raster 1200×630、canonical metadata；再由 stakeholder 決定是否使用 custom domain |
-| P2 | Current-fingerprint Lighthouse 已封存完整 artifact／source lineage，且有正式 Pages URL；但目前量測仍只有 localhost simulated lab，沒有 production／field data | 本機分數可解釋目前 build 決策，但不能代表 production network 與真實裝置 | Runtime、build 或 audit script 改動後重跑；另以目前 Pages URL 保留 production lab／field 證據，與 localhost 結果分開 |
+| P2 | Canonical、`og:url` 與 JSON-LD URL 已統一為已確認的 GitHub Pages project URL；social preview 仍是 SVG，custom domain 尚未決定 | 基本 URL identity 已收斂，但部分分享平台的 SVG 相容性與未來網域遷移流程仍未完成 | 補 raster 1200×630；若改 custom domain，同步更新 canonical、Open Graph、JSON-LD、`llms.txt`、final links 與部署設定 |
+| P2 | 2026-07-17 Lighthouse 已封存完整 artifact／source lineage；2026-07-19 copy 後又有 2026-07-24 admission-evidence、media、lazy section 與 metadata 變更，目前沒有對應的新 localhost 或 production／field 數據 | 舊分數只能說明當時的 motion 修復，不可包裝成目前網站效能 | 本輪 final source 穩定後才重跑；另以 Pages URL 保留 production lab／field 證據，並與 localhost 結果分開 |
 
 ## 已解決且應保留
 
-- 聲響主線 Hero、旗艦 Web Audio prototype、Learning Trail 與支援作品順序。
+- 11 段 Admission Evidence IA、早期證據導覽、旗艦 Web Audio、Pure Data 專段、四層研究構想、代表作品、合作、Roadmap、AI 與 final links 的 source 組合；舊 `#learning-trail` 已由 Pure Data 專段與 Roadmap 取代。
+- `src/data/admission-evidence.js` 與共享 lazy-loaded `AdmissionEvidenceSections.jsx`；各段保留永久 wrapper、heading、Suspense、error boundary 與 deferred-ready hash settle。
 - 行動版 section menu、Escape 關閉與 focus restore。
 - 原型 start/stop、visibility/offscreen cleanup、不支援與錯誤 fallback。
 - AudioContext resume cancel／timeout、graceful release、background immediate cleanup、context interruption 與 destroy 的可測 controller。
-- 桌面六個固定導覽連結與 Logo 的鍵盤焦點交接；桌面滑鼠與行動 menu 行為皆回歸通過。
+- 桌面六個高階導覽連結、Logo、行動 menu、鍵盤焦點交接與 active-target 邏輯仍保留；current source 已通過建置與靜態檢查，但本輪 in-app Browser 因本機連線隔離無法執行 fresh rendered matrix，不可由舊版 regression 推論通過。
 - `notValidated`／`exploratory` 明確測試狀態與 validator enforcement。
 - Hamlet delivery 已建立 manifest、SHA-256／bytes、WebVTT／逐字稿與 63 個 public assets 的可重跑 `audit:evidence`；這些完整性證據與發布權利分開治理。
 - Hamlet Prompt Template v1 已以 `processDerived` 發布，明載不曾用來生成現有成片；原始 Prompt log 仍保留為外部缺口。
 - Hamlet 形成性評估已建立 planned protocol，但不含參與者人數、日期、結果或成效；rights checklist 未簽核前，`check:publication` 的失敗是預期閘門。
 - hidden immersive case 文字由 `#portfolio-hidden` alias 隔離，media 保持空；13 個專用 placeholders、generator refs 與 captions 已移除，submission dev 舊 URL 404。
 - submission-hidden case 的流程圖／媒體 completeness 項目已標為不適用並排除 `recommendedMissing`；這不改變空 media、alias 與 scanner 隔離。
-- submission scanner 已拆成可注入 core／thin CLI，具 48 個 text rules、6 個 inventory rules、redacted diagnostics 與 36 個 Node regression tests；VTT、Web Manifest、source map 也納入文字掃描，並仍保留獨立 `dist/` audit。
-- R3F 已改用 lean canvas 與精準 constructor extend；遞迴 built-import budget 覆蓋 initial／完整 lazy closure 與單一 chunk，2026-07-18 closure 為 638680 raw／169383 gzip B，851 kB 歷史 warning 已關閉。
-- `llms.txt`、favicon、social preview、index／JSON-LD 與案例 SEO 已統一為 RU / YUAN，dead anchors 已移除；canonical URL／raster preview 仍待 hosting 決策。
+- submission scanner 已拆成可注入 core／thin CLI，加入送審內部詞、成效／系統完成過度主張與 unsupported proficiency 規則、7 個 inventory rules、redacted diagnostics 與 57/57 Node regression fixtures；`#contact` 已是有效 anchor，VTT、Web Manifest、source map 也納入文字掃描，並仍保留獨立 `dist/` audit。
+- R3F 已改用 lean canvas 與精準 constructor extend；遞迴 built-import budget 覆蓋 initial／完整 lazy closure 與單一 chunk，2026-07-23 closure 為 638680 raw／169383 gzip B，851 kB 歷史 warning 已關閉。
+- `llms.txt`、favicon、social preview、index／Open Graph／Twitter／JSON-LD 與頁面 anchors 已改成蕭智仁聲響、互動與數位學習申請敘事；canonical／`og:url`／JSON-LD URL 使用已確認的 GitHub Pages project URL。Raster preview 與 custom domain 仍待後續決策。
 - Power BI 實作日期已確認為 2026/06/11–06/12；實際資料與結果媒體移出 public，公開 conceptual SVG。
 - draft/submission bundling boundary，而非 CSS 隱藏。
 - mapping pure functions 與 Node tests。
 - DOM-first Hero、R3F lazy/device gating/offscreen pause。
-- GitHub Pages 相對 base、public asset `BASE_URL`、submission Pages audit、Windows build／Ubuntu deploy workflow 與成功遠端 runs；目前 Pages API 為 public／`built`。Publication gate 尚未接入 workflow，仍列 P0。
+- GitHub Pages 相對 base、public asset `BASE_URL`、submission Pages audit、Windows build／Ubuntu deploy workflow、最新成功 remote deployment 與 production HTTP 可達性。Publication gate 尚未接入 workflow，仍列 P0；本輪未能從未認證 Pages-site endpoint 重新取得 `built` 欄位。
 - 全站 `RootErrorBoundary`、首屏主要內容不再 mount-hide、行動 anchor 目標焦點與 fine-pointer custom cursor gating。
 - Web Audio 第四個鍵盤控制、可讀 readout、starting／busy、3 秒 resume timeout 及 pending context cleanup。
-- 320px 繁中 display heading 越界修正與暖紙主題 accent 對比 5.71:1。
-- 長頁平台 scrollbar 已恢復並跟隨深色／暖紙 theme token；`body` 最小寬度不再超出 scrollbar 扣除後的可用寬度，320×568、375×812、1440×900 均 0 global horizontal overflow。
-- 有效 Git history、`origin`、`main`／working branch 已確認；PR #1–#4 均已 merged，不再有待更新的 Draft PR #1。後續先查遠端現況，不得重複初始化或沿用舊 PR 假設。
-- 生成式 AI 協作方法區段、Prompt v1／v2、兩個實際失敗案例及人類最終責任揭露。
+- 320px 繁中 display heading 越界修正與暖紙主題 accent 對比 5.71:1；這是先前 source 的修正證據，本輪新 heading 仍需 fresh 320 px 檢查。
+- 長頁平台 scrollbar 已恢復並跟隨深色／暖紙 theme token；`body` 最小寬度修正曾在 320×568、375×812、1440×900 取得 0 global horizontal overflow，現階段保留為歷史 regression，不代填新 11 段 source 的結果。
+- 有效 Git history、`origin`、`main`／working branch 已確認；PR #1–#5 均已 merged。`codex/public-copy-rewrite`／`61ea9d8` 與 `main`／`695b520` tree 相同；後續由最新 `main` 開新分支，不得重複初始化或沿用已合併 PR。
+- 生成式 AI 協作方法區段、Prompt 版本、三個實際失敗案例、`AI 協助／申請者負責／申請者尚需補強` 與人類最終責任揭露。
+- 公開文案已改成自然、第一人稱的繁體中文，並清楚區分作者角色、方法、已有證據與未驗證限制；PR #5 只改 copy／labels／metadata，沒有移除既有 runtime、motion 或 visual system。
 - submission-only Lighthouse harness 的跨程序鎖、stale-lock dead-PID 驗證、archive completion marker、canonical rollback／summary-last、完整受測 `dist`／source manifests、CLI transcript、完整 profile／environment fingerprint、freshness／runtime 驗證與 mobile／desktop 分流；Hero LCP、current-geometry first-load、scene fallback、前一輪離散主題對比、theme-aware nav、sound-pad ARIA、busy/live-region 與 pending-start 取消問題已修正。本輪再以 fixed viewport field 恢復可逆、可停留的深墨→暖灰→暖紙 scrub，並補齊 disclosure 兩向高度動畫。
 
 ## 建議里程碑
 
-1. **研究證據：** 先完成 Web Audio 形成性測試並修訂 mapping rationale／限制。
-2. **聲音作品：** 選擇 Pure Data 或 REAPER 其中一項，產出一個可公開、可解釋的最小 artifact。
+1. **研究證據：** 先完成 Web Audio 形成性測試並修訂 mapping rationale／限制；結果未出現前保持 `尚待驗證`。
+2. **聲音作品：** Pure Data 已有 v0.2.1 本機功能測試影片；下一步是重錄公開安全版，並補最小可獨立重建 Patch、逐物件 signal flow、版本差異與失敗／修正紀錄。REAPER 完成基本 routing 與原創輸出後再決定是否納入送審證據。不可把 AI Patch、功能影片或已安裝軟體當成熟練度。
 3. **支持案例：** 以另一部文學作品試跑 Hamlet Prompt Template v1 並保留失敗／修訂紀錄，執行學生／教師形成性任務；完成資料影片字幕。Power BI 只有另取得資料提供方明確許可後才重新評估真實結果展示。
 4. **可及性：** 在已完成的鍵盤／viewport／contrast 基礎上，補 screen reader、真實 zoom、行動 touch、system reduced-motion 與多瀏覽器 Web Audio matrix。
 5. **Submission hygiene：** 維持已完成的 hidden asset、scanner、metadata 與 dev filesystem 邊界；每次正式輸出仍執行 scanner 與獨立 `dist/` audit。
-6. **Production：** Pages 已公開，因此先關閉 rights gate 與實際公開狀態的不一致；再確認聯絡／CV、canonical／custom domain、production URL 的裝置／field evidence 與可追溯 submission artifact。Current-fingerprint localhost Lighthouse 已完成。
+6. **Production：** Pages 已公開，因此先關閉 rights gate 與實際公開狀態的不一致；再決定 Email／CV／社群、raster preview、custom domain，並為目前 source 補裝置／field evidence、可追溯 submission artifact 與 Lighthouse。Canonical 已使用現有 Pages URL，不再列為未知值。
 
 ## 安全延伸點
 
-- 公開文案只改 `portfolio.js`；hidden draft text 只改 `portfolio.hidden.js`；construction notes 只改 `portfolio.internal.js`。
+- 首頁／案例文案改 `portfolio.js`；研究摘要改 `admission-research.js`；Pure Data／代表作品／合作／Roadmap／final links 改 `admission-evidence.js`；AI 摘要改 `ai-workflow.js`。Hidden draft text 只改 `portfolio.hidden.js`，construction notes 只改 `portfolio.internal.js`。
 - 新案例／媒體先讀 content authoring 與 adding-portfolio-work；不要直接新增 remote demo media。
 - 新聲音 mapping 優先放純函式並加 tests；AudioContext 必須由 user gesture 啟動、具 stop/cleanup 與安全 gain。
-- 不要把 Pure Data／REAPER 學習狀態描述成作品成果。
+- Pure Data 影片只能描述為 v0.2.1 本機功能測試與學習原型；不要把它或 REAPER 安裝狀態描述成獨立完成、熟練、驗證或研究成果。
 - 不要把 `notValidated` 填成假 metrics；有證據才升為 `exploratory`／`validated`。
 - 不把衍生 Prompt Template 回填成原始 Prompt log；`processDerived`、`specificationOnly` 與 artifact evidence 必須維持不同狀態。
 - Hamlet 媒體、字幕、逐字稿或 derivative inventory 改動後先跑 `audit:evidence`；正式發布前另跑 `check:publication`，不可用 submission build 通過取代申請者權利簽核。
@@ -80,4 +101,4 @@
 
 ## 本次無法確認
 
-利害關係人簽核、當年度官方申請要求、真實使用者測試、Hamlet 原始 Prompt log／素材權利與來源簽核、Pure Data／REAPER 原始作品、Power BI 另行公開許可、custom domain／canonical 決策、analytics、screen reader、真實 200% zoom、system reduced-motion、實機與 field performance 均不在目前可驗證證據中。GitHub Actions／Pages 的成功執行與公開 URL 已確認；本機 Lighthouse 與內建瀏覽器 smoke test 也已完成，但都不能把未支援的權利、輔具、實機或 field 驗收宣稱為通過。
+利害關係人簽核、當年度官方申請要求、真實使用者測試、Hamlet 原始 Prompt log／素材權利與來源簽核、Pure Data 獨立重建／可公開 `.pd`／版本差異、REAPER 工程與原創輸出、《畫本》／指定 MV 的公開成片與完整權利、Power BI 另行公開許可、Email／CV／社群、custom domain、analytics、screen reader、真實 200% zoom、system reduced-motion、實機與 field performance 均不在目前可驗證證據中。Pure Data v0.2.1 MP4／poster、現有 GitHub Pages URL 與 public Repository URL 已確認，但不能延伸成獨立作者性、驗證或權利結論。Current source 的 final build 與獨立 `dist/` inventory 已完成；本輪 320–1440 rendered browser matrix 因 in-app Browser 的本機連線隔離未能執行，deployment 與 field 驗證也未執行。2026-07-17 Lighthouse 與既有 rendered smoke evidence只代表各自當時的 source。

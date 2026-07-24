@@ -1,18 +1,25 @@
-import { memo, useEffect } from "react";
+import { lazy, memo, Suspense, useEffect } from "react";
 import { useLenisGsap } from "./hooks/useLenisGsap.js";
 import { useThemeInversion } from "./hooks/useThemeInversion.js";
 import CustomCursor from "./components/CustomCursor.jsx";
 import CaseStudyShowcase from "./components/CaseStudyShowcase.jsx";
 import DataVisualizationSeries from "./components/DataVisualizationSeries.jsx";
 import ImmersiveHero from "./components/ImmersiveHero.jsx";
-import LearningTrail from "./components/LearningTrail.jsx";
-import AiWorkflowSection from "./components/AiWorkflowSection.jsx";
 import Navbar from "./components/Navbar.jsx";
-import ResearchPositioning from "./components/ResearchPositioning.jsx";
-import EditorialHeading from "./components/EditorialHeading.jsx";
+import SoundTransitionSection, { ReviewerPathSection } from "./components/ResearchPositioning.jsx";
 import SectionErrorBoundary from "./components/SectionErrorBoundary.jsx";
 import PortfolioDraftLayer from "#portfolio-draft";
 import ViewportThemeTransition from "./components/ViewportThemeTransition.jsx";
+
+const AiWorkflowSection = lazy(() => import("./components/AiWorkflowSection.jsx"));
+const ResearchProposalSection = lazy(() => import("./components/ResearchProposalSection.jsx"));
+const admissionEvidenceModule = () => import("./components/AdmissionEvidenceSections.jsx");
+const PureDataLearningSection = lazy(() => admissionEvidenceModule().then((module) => ({ default: module.PureDataLearningSection })));
+const RepresentativeWorksSection = lazy(() => admissionEvidenceModule().then((module) => ({ default: module.RepresentativeWorksSection })));
+const SecondaryCreationWorkSection = lazy(() => admissionEvidenceModule().then((module) => ({ default: module.SecondaryCreationWorkSection })));
+const CollaborationSection = lazy(() => admissionEvidenceModule().then((module) => ({ default: module.CollaborationSection })));
+const LearningRoadmapSection = lazy(() => admissionEvidenceModule().then((module) => ({ default: module.LearningRoadmapSection })));
+const ContactSection = lazy(() => admissionEvidenceModule().then((module) => ({ default: module.ContactSection })));
 
 const SCROLL_INTERRUPTION_KEYS = new Set(["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " "]);
 
@@ -26,36 +33,100 @@ const getHashTarget = (hash) => {
   }
 };
 
-const ReviewerPathSection = memo(function ReviewerPathSection() {
+function DeferredSectionFallback({ id, label }) {
   return (
-    <footer id="reviewer-path" className="paper-surface relative bg-[var(--theme-bg)] px-[clamp(1.25rem,6vw,10vw)] py-28 text-[var(--theme-text)] md:py-36" aria-labelledby="reviewer-path-title">
-      <div className="mx-auto grid max-w-7xl gap-12 border-t border-[color:var(--theme-line)] pt-12 md:grid-cols-[0.8fr_1.2fr] md:gap-20">
-        <p className="meta-label text-[var(--theme-accent)]">快速導覽</p>
-        <div className="grid gap-8">
-          <EditorialHeading as="h2" id="reviewer-path-title" className="editorial-heading editorial-heading--display zh-display text-[length:var(--font-size-fluid-case)]" lines={[["從這裡", "回看重點。"]]}>從這裡回看重點。</EditorialHeading>
-          <p className="zh-lead text-[var(--theme-text)]">可以回到聲響原型實際操作，也可以從作品索引比較其他案例的角色、方法與限制。</p>
-          <div className="flex flex-wrap gap-3">
-            <a className="cta-button interactive-link chip-text w-fit rounded-full px-7 py-4 text-sm font-extrabold" href="#interactive-sound-learning" data-magnetic data-cursor-variant="media" data-cursor-label="聲響">回看聲響原型</a>
-            <a className="interactive-link chip-text w-fit rounded-full border border-[color:var(--theme-line)] px-7 py-4 text-sm font-extrabold" href="#project-index-title">回到作品索引</a>
-          </div>
-        </div>
-      </div>
-    </footer>
+    <div className="mx-auto grid max-w-7xl gap-4" aria-busy="true">
+      <p className="meta-label text-[var(--theme-accent)]">內容載入中</p>
+      <h2 id={`${id}-title`} className="zh-heading text-2xl">{label}</h2>
+    </div>
   );
-});
+}
+
+function DeferredAdmissionSection({
+  id,
+  label,
+  children,
+  paper = false,
+  aliasId,
+}) {
+  return (
+    <section
+      id={id}
+      className={`${paper ? "paper-surface " : ""}research-section min-h-[40vh] bg-[var(--theme-bg)] px-[clamp(1.25rem,6vw,10vw)] py-24 text-[var(--theme-text)] md:py-32`}
+      aria-labelledby={`${id}-title`}
+      data-stable-section-focus
+    >
+      {aliasId ? <span id={aliasId} className="block scroll-mt-28" aria-hidden="true" /> : null}
+      <SectionErrorBoundary sectionName={label} headingId={`${id}-title`} reloadOnRetry>
+        <Suspense fallback={<DeferredSectionFallback id={id} label={label} />}>
+          {children}
+        </Suspense>
+      </SectionErrorBoundary>
+    </section>
+  );
+}
+
+function SelectedWorkSection() {
+  return (
+    <section
+      id="selected-work"
+      aria-labelledby="selected-work-title"
+      data-stable-section-focus
+    >
+      <div className="research-section min-h-[40vh] bg-[var(--theme-bg)] px-[clamp(1.25rem,6vw,10vw)] py-24 text-[var(--theme-text)] md:py-32">
+        <SectionErrorBoundary sectionName="代表作品" headingId="selected-work-title" reloadOnRetry>
+          <Suspense fallback={<DeferredSectionFallback id="selected-work" label="代表作品" />}>
+            <RepresentativeWorksSection />
+          </Suspense>
+        </SectionErrorBoundary>
+      </div>
+      <DataVisualizationSeries />
+      <SectionErrorBoundary sectionName="其他公開案例">
+        <CaseStudyShowcase scope="supporting" showIndex />
+      </SectionErrorBoundary>
+      <section
+        id="secondary-creation"
+        className="research-section bg-[var(--theme-bg)] px-[clamp(1.25rem,6vw,10vw)] py-24 text-[var(--theme-text)] md:py-32"
+        aria-labelledby="secondary-creation-title"
+        data-stable-section-focus
+      >
+        <SectionErrorBoundary sectionName="二次創作案例" headingId="secondary-creation-title" reloadOnRetry>
+          <Suspense fallback={<DeferredSectionFallback id="secondary-creation" label="二次創作案例" />}>
+            <SecondaryCreationWorkSection />
+          </Suspense>
+        </SectionErrorBoundary>
+      </section>
+    </section>
+  );
+}
 
 const HomePage = memo(function HomePage() {
   return (
-    <main id="main-content" aria-label="RU / YUAN 聲響、互動與學習研究所作品集" className="page-shell min-h-screen overflow-hidden bg-[var(--theme-bg)] text-[var(--theme-text)]">
+    <main id="main-content" aria-label="蕭智仁聲響、互動與數位學習作品集" className="page-shell min-h-screen overflow-hidden bg-[var(--theme-bg)] text-[var(--theme-text)]">
       <ViewportThemeTransition />
       <SectionErrorBoundary sectionName="首頁"><ImmersiveHero /></SectionErrorBoundary>
-      <ResearchPositioning />
-      <SectionErrorBoundary sectionName="聲響原型"><CaseStudyShowcase scope="flagship" showIndex={false} /></SectionErrorBoundary>
-      <LearningTrail />
-      <AiWorkflowSection />
-      <DataVisualizationSeries />
-      <SectionErrorBoundary sectionName="其他公開案例"><CaseStudyShowcase scope="supporting" showIndex /></SectionErrorBoundary>
+      <SoundTransitionSection />
       <ReviewerPathSection />
+      <SectionErrorBoundary sectionName="聲響原型"><CaseStudyShowcase scope="flagship" showIndex={false} /></SectionErrorBoundary>
+      <DeferredAdmissionSection id="pure-data-learning" label="Pure Data 學習紀錄">
+        <PureDataLearningSection />
+      </DeferredAdmissionSection>
+      <DeferredAdmissionSection id="research-positioning" aliasId="research-proposal" label="申請階段研究構想">
+        <ResearchProposalSection />
+      </DeferredAdmissionSection>
+      <SelectedWorkSection />
+      <DeferredAdmissionSection id="collaboration" label="專案與合作" paper>
+        <CollaborationSection />
+      </DeferredAdmissionSection>
+      <DeferredAdmissionSection id="learning-roadmap" label="學習路線" paper>
+        <LearningRoadmapSection />
+      </DeferredAdmissionSection>
+      <DeferredAdmissionSection id="ai-workflow" label="AI／作者性" paper>
+        <AiWorkflowSection />
+      </DeferredAdmissionSection>
+      <DeferredAdmissionSection id="contact" label="研究方向與連結" paper>
+        <ContactSection />
+      </DeferredAdmissionSection>
     </main>
   );
 });
@@ -70,6 +141,7 @@ export default function App() {
     let activeCase = null;
     let disposed = false;
     let settleToken = 0;
+    let userInterruptedSinceNavigation = false;
 
     const queueFrame = (callback) => {
       const frame = window.requestAnimationFrame(() => {
@@ -138,10 +210,12 @@ export default function App() {
     };
 
     const handleHashChange = () => {
+      userInterruptedSinceNavigation = false;
       if (navigationTimer) window.clearTimeout(navigationTimer);
       settleHashTarget();
     };
     const handlePortfolioNavigation = (event) => {
+      userInterruptedSinceNavigation = false;
       cancelPendingSettle();
       navigationTimer = window.setTimeout(
         () => {
@@ -151,13 +225,19 @@ export default function App() {
         event.detail?.delay ?? 0,
       );
     };
+    const handleDeferredReady = () => {
+      if (!window.location.hash || userInterruptedSinceNavigation) return;
+      settleHashTarget();
+    };
     const handleUserInterruption = (event) => {
       if (event.type === "keydown" && !SCROLL_INTERRUPTION_KEYS.has(event.key)) return;
+      userInterruptedSinceNavigation = true;
       cancelPendingSettle();
     };
 
     window.addEventListener("hashchange", handleHashChange);
     window.addEventListener("portfolio:hash-navigation", handlePortfolioNavigation);
+    window.addEventListener("portfolio:deferred-ready", handleDeferredReady);
     window.addEventListener("wheel", handleUserInterruption, { passive: true });
     window.addEventListener("touchstart", handleUserInterruption, { passive: true });
     window.addEventListener("pointerdown", handleUserInterruption, { passive: true });
@@ -169,6 +249,7 @@ export default function App() {
       cancelPendingSettle();
       window.removeEventListener("hashchange", handleHashChange);
       window.removeEventListener("portfolio:hash-navigation", handlePortfolioNavigation);
+      window.removeEventListener("portfolio:deferred-ready", handleDeferredReady);
       window.removeEventListener("wheel", handleUserInterruption);
       window.removeEventListener("touchstart", handleUserInterruption);
       window.removeEventListener("pointerdown", handleUserInterruption);

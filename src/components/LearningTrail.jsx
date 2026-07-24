@@ -9,16 +9,29 @@ export default function LearningTrail() {
           <p className="meta-label text-[var(--theme-accent)]">學習進度</p>
           <div className="grid gap-5">
             <EditorialHeading as="h2" id="learning-trail-title" className="editorial-heading zh-display text-[length:var(--font-size-fluid-section)]" lines={[["聲音工具", "學到哪裡，"], ["目前有哪些材料", "可以看。"]]}>聲音工具學到哪裡，目前有哪些材料可以看。</EditorialHeading>
-            <p className="zh-copy-wide text-[color:var(--theme-muted)]">Web Audio 已有可操作原型。Pure Data 和 REAPER 還在學習，目前沒有可公開的 Pure Data 補丁檔、REAPER 工程檔或聲音作品。</p>
-            <a className="interactive-link chip-text w-fit rounded-full border border-[color:var(--theme-line)] px-5 py-3 text-sm font-extrabold" href="#ai-workflow">查看我如何使用生成式 AI</a>
+            <p className="zh-copy-wide text-[color:var(--theme-muted)]">Web Audio 是目前最完整的聲音技術證據。Pure Data 從 2026/07/24 開始學習，REAPER 已安裝但尚未進入系統性練習；兩者都不列為完成作品。</p>
+            <a className="interactive-link chip-text w-fit rounded-full border border-[color:var(--theme-line)] px-5 py-3 text-sm font-extrabold" href="#project-index-title">接著看代表作品</a>
           </div>
         </div>
         <div className="grid gap-4 md:grid-cols-3">
           {learningTrail.map((item) => (
             <article key={item.id} className="soft-panel grid content-start gap-4 rounded-[var(--radius-md)] p-5">
-              <p className="meta-label text-[var(--theme-accent)]">{item.status}</p>
+              <div className="flex flex-wrap gap-2">
+                <span className="meta-label text-[var(--theme-accent)]">{item.status}</span>
+                {item.validationStatus ? (
+                  <span className="chip-text rounded-full border border-[color:var(--theme-line)] px-3 py-1 text-xs font-bold text-[color:var(--theme-muted)]">
+                    {item.validationStatus}
+                  </span>
+                ) : null}
+              </div>
               <h3 className="zh-heading text-[clamp(1.35rem,2.4vw,2.1rem)]">{item.title}</h3>
+              {item.startedAt ? <p className="zh-label text-[var(--theme-accent)]">開始日期：{item.startedAt}</p> : null}
               <p className="zh-caption text-[color:var(--theme-muted)]">{item.evidence}</p>
+              {item.aiAssistance ? (
+                <p className="zh-caption rounded-[var(--radius-sm)] border border-[color:var(--theme-line)] p-3 text-[color:var(--theme-muted)]">
+                  AI 協作邊界：{item.aiAssistance}
+                </p>
+              ) : null}
             </article>
           ))}
         </div>

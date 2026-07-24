@@ -1,14 +1,16 @@
-import { aiWorkflow } from "../data/portfolio.js";
+import { useEffect } from "react";
+import { aiWorkflow } from "../data/ai-workflow.js";
 import EditorialHeading from "./EditorialHeading.jsx";
 
 export default function AiWorkflowSection() {
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent("portfolio:deferred-ready", {
+      detail: { targetId: "#ai-workflow" },
+    }));
+  }, []);
+
   return (
-    <section
-      id={aiWorkflow.id}
-      className="research-section px-[clamp(1.25rem,6vw,10vw)] py-24 text-[var(--theme-text)] md:py-32"
-      aria-labelledby={`${aiWorkflow.id}-title`}
-    >
-      <div className="mx-auto grid max-w-7xl gap-12">
+    <div className="mx-auto grid max-w-7xl gap-12">
         <div className="grid gap-5 md:grid-cols-[0.36fr_0.64fr] md:gap-16">
           <p className="meta-label text-[var(--theme-accent)]">{aiWorkflow.eyebrow}</p>
           <div className="grid gap-5">
@@ -39,7 +41,7 @@ export default function AiWorkflowSection() {
 
         <div className="grid gap-8 lg:grid-cols-2">
           <div className="grid content-start gap-4">
-            <p className="meta-label text-[var(--theme-accent)]">兩次提示詞調整</p>
+            <p className="meta-label text-[var(--theme-accent)]">三個提示詞版本</p>
             {aiWorkflow.versions.map((item) => (
               <article key={item.version} className="evidence-panel grid gap-3 rounded-[var(--radius-md)] p-5">
                 <p className="meta-label text-[var(--theme-accent)]">{item.version}</p>
@@ -54,8 +56,11 @@ export default function AiWorkflowSection() {
             {aiWorkflow.failureCases.map((item) => (
               <article key={item.problem} className="evidence-panel grid gap-3 rounded-[var(--radius-md)] p-5">
                 <h3 className="zh-heading text-xl">{item.problem}</h3>
+                <p className="zh-caption text-[color:var(--theme-muted)]">如何發現：{item.discovery}</p>
                 <p className="zh-caption text-[color:var(--theme-muted)]">原因：{item.diagnosis}</p>
-                <p className="zh-caption text-[color:var(--theme-muted)]">我怎麼改：{item.correction}</p>
+                <p className="zh-caption text-[color:var(--theme-muted)]">如何檢查：{item.check}</p>
+                <p className="zh-caption text-[color:var(--theme-muted)]">如何修正：{item.correction}</p>
+                <p className="zh-caption rounded-[var(--radius-sm)] border border-[color:var(--theme-line)] p-3 text-[color:var(--theme-muted)]">學到什麼：{item.learning}</p>
               </article>
             ))}
           </div>
@@ -69,7 +74,6 @@ export default function AiWorkflowSection() {
             ))}
           </ul>
         </div>
-      </div>
-    </section>
+    </div>
   );
 }

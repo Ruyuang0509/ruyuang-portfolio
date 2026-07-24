@@ -173,14 +173,18 @@ export default function ImmersiveHero() {
         </div>
 
         <div className="grid max-w-xl justify-self-end gap-6 md:pb-7">
-          <motion.p
-            className="zh-copy-wide text-[color:var(--color-muted)]"
+          <motion.div
+            className="grid gap-4"
             initial={reduceMotion ? false : { opacity: 0.35, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: reduceMotion ? 0 : 0.54, duration: reduceMotion ? 0.01 : 0.76, ease: [0.22, 1, 0.36, 1] }}
           >
-            {homepageNarrative.introduction}
-          </motion.p>
+            <p className="zh-lead text-[var(--color-text)]">{homepageNarrative.supportingLine}</p>
+            <p className="zh-copy-wide text-[color:var(--color-muted)]">{homepageNarrative.introduction}</p>
+            <p className="zh-caption border-l-2 border-[var(--color-accent)] pl-4 text-[color:var(--color-muted)]">
+              {homepageNarrative.currentEvidence}
+            </p>
+          </motion.div>
           <motion.div
             className="flex flex-wrap gap-3"
             initial={reduceMotion ? false : { opacity: 0, y: 18 }}

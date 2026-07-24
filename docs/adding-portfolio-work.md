@@ -5,13 +5,30 @@ Use this guide when adding a real graduate-portfolio project to `如願個人網
 ## 1. Where Things Live
 
 - Project data: `src/data/portfolio.js`
+- Standalone application proposal data: `admissionResearchProposal` in `src/data/admission-research.js`
+- Admission evidence data: `src/data/admission-evidence.js`
+- Public AI／authorship data: `aiWorkflow` in `src/data/ai-workflow.js`
 - Internal build notes: `src/data/portfolio.internal.js`
 - Case-study layout: `src/components/CaseStudyShowcase.jsx`
+- Application proposal layout: `src/components/ResearchProposalSection.jsx`
+- Admission evidence layouts: `src/components/AdmissionEvidenceSections.jsx`
 - Local media: `public/media/portfolio`
 - Research rationale: `docs/portfolio-display-research.md`
 - Data visualization guardrails: `docs/data-visualization-series.md`
 - Evidence manifests and readiness records: `docs/evidence/`
 - Workspace guardrails: `AGENTS.md` and `docs/workspace-consolidation.md`
+
+`admissionResearchProposal` is homepage application framing, not a completed
+project entry. Keep current evidence, future research questions, and the
+adjustable-method disclaimer separate; do not add it to `projectCaseStudies`
+unless a real research artifact later exists.
+
+`src/data/admission-evidence.js` is also not a substitute for normal case-study
+data. It contains the current Pure Data learning record, text-first
+representative works, supporting case links, collaboration evidence, the
+learning roadmap, and verified final URLs. Use it when the review section must
+make an evidence boundary explicit rather than present a full case-study
+artifact.
 
 ## 2. Add A New Project Entry
 
@@ -92,6 +109,31 @@ Internal authoring fields belong in `src/data/portfolio.internal.js`, not in the
 - risk reminders
 - hidden-from-submission reason
 
+Draft/submission aliases keep these notes out of the website bundle, but they do not make tracked files private. This repository is public; use a private workbench for personal data, raw test records, unreviewed rights documents, AI transcripts, source audio, `.pd`, `.rpp`, or research drafts that should not be readable through Git history.
+
+### Admission-level evidence shape
+
+For a public admission evidence record, keep the following concerns separate:
+
+- `status` and `evidenceStatus`: what exists now
+- `validationStatus`: whether any user/research validation has occurred
+- `authorship` and `aiAssistance`: applicant work versus tool/AI contribution
+- `rights`: what can be displayed and what remains third-party or unreviewed
+- `limitations`: visible or evidentiary defects
+- `nextStep`: the next real artifact or review action
+- `evidenceLinks`: only links that currently resolve to public evidence
+- `submissionVisibility`: whether the record belongs in the formal build
+
+The Pure Data media object additionally requires a descriptive local `src`,
+poster, MIME type, width, height, duration, codec summary, caption,
+`accessibilitySummary`, and fallback. Its viewing guide and
+`whatThisProves`／`whatThisDoesNotProve` lists are part of the evidence, not
+decorative copy.
+
+Do not add an empty or unverified link merely to make a card look complete.
+《畫本》 and the named MV currently use `evidenceLinks: []`; their public cards
+must continue to explain why no video is embedded.
+
 ## 3. Case Study Order
 
 Use this order unless the project has a stronger reason to change it:
@@ -126,13 +168,39 @@ Choose tracks by evidence, not by wishful positioning. If a project only has fut
 
 Order works by admissions strategy:
 
-1. AI / generative AI works
-2. Interactive systems and interface works
-3. Sound, video, multimedia, and immersive works
-4. Works with user research, feedback, or learning-outcome evidence
-5. Complete digital learning systems or undergraduate foundation works
-6. Pure graphics, slides, or class exercises only when they strongly support a research track
-7. Concept-only works last, and clearly label them as research concepts
+1. Operable sound or interactive evidence that directly supports the current application direction
+2. Honest learning artifacts with authorship, version differences, signal flow, and limitations
+3. Representative cross-disciplinary works that prove transferable visual, media, interaction, or analysis ability
+4. Application-stage research proposals, clearly separated from completed evidence
+5. AI / generative AI works, with authorship and rights boundaries
+6. Works with actual user research, feedback, or learning-outcome evidence
+7. Pure graphics, slides, class exercises, and concept-only works only when they strongly support a research track
+
+For the 2026-07-24 Admission Evidence Pass, the stable review order is:
+
+1. `#top`
+2. `#sound-transition`
+3. `#reviewer-path`
+4. `#interactive-sound-learning`
+5. `#pure-data-learning`
+6. `#research-positioning`
+7. `#selected-work`
+8. `#collaboration`
+9. `#learning-roadmap`
+10. `#ai-workflow`
+11. `#contact`
+
+`#research-proposal` remains a compatibility alias inside
+`#research-positioning`. Existing data-visualization and supporting case-study
+sections follow `#selected-work` as deeper evidence; they do not create a
+competing top-level application narrative. The numeric project `priority`
+still governs cards and case order, not this homepage review contract.
+
+The proposal and admission evidence sections are lazy-loaded inside permanent
+section wrappers. Preserve the wrapper ID, `${id}-title`,
+`data-stable-section-focus`, Suspense fallback, and error boundary when adding
+or moving one of these sections; otherwise initial hash navigation and focus
+settling may break before the chunk loads.
 
 ## 6. Terminology Translation
 
@@ -170,6 +238,22 @@ Videos:
 - Prefer `tracks[]` when more than one WebVTT language exists. Each track needs `src`, `srcLang`, `label`, and `kind`; only one may be default.
 - Add a short transcript summary even before full captions are ready.
 - Add `transcriptCues[]` when the full transcript should remain readable on the page. For onscreen story text without speech, keep `en`／`zh` separate from `visualDescription` and `musicMood`, and state that the section is not speech recognition.
+- Do not autoplay portfolio evidence.
+
+For `pureDataLearningEvidence`, preserve the source-quality boundary beside the
+player:
+
+- call the current file `v0.2.1 本機功能測試`, not “validated system”
+- state that inputs are simulated visual parameters, not camera/gesture sensing
+- disclose the visible local path, `validated` wording, and cropped regions
+- disclose that the initial Patch used AI assistance and was not independently
+  authored end to end
+- keep the five-step viewing guide, accessible summary, poster, and fallback
+- keep `.pd`, ZIP, AI transcript, inconsistent v0.2.2 material, and independent
+  rebuild work in a private workbench
+
+A replacement video may improve framing and language, but must not silently
+upgrade `學習中／可操作功能原型` or `尚待驗證`.
 
 Audio:
 
@@ -235,7 +319,14 @@ If performance evidence is needed:
 pnpm run audit:lighthouse
 ```
 
-`content:check` fails on missing required fields, missing local assets, missing theme rationales, missing diagram text equivalents, invalid Prompt/deliverable provenance, invented evaluation results, construction-stage wording in public project entries, or possible mojibake/corrupted text inside project entries. `audit:text` scans source and documentation text more broadly.
+`content:check` fails on missing required fields, missing local assets, missing
+theme rationales, missing diagram text equivalents, invalid
+Prompt/deliverable provenance, invented evaluation results, construction-stage
+wording in public project entries, or possible mojibake/corrupted text inside
+project entries. It also validates the current proposal, Pure Data media and
+evidence boundary, representative-work order, collaboration groups, roadmap,
+final URLs, reviewer-path order, and AI responsibility/failure records.
+`audit:text` scans source and documentation text more broadly.
 
 Run `pnpm run check:submission` before formal sharing. It builds with `VITE_PORTFOLIO_MODE=submission` and scans `dist/` for forbidden construction terms.
 

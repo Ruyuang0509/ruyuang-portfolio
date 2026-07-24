@@ -3,12 +3,24 @@ import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 import {
+  homepageNarrative,
   instituteEvidenceGroups,
+  learningTrail,
   projectCaseStudies,
   researchTracks,
   instituteThemes,
   sortedProjectCaseStudies,
 } from "../src/data/portfolio.js";
+import { admissionResearchProposal } from "../src/data/admission-research.js";
+import {
+  collaborationEvidence,
+  finalPortfolioLinks,
+  learningRoadmap,
+  pureDataLearningEvidence,
+  representativeWorks,
+  supportingEvidenceLinks,
+} from "../src/data/admission-evidence.js";
+import { aiWorkflow } from "../src/data/ai-workflow.js";
 import { getProjectCompleteness } from "../src/data/portfolio.governance.js";
 import { getProjectInternalNotes } from "../src/data/portfolio.internal.js";
 
@@ -29,6 +41,32 @@ const validAttributionSources = new Set(["deliveryPackage", "verifiedArtifact", 
 const validTrackKinds = new Set(["subtitles", "captions", "descriptions", "chapters", "metadata"]);
 const validPromptTemplateOriginStatuses = new Set(["derived", "source-record"]);
 const validPromptEvidenceStatuses = new Set(["artifactVerified", "processDerived", "specificationOnly"]);
+const validAdmissionEvidenceStatuses = new Set(["已完成", "可操作原型", "學習中", "研究構想", "尚待驗證"]);
+const validProjectStatuses = new Map([
+  ["completed", new Set(["已完成"])],
+  ["prototype", new Set(["原型中", "可操作原型"])],
+  ["inProgress", new Set(["整理中"])],
+  ["researchProposal", new Set(["研究構想"])],
+]);
+const expectedWebAudioSignalFlow = [
+  "使用者輸入：滑鼠／觸控／鍵盤",
+  "數值正規化",
+  "聲音參數映射",
+  "Oscillator：三角波振盪器",
+  "Filter：低通濾波器",
+  "Gain / Envelope：受控音量與啟停包絡",
+  "Stereo Panner：左右聲像",
+  "Compressor：動態範圍壓縮",
+  "Master Output：主音量與裝置輸出",
+];
+const expectedReviewerTargets = [
+  "#interactive-sound-learning",
+  "#pure-data-learning",
+  "#selected-work",
+  "#research-positioning",
+  "#learning-roadmap",
+  "#ai-workflow",
+];
 const evidenceManifestPath = path.join(root, "docs", "evidence", "hamlet-media-manifest.json");
 let evidenceManifest = { directCopies: [], derivativeGroups: [], processEvidence: [] };
 try {
@@ -88,6 +126,301 @@ const sensitivePublicPattern = /\.pbix|\.xlsx|\.xls|\.csv|C:\\|\/Users\/|youtu\.
 const mojibakePattern = /[�]|[-]|(?:敺|蝛|雿|銝|嚗|霅|瘚|鞈|憭|摨|餌|蝟|暸|踴|甇|鋆|瞍|蝝|靘|撟|銵|閬|蔣|慦|隞|賊|乓|繚|憟|唳|孵)/u;
 // Codex-Fix: Fail fast on common mojibake sequences so corrupted Traditional Chinese copy cannot quietly ship again.
 
+const publicAdmissionData = {
+  homepageNarrative,
+  admissionResearchProposal,
+  pureDataLearningEvidence,
+  representativeWorks,
+  supportingEvidenceLinks,
+  collaborationEvidence,
+  learningRoadmap,
+  finalPortfolioLinks,
+  aiWorkflow,
+  learningTrail,
+};
+const publicAdmissionText = JSON.stringify(publicAdmissionData);
+if (publicConstructionPattern.test(publicAdmissionText)) {
+  errors.push("Public admission narrative contains construction-stage wording");
+}
+if (sensitivePublicPattern.test(publicAdmissionText)) {
+  errors.push("Public admission narrative contains a sensitive path or restricted extension");
+}
+if (mojibakePattern.test(publicAdmissionText)) {
+  errors.push("Public admission narrative contains possible mojibake/corrupted text");
+}
+
+const expectedHomepageHeadline = "從數位學習與視覺敘事出發，走向聲響互動與空間監聽研究。";
+const expectedHomepageIntroduction =
+  "我是蕭智仁，現就讀國立嘉義大學數位學習設計與管理學系，預計 2026 年畢業。過去累積的能力主要來自視覺設計、影音剪輯、互動介面與學習內容整理；目前已完成可操作的 Web Audio 原型，並從 2026/07/24 開始拆解由 AI 協作產生的 Pure Data 初版 Patch。REAPER 尚未形成可公開作品。";
+if (
+  !hasTextFields(homepageNarrative, [
+    "eyebrow",
+    "headline",
+    "supportingLine",
+    "introduction",
+    "currentEvidence",
+    "researchStatement",
+    "thesis",
+    "researchQuestion",
+    "credibility",
+    "argument",
+  ])
+  || homepageNarrative.eyebrow !== "116學年度研究所申請作品集｜聲響、互動與數位學習"
+  || homepageNarrative.headline !== expectedHomepageHeadline
+  || homepageNarrative.introduction !== expectedHomepageIntroduction
+  || homepageNarrative.primaryCta?.target !== "#interactive-sound-learning-demo"
+  || homepageNarrative.secondaryCta?.target !== "#learning-roadmap"
+) {
+  errors.push("Homepage narrative needs the verified applicant framing and working Web Audio / roadmap calls to action");
+}
+if (
+  !hasTextFields(homepageNarrative.soundTransition, ["turningPoint", "problem", "method"])
+  || !homepageNarrative.soundTransition.turningPoint.includes("2020")
+) {
+  errors.push("Homepage sound transition needs the supported 2020 turning point, access problem, and transferable method");
+}
+const reviewerTargets = homepageNarrative.reviewerPaths?.map((path) => path.target) ?? [];
+if (
+  reviewerTargets.length !== expectedReviewerTargets.length
+  || reviewerTargets.some((target, index) => target !== expectedReviewerTargets[index])
+  || homepageNarrative.reviewerPaths.some((path) => !hasTextFields(path, ["label", "title", "description", "target"]))
+) {
+  errors.push("Homepage reviewer paths must preserve the admission evidence reading order");
+}
+
+const expectedProposalDisclaimer =
+  "本內容為申請階段研究構想。系統配置、渲染方法、樣本數、量測程序與技術細節，仍須依課程訓練、指導教授建議、場地設備與先導實驗結果調整。";
+if (
+  !hasTextFields(admissionResearchProposal, [
+    "id",
+    "status",
+    "eyebrow",
+    "title",
+    "statement",
+    "researchQuestion",
+    "expectedContribution",
+    "disclaimer",
+  ])
+  || admissionResearchProposal.id !== "research-proposal"
+  || admissionResearchProposal.status !== "研究構想"
+  || admissionResearchProposal.disclaimer !== expectedProposalDisclaimer
+) {
+  errors.push("Admission research proposal needs a complete, explicitly prospective identity");
+}
+const expectedProposalLayerIds = ["problem", "concept", "transferable-skills", "study-needs"];
+if (
+  admissionResearchProposal.layers?.length !== expectedProposalLayerIds.length
+  || admissionResearchProposal.layers.some(
+    (layer, index) =>
+      layer.id !== expectedProposalLayerIds[index]
+      || !hasTextFields(layer, ["id", "label", "summary"])
+      || !Array.isArray(layer.items)
+      || layer.items.length < 2
+      || layer.items.some((item) => !item?.trim()),
+  )
+) {
+  errors.push("Admission research proposal needs the four ordered problem, concept, transferable-skills, and study-needs layers");
+}
+if (
+  admissionResearchProposal.proposedWorkflow?.length !== 5
+  || admissionResearchProposal.proposedWorkflow.some((item) => !item?.trim())
+) {
+  errors.push("Admission research proposal needs a five-step, explicitly prospective workflow");
+}
+
+if (
+  !hasTextFields(pureDataLearningEvidence, [
+    "id",
+    "title",
+    "status",
+    "evidenceStatus",
+    "validationStatus",
+    "version",
+    "startedAt",
+    "purpose",
+    "description",
+    "authorship",
+    "aiAssistance",
+    "rights",
+    "nextStep",
+    "submissionVisibility",
+  ])
+  || pureDataLearningEvidence.id !== "pure-data-learning"
+  || pureDataLearningEvidence.status !== "學習中／可操作功能原型"
+  || pureDataLearningEvidence.evidenceStatus !== "可操作原型"
+  || pureDataLearningEvidence.validationStatus !== "尚待驗證"
+  || pureDataLearningEvidence.version !== "v0.2.1　本機功能測試"
+  || pureDataLearningEvidence.startedAt !== "2026/07/24"
+  || pureDataLearningEvidence.submissionVisibility !== "public"
+) {
+  errors.push("Pure Data evidence needs the learning/prototype identity, local-test label, start date, authorship, rights, and next step");
+}
+
+const pureDataMedia = pureDataLearningEvidence.media;
+if (
+  !hasTextFields(pureDataMedia, [
+    "title",
+    "src",
+    "poster",
+    "mimeType",
+    "codecSummary",
+    "caption",
+    "accessibilitySummary",
+    "fallbackMessage",
+  ])
+  || pureDataMedia.mimeType !== "video/mp4"
+  || !Number.isFinite(pureDataMedia.width)
+  || !Number.isFinite(pureDataMedia.height)
+  || !Number.isFinite(pureDataMedia.durationSeconds)
+  || pureDataMedia.durationSeconds <= 0
+  || pureDataMedia.src.endsWith("/v0.2.1.mp4")
+) {
+  errors.push("Pure Data video needs a descriptive public filename, poster, intrinsic size, duration, caption, and accessible fallback");
+} else {
+  assertAsset(pureDataLearningEvidence, "Pure Data video", pureDataMedia.src);
+  assertAsset(pureDataLearningEvidence, "Pure Data poster", pureDataMedia.poster);
+}
+for (const field of ["viewingGuide", "whatThisProves", "whatThisDoesNotProve", "limitations"]) {
+  if (
+    !Array.isArray(pureDataLearningEvidence[field])
+    || pureDataLearningEvidence[field].length < 3
+    || pureDataLearningEvidence[field].some((item) => !item?.trim())
+  ) {
+    errors.push(`Pure Data evidence ${field} needs at least three non-empty entries`);
+  }
+}
+if (
+  pureDataLearningEvidence.viewingGuide?.length !== 5
+  || pureDataLearningEvidence.evidenceLinks?.length !== 1
+  || pureDataLearningEvidence.evidenceLinks[0]?.href !== pureDataMedia?.src
+) {
+  errors.push("Pure Data evidence needs the five-step viewing guide and one matching video evidence reference");
+}
+
+const expectedRepresentativeIds = ["huaben-short-film", "hope-feathers-wings-mv"];
+if (
+  representativeWorks.length !== expectedRepresentativeIds.length
+  || representativeWorks.some(
+    (work, index) =>
+      work.id !== expectedRepresentativeIds[index]
+      || !hasTextFields(work, [
+        "id",
+        "title",
+        "type",
+        "status",
+        "evidenceStatus",
+        "validationStatus",
+        "summary",
+        "purpose",
+        "authorship",
+        "aiAssistance",
+        "rights",
+        "limitations",
+        "nextStep",
+        "submissionVisibility",
+      ])
+      || work.status !== "已完成"
+      || work.submissionVisibility !== "public"
+      || !Array.isArray(work.roles)
+      || work.roles.length < 3
+      || !Array.isArray(work.evidenceLinks),
+  )
+) {
+  errors.push("Representative works need the ordered Huaben and secondary-creation records with role, evidence, AI, rights, and limitation boundaries");
+}
+if (!representativeWorks[1]?.rights.includes("角色、原始動畫影像與音樂權利屬原權利人")) {
+  errors.push("The secondary-creation MV needs the explicit third-party rights statement");
+}
+if (
+  supportingEvidenceLinks.length < 2
+  || supportingEvidenceLinks.some((item) => !hasTextFields(item, ["label", "title", "description", "target"]))
+) {
+  errors.push("Representative works need non-empty links to other verifiable cases before the secondary-creation record");
+}
+if (
+  collaborationEvidence.length !== 3
+  || collaborationEvidence.some(
+    (item) => !hasTextFields(item, ["title"]) || item.evidence?.length < 2 || item.evidence.some((entry) => !entry?.trim()),
+  )
+) {
+  errors.push("Collaboration evidence needs exactly three event-backed traits");
+}
+const expectedRoadmapStatuses = ["已有可核對證據", "正在學習", "尚未形成作品", "研究所階段"];
+if (
+  learningRoadmap.length !== expectedRoadmapStatuses.length
+  || learningRoadmap.some(
+    (stage, index) =>
+      stage.status !== expectedRoadmapStatuses[index]
+      || !Array.isArray(stage.items)
+      || stage.items.length < 4
+      || stage.items.some((item) => !item?.trim()),
+  )
+) {
+  errors.push("Learning roadmap needs the four ordered evidence, learning, no-work-yet, and graduate-study stages");
+}
+if (
+  finalPortfolioLinks.length !== 2
+  || finalPortfolioLinks.some(
+    (link) => !hasTextFields(link, ["label", "href", "description"]) || !link.href.startsWith("https://"),
+  )
+) {
+  errors.push("Final portfolio links need the real portfolio and GitHub HTTPS URLs");
+}
+
+const learningTrailById = new Map(learningTrail.map((item) => [item.id, item]));
+for (const item of learningTrail) {
+  if (!hasTextFields(item, ["id", "title", "status", "evidence"]) || !validAdmissionEvidenceStatuses.has(item.status)) {
+    errors.push(`Learning trail item ${item.id ?? "unknown"} needs a valid evidence status and complete copy`);
+  }
+  if (item.validationStatus && !validAdmissionEvidenceStatuses.has(item.validationStatus)) {
+    errors.push(`Learning trail item ${item.id} has an invalid validation status`);
+  }
+}
+if (
+  learningTrailById.get("web-audio")?.status !== "可操作原型"
+  || learningTrailById.get("web-audio")?.validationStatus !== "尚待驗證"
+) {
+  errors.push("Web Audio learning trail must distinguish operable prototype from pending validation");
+}
+if (
+  learningTrailById.get("pure-data")?.status !== "學習中"
+  || learningTrailById.get("pure-data")?.startedAt !== "2026/07/24"
+  || !learningTrailById.get("pure-data")?.aiAssistance?.trim()
+) {
+  errors.push("Pure Data learning trail must retain the 2026/07/24 start date and AI collaboration boundary");
+}
+if (learningTrailById.get("reaper")?.status !== "學習中") {
+  errors.push("REAPER learning trail must remain a learning state");
+}
+
+const expectedResponsibilityGroups = ["AI 協助", "申請者負責", "申請者尚需補強"];
+const responsibilityGroups = Array.isArray(aiWorkflow.responsibilityGroups)
+  ? aiWorkflow.responsibilityGroups
+  : [];
+if (
+  !hasTextFields(aiWorkflow, ["id", "eyebrow", "title", "summary"])
+  || aiWorkflow.id !== "ai-workflow"
+  || responsibilityGroups.length !== expectedResponsibilityGroups.length
+  || responsibilityGroups.some(
+    (group, index) =>
+      group.label !== expectedResponsibilityGroups[index]
+      || !Array.isArray(group.items)
+      || group.items.length < 3
+      || group.items.some((item) => !item?.trim()),
+  )
+) {
+  errors.push("AI workflow must keep assistance, applicant responsibility, and capability gaps separate");
+}
+const failureCases = Array.isArray(aiWorkflow.failureCases) ? aiWorkflow.failureCases : [];
+if (failureCases.length < 3) {
+  errors.push("AI workflow needs the three documented failure cases");
+}
+for (const failure of failureCases) {
+  if (!hasTextFields(failure, ["problem", "discovery", "diagnosis", "check", "correction", "learning"])) {
+    errors.push(`AI workflow failure case ${failure.problem ?? "unknown"} needs the full discovery-to-learning chain`);
+  }
+}
+
 for (const project of projectCaseStudies) {
   if (seenIds.has(project.id)) {
     errors.push(`Duplicate project id: ${project.id}`);
@@ -134,7 +467,7 @@ for (const project of projectCaseStudies) {
     warnings.push(`${project.id}: no draft-only internal notes found`);
   }
 
-  if (project.evidenceBoundary) {
+  if (project.evidenceBoundary?.governanceRef === "hamlet-media-manifest") {
     if (!internalNotes?.evidenceReadiness || !internalNotes?.rightsReview) {
       errors.push(`${project.id}: evidenceBoundary needs draft-only evidenceReadiness and rightsReview`);
     } else {
@@ -162,10 +495,16 @@ for (const project of projectCaseStudies) {
         errors.push(`${project.id}: internal applicant attestation differs from evidence manifest`);
       }
     }
+  } else if (project.evidenceBoundary?.governanceRef) {
+    errors.push(`${project.id}: unknown evidenceBoundary governanceRef ${project.evidenceBoundary.governanceRef}`);
   }
 
   if (typeof project.priority !== "number") {
     errors.push(`${project.id}: missing numeric priority for editorial ordering`);
+  }
+
+  if (!validProjectStatuses.get(project.statusKey)?.has(project.status)) {
+    errors.push(`${project.id}: status does not match statusKey ${project.statusKey}`);
   }
 
   if (!project.trackIds?.length) {
@@ -419,6 +758,15 @@ for (const project of projectCaseStudies) {
         errors.push(`${project.id}: evidenceBoundary ${field} needs non-empty entries`);
       }
     }
+    if (
+      project.evidenceBoundary.groupLabels
+      && (
+        project.evidenceBoundary.groupLabels.length !== 3
+        || project.evidenceBoundary.groupLabels.some((item) => !item?.trim())
+      )
+    ) {
+      errors.push(`${project.id}: evidenceBoundary groupLabels needs exactly three non-empty labels`);
+    }
   }
 
   if (project.outcomes) {
@@ -504,6 +852,15 @@ for (const project of projectCaseStudies) {
     if (expectedMappingIds.size) errors.push(`${project.id}: missing mappings ${[...expectedMappingIds].join(", ")}`);
     if (!project.signalFlow?.length || !project.listeningGuide?.length || !project.researchQuestion?.trim()) {
       errors.push(`${project.id}: Web Audio prototype needs researchQuestion, signalFlow, and listeningGuide`);
+    }
+    if (
+      project.signalFlow?.length !== expectedWebAudioSignalFlow.length
+      || project.signalFlow.some((step, index) => step !== expectedWebAudioSignalFlow[index])
+    ) {
+      errors.push(`${project.id}: Web Audio signalFlow must preserve input, normalization, mapping, DSP graph, and output order`);
+    }
+    if (!project.evidenceBoundary?.groupLabels || project.evidenceBoundary.groupLabels[0] !== "目前可以證明") {
+      errors.push(`${project.id}: Web Audio prototype needs an explicit public evidence boundary`);
     }
   }
 

@@ -19,6 +19,16 @@
 - 將 build、browser、commit、push 與 PR 完成聲明綁定實際證據。
 - 要求每輪更新 handoff，使下一個工作階段不必重新盤點整個專案。
 
+## v3 — Admission Evidence Pass
+
+日期：2026-07-24
+
+- 將首頁研究主線收斂為「數位學習與視覺敘事 → 聲音互動實作 → 混合多聲道監聽與視覺化校準研究構想」。
+- 指定 Web Audio 為目前最完整的可操作聲音證據，並要求把可證明與不可證明的內容分開。
+- 明載 Pure Data 於 2026/07/24 開始學習、現有內容曾有 AI 協作；REAPER 已安裝但尚無可公開作品。
+- 要求建立《畫本》、MV 混剪、Pure Data、REAPER、研究方法與聯絡資料的真實證據需求，不以生成內容代替。
+- 要求稽核 public repository、submission build 與 publication gate 的差異，不以 alias、CSS 或不渲染冒充私密。
+
 ## 人類控制點
 
 1. 申請者決定哪些作品與研究主張可以公開。

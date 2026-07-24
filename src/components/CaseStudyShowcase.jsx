@@ -51,7 +51,13 @@ const getCaseReadingAnchors = (project) => project.workflow
       { key: "outcomes", label: "成果", title: "目前成果" },
       { key: "next-steps", label: "後續", title: "學到什麼與下一步" },
     ]
-  : defaultCaseReadingAnchors.filter(
+  : [
+      ...defaultCaseReadingAnchors.slice(0, 2),
+      ...(project.evidenceBoundary
+        ? [{ key: "evidence-boundary", label: "證據邊界", title: "可以證明與不能證明的事" }]
+        : []),
+      ...defaultCaseReadingAnchors.slice(2),
+    ].filter(
       (anchor) => anchor.key !== "media" || hasSupportingMediaEvidence(project.media),
     );
 // Codex-Fix: Give every case study a repeatable reviewer reading path instead of forcing long-scroll guessing.
@@ -68,7 +74,7 @@ function getEvidenceSnapshot(project) {
     { label: "材料項目", value: countMediaEvidence(project.media) },
     { label: "工具", value: project.tools?.length ?? 0 },
     { label: "角色", value: project.roles?.length ?? 0 },
-    { label: "驗證狀態", value: project.testing?.statusKey === "validated" ? "已驗證" : project.testing?.statusKey === "exploratory" ? "探索中" : "尚未驗證" },
+    { label: "驗證狀態", value: project.testing?.statusKey === "validated" ? "已驗證" : project.testing?.statusKey === "exploratory" ? "探索中" : "尚待驗證" },
   ];
 }
 // Codex-Fix: Summarize evidence density from public data so reviewers can scan credibility before deep reading.
@@ -804,10 +810,11 @@ function DeliverablesSection({ id, deliverables = [] }) {
 function EvidenceBoundarySection({ id, boundary }) {
   if (!boundary) return null;
 
+  const groupLabels = boundary.groupLabels ?? ["已核對的檔案", "專案原有規格", "尚未核對的項目"];
   const groups = [
-    ["已核對的檔案", boundary.verifiedArtifacts],
-    ["專案原有規格", boundary.approvedSpecifications],
-    ["尚未核對的項目", boundary.notIndependentlyVerified],
+    [groupLabels[0], boundary.verifiedArtifacts],
+    [groupLabels[1], boundary.approvedSpecifications],
+    [groupLabels[2], boundary.notIndependentlyVerified],
   ];
 
   return (
@@ -1621,9 +1628,9 @@ function ProjectDetail({ project, previousProject, nextProject }) {
               <span className="zh-heading mt-2 block text-xl">{nextProject.title}</span>
             </a>
           ) : (
-            <a className="evidence-panel interactive-link rounded-[var(--radius-md)] p-5 md:text-right" href="#reviewer-path">
+            <a className="evidence-panel interactive-link rounded-[var(--radius-md)] p-5 md:text-right" href="#secondary-creation">
               <span className="meta-label block text-[var(--theme-accent)]">閱讀完成</span>
-              <span className="zh-heading mt-2 block text-xl">回看重點</span>
+              <span className="zh-heading mt-2 block text-xl">前往二次創作案例</span>
             </a>
           )}
         </nav>

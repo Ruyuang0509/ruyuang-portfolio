@@ -14,6 +14,9 @@ const styles = readProjectFile("src/styles.css");
 const indexHtml = readProjectFile("index.html");
 const editorialHeading = readProjectFile("src/components/EditorialHeading.jsx");
 const researchPositioning = readProjectFile("src/components/ResearchPositioning.jsx");
+const admissionEvidenceSections = readProjectFile("src/components/AdmissionEvidenceSections.jsx");
+const researchProposalSection = readProjectFile("src/components/ResearchProposalSection.jsx");
+const aiWorkflowSection = readProjectFile("src/components/AiWorkflowSection.jsx");
 const portfolioData = readProjectFile("src/data/portfolio.js");
 
 const assert = (condition, message) => {
@@ -37,16 +40,26 @@ const negativeLetterSpacing = [...styles.matchAll(/letter-spacing\s*:\s*(-?\d*\.
 const overlyTightTracking = negativeLetterSpacing.filter((value) => value < -0.04);
 assert(overlyTightTracking.length === 0, "Chinese typography tracking is too tight: " + overlyTightTracking.join(", ") + "em. Keep display tracking subtle.");
 
-const phraseLineMatches = [...researchPositioning.matchAll(/titleLines=\{\[([\s\S]*?)\]\}/g)];
-warn(phraseLineMatches.length >= 4, "Research-positioning section headings should use structured titleLines for phrase-aware Chinese wrapping.");
+const inlinePhraseLineMatches = [
+  ...researchPositioning.matchAll(/lines=\{\[([\s\S]*?)\]\}/g),
+  ...admissionEvidenceSections.matchAll(/lines=\{\[([\s\S]*?)\]\}/g),
+];
+const dataDrivenPhraseHeadings = [
+  /lines=\{proposal\.titleLines\}/.test(researchProposalSection),
+  /lines=\{aiWorkflow\.titleLines\}/.test(aiWorkflowSection),
+].filter(Boolean);
+warn(
+  inlinePhraseLineMatches.length >= 6 && dataDrivenPhraseHeadings.length === 2,
+  "Admission section headings should use structured phrase lines for Traditional Chinese wrapping.",
+);
 
 const portfolioTitleLineMatches = [...portfolioData.matchAll(/titleLines:\s*\[\[/g)];
 warn(portfolioTitleLineMatches.length >= 3, "Project case-study titles should use nested phrase arrays, e.g. titleLines: [[\"短詞\"], [\"短詞\"]].");
 
 const longPhraseUnits = [];
-const phraseLiteralPattern = /titleLines\s*[:=]\s*\{?\[([\s\S]*?)\]\}?/g;
+const phraseLiteralPattern = /(?:titleLines|lines)\s*[:=]\s*\{?\[([\s\S]*?)\]\}?/g;
 const cjkCount = (text) => [...text].filter((char) => /[\u3400-\u9FFF\uF900-\uFAFF]/u.test(char)).length;
-for (const source of [researchPositioning, portfolioData]) {
+for (const source of [researchPositioning, admissionEvidenceSections, portfolioData]) {
   for (const block of source.matchAll(phraseLiteralPattern)) {
     for (const phrase of block[1].matchAll(/["\']([^"\']+)["\']/g)) {
       const value = phrase[1];

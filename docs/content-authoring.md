@@ -2,7 +2,12 @@
 
 This project now uses a structured case-study model with separate public and internal layers.
 
-Public-facing portfolio content lives in `src/data/portfolio.js`. Construction-stage notes, replacement reminders, and pre-submission checks live in `src/data/portfolio.internal.js` and appear only in Draft Mode.
+Public-facing case and homepage narrative content lives in `src/data/portfolio.js`.
+The standalone proposal, admission evidence, and AI／authorship records live in
+`src/data/admission-research.js`, `src/data/admission-evidence.js`, and
+`src/data/ai-workflow.js`. Construction-stage notes, replacement reminders,
+and pre-submission checks live in `src/data/portfolio.internal.js` and appear
+only in Draft Mode.
 
 For the complete current authoring workflow, use `docs/adding-portfolio-work.md`.
 For public/internal governance rules, use `docs/content-governance.md`.
@@ -11,11 +16,60 @@ For the research decisions behind the layout, use `docs/portfolio-display-resear
 ## Where To Edit
 
 - Project data: `src/data/portfolio.js`
+- Standalone proposal data: `src/data/admission-research.js`
+- Pure Data, representative-work, collaboration, roadmap, and final-link data: `src/data/admission-evidence.js`
+- AI／authorship data: `src/data/ai-workflow.js`
 - Draft-only hidden case text: `src/data/portfolio.hidden.js`
 - Draft-only internal notes: `src/data/portfolio.internal.js`
 - Case-study layout: `src/components/CaseStudyShowcase.jsx`
+- Application proposal layout: `src/components/ResearchProposalSection.jsx`
+- Admission evidence layouts: `src/components/AdmissionEvidenceSections.jsx`
 - Local media assets: `public/media/portfolio`
-- Site metadata: `index.html`
+- Site metadata: `index.html`, `public/llms.txt`, and `public/social-preview.svg`
+
+## Admission Evidence Records
+
+Admission evidence is not another `projectCaseStudies` collection. Keep these
+records in `src/data/admission-evidence.js` so their evidence level remains
+visible:
+
+- `pureDataLearningEvidence`: a learning record with a public operation video
+- `representativeWorks`: text-first records for 《畫本》 and the named MV remix
+- `supportingEvidenceLinks`: links back to existing verifiable case studies
+- `collaborationEvidence`: event-backed collaboration and resilience evidence
+- `learningRoadmap`: evidence, learning, no-work-yet, and graduate-study stages
+- `finalPortfolioLinks`: the verified Portfolio and public GitHub URLs
+
+The Pure Data record must retain `status`, `evidenceStatus`,
+`validationStatus`, `version`, `startedAt`, `authorship`, `aiAssistance`,
+`rights`, `limitations`, `nextStep`, `evidenceLinks`, and
+`submissionVisibility`. Its public media contract includes a descriptive local
+filename, poster, MIME type, intrinsic dimensions, duration, codec summary,
+caption, accessibility summary, fallback, five-step viewing guide, and
+separate lists for what the record does and does not prove.
+
+Do not promote a representative-work fact into artifact evidence. 《畫本》 and
+《希望有羽毛和翅膀》 currently have no public media links. Their records must
+continue to state the applicant's claimed role, missing public materials,
+rights limits, and next evidence request. Participation does not imply an
+award, and a secondary-creation edit does not transfer ownership of characters,
+animation footage, or music.
+
+## Stable Admission Sections
+
+The homepage review contract is:
+
+`#top` → `#sound-transition` → `#reviewer-path` →
+`#interactive-sound-learning` → `#pure-data-learning` →
+`#research-positioning` → `#selected-work` → `#collaboration` →
+`#learning-roadmap` → `#ai-workflow` → `#contact`.
+
+The legacy `#research-proposal` anchor remains an alias inside
+`#research-positioning`; it is not a twelfth narrative section. Admission
+sections use permanent `DeferredAdmissionSection` wrappers while their content
+is lazy-loaded. Keep each wrapper ID and heading ID stable so initial links,
+fixed-nav offset correction, focus transfer, and error fallbacks continue to
+work before and after the module resolves.
 
 ## Required Core Fields
 
@@ -109,6 +163,19 @@ Videos should:
 - use `transcriptCues[]` when a complete on-page transcript is available; onscreen text without speech may add `visualDescription` and `musicMood`, but must not be labelled as speech recognition
 - add a visible `accessibilitySummary` when subtitle languages or a no-narration boundary must remain understandable without opening native controls
 - keep Poster, summary, direct-file fallback, transcript, and surrounding case copy available when runtime media or subtitle loading fails
+- never autoplay evidence media
+
+The current Pure Data MP4 is a deliberately disclosed source-quality operation
+record, not a polished validation video. It visibly contains a local project
+path, `validated` wording, and cropped interface regions. Public copy must call
+it `v0.2.1 本機功能測試`, preserve `尚待驗證`, use “模擬視覺參數” rather
+than camera/gesture input, and keep the limitations beside the player. A future
+replacement should hide the local path, correct the validation wording, frame
+the complete interface, and retain the current accessible viewing guide.
+
+The `.pd`/ZIP source, inconsistent v0.2.2 material, AI conversation, and
+independent-rebuild work remain outside `public/` and the public Repository.
+Adding a safe MP4 or poster does not authorize publishing those source files.
 
 Audio should:
 
@@ -168,6 +235,14 @@ pnpm run check:publication
 That command is expected to fail while `docs/evidence/hamlet-rights-checklist.md` remains `unverified` and the applicant attestation is missing. `check:submission` passing is therefore not equivalent to publication approval.
 
 Completeness checks apply evidence-heavy recommended groups only to submission-visible projects. A submission-hidden case may display `不適用 · submission-hidden` for workflow/media groups; this is an intentional governance state, not a missing-evidence warning and not permission to ship placeholder files.
+
+`content:check` also validates the current admission-evidence order and
+boundaries: the Pure Data identity/media record, two ordered representative
+works, three supporting evidence links, three collaboration groups, four
+roadmap stages, two final HTTPS links, the six-item evidence-path navigation,
+the four-layer research proposal, and the three AI responsibility/failure
+chains. Passing that check does not replace rendered anchor, media playback,
+rights, or browser verification.
 
 ## Interactive sound content fields
 

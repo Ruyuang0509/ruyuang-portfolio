@@ -9,7 +9,7 @@ This project uses one portfolio content system with two controlled output modes:
 
 The site should not be split into two unrelated websites because that would create content drift. It should also not rely on CSS hiding, because hidden text can still ship in HTML or JavaScript. Instead:
 
-1. Public portfolio content lives in `src/data/portfolio.js`.
+1. Public case and homepage narrative content lives in `src/data/portfolio.js`; the standalone proposal, admission evidence, and AI／authorship data live in `src/data/admission-research.js`, `src/data/admission-evidence.js`, and `src/data/ai-workflow.js`.
 2. Hidden case text lives in `src/data/portfolio.hidden.js`; submission mode resolves `#portfolio-hidden` to an empty module.
 3. Internal build notes and editorial selection rules (`portfolioPriorityRules`) live in `src/data/portfolio.internal.js`.
 4. Draft-only rendering lives in `src/draft/DraftModeEnabled.jsx`.
@@ -18,7 +18,9 @@ The site should not be split into two unrelated websites because that would crea
 
 ## Public Content Fields
 
-Use `src/data/portfolio.js` for content that may appear in formal review:
+Use the public data modules `src/data/portfolio.js`,
+`src/data/admission-research.js`, `src/data/admission-evidence.js`, and
+`src/data/ai-workflow.js` for content that may appear in formal review:
 
 - title, year, source, category, public status
 - summary and value proposition
@@ -29,8 +31,62 @@ Use `src/data/portfolio.js` for content that may appear in formal review:
 - optional structured workflow, Prompt decisions, provenance-labelled Prompt templates, real storyboard frames, media layers, evidence-linked deliverables, evidence boundaries, planned evaluation, value cards, next steps, and working CTAs
 - tools, roles, reflection, institute connections, and a `themeEvidenceStatus` value for every declared institute theme
 - public links, credits, SEO title and description
+- evidence status, validation status, authorship, AI assistance, rights,
+  limitations, next step, evidence links, and submission visibility
 
 Public content must not include authoring reminders or construction wording.
+
+## Admission Evidence Governance
+
+`src/data/admission-evidence.js` contains public review records with different
+evidence strengths. Do not flatten them into one “completed work” status:
+
+- Pure Data v0.2.1 is `學習中／可操作功能原型`,
+  `evidenceStatus: 可操作原型`, and `validationStatus: 尚待驗證`.
+- 《畫本》 and 《希望有羽毛和翅膀》 are applicant-provided completed-work
+  records, but currently have no public media links or independently reviewed
+  rights package.
+- Collaboration cards support event-backed organization, resilience, and role
+  adjustment. They do not replace sound or research evidence.
+- The roadmap distinguishes existing evidence, current learning, work that
+  does not yet exist, and graduate-study goals.
+- `#contact` contains only the verified GitHub Pages and public Repository
+  URLs. It is not evidence that public email, CV, social links, or a research
+  PDF exists.
+
+The current Pure Data MP4 and poster are in `public/media/portfolio`, so they
+enter every submission build. The record must disclose the visible local path,
+the original interface's `validated` wording, cropped interface regions, and
+AI-assisted authorship boundary. It may demonstrate local operation of four
+simulated parameter mappings and safety controls; it may not demonstrate
+independent Patch authorship, user validation, gesture tracking, Pure Data
+proficiency, or a completed research system.
+
+Keep the `.pd`/ZIP, inconsistent v0.2.2 material, AI conversation, and
+independent rebuild outside `public/` and public Git until the applicant makes
+an explicit evidence and publication decision.
+
+## Admission IA And Lazy Boundaries
+
+The formal review contract contains eleven top-level IDs:
+
+`#top`, `#sound-transition`, `#reviewer-path`,
+`#interactive-sound-learning`, `#pure-data-learning`,
+`#research-positioning`, `#selected-work`, `#collaboration`,
+`#learning-roadmap`, `#ai-workflow`, and `#contact`.
+
+`#research-proposal` is a compatibility alias inside
+`#research-positioning`, not an additional narrative. Admission sections use
+permanent wrappers with lazy content, stable heading IDs, Suspense fallbacks,
+and section error boundaries. Removing the wrapper because its component is
+lazy would break hash targeting, focus transfer, and deferred layout
+correction.
+
+Navbar, the evidence-path cards, `public/llms.txt`, canonical/Open Graph
+metadata, and the rendered DOM must continue to describe the same information
+architecture. The canonical URL is currently the verified GitHub Pages
+project URL; a future custom-domain change must update canonical, `og:url`,
+JSON-LD, `llms.txt`, final links, and the deployment decision together.
 
 ## Internal Build Notes
 
@@ -55,9 +111,12 @@ These notes belong only to the draft/authoring path; submission builds must not 
 Public-safe statuses:
 
 - Completed / 已完成
+- Operable Prototype / 可操作原型
 - Prototype / 原型中
+- Learning / 學習中
 - In Progress / 整理中
 - Research Proposal / 研究構想
+- Pending Validation / 尚待驗證
 
 Internal-only statuses:
 
@@ -96,6 +155,13 @@ The Hamlet manifest at `docs/evidence/hamlet-media-manifest.json` links the clea
 
 Planned evaluation is also not result evidence. An `evaluationPlan` may describe participants by role, tasks, evidence to collect, decision use, and data handling, while `testing.statusKey` remains `notValidated`. Participant counts, dates, findings, quotations, metrics, and learning outcomes require actual study records.
 
+The Pure Data operation video has its own evidence boundary rather than a
+publication-rights gate equivalent to Hamlet. Its presence, codec metadata,
+poster, and playback fallback are technical evidence only. The applicant still
+needs a public-safe rerecording, independent rebuild, signal-flow explanation,
+version difference, and source/rights decision before upgrading the capability
+claim.
+
 Hamlet publication remains gated by `docs/evidence/hamlet-rights-checklist.md`. `pnpm run check:publication` requires top-level approval, a complete applicant attestation, and every rights item to have completed checks plus evidence references. It must fail while any part is missing. A passing `check:submission` confirms build hygiene; it must never be interpreted as a rights approval.
 
 ## Commands
@@ -124,7 +190,11 @@ The submission scan fails if generated output contains construction-stage wordin
 - 正式送審前
 - 佔位／佔位圖
 - 尚未提供
+- 待使用者確認
+- 假資料
+- 內部評語
 - placeholder / sample
+- TODO / lorem ipsum
 - Content Readiness
 - Internal Build Notes
 - INTERNAL_TODO / INTERNAL_SAMPLE / INTERNAL_REPLACE
@@ -140,8 +210,12 @@ The submission scan fails if generated output contains construction-stage wordin
 
 It also rejects legacy branding and dead anchors, hidden case IDs and filenames,
 restricted-media paths, local absolute paths, known sensitive source filenames,
-and raw `.pbix` / spreadsheet / CSV / TSV exports. Binary media is checked by
-relative path and filename only; it is never decoded as UTF-8 text.
+raw `.pbix` / spreadsheet / CSV / TSV exports, unsupported proficiency labels,
+and unsupported claims such as proven effectiveness, learning gains, a
+completed multichannel/psychoacoustics system, or industry-standard ability.
+The legacy dead-anchor rules cover `#graphic`, `#video`, and `#photo`;
+`#contact` is now a real public target. Binary media is checked by relative path
+and filename only; it is never decoded as UTF-8 text.
 
 Hidden cases must use an empty media state until real evidence is approved.
 Do not keep placeholder binaries in `public/`: Vite publishes that directory in
