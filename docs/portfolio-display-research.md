@@ -4,6 +4,15 @@ Updated: 2026-07-16
 
 This document records the research-backed presentation decisions used for the graduate-school-oriented case-study system in `src/data/portfolio.js` and `src/components/CaseStudyShowcase.jsx`.
 
+## 2026-07-24 Admission Evidence Addendum
+
+- The user explicitly set the current editing target as a National Tainan University of the Arts 116 academic-year application portfolio. That establishes the application context for this pass; it does not independently verify the official program name, schedule, faculty fit, or submission format.
+- The homepage now prioritizes the evidence sequence: applicant background and transition → operable Web Audio artifact → honest Pure Data／REAPER learning boundary → representative works → hybrid-monitoring research proposal → supplemental capability context → AI/authorship.
+- Research tracks, terminology translation, and institute evidence remain useful as secondary lenses, but no longer delay the flagship sound artifact.
+- The standalone research proposal is not a completed project. Its system configuration, sample size, measurements, and technical details remain adjustable after equipment access, coursework, advisor input, and pilot studies.
+- Existing local Hamlet video, subtitles, storyboard derivatives, and other case media are real repository artifacts, not placeholders. Technical traceability does not prove publication rights or research outcomes.
+- Repository and readable history checks found no verifiable `《畫本》` or MV remix artifact. Those works stay out of the portfolio until the applicant supplies files, role, date, provenance, rights, and review-safe outputs.
+
 ## Context And Assumptions
 
 - The user-provided master prompt names the Graduate Institute of Sound Technology at Tainan National University of the Arts as the intended review audience. This document has not independently verified the current official admissions requirements, program naming, faculty, or application year.
@@ -55,7 +64,7 @@ This document records the research-backed presentation decisions used for the gr
   - Audio blocks support transcript hooks.
   - Non-critical video uses `preload="none"` and controls; autoplay is avoided.
 - Rejected or deferred:
-  - Full caption files were not generated because the current video clips are placeholders and no real dialogue/audio transcript has been supplied.
+  - This earlier decision applied before the Hamlet delivery and bilingual WebVTT evidence were added. Current real media uses supplied captions/transcript data; other videos still require source-specific manual caption review rather than synthetic claims.
 
 ### W3C WAI: Images Tutorial
 
@@ -155,8 +164,8 @@ This document records the research-backed presentation decisions used for the gr
 
 0. Treat the homepage as a research-proposal entrance.
    - Reason: the admissions objective is to prove research readiness, not project quantity.
-   - Code: `src/components/ImmersiveHero.jsx`, `src/components/ResearchPositioning.jsx`
-   - Applied structure: thesis -> credibility -> evidence logic chain -> research tracks -> translation map -> institute alignment.
+   - Code: `src/components/ImmersiveHero.jsx`, `src/components/ResearchPositioning.jsx`, `src/components/ResearchProposalSection.jsx`
+   - Applied structure: background/transition -> thesis/credibility -> operable evidence -> learning limits -> representative works -> proposal -> supplemental capability context.
 
 1. Use one structured data model for all works.
    - Reason: future works should be added by editing data, not rewriting layout.
@@ -189,7 +198,7 @@ This document records the research-backed presentation decisions used for the gr
    - This prevents decorative theme tagging and supports admissions review.
 
 7. Prioritize works by strategic value.
-   - AI, interactive systems, sound/media work, and research/evaluation evidence appear before static or concept-only work.
+   - Operable sound/interaction evidence comes first for the current application; honest learning artifacts and representative cross-disciplinary work follow. AI methods appear after the research proposal as authorship evidence rather than the opening claim.
    - Code: `priority`, `featured`, `trackIds`, `sortedProjectCaseStudies`.
 
 8. Translate digital-learning vocabulary into art/intelligent-application vocabulary.
@@ -201,7 +210,7 @@ This document records the research-backed presentation decisions used for the gr
 - No CMS or MDX pipeline yet: static data is currently lighter and easier to verify.
 - No Mermaid renderer yet: real diagrams are not available, and a runtime renderer would add weight before it is needed.
 - No automatic caption generation: real video/audio content is not available.
-- No unverified target-program-specific claims: the supplied prompt identifies the intended audience, but official current admissions requirements and institute alignment still require applicant-led verification before submission.
+- No unverified official-program claims: the page may state the user-specified 116 academic-year application context, but official admissions requirements, institute naming, faculty alignment, and submission details still require applicant-led verification before formal submission.
 
 ## 2026-07-12 autonomous implementation pass
 

@@ -36,6 +36,8 @@ package scripts 會透過 `scripts/run-node.ps1` 執行，所以 Windows/Codex s
 - Canonical folder: `如願個人網站`
 - npm package name: `ruyuan-personal-website`
 - Local optimized media: `public/media/portfolio`
+- Admission evidence data: `src/data/admission-evidence.js`
+- Admission evidence sections: `src/components/AdmissionEvidenceSections.jsx`
 - Workspace notes: `docs/workspace-consolidation.md`
 - Case-study authoring guide: `docs/content-authoring.md`
 - Full portfolio work guide: `docs/adding-portfolio-work.md`
@@ -52,11 +54,39 @@ package scripts 會透過 `scripts/run-node.ps1` 執行，所以 Windows/Codex s
 - Hamlet rights checklist: `docs/evidence/hamlet-rights-checklist.md`
 - Product and technical documentation index: `docs/website/README.md`
 - AI-assisted workflow evidence: `docs/ai-workflow/README.md`
+- Admission evidence classification: `docs/admission/ADMISSION_EVIDENCE_SUMMARY.md`
+- Admission restructuring plan: `docs/admission/ADMISSION_RESTRUCTURE_PLAN.md`
+- Copy and claims audit: `docs/admission/COPY_AND_CLAIMS_AUDIT.md`
+- Applicant evidence requests: `docs/admission/EVIDENCE_REQUESTS.md`
+- Publication boundary audit: `docs/admission/PUBLICATION_BOUNDARY_AUDIT.md`
 
 The modular handoff under `docs/website/` is the durable product, content,
 design, architecture, target-state, and gap-analysis source of truth. The
 handoff records verified facts separately from inferred goals and stakeholder
 decisions.
+
+## Current Admission Structure
+
+The 2026-07-24 Admission Evidence Pass uses eleven stable review sections:
+
+1. `#top`
+2. `#sound-transition`
+3. `#reviewer-path`
+4. `#interactive-sound-learning`
+5. `#pure-data-learning`
+6. `#research-positioning`（並保留 `#research-proposal` 相容錨點）
+7. `#selected-work`
+8. `#collaboration`
+9. `#learning-roadmap`
+10. `#ai-workflow`
+11. `#contact`
+
+The proposal, Pure Data evidence, representative works, collaboration,
+roadmap, AI/authorship, and final-link sections are lazy-loaded behind
+permanent section wrappers. This preserves direct hash navigation and keeps
+the initial entry focused on the Hero, evidence path, and Web Audio flagship.
+The data-visualization and existing public case-study systems remain supporting
+evidence inside `#selected-work`, after 《畫本》 and before the secondary MV.
 
 ## Content Direction
 
@@ -67,9 +97,14 @@ decisions.
 - 互動流程、系統架構、資訊架構
 - 視覺稿、截圖、影片、聲音、互動 demo
 - 使用工具與個人角色
-- 使用者測試或學習成效
+- 已執行的使用者測試／學習成效證據，或明確標示尚未執行的 planned method
 - 反思、限制與研究所深化方向
 - 與 AI、互動媒體、聲響、沉浸式體驗、數位孿生、跨域創生的連結
+
+Pure Data v0.2.1 目前只能稱為「學習中／可操作功能原型」與「本機功能測試」。
+公開 MP4 可核對四組模擬參數映射、Preset、Reset、Panic 與 meters，但仍含
+本機路徑、`validated` 字樣與裁切限制；它不能證明申請者獨立完成 Patch、
+已熟練 Pure Data、完成使用者驗證或建成正式研究系統。
 
 ## Draft / Submission Mode
 
@@ -80,7 +115,26 @@ decisions.
   這是必要門檻，不是完整的公開邊界證明。
 - `pnpm run check:publication`: 額外的公開發佈授權門檻。Hamlet 權利審查目前是
   `unverified`，因此這條命令預期會中止；不得為了讓命令通過而自行改成已授權。
+- `public/` 會由 Vite 全量複製。Pure Data MP4／poster、Hamlet 媒體、
+  `llms.txt`、social preview 與其他未被 React 引用的檔案都屬實際輸出邊界。
+- 目前 canonical／Open Graph URL 使用已確認的 GitHub Pages 專案網址；
+  custom domain 與 raster social preview 仍是後續決策。
 - 正式送審前仍須獨立檢查 `dist/`：hidden-only 媒體、施工措辭、
   `public/llms.txt`、`public/favicon.svg`、失效 anchor 與 restricted
   檔名都必須納入。已知限制與目前狀態見
   `docs/website/GAP_ANALYSIS.md`。
+
+## 2026-07-24 Local Verification
+
+- `pnpm run doctor`：exit 0；scanner fixtures 57/57，draft／submission
+  分別完成 470／467 modules。
+- submission `dist/`：132 files，其中 25 個文字檔；`public/` 118 files
+  全數存在，0 missing、0 hash mismatch。
+- Pure Data MP4 與 poster 的本機 HTTP 檢查皆為 200，content type 與
+  bytes 符合檔案 inventory。
+- `pnpm run check:publication`：exit 1；11 個 Hamlet 權利與申請者
+  attestation blockers 均保留，這是預期的發布阻擋。
+- In-app Browser 已嘗試連線，但其本機連線隔離在 shell HTTP 200 時仍回報
+  connection refused／受限錯誤。因此本輪沒有把四 viewport、anchor／focus、
+  Web Audio、影片播放、reduced-motion、overflow 或 console 驗收標為通過。
+- 本輪沒有 commit、push、deploy 或改變 repository visibility。

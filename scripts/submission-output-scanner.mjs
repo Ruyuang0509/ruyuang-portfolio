@@ -26,8 +26,13 @@ export const TEXT_RULES = [
   { ruleId: "text.draft.under-construction", pattern: /施工中/u },
   { ruleId: "text.draft.placeholder-zh", pattern: /佔位/u },
   { ruleId: "text.draft.not-provided", pattern: /尚未提供/u },
+  { ruleId: "text.draft.user-confirmation", pattern: /待使用者確認/u },
+  { ruleId: "text.draft.fake-data", pattern: /假資料/u },
+  { ruleId: "text.draft.internal-review", pattern: /內部評語/u },
   { ruleId: "text.draft.placeholder", pattern: /\bplaceholder\b/i, scope: firstPartyOnly },
   { ruleId: "text.draft.sample", pattern: /\bsample\b/i, scope: firstPartyOnly },
+  { ruleId: "text.draft.todo", pattern: /\bTODO\b/i, scope: firstPartyOnly },
+  { ruleId: "text.draft.lorem-ipsum", pattern: /\blorem ipsum\b/i, scope: firstPartyOnly },
   { ruleId: "text.draft.required", pattern: /\brequired\b/i, scope: firstPartyOnly },
   { ruleId: "text.draft.recommended", pattern: /\brecommended\b/i, scope: firstPartyOnly },
   { ruleId: "text.draft.content-readiness", pattern: /Content Readiness/i },
@@ -52,11 +57,19 @@ export const TEXT_RULES = [
     ruleId: "text.editorial.case-evidence-checklist",
     pattern: /每件作品都要回答：為什麼做、給誰用、如何互動、證據在哪裡/u,
   },
+  {
+    ruleId: "text.claim.unverified-outcome",
+    pattern: /證明.{0,8}有效|提升.{0,8}學習成效|成功.{0,8}降低.{0,8}門檻|已完成.{0,16}多聲道.{0,16}系統|已完成.{0,16}心理聲學.{0,16}研究|業界.{0,8}標準.{0,8}能力/u,
+    negationWindow: 24,
+  },
+  {
+    ruleId: "text.claim.unsupported-proficiency",
+    pattern: /精通|熟練|完整掌握|專業級/u,
+  },
   { ruleId: "text.brand.legacy-nextgen", pattern: /Nextgen Portfolio/i },
   { ruleId: "text.anchor.graphic", pattern: /#graphic\b/i },
   { ruleId: "text.anchor.video", pattern: /#video\b/i },
   { ruleId: "text.anchor.photo", pattern: /#photo\b/i },
-  { ruleId: "text.anchor.contact", pattern: /#contact\b/i },
   { ruleId: "text.hidden.case-id", pattern: /immersive-memory-map/i },
   { ruleId: "text.hidden.case-title", pattern: /沉浸式記憶地圖/u },
   { ruleId: "text.hidden.ph-after-reference", pattern: /ph-after-/i },
@@ -75,6 +88,10 @@ export const TEXT_RULES = [
 ];
 
 export const INVENTORY_RULES = [
+  {
+    ruleId: "inventory.media.vague-pd-version-name",
+    matches: ({ basename }) => basename === "v0.2.1.mp4",
+  },
   {
     ruleId: "inventory.hidden.mv-soft-preview",
     matches: ({ basename }) => basename === "mv-soft-preview.mp4",
@@ -124,7 +141,16 @@ function getTextMatch(rule, text, extension) {
   if (rule.ruleId === "text.draft.placeholder" && extension === ".css") {
     searchableText = text.replace(/::placeholder\b/gi, (match) => " ".repeat(match.length));
   }
-  return rule.pattern.exec(searchableText);
+  if (!rule.negationWindow) return rule.pattern.exec(searchableText);
+
+  const flags = rule.pattern.flags.includes("g") ? rule.pattern.flags : `${rule.pattern.flags}g`;
+  const pattern = new RegExp(rule.pattern.source, flags);
+  for (const match of searchableText.matchAll(pattern)) {
+    const prefix = searchableText.slice(Math.max(0, match.index - rule.negationWindow), match.index);
+    if (/(?:不能|不可|不應|不代表|並非|尚未|未曾|沒有|無法).{0,20}$/u.test(prefix)) continue;
+    return match;
+  }
+  return null;
 }
 
 function getLineAndColumn(text, index) {

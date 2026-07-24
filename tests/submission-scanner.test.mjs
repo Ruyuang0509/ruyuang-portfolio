@@ -87,6 +87,70 @@ test("submission scanner regression fixtures", async (t) => {
     assertRuleFailure(result, "text.draft.not-provided", "media/dashboard.svg");
   });
 
+  await t.test("unfinished content and internal review fixtures fail", () => {
+    const directory = createFixture(t);
+    writeFixtureFile(
+      directory,
+      "assets/app.js",
+      "const notes = ['待使用者確認', '假資料', '內部評語', 'TODO', 'lorem ipsum'];",
+    );
+    const result = runScanner(directory);
+    for (const ruleId of [
+      "text.draft.user-confirmation",
+      "text.draft.fake-data",
+      "text.draft.internal-review",
+      "text.draft.todo",
+      "text.draft.lorem-ipsum",
+    ]) {
+      assertRuleFailure(result, ruleId, "assets/app.js");
+    }
+  });
+
+  await t.test("unsupported admission outcome claims fail closed", async (claimTest) => {
+    for (const phrase of [
+      "證明有效",
+      "提升學習成效",
+      "成功降低門檻",
+      "已完成多聲道系統",
+      "已完成心理聲學研究",
+      "業界標準能力",
+      "證明介面確實有效",
+      "提升實際學習成效",
+      "成功明顯降低使用門檻",
+      "已完成混合多聲道監聽系統",
+      "已完成初步心理聲學先導研究",
+      "具備業界製作標準的專業能力",
+    ]) {
+      await claimTest.test(phrase, () => {
+        const directory = createFixture(claimTest);
+        writeFixtureFile(directory, "assets/app.js", `const claim = '${phrase}';`);
+        assertRuleFailure(runScanner(directory), "text.claim.unverified-outcome", "assets/app.js");
+      });
+    }
+  });
+
+  await t.test("explicitly negated outcome caveats remain publishable", () => {
+    const directory = createFixture(t);
+    writeFixtureFile(
+      directory,
+      "assets/app.js",
+      "const caveats = ['不能證明介面確實有效', '尚未提升實際學習成效', '不代表已完成混合多聲道監聽系統', '不可視為已完成初步心理聲學研究', '並非業界製作標準能力'];",
+    );
+    const result = runScanner(directory);
+    assert.equal(result.status, 0, result.stderr);
+    assert.match(result.stdout, /Submission scan passed:/);
+  });
+
+  await t.test("unsupported proficiency labels fail closed", async (claimTest) => {
+    for (const phrase of ["精通 Pure Data", "熟練 REAPER", "完整掌握空間音訊", "專業級聲音能力"]) {
+      await claimTest.test(phrase, () => {
+        const directory = createFixture(claimTest);
+        writeFixtureFile(directory, "assets/app.js", `const claim = '${phrase}';`);
+        assertRuleFailure(runScanner(directory), "text.claim.unsupported-proficiency", "assets/app.js");
+      });
+    }
+  });
+
   await t.test("legacy brand fixture fails", () => {
     const directory = createFixture(t);
     writeFixtureFile(directory, "llms.txt", "# Nextgen Portfolio");
@@ -98,7 +162,6 @@ test("submission scanner regression fixtures", async (t) => {
       ["#graphic", "text.anchor.graphic"],
       ["#video", "text.anchor.video"],
       ["#photo", "text.anchor.photo"],
-      ["#contact", "text.anchor.contact"],
     ]) {
       await anchorTest.test(anchor, () => {
         const directory = createFixture(anchorTest);
@@ -106,6 +169,13 @@ test("submission scanner regression fixtures", async (t) => {
         assertRuleFailure(runScanner(directory), ruleId, "index.html");
       });
     }
+  });
+
+  await t.test("the current contact anchor remains publishable", () => {
+    const directory = createFixture(t);
+    writeFixtureFile(directory, "index.html", '<a href="#contact">研究方向與連結</a><section id="contact"></section>');
+    const result = runScanner(directory);
+    assert.equal(result.status, 0, result.stderr);
   });
 
   await t.test("hidden case identifier fixtures fail", async (hiddenTest) => {
@@ -136,6 +206,16 @@ test("submission scanner regression fixtures", async (t) => {
         assert.doesNotMatch(result.stderr, /scan\.text-decode-error/);
       });
     }
+  });
+
+  await t.test("vague Pure Data public video filename fails from inventory", () => {
+    const directory = createFixture(t);
+    writeFixtureFile(directory, path.join("media", "portfolio", "v0.2.1.mp4"), Buffer.from([0xff, 0x00, 0x80]));
+    assertRuleFailure(
+      runScanner(directory),
+      "inventory.media.vague-pd-version-name",
+      "media/portfolio/v0.2.1.mp4",
+    );
   });
 
   await t.test("restricted path fixture fails case-insensitively", () => {

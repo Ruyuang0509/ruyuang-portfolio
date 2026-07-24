@@ -1,14 +1,16 @@
 # Visual System Notes
 
-Updated: 2026-07-18
+Updated: 2026-07-23
 
-This site should feel like a calm research dossier, not a flashing demo reel. The document root stays warm ink; supporting case studies and the reviewer endpoint use section-scoped paper tokens, while a dedicated fixed viewport field carries the scroll-linked passage between the two states.
+This site should feel like a calm, personal research portfolio, not a flashing demo reel. The document root stays warm ink; supporting case studies and the reviewer endpoint use section-scoped paper tokens, while a dedicated fixed viewport field carries the scroll-linked passage between the two states. PR #5 changed public copy, labels, ARIA text, and metadata only; it did not authorize removing or flattening the approved motion system.
 
 ## Tone Strategy
 
+- Prefer natural first-person Traditional Chinese when the applicant is the actor. State the action, artifact or method, current evidence, and limit directly; avoid abstract English template labels when a clear Chinese label exists.
+- Keep verified results, `notValidated` outcomes, rights／publication limits, and future plans distinct. A deployed or playable asset must never be described as rights-cleared without the required evidence and attestation.
 - Avoid pure black and pure white for major surfaces.
 - Default dark tone: warm ink, used for the proposal entrance and research framing.
-- Light tone: warm paper, scoped to the supporting gallery and Reviewer Path rather than applied to the document root.
+- Light tone: warm paper, scoped to the supporting gallery and reviewer endpoint rather than applied to the document root.
 - Inverse elements use `--theme-inverse-bg` and `--theme-inverse-text`, not direct black/white.
 - The deep-ink-to-paper passage uses the text-free, `aria-hidden`, `pointer-events: none` `ViewportThemeTransition` fixed layer. It covers the viewport without adding layout height.
 - ScrollTrigger scrubs only that layer's paper/mist opacity and three low-contrast radial-field transforms. The natural bounds begin near `#data-visualization-series` bottom 70% and finish with `#project-index-title` top 25%; current DOM geometry then clamps the distance to 0.8–1.2 viewport heights. This keeps draft/submission layouts and resize recalculation consistent while fixed navigation chrome follows the same progress threshold.

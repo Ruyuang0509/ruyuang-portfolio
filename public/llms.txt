@@ -1,14 +1,18 @@
-# RU / YUAN — 聲響、互動與學習研究所作品集
+# 蕭智仁｜聲響、互動與數位學習作品集
 
-> 繁體中文研究所作品集。內容包括可操作的 Web Audio 聲響原型、AI 文學影片與資料視覺化案例；各案例會標示作者角色、公開限制與尚未完成的驗證。
+> 蕭智仁的 116 學年度研究所申請作品集。以可操作的 Web Audio 跨模態映射原型為目前最強聲音證據，並呈現 Pure Data 本機功能測試、原創影音經驗、學習路線與混合監聽研究構想。
 
 ## 站內連結
 
 - [首頁](./#top)
-- [研究定位](./#research-positioning)
-- [互動聲響原型](./#interactive-sound-learning)
-- [學習歷程](./#learning-trail)
-- [作品索引](./#project-index)
-- [資料作品](./#data-visualization-series)
-- [回看重點](./#reviewer-path)
+- [轉向聲音的問題意識](./#sound-transition)
+- [證據導覽](./#reviewer-path)
+- [Web Audio 聲響證據](./#interactive-sound-learning)
+- [Pure Data 學習紀錄](./#pure-data-learning)
+- [申請階段研究構想](./#research-positioning)
+- [代表作品](./#selected-work)
+- [專案與合作](./#collaboration)
+- [學習路線](./#learning-roadmap)
+- [AI／作者性](./#ai-workflow)
+- [研究方向與連結](./#contact)
 

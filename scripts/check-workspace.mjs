@@ -64,7 +64,20 @@ if (packageJson) {
     errors.push("react-router-dom is present even though this canonical SPA no longer needs it.");
   }
 
-  for (const scriptName of ["workspace:check", "audit:media", "content:check", "build", "preview", "audit:lighthouse"]) {
+  for (const scriptName of [
+    "workspace:check",
+    "audit:media",
+    "audit:text",
+    "audit:cjk",
+    "audit:evidence",
+    "content:check",
+    "test:sound",
+    "build:draft",
+    "check:submission",
+    "check:publication",
+    "preview",
+    "audit:lighthouse",
+  ]) {
     if (!packageJson.scripts?.[scriptName]) {
       errors.push(`Missing package script: ${scriptName}`);
     }
@@ -81,8 +94,16 @@ if (packageJson) {
   "index.html",
   "vite.config.js",
   "src/App.jsx",
+  "src/components/AdmissionEvidenceSections.jsx",
   "src/components/ResearchPositioning.jsx",
+  "src/data/admission-evidence.js",
   "src/data/portfolio.js",
+  "docs/admission/ADMISSION_RESTRUCTURE_PLAN.md",
+  "docs/admission/COPY_AND_CLAIMS_AUDIT.md",
+  "docs/admission/EVIDENCE_REQUESTS.md",
+  "docs/admission/PUBLICATION_BOUNDARY_AUDIT.md",
+  "public/media/portfolio/pd-crossmodal-mapping-v0.2.1-operation-demo.mp4",
+  "public/media/portfolio/pd-crossmodal-mapping-v0.2.1-operation-demo-poster.png",
   "public/media/portfolio",
   "scripts/run-node.ps1",
   "scripts/run-lighthouse.mjs",

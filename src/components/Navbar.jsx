@@ -2,12 +2,12 @@ import { useEffect, useId, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 
 const navItems = [
-  { label: "研究定位", target: "#research-positioning" },
-  { label: "聲響原型", target: "#interactive-sound-learning" },
-  { label: "學習歷程", target: "#learning-trail" },
-  { label: "作品索引", target: "#project-index-title" },
-  { label: "資料作品", target: "#data-visualization-series" },
-  { label: "回看重點", target: "#reviewer-path" },
+  { label: "問題意識", target: "#sound-transition" },
+  { label: "Web Audio", target: "#interactive-sound-learning" },
+  { label: "Pure Data", target: "#pure-data-learning" },
+  { label: "研究構想", target: "#research-positioning" },
+  { label: "代表作品", target: "#selected-work" },
+  { label: "學習路線", target: "#learning-roadmap" },
 ];
 
 const scrollToSection = (targetId, reduceMotion) => {
@@ -26,7 +26,7 @@ const scrollToSection = (targetId, reduceMotion) => {
 };
 
 const focusSectionTarget = (target) => {
-  const focusTarget = target.matches("h1, h2, h3, h4, h5, h6")
+  const focusTarget = target.matches("[data-stable-section-focus], h1, h2, h3, h4, h5, h6")
     ? target
     : target.querySelector("h1, h2, h3, h4, h5, h6") ?? target;
   const needsTemporaryTabIndex = !focusTarget.hasAttribute("tabindex");
@@ -51,12 +51,11 @@ const getActiveNavTarget = (targetId) => {
   if (caseStudy) {
     return caseStudy.id === "interactive-sound-learning"
       ? "#interactive-sound-learning"
-      : "#project-index-title";
+      : "#selected-work";
   }
-  if (target?.id === "project-index" || target?.closest("#project-index")) return "#project-index-title";
-  if (target?.closest("#data-visualization-series")) return "#data-visualization-series";
-  if (target?.closest("#learning-trail")) return "#learning-trail";
-  if (target?.id?.startsWith("institute-evidence-")) return "#research-positioning";
+  if (target?.id === "project-index" || target?.closest("#project-index")) return "#selected-work";
+  if (target?.closest("#data-visualization-series")) return "#selected-work";
+  if (target?.id === "research-proposal" || target?.closest("#research-positioning")) return "#research-positioning";
   return null;
 };
 
@@ -87,7 +86,14 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    const observedTargets = ["#top", ...navItems.map((item) => item.target)]
+    const observedTargets = [
+      "#top",
+      ...navItems.map((item) => item.target),
+      "#reviewer-path",
+      "#collaboration",
+      "#ai-workflow",
+      "#contact",
+    ]
       .map((targetId) => document.querySelector(targetId))
       .filter(Boolean);
     if (!observedTargets.length || !("IntersectionObserver" in window)) return undefined;

@@ -22,6 +22,7 @@ pnpm run workspace:check
 pnpm run audit:media
 pnpm run audit:text
 pnpm run audit:cjk
+pnpm run audit:evidence
 pnpm run content:check
 pnpm run test:sound
 pnpm run build:draft
@@ -53,7 +54,8 @@ The package scripts call `scripts/run-node.ps1`, which first uses Node from PATH
 - Run `workspace:check` before migrating anything from another folder.
 - Run `audit:text` after large copy edits so source/docs mojibake is caught before review.
 - Keep package metadata ASCII-safe as `ruyuan-personal-website`; the canonical filesystem folder name remains `如願個人網站`.
-- Put public-facing portfolio copy in `src/data/portfolio.js`.
+- Put public-facing case-study and homepage narrative copy in `src/data/portfolio.js`.
+- Keep the standalone admission proposal, evidence sections, and AI／authorship copy in `src/data/admission-research.js`, `src/data/admission-evidence.js`, and `src/data/ai-workflow.js`; these modules stay behind their lazy section boundaries so the existing entry budget is preserved.
 - Put construction-stage notes in `src/data/portfolio.internal.js`, which is draft-only.
 - Never rely on CSS hiding for internal notes; submission mode aliases draft UI to an empty component.
 

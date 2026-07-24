@@ -8,7 +8,7 @@ export const internalStatusLabels = {
 };
 
 export const authoringNotes = {
-  status: "目前作品仍含可替換範例內容；請在正式送審前換成真實作品、真實媒體與真實測試資料。",
+  status: "公開案例已完成 submission 邊界整理；聲音學習、使用者驗證、權利簽核與申請資料仍須以真實證據補強。",
   requiredCore: ["title", "year", "source", "summary", "problemAwareness", "audience"],
   optionalEvidence: ["diagrams", "visualDrafts", "screenshots", "videos", "audio", "demos", "testing"],
   warning:
@@ -29,7 +29,8 @@ export const projectInternalNotes = {
     labels: ["INTERNAL_TODO", "INTERNAL_REPLACE", "PRE_SUBMISSION_CHECK"],
     missingMaterials: [
       "待補：真實操作錄影；目前公開證據為站內 Web Audio prototype。",
-      "待補：若完成 Pure Data patch、REAPER project 或聲音輸出，再加入真實媒體與 listening context。",
+      "待補：Pure Data 於 2026/07/24 開始學習；需補 AI 協作原始版本、可自行重建版本、signal flow、失敗案例與聲音輸出。",
+      "待補：REAPER 已安裝但尚未開始系統性練習；需補真實 project、路由、效果鏈、A/B 輸出與反思。",
       "待補：使用者測試人數、任務完成率、主要問題與學習成效資料。",
     ],
     replaceableAssets: [
