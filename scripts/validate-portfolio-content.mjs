@@ -68,7 +68,7 @@ const expectedReviewerTargets = [
   "#ai-workflow",
 ];
 const evidenceManifestPath = path.join(root, "docs", "evidence", "hamlet-media-manifest.json");
-let evidenceManifest = { directCopies: [], derivativeGroups: [], processEvidence: [] };
+let evidenceManifest = { directCopies: [], derivativeGroups: [], processEvidence: [], rightsEvidence: [] };
 try {
   evidenceManifest = JSON.parse(readFileSync(evidenceManifestPath, "utf8"));
 } catch (error) {
@@ -78,6 +78,7 @@ const validEvidenceRefs = new Set([
   ...evidenceManifest.directCopies,
   ...evidenceManifest.derivativeGroups,
   ...evidenceManifest.processEvidence,
+  ...evidenceManifest.rightsEvidence,
 ].map((item) => item.id).filter(Boolean));
 
 const publicPath = (assetPath) =>

@@ -1,10 +1,18 @@
 # 目標呈現
 
-## 2026-07-24 Admission Evidence Pass
+## 2026-07-26 Hamlet rights target
+
+Hamlet 的目標呈現是在播放器附近以 compact evidence panel 同時說清楚素材來源、Suno 非營利條件、實際含英語歌詞與人聲、故事 WebVTT 的限制，以及 applicant attestation 狀態。公開頁不顯示私人聊天、原始 EML、帳號資料或私人 evidence path；也不把 Canva 寫成圖像或歌曲來源。
+
+Production 目標是 fail closed：submission artifact 可技術驗證，但只有 schema、具名 checks、可解析 evidence refs、影片 hash、public credit、private boundary 與本人 attestation 全部通過後，Pages 才可 configure／upload／deploy。Suno commercial use 必須維持 false；rights approval 不會把 `testing.statusKey` 從 `notValidated` 改成成功。
+
+2026-07-26 蕭智仁已完成 applicant attestation；manifest 為 `verified / approved`，完整 `doctor` 與 publication audit exit 0。Phase B Browser 在 1280×720、768×1024、375×812、320×568 已確認 credit／focus、confirmed status、影片鍵盤播放／暫停、8 幕、2 tracks 與 responsive width；待本人確認、舊權利卡片、duplicate ID、broken case target、global overflow 與 clean-tab console error 均為 0。Rights approval 仍不代表研究或學習成效 validated。
+
+## 2026-07-24 Admission Evidence Pass（歷史快照）
 
 目前 source 已把「已完成／可操作」、「學習中」、「研究構想／尚待驗證」與「待申請者補件」分開，並採用 11 段送審 IA：Hero → 聲音轉向 → 證據導覽 → Web Audio → Pure Data → 研究構想 → 代表作品 → 合作 → Roadmap → AI／作者性 → 真實外部連結。Pure Data、研究構想、代表作品、合作、Roadmap、AI 與 final links 置於永久 anchor wrapper 中 lazy-load；`#selected-work` 內依序放《畫本》、既有資料視覺化／公開案例、最後才是指定 MV。Current source 已通過 `doctor`、build、submission scanner 與獨立 `dist/` inventory；本輪仍未 commit、push 或 deploy。In-app Browser 因本機連線隔離無法連到 shell 已確認 HTTP 200 的 preview，因此 320–1440 rendered matrix 未能執行，不能標為通過。
 
-## 2026-07-23 current-to-target 判讀
+## 2026-07-23 current-to-target 判讀（歷史快照）
 
 PR #5 已把自然、第一人稱的繁體中文敘事部署到 GitHub Pages，並保留原有資訊架構、互動、動效與真實性邊界。這是已落地的目標方向，不是推測；但 `check:publication` 仍以 11 個權利／attestation blockers exit 1，因此「線上可讀、媒體 HTTP 200」與「獲准正式公開」必須繼續分開描述。
 
@@ -61,4 +69,4 @@ PR #5 已把自然、第一人稱的繁體中文敘事部署到 GitHub Pages，�
 - screen reader、真實 zoom、system reduced-motion、行動實機與多瀏覽器 Web Audio 有人工紀錄；
 - 研究結果、授權、角色、credits、聯絡與申請資訊均由 stakeholder 確認，沒有 AI 代填或未驗證成效。
 
-2026-07-24 current source 已完成 `doctor`（exit 0）、draft／submission build（470／467 modules）、57/57 scanner fixtures，以及 132-file submission `dist/` 對 118-file `public/` inventory 的 0 missing／0 hash mismatch 檢查。2026-07-23 Pages run `29680534295` 與 2026-07-17 Lighthouse 仍只代表更早的 deployed/source fingerprint；本輪沒有 commit、push、deploy 或 current-fingerprint Lighthouse。In-app Browser 的本機連線隔離讓 320–1440 rendered matrix 未能執行，不能以舊 smoke evidence補成通過。Hamlet 權利／attestation 仍未完成，`check:publication` 以 11 個 blockers exit 1；production workflow 未執行此 gate 的 policy gap 也仍需處理，線上可達性不能等同正式公開核准。
+2026-07-26 current source 已完成 `doctor`（exit 0）、draft／submission build（470／467 modules）、58/58 scanner fixtures，以及 132-file submission `dist/` 對 118-file `public/` inventory 的 0 missing／0 hash mismatch 檢查。Phase B Browser 四 viewport 的 Hamlet disclosure／media／focus／responsive smoke 通過；screen reader、真實 zoom、system reduced-motion、實機與 production field evidence仍需人工補充。Hamlet attestation 綁定蕭智仁、2026-07-26 與交付影片 SHA-256，`check:publication` exit 0；production workflow 已在 configure／upload 前執行此 gate。本輪交付只 commit、push 與建立 PR，不 merge `main` 或 deploy；2026-07-23 Pages run `29680534295` 與 2026-07-17 Lighthouse 仍只代表較早 fingerprint。

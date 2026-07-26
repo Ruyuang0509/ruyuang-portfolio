@@ -1,5 +1,14 @@
 # Current State
 
+## 2026-07-26 Hamlet rights applicant confirmation
+
+- Working branch：`codex/hamlet-rights-attestation`，起點 `e8f35e0d73d1a314785f243230201f9d92a4f25b`。原 canonical worktree 的既有未提交變更未被覆蓋。
+- Hamlet manifest 為 schema v2；Suno 特定非營利條件、Song ID、00:00–00:40、公開 credit 與 supplied EML digest 已記錄。原始 EML 本輪未找到，完整生成對話與郵件仍必須留在 private evidence workspace。
+- 蕭智仁於 2026-07-26 明確確認場景生成、文學來源排除、Canva stock／template 缺席與目前無營利用途；`rightsReview.status = verified`、`publicationGate = approved`、`applicantAttestation.confirmed = true`，並綁定既有影片 SHA-256。
+- Pages build 依序執行 `check:submission` → `check:publication` → Configure Pages → upload；只有兩個 gate 都通過才會建立 artifact 並 deploy。
+- 公開頁已揭露 Suno 歌曲實際包含英語歌詞與人聲，雙語 WebVTT 仍是故事敘事字幕。11 段 IA、Hero、motion 與 `testing.statusKey: notValidated` 不變。
+- Phase B final verification：完整 `doctor`、14/14 rights tests、58/58 scanner fixtures、18/18 sound tests、content check、draft／submission builds、Pages audit 與 `check:publication` 均 exit 0。In-app Browser 在 1280×720、768×1024、375×812、320×568 核對 confirmed disclosure、Suno focus、影片 keyboard play／pause、8 幕、2 tracks、responsive width 與 clean-tab console；待本人確認、舊權利卡片、duplicate ID、broken case target 與 global overflow 均為 0。本機仍找到 0 份原始生成紀錄與 0 份原始 EML，Canva 可編輯專案也未找到，因此 applicant attestation 與獨立原始證據必須繼續分層描述。
+
 ## 2026-07-24 11 段申請 IA 與 Pure Data 證據同步（本機自動驗證完成；互動式 Browser 未執行）
 
 - 本節描述目前共享工作樹的 source 與最終本機自動驗證狀態；下方 Admission Evidence Pass 的舊 bundle、`dist/` 與 browser 數字保留為改版前歷史快照，不能取代本節的現行結果。
@@ -180,7 +189,8 @@
 
 ## Browser viewports
 
-- **目前 11 段 IA 並無可用的互動式 Browser 驗證。** In-app Browser 因本機連線隔離無法連線；shell 端 localhost HTTP 200 只證明 shell 可達。四個要求 viewport，以及 anchor／focus、Web Audio、Pure Data video、reduced-motion、horizontal overflow 與 console 均未執行。以下所有 viewport 結果只屬較早 fingerprint 的歷史證據，不得引用為本輪通過。
+- **2026-07-26 Phase B current smoke：** In-app Browser 以 submission preview 驗證 1280×720、768×1024、375×812、320×568。Confirmed attestation 與修正後作品卡皆可見；待本人確認與舊權利卡片為 0。Suno link 取得 `:focus-visible`；Hamlet 影片為 40 秒、controls true、autoplay false、2 tracks，Space 可播放／暫停；8 幕分鏡保留。四 viewport global horizontal overflow 為 0；case targets 無 broken target、duplicate ID 0；clean tab console logs 0。
+- 下列較早 viewport 結果只作歷史補充；screen reader、真實 200% zoom、system reduced-motion、實機觸控與多瀏覽器音訊仍未可靠涵蓋。
 
 - AI 文學故事 MV 最終 submission preview 以 320×812、375×812、768×900、1024×900、1440×900 實測；五組實際 `innerWidth` 與要求一致，global horizontal overflow 皆為 0，案例內 broken image 皆為 0。
 - 五組皆渲染 5 個 workflow 階段、4 張 Prompt 決策卡、8 幕 storyboard 與 3 張成果卡；三個 header CTA 目標存在，320 px 最小 CTA 高度實測 44 px。
@@ -214,12 +224,12 @@
 - **作品文字：** 私人研究計畫 DOCX 的公開審閱版與逐項核對、最終申請敘事簽核、各案例真正的測試觀察與限制。
 - **圖片：** AI 文學故事 MV 已有八幕成片畫面；仍缺原始場景圖與完整 Prompt log。Power BI 真實結果影像預設不公開，只有另取得資料提供方明確許可後才重新評估。
 - **音訊：** 可公開的 Pd 或 REAPER 輸出；旗艦原型若要加入錄製，也需申請者提供或確認。
-- **影片：** Hamlet 交付版 MP4、雙語 WebVTT 與逐字稿的技術關聯已核對；仍需權利簽核及實機／多瀏覽器字幕測試。既有 YouTube captions／transcript 仍待人工核對；如有旗艦操作錄影與字幕可補。
+- **影片：** Hamlet 交付版 MP4、雙語 WebVTT、逐字稿與具名權利聲明的技術關聯已核對；仍需實機／多瀏覽器字幕測試。既有 YouTube captions／transcript 仍待人工核對；如有旗艦操作錄影與字幕可補。
 - **Pd patch：** 真實 patch、signal flow、操作說明與反思；目前沒有。
 - **REAPER evidence：** 真實 project/session 截圖、軌道／效果鏈與可公開輸出；目前沒有。
 - **研究計畫：** 私人 DOCX 已存在，但需完成題目、問題、方法、文獻、設備、樣本、預算、倫理、metadata、南藝大聲響科技研究所官方資料與公開範圍的逐項核對，才可產生公開審閱版或下載。
 - **履歷／聯絡：** 公開 Email、GitHub／社群、履歷 PDF 及公開範圍；目前 Reviewer Path 只提供站內 CTA。
-- **授權／credit：** Hamlet delivery 未附八張生成圖與音樂的權利／來源清單，不得宣稱已獨立驗證；Power BI 資料來源已補 credit，真實結果另行公開許可仍未取得；其他外部影片、團隊作品角色、媒體著作權與引用方式仍待核對。
+- **授權／credit：** Hamlet 已有公開權利／來源清單、Suno limited-use credit 與具名 attestation，但未找到八幕原始生成紀錄、原始 EML 或可編輯 Canva 專案，不得宣稱已完成獨立原始證據查驗；Power BI 真實結果另行公開許可仍未取得，其他外部影片、團隊作品角色、媒體著作權與引用方式仍待核對。
 
 # Decisions And Constraints
 
@@ -230,15 +240,15 @@
 - 公開文案只在 `portfolio.js`；施工備註只在 `portfolio.internal.js`；submission 隔離不可退回 CSS hiding。
 - `restricted-media/` 不得移入 `public/`；不可重加 remote demo media、付費 GSAP plugin、假測試結果或假聯絡連結。
 - AI 使用「生成式 AI」或「大型語言模型（LLM）協作」名稱；不得宣稱自研 LLM。作品事實、選件、視覺方向、取捨與驗收由申請者負責。
-- GitHub Pages workflow 目前同時接受 push 到 `main` 與 `workflow_dispatch`；後續不得在未處理 publication gate 前把 deploy success 解讀為公開核准。本次文件打包不 deploy、merge 或 force push。
+- GitHub Pages workflow 目前同時接受 push 到 `main` 與 `workflow_dispatch`，並在 configure／upload 前依序執行 submission 與 publication gates。本次交付只 commit、push 與建立 PR，不 deploy、merge 或 force push；既有 production run 仍是較早 fingerprint。
 - 新增 dependencies：無。AI 文學故事 MV 使用使用者提供的本機交付資產，僅匯入交付版 MP4、兩條 WebVTT 與從成片衍生的 responsive 圖像；沒有網路下載第三方素材。使用者提供的兩份網站 prompt 仍以 Markdown 原文保存，非 runtime dependency。
 
 # Remaining Work
 
 ## P0
 
-- **立即處理公開狀態：** Pages 已公開 Hamlet 影片／字幕／海報，但 rights gate 未解除。由 stakeholder 完成逐項 evidence refs 與 applicant attestation 並讓 `check:publication` 通過；若尚不能簽核，則在核准前停止 Pages 或移除這些公開資產。Production workflow 需串接 `check:publication`。
-- 由申請者完成 Hamlet 場景圖、音樂、文學來源與 Canva 專案的具名日期權利聲明，並為每一項附 evidence refs；完成前 `check:publication` 應維持失敗。
+- Hamlet limited-use publication gate 已解除；後續若網站加入廣告、付費牆、affiliate revenue、商業廣告用途或音樂發行，必須重新取得授權並讓目前 gate fail closed，不能沿用本次核准。
+- 原始八幕生成紀錄、原始 EML 與可編輯 Canva 專案仍未找到；如日後取得，應留在 private evidence workspace，公開端只更新刪節 evidence lifecycle，不提交私人郵件或聊天內容。
 - Power BI 原始資料、清洗檔、儀表板實作檔、實際截圖與含真實結果的操作紀錄維持隔離；只有另取得資料提供方明確許可後才重新評估。
 
 ## P1
@@ -258,7 +268,7 @@
 
 ## Risks and blockers
 
-- Git repository、remote branch、PR #1–#5、最新成功 Actions run 與 production Pages 均已確認；主要 blocker 是 publication gate 未串接、權利未簽核及缺少 production field／人工驗收。
+- Git repository、remote branch、PR #1–#5、舊成功 Actions run 與 production Pages 均已確認；Hamlet publication gate 已串接並在本機通過。現存主要限制是 current branch 尚未合併／部署、private originals 未找到，以及缺少 production field／人工 accessibility／device 驗收。
 - Scanner 已攔截目前已知 text／inventory regressions，但仍以獨立 `dist/` 搜尋避免循環自證；新 leak 類型需要新增 rule 與 fixture。
 - 2026-07-17 runtime 對應的 Lighthouse archive 已封存；PR #5 已改動 Hero 文案與 source fingerprint，因此目前只能作歷史比較，不能沿用為新版文案的 current-fingerprint 證據。
 - 真實使用者研究、聲音作品與授權資料不在 repository，工程端不能代填。
@@ -292,4 +302,4 @@ git log --oneline --decorate --graph --all -n 15
 
 # Next Codex Starting Instruction
 
-先讀 `AGENTS.md`、`README.md`、`docs/CODEX_HANDOFF.md`、`docs/PORTFOLIO_AUDIT.md`、`docs/CONTENT_MATRIX.md`，重新確認 working branch／`origin`、PR／Actions／Pages 與 publication gate，再執行 `pnpm run doctor` 及預期失敗的 `pnpm run check:publication`。最高優先是處理「Hamlet rights 未核准但 Pages 已公開」；這需要 stakeholder 決定完成 attestation 或暫停／移除公開資產，不可由 AI 代簽。保留 Vite／React 架構、draft/submission 邊界、可見平台 scrollbar、無 autoplay 與完整 motion preservation contract；若進行實作，先由 `main` 建立新的 `codex/` working branch／PR，不直接修改或 push `main`、不 force push、不重複使用已合併 PR #5。
+先讀 `AGENTS.md`、`README.md`、`docs/CODEX_HANDOFF.md`、`docs/PORTFOLIO_AUDIT.md`、`docs/CONTENT_MATRIX.md`，確認 `codex/hamlet-rights-attestation` PR、Actions／Pages 與 publication gate，再執行 `pnpm run doctor` 及必須通過的 `pnpm run check:publication`。Hamlet limited-use rights 已由蕭智仁於 2026-07-26 確認；後續不得把它擴張為商業用途、獨立原始證據已驗證，或研究／學習成效成功。保留 Vite／React 架構、draft/submission 邊界、可見平台 scrollbar、無 autoplay 與完整 motion preservation contract；不直接修改或 push `main`、不 force push，也不在未經使用者指示下 merge 或 deploy。

@@ -1,6 +1,16 @@
 # 技術架構
 
-## 2026-07-24 最新共享工作樹（待最終驗證）
+## 2026-07-26 Hamlet publication architecture
+
+- `hamlet-media-manifest.json` schema v2 將 artifact evidence 與 `rightsEvidence` registry 分開；四個 rights items 只驗證列入常數表的具名 `requiredChecks`，conditions 中合法的 false 不會被 generic boolean heuristic 誤判。
+- `scripts/validate-hamlet-rights.mjs` 是純函式；`audit-portfolio-evidence.mjs` 傳入 manifest、公開 source、`git ls-files` 與 dist inventory。結構／固定事實在一般 audit fail closed，applicant readiness 只在 publication mode 阻擋。
+- Node tests 覆蓋 valid manifest、attestation false、unknown ref、Suno hash、commercial true、missing attribution、scene check、Canva check、literary check、tracked／built EML、指定確認人、evidence lifecycle、disclosure renderer 接線，以及 attestation Markdown 缺失／內容漂移。
+- Submission scanner 新增 `.eml` 與 private-rights-evidence inventory rules；`.gitignore` 另阻擋 private directories、EML 與 original authorization／support reply filenames。Ignore 規則不被解讀為 history cleanup。
+- Pages build 順序固定為 install → `check:submission` → `check:publication` → configure → upload；workspace check 驗證順序並拒絕 `continue-on-error: true`。
+- 蕭智仁於 2026-07-26 完成 applicant attestation；manifest 為 `verified / approved`，完整 `doctor`、14/14 rights tests、content check、submission／Pages audit 與 publication audit 均 exit 0。這個權利狀態不影響 11 段 IA、motion、Web Audio 或 `notValidated` 的研究邊界。
+- Phase B Browser runtime 以 production-like submission preview 驗證 1280×720、768×1024、375×812、320×568；影片 metadata duration 40 秒、controls true、autoplay false、keyboard play／pause 成功，2 tracks、8 storyboard images、Suno focus-visible link 與 confirmed panel 正常。待本人確認、舊權利卡片、duplicate IDs、broken case targets、global overflow 與 clean-tab console logs 均為 0。
+
+## 2026-07-24 共享工作樹架構（驗證狀態由上方 2026-07-26 結果取代）
 
 - `HomePage` 目前以 11 個主要閱讀段落組合：Hero、`SoundTransitionSection`、`ReviewerPathSection`、旗艦 `CaseStudyShowcase`、`PureDataLearningSection`、`ResearchProposalSection`、代表作品／支持案例群、`CollaborationSection`、`LearningRoadmapSection`、`AiWorkflowSection`、`ContactSection`。資料視覺化系列與支持案例索引屬代表作品群的延伸，不另計為主段落。
 - 新增 [`../../src/data/admission-evidence.js`](../../src/data/admission-evidence.js) 與 [`../../src/components/AdmissionEvidenceSections.jsx`](../../src/components/AdmissionEvidenceSections.jsx)。單一 dynamic import 被拆成 Pure Data、代表作品、合作、學習路線與聯絡五個 lazy exports；`DeferredAdmissionSection` 提供永久 anchor wrapper、Suspense、section error boundary 及 deferred-ready fragment 重新校正。
@@ -8,9 +18,9 @@
 - 研究構想由 `admission-research.js` 的 `layers` 陣列驅動，四層固定為問題、初步構想、申請者可帶入的能力、入學後需補強；`ResearchProposalSection` 另渲染五步預定流程、預期貢獻與 disclaimer。`#research-positioning` 是永久 wrapper，內含相容舊連結的 `#research-proposal` alias。
 - 公開邊界依檔案位置而非渲染狀態判定：Pd 影片／poster 在 `public/`，會被 Vite 原樣複製；畫面中的本機 D 槽路徑與 `validated` 字樣因此仍屬公開 binary 內容。`.pd`、完整研究計畫、REAPER 工程及兩件代表作品成片不在公開 repository；但未來 commit／push 的 admission source 與 docs 仍會在 public GitHub Repository 可讀。
 - 最新整合沒有新增 dependency，也沒有移除 R3F、Motion、GSAP／Lenis、Custom Cursor、Web Audio lifecycle、reduced-motion 或既有 submission alias。
-- 最終自動驗證：`pnpm run doctor` exit 0；draft build 470 modules、submission build 467 modules；fresh `dist/` 為 132 files／25 text files；`public/` 118 files 全數進入 `dist/`，0 missing／0 SHA-256 mismatch。Submission scanner 使用 54 個 text rules 與 7 個 inventory rules，regression fixtures 為 57/57。
-- `pnpm run check:publication` exit 1，阻擋項仍是 11 個 Hamlet 權利／applicant attestation blockers；這是預期且不可繞過的發布門檻。
-- 互動式 in-app Browser 已嘗試，但因本機連線隔離，即使 shell 對本機預覽取得 HTTP 200，Browser 仍無法連線。四個 viewport、導覽／焦點、Web Audio、Pure Data 影片播放、reduced-motion、overflow 與 console 檢查因此均未能執行，不得記為通過。
+- 2026-07-26 最終自動驗證：`pnpm run doctor` exit 0；draft build 470 modules、submission build 467 modules；fresh `dist/` 為 132 files／25 text files；`public/` 118 files 全數進入 `dist/`，0 missing／0 SHA-256 mismatch。Submission scanner 使用 54 個 text rules 與 9 個 inventory rules，regression fixtures 為 58/58。
+- `pnpm run check:publication` exit 0；manifest 報告 `verified / approved`。
+- Phase B Browser 四 viewport 的 confirmed disclosure、credit／focus、40 秒影片、8 幕、2 tracks、case targets、responsive width 與 clean-tab console smoke 通過；screen reader、真實 zoom、system reduced-motion、實機與多瀏覽器音訊仍需人工驗收。
 
 ## 2026-07-24 Admission Evidence Pass（整合前歷史快照）
 
@@ -44,7 +54,7 @@
 | Three.js 0.179.1 + React Three Fiber 9.6.1 | Hero shader orb 與粒子 | 選配、lazy 漸進增強 |
 | Web Audio API | 旗艦案例合成聲音、pan/pitch/filter/gain | 核心產品證據；瀏覽器原生、無額外依賴 |
 | Node test runner | `soundMapping.js` 純函式與 `webAudioEngineCore.js` lifecycle 測試 | 已使用；18 tests，不需 DOM 或真實聲卡 |
-| Submission scanner core | 54 個 text rules、7 個 binary／path inventory rules、redacted diagnostics 與 57 個 isolated CLI fixtures | 已使用；不需網路，可對 fresh `dist/` fail closed |
+| Submission scanner core | 54 個 text rules、9 個 binary／path inventory rules、redacted diagnostics 與 58 個 isolated CLI fixtures | 已使用；不需網路，可對 fresh `dist/` fail closed |
 | Lighthouse 13.4 | submission mobile／desktop lab audit、freshness 與 lineage summary | 開發工具；非 runtime |
 | Python | 本機媒體產生腳本 | 開發工具 |
 
@@ -132,7 +142,7 @@ flowchart LR
 
 每個 authored case 的每個 `instituteConnections` 主題都需要 `themeEvidenceStatus`：`demonstrated` 代表已有作品證據，`researchDirection` 代表未來研究方向；submission-hidden 研究構想也不得省略分類。`instituteEvidenceGroups` 只會對 `submissionVisibility === "public"` 案例依優先序及 demonstrated 關係正確派生；validator 重建期望結構後做完整相等比對，並拒絕未知狀態、非公開案例或對不上 rationale 的關係。因此目前公開摘要不會產生「沉浸式體驗」或「數位孿生」群組，它們只在案例內以 research direction 呈現。
 
-Hidden case 使用空 media state；原有 13 個 `ph-after-*`／`mv-soft-*` placeholders、generator entries、captions 與 references 已移除。Submission dev 另保留 Vite 預設 deny，並封鎖 `.tmp`、`dist`、`reports`、`restricted-media`、internal／hidden modules 等根目錄直連；submission-only middleware 讓缺少的 `/media/portfolio/*` 與所有 `/dist/*` dev URL 明確回 404，而不是落入 SPA HTML fallback，有效 public media 仍照常服務。`submission-output-scanner.mjs` 對 HTML／JS／CSS／JSON／source map／TXT／SVG／VTT／Web Manifest／XML 套用 54 個 text rules，並對所有相對路徑套用 7 個 inventory rules；binary 不作 UTF-8 掃描。57 個 isolated CLI fixtures 驗證 bad output exit 1、clean／明確否定 caveat exit 0、separator／case normalization、新增文字格式、已知編輯規則、中文佔位語句、過度成果主張與 redacted diagnostics。
+Hidden case 使用空 media state；原有 13 個 `ph-after-*`／`mv-soft-*` placeholders、generator entries、captions 與 references 已移除。Submission dev 另保留 Vite 預設 deny，並封鎖 `.tmp`、`dist`、`reports`、`restricted-media`、internal／hidden modules 等根目錄直連；submission-only middleware 讓缺少的 `/media/portfolio/*` 與所有 `/dist/*` dev URL 明確回 404，而不是落入 SPA HTML fallback，有效 public media 仍照常服務。`submission-output-scanner.mjs` 對 HTML／JS／CSS／JSON／source map／TXT／SVG／VTT／Web Manifest／XML 套用 54 個 text rules，並對所有相對路徑套用 9 個 inventory rules；binary 不作 UTF-8 掃描。58 個 isolated CLI fixtures 驗證 bad output exit 1、clean／明確否定 caveat exit 0、separator／case normalization、新增文字格式、已知編輯規則、中文佔位語句、過度成果主張與 redacted diagnostics。
 
 ## Styling 與 motion lifecycle
 
@@ -165,7 +175,7 @@ Navbar 改用較不透明的 theme-aware 背景，不再使用固定 `backdrop-b
 - Vite 預設使用相對 `base`，也可由 `VITE_BASE_PATH` 覆寫；public assets 以 `BASE_URL` 組路徑。應用沒有 client routes，因此不需要獨立 application 404 頁；submission dev 仍針對媒體／`dist` 邊界阻止 Vite 的通用 SPA fallback。
 - `check:submission` 先跑 scanner regression suite，再 build、掃描 text／inventory，最後執行 `audit:pages` 拒絕 GitHub Pages-breaking root-relative assets。
 - `.github/workflows/deploy-pages.yml` 會在 push 到 `main` 或 `workflow_dispatch` 時執行：Windows build job 使用 Node 22／pnpm 11.7 驗證 submission，再交給 Pages deploy job。PR #5 merge commit `695b520` 的最新遠端 run `29680534295` 與 deployment 已成功，environment URL 為 `https://ruyuang0509.github.io/ruyuang-portfolio/` 且 production 實測 HTTP 200；repository 沒有 `CNAME`。本輪未能從未認證 Pages-site endpoint 重新取得 `built` 欄位。
-- 部署 job 目前執行 `check:submission`，沒有執行 `check:publication`。2026-07-23 後者仍因 11 個 Hamlet rights／applicant attestation blockers 而 exit 1，但 MP4、英文與繁中 VTT、poster 已在 Pages 回應 HTTP 200。這是 deployment architecture 的 P0 policy gap，不得把 workflow success 或媒體可達性解讀為 rights clearance。
+- 部署 job 依序執行 `check:submission` 與 `check:publication`，兩者通過後才 Configure Pages 與 upload；workspace check 會拒絕調換順序或加入 `continue-on-error: true`。2026-07-26 本機 publication gate exit 0，但既有 production run 仍是較早 fingerprint；PR 建立不等於已部署。
 - Hero、旗艦、支持案例及聲音 demo 有 section error boundaries；React 根另有共同 recovery boundary。
 
 ## 開發與驗證命令
@@ -185,7 +195,7 @@ pnpm run check:submission
 pnpm run doctor
 ```
 
-開發：`pnpm run dev:draft`；正式內容預覽：`pnpm run dev:submission`。需要效能證據時才執行 `pnpm run audit:lighthouse`；它產生 fresh mobile／desktop JSON 與 `reports/lighthouse-summary.json`，仍應把 localhost lab 與 production field evidence 分開解讀。現存 2026-07-17 Lighthouse archive 已因後續內容／metadata 改動成為歷史樣本。2026-07-24 `doctor` exit 0；`check:publication` exit 1，原因精確為 11 個 Hamlet 權利／applicant attestation blockers。
+開發：`pnpm run dev:draft`；正式內容預覽：`pnpm run dev:submission`。需要效能證據時才執行 `pnpm run audit:lighthouse`；它產生 fresh mobile／desktop JSON 與 `reports/lighthouse-summary.json`，仍應把 localhost lab 與 production field evidence 分開解讀。現存 2026-07-17 Lighthouse archive 已因後續內容／metadata 改動成為歷史樣本。2026-07-26 `doctor` 與 `check:publication` 均 exit 0。
 
 正式提交驗證需在 `check:submission` 之後再做獨立檢查：
 
@@ -228,4 +238,4 @@ pnpm run doctor
 
 ### 建議續作順序
 
-Submission hygiene、57／7 scanner 規則、metadata 與 canonical 已完成本機 closure，2026-07-24 `doctor` 亦通過。下一步應先處理 Hamlet rights／attestation gate，再補 REAPER、Pure Data 獨立重建與人工 accessibility／device matrix。互動式 Browser 因本機連線隔離未能執行；即使 shell HTTP 200，也不能把四 viewport、導覽／焦點、Web Audio、影片播放、reduced-motion、overflow 或 console 標為已驗證。
+Submission hygiene、58／9 scanner 規則、metadata、canonical 與 Hamlet rights gate 已完成本機 closure，2026-07-26 `doctor`、publication audit 與四 viewport Browser smoke 亦通過。下一步是補 REAPER、Pure Data 獨立重建、形成性測試與人工 accessibility／device matrix；screen reader、真實 zoom、system reduced-motion、實機與 production field evidence仍不可標為已驗證。

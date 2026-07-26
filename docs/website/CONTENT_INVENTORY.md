@@ -1,6 +1,16 @@
 # 公開內容清單
 
-更新日期：2026-07-24。下列內容依共享工作樹的最新 source、public 資產與最終自動驗證盤點。本輪變更尚未 commit、push 或 deploy；2026-07-23 Pages 狀態只保留為歷史公開邊界證據。互動式 Browser 因本機連線隔離未能執行；公開可達仍不代表權利或研究驗證已完成。
+## 2026-07-26 Hamlet rights inventory delta
+
+- 新增公開文件：`docs/evidence/hamlet-rights-evidence-public.md`、`docs/evidence/hamlet-applicant-attestation.md`；前者只含刪節摘要，後者是蕭智仁於 2026-07-26 完成的正式聲明。
+- 新增公開 UI data：Suno canonical credit、六項素材來源／公開範圍與 `confirmed` attestation status。
+- 私人 inventory：原始 EML 0 份找到、原始八幕生成紀錄 0 份找到；沒有把需求附件或 MP4 抽幀誤列成原始證據。
+- `.eml`、private evidence directories 與 original authorization／support reply filenames 已由 Git ignore、publication audit 與 submission inventory scanner 三層阻擋。
+- Suno 使用限目前非營利範圍；rights review 不改變 Hamlet `notValidated` 的學習成效狀態。
+- Phase B final validation：完整 `doctor`、rights tests 14/14、scanner fixtures 58/58、54 個 text rules、9 個 inventory rules、content check、submission build／scan、Pages audit 與 publication audit 均 exit 0；fresh submission artifact 為 132 files／25 text files。
+- Phase B Browser 在 1280×720、768×1024、375×812、320×568 已確認 confirmed disclosure、credit link／focus、影片鍵盤播放／暫停、8 幕、2 tracks 與 responsive width；待本人確認、舊權利卡片、duplicate ID、broken case target、horizontal overflow 與 clean-tab console error 均為 0。
+
+更新日期：2026-07-26。下列內容依隔離 branch 的最新 source、public 資產、自動驗證與 Browser 回歸盤點。本輪交付會 commit、push 並建立 PR，但不 merge `main` 或 deploy；2026-07-23 Pages 狀態只保留為歷史公開邊界證據。公開可達、權利核准與研究／學習成效驗證仍是不同證據層。
 
 ## 內容治理
 
@@ -146,16 +156,16 @@ Hidden case 現在使用空 media state。原有 13 個 `ph-after-*`／`mv-soft-
 
 - `pnpm run doctor` exit 0；draft build 470 modules、submission build 467 modules。
 - Fresh submission `dist/` 為 132 files／25 text files；118 個 `public/` files 為 0 missing／0 SHA-256 mismatch。
-- Submission scanner 使用 54 個 text rules、7 個 inventory rules，另有 57/57 regression fixtures。
-- `pnpm run check:publication` exit 1，原因為 11 個 Hamlet 權利／applicant attestation blockers。
-- 已嘗試 in-app Browser；即使 shell 對本機預覽取得 HTTP 200，Browser 仍受本機連線隔離而無法連線。因此四 viewport、導覽／焦點、Web Audio、Pure Data 影片播放、reduced-motion、overflow 與 console 均未能執行，不可寫為通過。
+- Submission scanner 使用 54 個 text rules、9 個 inventory rules，另有 58/58 regression fixtures。
+- `pnpm run check:publication` exit 0；manifest 為 `verified / approved`。
+- In-app Browser 四 viewport 的 confirmed disclosure、Suno focus、40 秒影片、8 幕、2 tracks、case targets、responsive width 與 clean-tab console smoke 通過；screen reader、真實 zoom、system reduced-motion、實機與多瀏覽器音訊仍未涵蓋。
 
 ## 仍缺少的內容
 
 - 旗艦原型與 AI 文學故事 MV 都沒有正式使用者驗證結果。
 - Pure Data 已有公開操作影片與 poster，但沒有公開 `.pd`、獨立重建紀錄、去除本機路徑的送審版影片或使用者／研究驗證；REAPER 仍沒有可公開工程、截圖或聲音輸出。
 - 《畫本》與 MV 混剪已加入申請者提供的文字型作品紀錄，但 repository 與可讀 Git history 仍沒有可逐鏡核對的成片、活動紀錄、完整 credit、來源或授權 artifact。
-- AI 文學故事 MV 已有影片、字幕與實際分鏡；rights checklist／publication gate 文件已存在，但逐項 rights evidence、applicant attestation 與 manifest 核准仍未完成。原始 Prompt log、原始場景檔、獨立音樂、可編輯 Canva 與課堂測試也仍缺；成片本來就設計為無旁白，不把「旁白版本」列成已承諾交付物。最新 `pnpm run check:publication` 以 11 個 Hamlet 權利／attestation blockers exit 1，因此現況仍是「技術輸出存在但未取得權利發布核准」。
+- AI 文學故事 MV 已有影片、字幕、實際分鏡、逐項 rights registry、具名 applicant attestation 與 `verified / approved` manifest。原始 Prompt log、原始場景生成紀錄、原始 EML、可編輯 Canva 與課堂測試仍缺；成片本來就設計為無旁白，不把「旁白版本」列成已承諾交付物。現況是「目前限定非營利用途已取得申請者確認與 publication gate 核准，但 private originals 與學習成效未獨立驗證」。
 - Power BI 實作日期已確認為 2026/06/11–06/12；資料使用說明不支持公開分析結果，清洗規則與部分 measure 定義仍需核對。
 - 原有 portfolio case `links` 皆空；`#contact` 只新增已知 Pages 與 GitHub Repository。仍沒有公開 email、履歷、研究計畫下載或其他個人聯絡資料。
-- GitHub Pages hosting、run `29680534295` 與公開 URL `https://ruyuang0509.github.io/ruyuang-portfolio/` 是 2026-07-23 歷史部署證據，不含目前未 commit 的 11 段 IA、AdmissionEvidence 與 Pd 媒體整合。最新工作樹已完成本機自動建置與掃描，但尚未 commit／deploy；2026-07-17／07-18 Lighthouse 也只是舊 source fingerprint 的 localhost 歷史快照。
+- GitHub Pages hosting、run `29680534295` 與公開 URL `https://ruyuang0509.github.io/ruyuang-portfolio/` 是 2026-07-23 歷史部署證據，不含本次 branch／PR 的 11 段 IA、AdmissionEvidence、Pd 媒體與 Hamlet Phase B 更新。最新 branch 已完成本機自動建置與掃描，但尚未 merge／deploy；2026-07-17／07-18 Lighthouse 也只是舊 source fingerprint 的 localhost 歷史快照。

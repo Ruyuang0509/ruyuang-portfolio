@@ -1,6 +1,6 @@
 # 網站交接文件
 
-本目錄是「如願個人網站」的產品、內容、設計與技術交接入口。內容依 2026-07-24 共享工作樹的最新 source 與最終自動驗證整理；已驗證事實、研究構想、學習中內容、尚待驗證項目與待補件分開標示。互動式 Browser 因本機連線隔離未能執行，因此 browser regression 不列為通過；2026-07-24 整合前與 2026-07-23 GitHub／Pages 資訊均保留為歷史快照。
+本目錄是「如願個人網站」的產品、內容、設計與技術交接入口。內容依 2026-07-26 Hamlet rights Phase B source、完整自動驗證與四 viewport Browser 回歸整理；已驗證事實、申請者權利聲明、研究構想、學習中內容、尚待驗證項目與待補件分開標示。Manifest 現為 `verified / approved`，但原始八幕生成紀錄、原始 EML、可編輯 Canva 專案與研究／學習成效仍未獨立驗證；2026-07-24 以前的 GitHub／Pages、publication blocker 與 Browser 資訊只保留為歷史快照。
 
 ## 文件導覽
 
@@ -33,10 +33,10 @@
 - Pure Data v0.2.1 本機功能測試已透過 `admission-evidence.js` 與 `AdmissionEvidenceSections.jsx` 整合為公開影片、poster、觀看指南、可證明／不能證明、AI 協作、權利與下一步。影片與 poster 已在 `public/`，兩者畫面仍可見本機 D 槽路徑與 `validated` 字樣；這是目前公開風險，不可因頁面文案改稱「本機功能測試」就視為已消除。
 - 研究構想由 `admission-research.js` 的四層資料驅動：問題、初步構想、申請者可帶入的能力、入學後需補強；另列預定流程、預期貢獻與不可省略的申請階段聲明。
 - Hidden asset、scanner、metadata 與 canonical closure 已完成；既有 Pages 部署仍屬舊 source 快照。自動門檻、獨立 `dist/` 稽核及人工／Browser 驗收分開記錄。
-- 內建 workspace、media、text、CJK、evidence、content、sound tests、57 個 submission text rules、7 個 inventory rules 與 Pages audit 都可重跑；自動門檻仍不取代授權、輔具與實機驗收。
+- 內建 workspace、media、text、CJK、evidence、content、sound tests、54 個 submission text rules、9 個 inventory rules 與 Pages audit 都可重跑；自動門檻仍不取代申請者聲明、輔具與實機驗收。
 - 本文件優先記錄目前可重現事實；過去 browser／Lighthouse 結果標成歷史本機證據，不把它們當作 production 或目前 HEAD 的 field evidence。
 
-## 2026-07-24 最新工作樹與最終自動驗證
+## 2026-07-26 最新 branch 與最終驗證
 
 | 面向 | 目前 source 狀態 |
 | --- | --- |
@@ -45,9 +45,9 @@
 | Pure Data 媒體 | `pd-crossmodal-mapping-v0.2.1-operation-demo.mp4` 與同名 poster 已由公開頁實際引用；狀態固定為「學習中／可操作功能原型」「尚待驗證」，不等同獨立作者性、使用者驗證或研究驗證。 |
 | 研究定位 | `ResearchProposalSection` 以問題／初步構想／可帶入能力／入學後需補強四層呈現混合監聽研究；完整研究計畫仍留在非公開工作區，網站沒有下載連結。 |
 | 公開邊界 | `public/` 影片與 poster 會被 Vite 複製並可公開存取；`.pd`、完整研究計畫、REAPER 工程與兩件代表作品成片均未放入公開 repository。Tracked source 與文件若 commit／push 到 public repository 也會公開，submission alias 不能提供保密。Metadata 與 canonical 已完成。 |
-| 自動驗證 | `pnpm run doctor` exit 0；draft 470 modules、submission 467 modules；fresh `dist/` 132 files／25 text files；118 個 `public/` files 為 0 missing／0 SHA-256 mismatch；scanner 為 54 text／7 inventory rules，fixtures 57/57。 |
-| Publication | `pnpm run check:publication` exit 1；11 個 blockers 均為 Hamlet 權利／applicant attestation，不能因其他門檻通過而解除。 |
-| Browser | 已嘗試 in-app Browser；shell 對本機預覽為 HTTP 200，但 Browser 因本機連線隔離無法連線。四 viewport、導覽／焦點、Web Audio、Pd 影片播放、reduced-motion、overflow 與 console 均未能執行，不可寫為通過。 |
+| 自動驗證 | `pnpm run doctor` exit 0；draft 470 modules、submission 467 modules；fresh `dist/` 132 files／25 text files；118 個 `public/` files 為 0 missing／0 SHA-256 mismatch；scanner 為 54 text／9 inventory rules，fixtures 58/58。 |
+| Publication | 蕭智仁已於 2026-07-26 完成 applicant attestation；`pnpm run check:publication` exit 0，manifest 為 `verified / approved`。原始八幕生成紀錄、原始 EML 與可編輯 Canva 專案仍未找到。 |
+| Browser | 1280×720、768×1024、375×812、320×568 已核對 confirmed disclosure、Suno focus、40 秒影片 keyboard play／pause、8 幕、2 tracks 與 responsive width；待本人確認、舊權利卡片、duplicate ID、broken case target、global overflow 與 clean-tab console error 均為 0。 |
 
 ## 2026-07-24 Admission Evidence Pass 歷史快照（上述整合前）
 
@@ -79,7 +79,7 @@
 - 沒有 CMS、backend、database、authentication、analytics 或表單。GitHub Pages workflow 會在 push 到 `main` 或手動觸發時執行；相對 base、Pages audit、成功遠端 run 與公開 Pages URL 已確認，沒有 custom domain。
 - Git repository、`origin`、`main` 與 `codex/public-copy-rewrite` 已確認；PR #1–#5 均已合併。續作應建立新的 `codex/` branch／PR，不再沿用 PR #5。
 - 既有 browser artifacts 記錄 320、375、768、1024、1280、1440 寬的 smoke test、行動導覽焦點、聲音逾時 fallback 與自訂游標邊界。未宣稱完成 screen reader、真實 200% zoom、system reduced-motion、實機或 production 驗證。
-- 這些既有 browser artifacts 都是舊 source／IA 的歷史資料；最新工作樹的 in-app Browser 回歸因本機連線隔離未能執行。
+- 既有 browser artifacts 都是舊 source／IA 的歷史資料；2026-07-26 Phase B 的四 viewport smoke 另記在上方，但仍不取代 screen reader、真實 zoom、system reduced-motion、實機或 production field 驗收。
 - `public/llms.txt`、favicon、social preview、index／JSON-LD 與案例 SEO 已統一為 RU / YUAN；scanner 會攔截施工字詞、舊品牌、失效 anchors、hidden/restricted filenames 與 raw data extensions。
 
 ## 關鍵來源

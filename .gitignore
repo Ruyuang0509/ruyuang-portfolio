@@ -17,3 +17,11 @@ reports/lighthouse-runs/
 reports/browser/
 reports/.lighthouse-audit.lock*
 reports/.*.tmp
+
+# Private rights evidence must never enter the public repository or build.
+.private-evidence/
+rights-evidence-private/
+docs/evidence/private/
+*.eml
+*-authorization-original.*
+*-support-reply-original.*

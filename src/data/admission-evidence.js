@@ -138,7 +138,7 @@ export const supportingEvidenceLinks = [
   {
     label: "可核對影音交付",
     title: "AI 文學故事 MV",
-    description: "40 秒成片、雙語字幕與八幕畫面可核對；教學成效與素材發布權利仍未確認。",
+    description: "40 秒成片、雙語字幕與八幕畫面可核對；公開權利已由申請者確認並通過發佈檢查，教學成效仍未驗證。",
     target: "#generative-interface-study",
   },
   {
