@@ -1,20 +1,18 @@
 # 目標呈現
 
-## 2026-07-26 Hamlet rights target
+## 2026-07-26 rights 與公開展示版目標
 
 Hamlet 的目標呈現是在播放器附近以 compact evidence panel 同時說清楚素材來源、Suno 非營利條件、實際含英語歌詞與人聲、故事 WebVTT 的限制，以及 applicant attestation 狀態。公開頁不顯示私人聊天、原始 EML、帳號資料或私人 evidence path；也不把 Canva 寫成圖像或歌曲來源。
 
 Production 目標是 fail closed：submission artifact 可技術驗證，但只有 schema、具名 checks、可解析 evidence refs、影片 hash、public credit、private boundary 與本人 attestation 全部通過後，Pages 才可 configure／upload／deploy。Suno commercial use 必須維持 false；rights approval 不會把 `testing.statusKey` 從 `notValidated` 改成成功。
 
-2026-07-26 蕭智仁已完成 applicant attestation；manifest 為 `verified / approved`，完整 `doctor` 與 publication audit exit 0。Phase B Browser 在 1280×720、768×1024、375×812、320×568 已確認 credit／focus、confirmed status、影片鍵盤播放／暫停、8 幕、2 tracks 與 responsive width；待本人確認、舊權利卡片、duplicate ID、broken case target、global overflow 與 clean-tab console error 均為 0。Rights approval 仍不代表研究或學習成效 validated。
+2026-07-26 蕭智仁已完成 limited-use applicant attestation；最新整合 manifest 為 `verified / approved`，install、完整 `doctor` 與 publication audit 均 exit 0。原始 Prompt／生成紀錄、原始 EML、可編輯 Canva 專案與形成性測試仍未取得或未完成；rights approval 不代表 private originals 或第三方 YouTube 完整 rights／credit已獨立查驗，也不代表研究或學習成效 validated。
 
-## 2026-07-24 Admission Evidence Pass（歷史快照）
-
-目前 source 已把「已完成／可操作」、「學習中」、「研究構想／尚待驗證」與「待申請者補件」分開，並採用 11 段送審 IA：Hero → 聲音轉向 → 證據導覽 → Web Audio → Pure Data → 研究構想 → 代表作品 → 合作 → Roadmap → AI／作者性 → 真實外部連結。Pure Data、研究構想、代表作品、合作、Roadmap、AI 與 final links 置於永久 anchor wrapper 中 lazy-load；`#selected-work` 內依序放《畫本》、既有資料視覺化／公開案例、最後才是指定 MV。Current source 已通過 `doctor`、build、submission scanner 與獨立 `dist/` inventory；本輪仍未 commit、push 或 deploy。In-app Browser 因本機連線隔離無法連到 shell 已確認 HTTP 200 的 preview，因此 320–1440 rendered matrix 未能執行，不能標為通過。
+目前整合目標已把「已完成／可操作」、「學習中」、「研究構想／尚待驗證」與「待申請者補件」分開，並採用 11 段送審 IA：Hero → 聲音轉向 → 證據導覽 → Web Audio → Pure Data → 研究構想 → 代表作品 → 合作 → Roadmap → AI／作者性 → 真實外部連結。Admission data 以 stable ID 分成 public narrative 與 audit records，後者只由 Draft panel 動態載入；《畫本》與指定 MV 提供經確認的 canonical YouTube 入口，但角色、credit、來源與權利邊界仍須明示。REAPER 公開 roadmap 已改為「下一階段」。資料視覺化內容固定在不透明深色 reading surface，central theme endpoint 同步 field／navigation，`ResizeObserver` 讓 lazy 高度變更後的 deep links 重新 settle，print 則把 reading surface 重設為紙色可讀狀態。最新自動與四 viewport Browser 驗證均通過；PR #6 Pages run `30087568225` 仍只代表歷史部署，Draft PR 不等於正式發布。
 
 ## 2026-07-23 current-to-target 判讀（歷史快照）
 
-PR #5 已把自然、第一人稱的繁體中文敘事部署到 GitHub Pages，並保留原有資訊架構、互動、動效與真實性邊界。這是已落地的目標方向，不是推測；但 `check:publication` 仍以 11 個權利／attestation blockers exit 1，因此「線上可讀、媒體 HTTP 200」與「獲准正式公開」必須繼續分開描述。
+PR #5 已把自然、第一人稱的繁體中文敘事部署到 GitHub Pages，並保留原有資訊架構、互動、動效與真實性邊界。這是已落地的目標方向，不是推測；當時 `check:publication` 以 11 個權利／attestation blockers exit 1，因此「線上可讀、媒體 HTTP 200」與「獲准正式公開」必須分開描述。該 blocker 狀態已由 2026-07-26 PR #7 limited-use attestation／publication gate 基線取代。
 
 ## Confirmed goals（明文證據）
 
@@ -49,7 +47,7 @@ PR #5 已把自然、第一人稱的繁體中文敘事部署到 GitHub Pages，�
 - 使用者已明確指定國立臺南藝術大學 116 學年度申請作品集；仍需由申請者核對當年度官方系所名稱、招生簡章、格式、截止日與所有送件欄位。本輪不以未核對的官方要求反推作品結論。
 - 是否加入公開 Email、履歷、社群、作品下載或其他真正轉換；目前 `#contact` 只有可核對的 GitHub Pages 與 public Repository URL，沒有 Email／CV／社群或研究 PDF。
 - Pure Data 現有 source-quality 功能影片最終是否由公開安全重錄取代、何時能補獨立重建；REAPER 是否要形成正式作品證據，或只作研究準備背景。
-- AI 文學故事 MV 的成片、字幕與流程目前存在於 repository 且 Pages 可存取，但這只證明技術交付，不代表素材權利已獲核准；仍需由申請者完成權利／來源 attestation、補原始 Prompt 與學生／教師測試，再決定是否維持公開或提高策展比重。
+- AI 文學故事 MV 的成片、字幕與流程目前存在於 repository；申請者已完成 limited-use 權利／來源 attestation，最新整合 publication gate 通過。這仍只支持目前非營利公開範圍，不代表 commercial use、private originals、第三方 YouTube 完整 rights／credit已查驗或學習成效；仍需補原始 Prompt／生成紀錄與學生／教師測試，再決定是否提高策展比重。
 - hidden `immersive-memory-map` 是否永久排除，還是待真實場域與觀眾證據補齊後恢復。
 - Power BI 的清洗規則與 measure 定義何時可完成核對、能否另取得資料提供方公開許可，以及哪些原始畫面永遠不得公開。
 - 是否需要每件案例獨立 route／SEO、英文版、PDF／print portfolio。
@@ -69,4 +67,4 @@ PR #5 已把自然、第一人稱的繁體中文敘事部署到 GitHub Pages，�
 - screen reader、真實 zoom、system reduced-motion、行動實機與多瀏覽器 Web Audio 有人工紀錄；
 - 研究結果、授權、角色、credits、聯絡與申請資訊均由 stakeholder 確認，沒有 AI 代填或未驗證成效。
 
-2026-07-26 current source 已完成 `doctor`（exit 0）、draft／submission build（470／467 modules）、58/58 scanner fixtures，以及 132-file submission `dist/` 對 118-file `public/` inventory 的 0 missing／0 hash mismatch 檢查。Phase B Browser 四 viewport 的 Hamlet disclosure／media／focus／responsive smoke 通過；screen reader、真實 zoom、system reduced-motion、實機與 production field evidence仍需人工補充。Hamlet attestation 綁定蕭智仁、2026-07-26 與交付影片 SHA-256，`check:publication` exit 0；production workflow 已在 configure／upload 前執行此 gate。本輪交付只 commit、push 與建立 PR，不 merge `main` 或 deploy；2026-07-23 Pages run `29680534295` 與 2026-07-17 Lighthouse 仍只代表較早 fingerprint。
+2026-07-26 最新整合已完成 install／`doctor` exit 0、sound 18/18、rights 14/14、scanner 73/73；draft build 為 471 modules、entry 180733 B、CSS 44315 B、initial JS gzip 200889 B，submission 為 467 modules、entry 153704 B、CSS 44315 B、initial JS gzip 192936 B。Fresh scan 為 132 files／25 text files、67 text rules／9 inventory rules，118 public files 0 missing／0 hash mismatch；`check:publication` exit 0／`verified / approved`。Browser 在 1280×800、768×900、390×844、320×720 為 0 overflow／broken hashes／duplicate IDs／broken images、console 0 warning／error；四個 deep links約95–112 px，dark／paper endpoints與行動 menu Escape／還焦通過。Screen reader、真實 200% zoom、system reduced-motion、實機、多瀏覽器音訊、current-fingerprint Lighthouse 與 production field evidence仍需補充；PR #6 Pages run `30087568225` 與 2026-07-17 Lighthouse只代表較早 fingerprint，Draft PR 不能當成 merge、deploy 或 production publication approval。

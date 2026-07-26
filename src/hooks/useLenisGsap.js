@@ -5,22 +5,36 @@ import Lenis from "lenis";
 
 export function useLenisGsap() {
   useEffect(() => {
-    let layoutFrame = 0;
-    let resizeFrame = 0;
+    let refreshFrame = 0;
     let disposed = false;
     let destroyLenisRuntime = () => {};
+    let layoutObserver;
     const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-    const refresh = () => ScrollTrigger.refresh();
-    const refreshAfterDisclosure = () => {
-      if (layoutFrame) return;
-      layoutFrame = window.requestAnimationFrame(() => {
-        layoutFrame = 0;
+    const refreshLayout = () => {
+      if (refreshFrame || disposed) return;
+      refreshFrame = window.requestAnimationFrame(() => {
+        refreshFrame = 0;
+        if (disposed) return;
         window.__portfolioLenis?.resize();
         ScrollTrigger.refresh();
+        ScrollTrigger.update();
       });
     };
-    window.addEventListener("portfolio:layout-change", refreshAfterDisclosure);
+    const refreshAfterAssetLoad = (event) => {
+      if (
+        event.target instanceof HTMLImageElement
+        || event.target instanceof HTMLVideoElement
+      ) {
+        refreshLayout();
+      }
+    };
+
+    window.addEventListener("portfolio:layout-change", refreshLayout);
+    window.addEventListener("portfolio:deferred-ready", refreshLayout);
+    window.addEventListener("portfolio:hash-settled", refreshLayout);
+    document.addEventListener("load", refreshAfterAssetLoad, true);
+    document.addEventListener("loadedmetadata", refreshAfterAssetLoad, true);
 
     const createLenisRuntime = () => {
       destroyLenisRuntime();
@@ -54,35 +68,38 @@ export function useLenisGsap() {
 
     const syncMotionPreference = () => {
       createLenisRuntime();
-      refresh();
+      refreshLayout();
     };
     const refreshAfterFonts = () => {
-      if (!disposed) refresh();
-    };
-    const refreshOnResize = () => {
-      if (resizeFrame) return;
-      resizeFrame = window.requestAnimationFrame(() => {
-        resizeFrame = 0;
-        refresh();
-      });
+      if (!disposed) refreshLayout();
     };
 
     document.fonts?.ready?.then(refreshAfterFonts);
-    window.addEventListener("load", refresh, { once: true });
-    window.addEventListener("resize", refreshOnResize, { passive: true });
+    window.addEventListener("load", refreshLayout, { once: true });
+    window.addEventListener("resize", refreshLayout, { passive: true });
     motionPreference.addEventListener?.("change", syncMotionPreference);
     createLenisRuntime();
-    // Codex-Fix: Refresh ScrollTrigger after fonts/load/resize without spamming layout recalculation.
+    layoutObserver = typeof ResizeObserver === "function"
+      ? new ResizeObserver(refreshLayout)
+      : undefined;
+    const layoutRoot = document.querySelector("#main-content");
+    if (layoutRoot) layoutObserver?.observe(layoutRoot);
+    refreshLayout();
+    // Codex-Fix: Refresh Lenis and ScrollTrigger together after deferred sections, hash settling, media, fonts, and responsive layout changes.
     // Codex-Fix: Rebuild the single Lenis/ticker runtime when reduced-motion changes at run time.
 
     return () => {
       disposed = true;
-      if (resizeFrame) window.cancelAnimationFrame(resizeFrame);
-      if (layoutFrame) window.cancelAnimationFrame(layoutFrame);
-      window.removeEventListener("load", refresh);
-      window.removeEventListener("resize", refreshOnResize);
-      window.removeEventListener("portfolio:layout-change", refreshAfterDisclosure);
+      if (refreshFrame) window.cancelAnimationFrame(refreshFrame);
+      window.removeEventListener("load", refreshLayout);
+      window.removeEventListener("resize", refreshLayout);
+      window.removeEventListener("portfolio:layout-change", refreshLayout);
+      window.removeEventListener("portfolio:deferred-ready", refreshLayout);
+      window.removeEventListener("portfolio:hash-settled", refreshLayout);
+      document.removeEventListener("load", refreshAfterAssetLoad, true);
+      document.removeEventListener("loadedmetadata", refreshAfterAssetLoad, true);
       motionPreference.removeEventListener?.("change", syncMotionPreference);
+      layoutObserver?.disconnect();
       destroyLenisRuntime();
     };
   }, []);

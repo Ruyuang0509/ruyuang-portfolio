@@ -27,6 +27,23 @@ export const projectInternalNotes = {
   "interactive-sound-learning": {
     status: internalStatusLabels.prototype,
     labels: ["INTERNAL_TODO", "INTERNAL_REPLACE", "PRE_SUBMISSION_CHECK"],
+    evidenceBoundary: {
+      id: "interactive-sound-learning-evidence-boundary",
+      title: "可操作原型能證明的事，與目前不能證明的事",
+      groupLabels: ["目前可以證明", "申請者與 AI 分工", "目前不能證明"],
+      verifiedArtifacts: [
+        "四組視聽映射已在站內原型實作，並可由滑鼠、觸控或鍵盤改變參數。",
+        "Web Audio graph、停止／Escape、不支援提示與生命週期清理都有原始碼與自動測試可核對。",
+      ],
+      approvedSpecifications: [
+        "申請者決定問題意識、四組映射、介面方向、公開內容與功能驗收。",
+        "生成式 AI 協助程式草稿、除錯方向、文件與稽核整理；程式完整度不直接等同本人能自行理解、修改與重建的能力。",
+      ],
+      notIndependentlyVerified: [
+        "尚無真實使用者測試，不能證明學習成效、理解正確率或映射容易辨認。",
+        "尚無聲學量測、空間音訊製作成果，也不能把本原型視為已完成的混合多聲道系統。",
+      ],
+    },
     missingMaterials: [
       "待補：真實操作錄影；目前公開證據為站內 Web Audio prototype。",
       "待補：Pure Data 於 2026/07/24 開始學習；需補 AI 協作原始版本、可自行重建版本、signal flow、失敗案例與聲音輸出。",
@@ -54,6 +71,23 @@ export const projectInternalNotes = {
   "generative-interface-study": {
     status: internalStatusLabels.prototype,
     labels: ["INTERNAL_TODO", "PRE_SUBMISSION_CHECK"],
+    evidenceBoundary: {
+      id: "generative-interface-study-evidence-boundary",
+      governanceRef: "hamlet-media-manifest",
+      title: "成片與限定用途權利可核對，原始製作紀錄與學習成效仍未獨立驗證",
+      verifiedArtifacts: [
+        "MP4 與技術規格",
+        "英文／繁中 WebVTT 與八段時間碼",
+        "由成片衍生的影片封面、首頁封面與八幕畫面",
+        "2026-07-26 applicant attestation、Suno 限定非營利用途摘要與 approved publication gate",
+      ],
+      approvedSpecifications: ["五階段工具分工", "四項提示詞限制", "若未來加入旁白時的混音規則"],
+      notIndependentlyVerified: [
+        "原始提示詞執行紀錄，以及八張原始場景檔與獨立音樂檔",
+        "八幕原始生成紀錄、Suno 原始 EML 與可編輯 Canva 專案仍未找到；applicant attestation 不等於這些原始證據已完成獨立查驗",
+        "學生或教師的課堂測試與學習成效",
+      ],
+    },
     missingMaterials: [
       "待補：原始生成 Prompt log 與版本紀錄；公開頁的 Prompt Template v1 是 2026/07/17 依案例決策整理的衍生模板，不得回填成歷史執行紀錄。",
       "待補：學生測試、教師評閱或學習回饋；目前不得主張學習成效。",
@@ -175,4 +209,14 @@ export const projectInternalNotes = {
 };
 
 export const getProjectInternalNotes = (projectId) => projectInternalNotes[projectId] ?? null;
+
+export const aiWorkflowInternalAudit = {
+  id: "ai-workflow",
+  evidencePaths: [
+    "docs/ai-workflow/portfolio-master-prompt.md",
+    "docs/ai-workflow/portfolio-continuation-prompt.md",
+    "docs/ai-workflow/prompt-changelog.md",
+    "docs/ai-workflow/failure-cases.md",
+  ],
+};
 // Codex-Fix: Move construction-stage terms into a draft-only module so submission builds can exclude them from runtime bundles.

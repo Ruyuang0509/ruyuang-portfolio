@@ -1,6 +1,11 @@
+import { useEffect, useState } from "react";
 import { projectCaseStudies } from "../data/portfolio.js";
 import { getProjectCompleteness, getEvidenceAvailability } from "../data/portfolio.governance.js";
-import { authoringNotes, getProjectInternalNotes } from "../data/portfolio.internal.js";
+import {
+  aiWorkflowInternalAudit,
+  authoringNotes,
+  getProjectInternalNotes,
+} from "../data/portfolio.internal.js";
 import { PORTFOLIO_MODE } from "../config/portfolioMode.js";
 
 function NoteList({ title, items = [] }) {
@@ -75,6 +80,24 @@ function ContentCompletenessChecklist({ project }) {
   );
 }
 
+function InternalEvidenceBoundary({ boundary }) {
+  if (!boundary) return null;
+
+  return (
+    <details className="rounded-[var(--radius-md)] border border-[color:var(--theme-line)] bg-[color:var(--theme-surface)] p-4">
+      <summary className="interactive-link cursor-pointer">
+        <span className="meta-label text-[var(--theme-accent)]">Evidence boundary / 證據邊界</span>
+        <span className="zh-heading mt-2 block text-[clamp(1.05rem,1.8vw,1.35rem)]">{boundary.title}</span>
+      </summary>
+      <div className="mt-5 grid gap-5 lg:grid-cols-3">
+        <NoteList title={boundary.groupLabels?.[0] ?? "Verified artifacts"} items={boundary.verifiedArtifacts} />
+        <NoteList title={boundary.groupLabels?.[1] ?? "Approved specifications"} items={boundary.approvedSpecifications} />
+        <NoteList title={boundary.groupLabels?.[2] ?? "Not independently verified"} items={boundary.notIndependentlyVerified} />
+      </div>
+    </details>
+  );
+}
+
 function DraftBanner() {
   return (
     <aside className="draft-banner px-[clamp(1.25rem,6vw,10vw)] py-4 text-[var(--theme-text)]" aria-label="Draft mode banner">
@@ -88,6 +111,67 @@ function DraftBanner() {
         </a>
       </div>
     </aside>
+  );
+}
+
+function AdmissionAuditPanel() {
+  const [records, setRecords] = useState([]);
+
+  useEffect(() => {
+    let active = true;
+    import("../data/admission-evidence.audit.js").then(({ admissionAuditRecordList }) => {
+      if (active) setRecords(admissionAuditRecordList);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  return (
+    <section className="grid gap-4 border-t border-[color:var(--theme-line)] pt-5" aria-labelledby="admission-audit-title">
+      <div className="grid gap-2">
+        <p className="meta-label text-[var(--theme-accent)]">Admission Audit / 申請內容稽核</p>
+        <h3 id="admission-audit-title" className="zh-heading text-[clamp(1.3rem,2vw,1.9rem)]">
+          公開敘事之外的證據、作者性與權利紀錄
+        </h3>
+        <p className="zh-caption text-[color:var(--theme-muted)]">
+          這些資料只由 Draft Mode 載入；submission build 會把整個 Draft 元件替換成空元件。
+        </p>
+      </div>
+
+      <div className="grid gap-3">
+        {records.map((record) => (
+          <details key={record.id} className="rounded-[var(--radius-md)] border border-[color:var(--theme-line)] bg-[color:var(--theme-surface)] p-4">
+            <summary className="interactive-link cursor-pointer">
+              <span className="zh-heading text-[clamp(1.05rem,1.8vw,1.35rem)]">{record.title}</span>
+              <span className="zh-caption mt-2 block text-[color:var(--theme-muted)]">
+                {record.evidenceStatus}／{record.validationStatus}
+              </span>
+            </summary>
+            <div className="mt-5 grid gap-5 lg:grid-cols-2">
+              <NoteList title="Supported claims" items={record.supportedClaims} />
+              <NoteList title="Unsupported claims" items={record.unsupportedClaims} />
+              <NoteList title="Limitations" items={record.limitations} />
+              <NoteList title="Evidence requests" items={record.evidenceRequests} />
+            </div>
+            <dl className="mt-5 grid gap-4 border-t border-[color:var(--theme-line)] pt-5 lg:grid-cols-3">
+              <div>
+                <dt className="meta-label text-[var(--theme-accent)]">Authorship</dt>
+                <dd className="zh-caption mt-2 text-[color:var(--theme-muted)]">{record.authorship}</dd>
+              </div>
+              <div>
+                <dt className="meta-label text-[var(--theme-accent)]">AI assistance</dt>
+                <dd className="zh-caption mt-2 text-[color:var(--theme-muted)]">{record.aiAssistance}</dd>
+              </div>
+              <div>
+                <dt className="meta-label text-[var(--theme-accent)]">Rights</dt>
+                <dd className="zh-caption mt-2 text-[color:var(--theme-muted)]">{record.rights}</dd>
+              </div>
+            </dl>
+          </details>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -120,6 +204,13 @@ function OverviewDraftPanel() {
           </p>
         </div>
       </div>
+      <AdmissionAuditPanel />
+      <section className="grid gap-3 border-t border-[color:var(--theme-line)] pt-5" aria-labelledby="ai-audit-paths-title">
+        <h3 id="ai-audit-paths-title" className="zh-heading text-[clamp(1.15rem,1.8vw,1.5rem)]">
+          AI 協作的內部文件索引
+        </h3>
+        <NoteList title="Evidence paths" items={aiWorkflowInternalAudit.evidencePaths} />
+      </section>
     </aside>
   );
 }
@@ -145,6 +236,7 @@ function ProjectDraftPanel({ projectId }) {
       </div>
       <EvidenceStatusPills project={project} />
       <ContentCompletenessChecklist project={project} />
+      <InternalEvidenceBoundary boundary={notes.evidenceBoundary} />
       <div className="grid gap-5 lg:grid-cols-2">
         <NoteList title="Missing materials" items={notes.missingMaterials} />
         <NoteList title="Replaceable assets" items={notes.replaceableAssets} />

@@ -7,6 +7,7 @@ Use this guide when adding a real graduate-portfolio project to `如願個人網
 - Project data: `src/data/portfolio.js`
 - Standalone application proposal data: `admissionResearchProposal` in `src/data/admission-research.js`
 - Admission evidence data: `src/data/admission-evidence.js`
+- Draft-only admission audit data: `src/data/admission-evidence.audit.js`
 - Public AI／authorship data: `aiWorkflow` in `src/data/ai-workflow.js`
 - Internal build notes: `src/data/portfolio.internal.js`
 - Case-study layout: `src/components/CaseStudyShowcase.jsx`
@@ -24,11 +25,12 @@ adjustable-method disclaimer separate; do not add it to `projectCaseStudies`
 unless a real research artifact later exists.
 
 `src/data/admission-evidence.js` is also not a substitute for normal case-study
-data. It contains the current Pure Data learning record, text-first
-representative works, supporting case links, collaboration evidence, the
-learning roadmap, and verified final URLs. Use it when the review section must
-make an evidence boundary explicit rather than present a full case-study
-artifact.
+data. It contains the reader-facing Pure Data learning record, representative
+works and viewing links, supporting case links, collaboration evidence, the
+learning roadmap, and verified final URLs. Detailed claims, validation,
+authorship, AI, rights, limitations, and evidence requests live in
+`src/data/admission-evidence.audit.js` and are rendered only in Draft Mode.
+Both files use matching stable IDs.
 
 ## 2. Add A New Project Entry
 
@@ -113,16 +115,26 @@ Draft/submission aliases keep these notes out of the website bundle, but they do
 
 ### Admission-level evidence shape
 
-For a public admission evidence record, keep the following concerns separate:
+For a public admission evidence record, keep reader-facing identity, purpose,
+status, tools, roles, completed work or highlights, reflection/version
+context, next step, current viewing links, and
+`submissionVisibility: "public"`.
 
-- `status` and `evidenceStatus`: what exists now
+For its matching Draft audit record, keep these concerns separate:
+
+- `evidenceStatus`: what artifact or record exists now
 - `validationStatus`: whether any user/research validation has occurred
+- `supportedClaims` and `unsupportedClaims`
 - `authorship` and `aiAssistance`: applicant work versus tool/AI contribution
-- `rights`: what can be displayed and what remains third-party or unreviewed
+- `rights`: current display scope and remaining third-party boundaries
 - `limitations`: visible or evidentiary defects
-- `nextStep`: the next real artifact or review action
-- `evidenceLinks`: only links that currently resolve to public evidence
-- `submissionVisibility`: whether the record belongs in the formal build
+- `evidenceRequests`: the next real artifact or review action
+- `submissionVisibility: "draft-only"`
+
+The public and audit records must share the same `id`／`publicRecordId`.
+`DraftModeEnabled` dynamically imports the audit module so it stays outside the
+raw entry; submission mode excludes it through the Draft alias. The Repository
+is public, so do not store private personal data or raw evidence in it.
 
 The Pure Data media object additionally requires a descriptive local `src`,
 poster, MIME type, width, height, duration, codec summary, caption,
@@ -131,8 +143,10 @@ poster, MIME type, width, height, duration, codec summary, caption,
 decorative copy.
 
 Do not add an empty or unverified link merely to make a card look complete.
-《畫本》 and the named MV currently use `evidenceLinks: []`; their public cards
-must continue to explain why no video is embedded.
+《畫本》 and the named MV currently use canonical YouTube watch links that were
+confirmed open on 2026-07-26. Keep the public cards as outbound links rather
+than downloads or embeds. Link availability does not prove an award, complete
+credits, publication permission, or rights to third-party material.
 
 ## 3. Case Study Order
 
@@ -337,6 +351,26 @@ pnpm run check:publication
 ```
 
 This command must remain blocked unless the applicant has completed the rights/source checklist: top-level status and gate, named/date-stamped attestation with an evidence reference, evidence lifecycle, and every rights item's checks plus evidence references. Hamlet's 2026-07-26 attestation currently satisfies that checkpoint; changing only `status` from `unverified` remains intentionally insufficient. A successful submission build proves output hygiene and artifact consistency, not permission to publish.
+
+### 2026-07-26 final verification fingerprint
+
+- `pnpm run doctor`: exit 0.
+- Draft: 471 modules; entry 180733 B, CSS 44315 B, initial JS gzip 200889 B.
+- Submission: 467 modules; entry 153704 B, CSS 44315 B, initial JS gzip 192936 B.
+- Sound 18/18; rights 14/14; scanner fixtures 73/73.
+- Submission scanner: 132 dist files, 25 text files, 67 text rules and 9
+  inventory rules.
+- `public/` inventory: 118 entries, 0 missing and 0 mismatch.
+- `pnpm run check:publication`: exit 0, `verified / approved`, within the
+  documented Hamlet limited-use scope only.
+- Browser smoke at 1280／768／390／320: 0 overflow, broken hash, duplicate ID
+  or broken image; console 0; four deep links at 95–112 px; theme endpoints and
+  Menu Escape passed.
+
+The run did not cover screen readers, real zoom, system reduced-motion,
+physical devices or multi-browser audio. The two YouTube links remain Draft-PR
+content with unverified third-party rights and incomplete credits. REAPER copy
+is limited to installation only, with no project or output.
 
 ## Interactive prototype schema extension
 

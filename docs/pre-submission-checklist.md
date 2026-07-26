@@ -21,9 +21,37 @@ pnpm run check:submission
 
 `check:submission` first runs isolated scanner regression fixtures, then performs a submission-mode production build, scans supported text-based files and the complete `dist/` file inventory, and audits the output for GitHub Pages-breaking root-relative asset paths. It is a required baseline; the independent checks below remain defense in depth.
 
-2026-07-26 最新本機自動驗證快照：`pnpm run doctor` exit 0；scanner fixtures 58/58、inventory rules 9；draft build 470 modules、submission build 467 modules；fresh `dist/` 132 files／25 text files、`public/` 118 files，public→dist 0 missing／0 hash mismatch。這些結果適用目前 11 段 IA 與 Hamlet rights Phase B fingerprint；正式匯出前仍應依本清單記錄新一輪實際 exit code。
+## 2026-07-26 Verification Lineage
 
-In-app Browser 已在 1280×720、768×1024、375×812、320×568 核對 Hamlet confirmed disclosure、Suno focus、影片 keyboard play／pause、8 幕、2 tracks、case targets、responsive width 與 clean-tab console；待本人確認、舊權利卡片、duplicate ID、broken case target 與 global horizontal overflow 均為 0。Screen reader、真實 zoom、system reduced-motion、實機與多瀏覽器音訊仍需人工驗收。
+Phase B verified baseline：
+
+- [x] `pnpm run doctor`：exit 0；14/14 rights tests、58/58 scanner fixtures、18/18 sound tests。
+- [x] Draft build 470 modules、submission build 467 modules；fresh `dist/` 132 files／25 text files、`public/` 118 files，public→dist 0 missing／0 hash mismatch。
+- [x] Hamlet manifest 為 `verified / approved`，applicant attestation 已綁定具名申請者、日期與影片 SHA-256；`pnpm run check:publication` exit 0。
+- [x] Phase B Browser smoke 涵蓋 1280×720、768×1024、375×812、320×568 的 confirmed disclosure、Suno focus、Hamlet keyboard playback、8 幕、2 tracks、case targets、responsive width、overflow 與 clean-tab console。
+
+公開展示版 `75b8df7` 整合前 snapshot：
+
+- [x] 舊 base 的 `doctor` exit 0；72/72 scanner fixtures、132 files／25 text files、67／7 rules。
+- [x] 舊 base 的 submission build 為 467 modules；initial JS gzip 191397 B、entry 148553 B、CSS 44122 B。
+- [x] 舊 base 的 Browser matrix 涵蓋 1440／1280／768／390／320、7 個 hash、theme forward／reverse、Web Audio 與 Pure Data 影片。
+- [x] Public／audit schema 已分離；Draft／Audit 以 stable ID 保留限制紀錄，submission public components 不讀取 audit records。
+- 該 snapshot 的 `check:publication` exit 1、11 blockers 是 Phase B 前歷史狀態，已由上方 applicant attestation、`verified / approved` 與 exit 0 取代。
+
+目前整合工作樹：
+
+- [x] `pnpm install --frozen-lockfile` 與完整 `pnpm run doctor`：exit 0。
+- [x] 18/18 sound、14/14 rights、73/73 scanner fixtures。
+- [x] Draft：471 modules、initial JS gzip 200889 B、entry 180733 B、CSS 44315 B。
+- [x] Submission：467 modules、initial JS gzip 192936 B、entry 153704 B、CSS 44315 B。
+- [x] Scan：132 files／25 text files、67 個 text rules／9 個 inventory rules；118 個 `public/` files 對 132-file `dist/` 為 0 missing、0 hash mismatch。
+- [x] `pnpm run check:publication`：exit 0；manifest `verified / approved`。
+- [x] Browser：1280×800、768×900、390×844、320×720；0 overflow、broken hashes、duplicate IDs、broken images、console warning／error。Pure Data、Hamlet、`#selected-work`、`#contact` deep links 約 95–112 px，theme endpoints 與 mobile Escape focus restore 通過。
+- [x] Draft-only audit data 已動態拆分；REAPER 過度敘述與 print reading-surface reset 已修正。
+- [ ] 完成 screen reader、真實 200% zoom、system reduced-motion、實機與多瀏覽器音訊驗收。
+- [ ] 核對兩個 YouTube 作品的第三方 rights 與完整 credit。
+
+目前新 PR 是 Draft；本機 gate 通過不等於已 merge、deploy 或取得發布核准。
 
 ## Production Publication Gate
 
@@ -93,15 +121,15 @@ rg -n "無歌詞配樂|實際成片.*no lyrics|本人作曲|本人作詞|本人�
 - Confirm Traditional Chinese line breaking still reads naturally.
 - Confirm reduced-motion mode does not depend on animation to reveal core content.
 
-## Current Browser Limitation
+## Browser Coverage And Remaining Checks
 
-- [ ] Run all four requested viewports in an interactive Browser. The latest attempt was blocked by local connection isolation even though shell-side localhost HTTP returned 200.
-- [ ] Verify all 11 high-level anchors, duplicate IDs, broken targets, deep links, fixed-nav offsets, and keyboard／menu focus behavior.
-- [ ] Verify Web Audio enable／stop／Escape／fallback behavior and confirm there is no autoplay.
-- [ ] Verify the Pure Data video, poster, native controls, Save-Data path, keyboard focus, and failed-media fallbacks.
-- [ ] Verify system reduced-motion behavior, horizontal overflow, broken media, and console warnings／errors.
+- [x] Verify the current integrated React render at 1280×800、768×900、390×844、320×720；0 broken hashes、duplicate IDs、global overflow、broken images and console warning／error.
+- [x] Verify fresh Pure Data、Hamlet、`#selected-work` and `#contact` deep-link offsets at approximately 95–112 px.
+- [x] Verify dark／paper theme endpoints and mobile menu Escape／trigger focus restore.
+- [ ] Verify system reduced-motion, screen reader, real 200% zoom, iOS／Android and multi-browser audio／video behavior.
+- [ ] Complete production field checks after the Draft PR is approved, merged and deployed.
 
-None of the items in this section were executed in the latest Browser attempt; they must remain unchecked and must not be reported as passing.
+Only checked items above are current integrated Browser evidence. Do not generalize them into a full accessibility, device, media-fallback or production pass.
 
 ## Final Export
 

@@ -34,6 +34,7 @@ const submissionFsDeny = [
   "**/reports/**",
   "**/restricted-media/**",
   "**/src/assets/draft/**",
+  "**/src/data/admission-evidence.audit.js",
   "**/src/data/portfolio.hidden.js",
   "**/src/data/portfolio.internal.js",
   "**/src/draft/DraftModeEnabled.jsx",

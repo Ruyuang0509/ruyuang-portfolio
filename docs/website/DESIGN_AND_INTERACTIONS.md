@@ -1,12 +1,23 @@
 # 視覺、互動、響應式與可及性
 
-## 2026-07-26 最新設計與互動狀態
+## 2026-07-26 rights 與公開展示版設計整合
+
+- 資料視覺化的根因不是單一文字色，而是透明 `.theme-transition-source` 讓深色前景直接疊在 mist／paper field。現在標題、摘要、媒體與卡片固定在不透明深色 semantic reading surface；動畫只在周邊保留，主標以兩個繁中 phrase lines 呈現。
+- `useThemeInversion` 以 central theme endpoint 同步 nav 與 fixed field，`onUpdate`／`onRefresh` 使用同一 threshold；`App` 的 `ResizeObserver` 在 lazy section／媒體改變高度時觸發 deep-link resettle。
+- Hamlet 播放器後方保留 compact「素材來源與公開範圍」面板、confirmed attestation、Suno credit／focus link、實際含英語歌詞與人聲的更正，以及 keyboard-operable 八幕 storyboard；沒有為 rights disclosure 新增 Navbar 或大型 IA section。
+- 最新 Browser 回歸覆蓋 1280×800、768×900、390×844、320×720：0 horizontal overflow、0 broken hashes、0 duplicate IDs、0 broken images，console 0 warning／0 error。Pure Data、Hamlet、`#selected-work`、`#contact` deep links 落在 fixed nav 下約 95–112 px。
+- Dark／paper endpoints、資料視覺化不透明深色 reading surface、行動 menu Escape／focus restore 都通過。Print CSS 另將 `.theme-reading-surface` 與 dark variant 重設為紙色 tokens、visible overflow、無 shadow，避免列印沿用螢幕深色面。
+- Install／`doctor` exit 0，sound 18/18、rights 14/14、scanner 73/73，`check:publication` exit 0／`verified / approved`。Draft PR 仍不等於 deploy 或 production publication approval。
+- Screen reader、真實 200% zoom、system reduced-motion、實機與多瀏覽器音訊仍未驗證；保留為人工驗收項目，不由 source-level fallback 推論通過。
+
+## 延續的設計與互動狀態
 
 - 本輪改的是文案層級、11 段 IA、AdmissionEvidence 區段與研究構想呈現；既有 palette、字體、spacing、R3F Hero、GSAP／Lenis、fixed viewport transition、Custom Cursor、卡片回饋、聲音操作與 reduced-motion 行為均保留。
 - Hero 兩個 CTA 現在直達 Web Audio demo 與學習／研究路線；paper surface 承接支持案例 gallery、專案與合作、學習路線、AI／作者性及研究方向／連結。研究構想本身位於深色 `#research-positioning` wrapper。
 - `ResearchPositioning.jsx` 現只負責 `SoundTransitionSection` 與 `ReviewerPathSection`；四層研究構想由獨立 `ResearchProposalSection` 呈現。舊 `LearningTrail` 不在 `App.jsx` 主 IA，現行四階段學習路線由 `AdmissionEvidenceSections` 提供。
-- `pnpm run doctor` exit 0；draft／submission 分別為 470／467 modules，fresh `dist/` 132 files／25 text files，118 個 `public/` files 為 0 missing／0 SHA-256 mismatch。
-- In-app Browser 已在 1280×720、768×1024、375×812、320×568 完成 Hamlet rights Phase B smoke：confirmed disclosure、Suno focus、40 秒影片 keyboard play／pause、8 幕、2 tracks 與 responsive width 正常；待本人確認、舊權利卡片、duplicate ID、broken case target、horizontal overflow 與 clean-tab console error 均為 0。
+- 最新 draft build 為 471 modules、entry 180733 B、CSS 44315 B、initial JS gzip 200889 B；submission build 為 467 modules、entry 153704 B、CSS 44315 B、initial JS gzip 192936 B。Fresh `dist` 為 132 files／25 text files，118 個 public files 為 0 missing／0 SHA-256 mismatch。
+- 四個 viewport 已完成 target／ID、overflow、broken images、行動 menu、fresh deep links、dark／paper endpoints與console 回歸；sound 18/18 是 mapping／lifecycle 自動測試，不等於多瀏覽器可聽輸出實測。
+- System reduced-motion、screen reader、真實 200% zoom、實機與多瀏覽器音訊仍不得由 source fallback 或單一 Browser 矩陣推論通過。
 - 2026-07-17／07-18 的 viewport matrix、2026-07-24 整合前 1440×900／375×812 結果與 Lighthouse 數據只保留為舊 IA／舊 source 的歷史證據，不擴張成目前工作樹、真機、輔具或 field 結論。
 
 ## 2026-07-23 公開文案更新
@@ -55,14 +66,14 @@
 
 ## 主要互動與 motion
 
-- **Hero：** 主標各片語以 overflow mask 從 `y:112%`、交錯 `±3deg` 進入，沿用初代 `.22,1,.36,1` easing 與逐行 stagger；研究介紹只由部分可見的 opacity 與 `y:28px` 收束到終態，不讓整個 main 或 LCP 文字從透明開始。兩個 CTA 保留低比重進場並直達 Web Audio demo 與研究構想。
+- **Hero：** 主標各片語以 overflow mask 從 `y:112%`、交錯 `±3deg` 進入，沿用初代 `.22,1,.36,1` easing 與逐行 stagger；研究介紹只由部分可見的 opacity 與 `y:28px` 收束到終態，不讓整個 main 或 LCP 文字從透明開始。兩個 CTA 保留低比重進場並直達 Web Audio demo 與 `#learning-roadmap`。
 - **3D：** shader sphere 以波形與 fresnel 混色回應 pointer，粒子場緩慢旋轉。精簡 R3F canvas 將整個 Hero section 作為 event source，以 `clientX`／`clientY` 相對 section 幾何計算 pointer；延遲完成後仍重新檢查頁面與 Hero 位置，首次載入前若已導航至 offscreen 就不 mount canvas，回到 preload window 才載入；已 mounted 的場景離屏後改用 demand frameloop。場景錯誤只由 Hero 內的局部 boundary 接住，不會移除標題、介紹或 CTA。
 - **捲動：** Lenis 與 GSAP 共用 RAF，並會在 `prefers-reduced-motion` 執行期間變更時即時建立／銷毀 smooth-scroll runtime；ScrollTrigger 以 `#data-visualization-series` bottom 70% 與 `#project-index-title` top 25% 計算自然邊界，再把 range clamp 為 0.8–1.2 viewport，只控制固定 field 的 paper／mist／radial opacity 與 transform。使用者停止時保留中間狀態，反向捲動平順倒放，document root 與前景色 tokens 不參與插值。
 - **Navbar：** 表面提高不透明度以維持兩種局部 palette 的對比，移除固定 `backdrop-blur-2xl`；依 fragment／可見區段提供 active state 與 `aria-current="location"`，桌面、行動及首頁入口的主要 target 至少 44 px。行動選單以 Motion 在開／關兩向動畫 height、opacity 與輕微 y 位移，仍保留 Escape、outside click、focus restore 與 closed-state `inert`。
 - **Custom cursor：** fine pointer 且非 reduced-motion 時顯示；`data-magnetic` 元素有吸附與 label variants；以 MotionValue、spring、rAF batching 避免每次 pointermove 觸發 React render。
 - **卡片：** hover y -8、scale .99、媒體輕微放大，focus-within 提供同等媒體回饋；reduced-motion 時不執行 Motion hover。Hero canvas、magnetic hit targets 與靜止媒體都不保留永久 `will-change`，圖像／影片只在 hover 或 focus-within 時暫時晉升。
 - **折疊內容：** Prompt Template、7 個圖解文字等價敘述與雙語逐字稿共用 `AnimatedDetails`。保留 `<details>/<summary>`、`defaultOpen`、Enter／Space 與 `aria-expanded`；展開 360 ms、收合 300 ms，收合結束前保持內容 mounted，實際 height、箭頭、opacity 與位移同步。共用的 live reduced-motion media-query subscriber 可在動畫中途立即完成；ResizeObserver 會在內容或 viewport 改變時重設目標高度，快速反轉會取消前一序列，完成／unmount 後清除 WAAPI effect，最後再刷新 Lenis／ScrollTrigger layout。
-- **影片／demo：** YouTube iframe 採 privacy-enhanced URL；Hamlet featured video 維持 16:9、controls、`playsInline`、一般 `preload="metadata"`／Save-Data `none`、多語 WebVTT 與同頁逐字稿，錯誤時保留 poster、可讀訊息與直接檔案連結。Pure Data 影片同樣使用 controls、`playsInline`、metadata preload 與 1276×720 poster，並以觀看指南、可證明／不能證明和 error fallback 補足非自動播放情境；本輪 Browser 未連線，因此實際播放尚未驗證。
+- **影片／demo：** YouTube iframe 採 privacy-enhanced URL；Hamlet featured video 維持 16:9、controls、`playsInline`、一般 `preload="metadata"`／Save-Data `none`、多語 WebVTT 與同頁逐字稿，錯誤時保留 poster、可讀訊息與直接檔案連結。Pure Data 影片同樣使用 controls、`playsInline`、metadata preload 與 1276×720 poster，並以觀看指南、可證明／不能證明和 error fallback 補足非自動播放情境；本輪 Browser 讀到 Pure Data 1276×720／62.983 秒及 Hamlet 1920×1080／40 秒 metadata 且無 media error，但未實際播放、切換字幕、Save-Data 或模擬失敗。
 - **深層連結：** fragment 位於 `content-visibility:auto` 長案例內時，只讓該案例維持完整 layout 並重算既有 Lenis range；初始載入、`hashchange` 與站內導覽先做 double-rAF layout settle，再最多校正兩次 fixed-nav offset。wheel、touch、pointer 或 scroll key 會取消尚未完成的校正，避免與使用者輸入競爭；其他離屏案例仍沿用 paint skip。Header 的「播放案例影片」在 anchor 完成後把焦點交給 native video。
 - **區段錯誤：** 可在原位重試，不使整頁消失。
 
@@ -73,7 +84,7 @@
 | 系統／效果 | 分類 | 目前實作與保存理由 | 風險／回退 |
 | --- | --- | --- | --- |
 | Hero 片語 line-mask stagger | narrative guidance；atmosphere／authorship | [`../../src/components/ImmersiveHero.jsx`](../../src/components/ImmersiveHero.jsx) 以 Motion 將片語由 `y:112%`、交錯旋轉帶入，建立主張的閱讀次序與初代辨識度 | DOM heading 保留完整 accessible name；reduced motion 直接到終態，且不把整個 Hero／LCP 文字設為透明 |
-| Hero 介紹與 CTA 進場 | narrative guidance | 介紹只由部分可見狀態收束；CTA 低比重進場後提供 Web Audio demo／研究構想下一步 | 不能恢復整頁 mount-hide；需維持首幀可讀與 CTA 可操作 |
+| Hero 介紹與 CTA 進場 | narrative guidance | 介紹只由部分可見狀態收束；CTA 低比重進場後提供 Web Audio demo／學習與研究路線 | 不能恢復整頁 mount-hide；需維持首幀可讀與 CTA 可操作 |
 | Hero shader orb／粒子 | atmosphere／authorship；performance risk | [`../../src/components/HeroScene.jsx`](../../src/components/HeroScene.jsx) 與 `LeanR3FCanvas` 提供聲音／互動視覺語彙，是漸進增強而非內容來源 | lazy、visibility／device gate、低 DPR／segments、離屏 demand frameloop；Save-Data、reduced-motion 與弱裝置不載入 |
 | 深墨→暖灰→暖紙 fixed viewport field | narrative guidance；atmosphere／authorship；performance risk | [`../../src/hooks/useThemeInversion.js`](../../src/hooks/useThemeInversion.js) 用 ScrollTrigger 將研究證據帶入作品閱讀面，支援停留與反向 scrub | 只動 opacity／transform；不改 root／前景 tokens、不 blur 內容；reduced motion 使用同邊界離散端點 |
 | Lenis smooth scroll／anchor 定位 | narrative guidance；performance risk | [`../../src/hooks/useLenisGsap.js`](../../src/hooks/useLenisGsap.js) 與 Navbar 維持長頁閱讀節奏；deep-link double-rAF settle 避免案例落點錯位 | reduced motion 即時銷毀；使用者 wheel／touch／pointer／scroll-key 取消未完成校正；不允許無界 rAF loop |
@@ -104,7 +115,7 @@
 
 ## Accessibility 已實作
 
-- `html lang="zh-Hant-TW"`，使用 semantic `main/nav/section/article/footer` 與可讀 heading hierarchy。
+- `html lang="zh-Hant-TW"`，使用 semantic `main/nav/section/article` 與可讀 heading hierarchy；目前沒有獨立 `<footer>`，`#contact` 是主內容中的 `<section>`。
 - 鍵盤可見 focus outline、skip link、fixed-nav scroll margin。
 - 行動 menu 有 expanded/control state、Escape 與 trigger focus restore。
 - 桌面導覽與 Logo 的鍵盤 Enter 會把焦點送進目標 heading；`#research-proposal`／`#ai-workflow` 等 lazy 區段改聚焦永久 section wrapper；滑鼠點擊不強制搬移焦點。
@@ -113,12 +124,12 @@
 - sound controls 有 labels、live status、busy／disabled states、明確 start/stop、四個鍵盤 range 與可讀參數 readout；pointer pad 以具說明的 `role="img"` 呈現，不要求 microphone。
 - custom cursor `aria-hidden` 且 pointer-events none。
 - `prefers-reduced-motion` 在 JS 停用 Lenis、cursor、R3F；Lenis 與 `AnimatedDetails` 共用的 media-query 監聽都會回應執行期間的偏好變更，不只在 mount 時取樣。Viewport field 不移動 mist／radials，只在同一幾何邊界離散切換 dark／paper endpoint，disclosures 與行動選單立即開關。內容 palette 不依賴動畫完成才可讀。
-- print 隱藏 nav、skip、draft banner、cursor 與 fixed viewport field，強制 disclosure 內容展開，並將主要 section 強制為紙色背景，保持 paper-safe 輸出。
+- print 隱藏 nav、skip、draft banner、cursor 與 fixed viewport field，強制 disclosure 內容展開；`.theme-reading-surface`／dark variant 連同主要 section 重設為紙色 tokens、visible overflow 與無 shadow，保持 paper-safe 閱讀。真實印表機／PDF 輸出仍需人工檢查。
 - section error fallback 使用 `role="alert"`。
 
 ## Accessibility 與視覺缺口
 
-- 舊 IA 曾完成桌面導覽、Logo、行動導覽與 sound range 的 rendered keyboard/focus matrix；整合前也曾留下 1440×900／375×812 紀錄。2026-07-26 Phase B 已對目前 source 完成四 viewport Hamlet disclosure／media／focus／overflow／console smoke，但沒有重跑全站 Web Audio、reduced-motion、screen reader、全站 touch target 或完整 WCAG 人工 audit。2026-07-17 Lighthouse accessibility 亦只是 content fingerprint 已漂移的歷史資料。
+- 最新整合已在四個 viewport 通過 hash targets、duplicate IDs、overflow、broken images、deep-link offset、theme endpoints、行動 menu Escape／還焦與console smoke。這仍不涵蓋 screen reader、真實 200% zoom、system reduced-motion、實機、多瀏覽器音訊或完整 WCAG 人工 audit；2026-07-17 Lighthouse accessibility 也只作歷史資料。
 - sound pad 的 pointer 操作區本身不是 keyboard widget；它以圖像語意說明映射，鍵盤使用者改用四個 range controls，仍需真實使用者研究確認是否足夠易懂。
 - visible readout 由四個 range 的 `aria-describedby` 關聯，另以節流 `aria-live` 宣告參數；仍需 screen reader 實測確認訊息頻率。
 - 行動 menu 沒有 focus trap；它是非 modal nav，但仍應做實際 tab-order 測試。
@@ -128,6 +139,6 @@
 
 ## Performance 現況
 
-DOM 首屏文字是預期且在 2026-07-17 歷史量測中確認的 LCP path；line-mask 主標不會讓整個首屏一起透明。Three 與 sound prototype lazy 分 chunk，3D closure 不進 initial modulepreload，並在窄螢幕延後 1.4 秒後再等 idle；callback 重新檢查目前幾何與頁面可見性，只有 Hero 仍在 240 px preload window 內才首次下載。建置預算透過遞迴解析 built imports 稽核完整 lazy 3D closure；2026-07-23 為 638680 raw／169383 gzip bytes，每個 lazy chunk 上限 500000 raw bytes。Fresh draft build 為 initial JS 199833 gzip B、entry 181592 B、CSS 43688 B；fresh submission build 為 initial JS 193737 gzip B、entry 160908 B、CSS 43688 B。
+DOM 首屏文字是預期且在 2026-07-17 歷史量測中確認的 LCP path；line-mask 主標不會讓整個首屏一起透明。Three 與 sound prototype lazy 分 chunk，3D closure 不進 initial modulepreload，並在窄螢幕延後 1.4 秒後再等 idle；callback 重新檢查目前幾何與頁面可見性，只有 Hero 仍在 240 px preload window 內才首次下載。最新 draft build 為 471 modules、initial JS gzip 200889 B、entry 180733 B、CSS 44315 B；submission 為 467 modules、initial JS gzip 192936 B、entry 153704 B、CSS 44315 B。這些是 current build evidence，不是 Lighthouse 或 production field performance；2026-07-17 Lighthouse 仍只代表歷史 source fingerprint。
 
 Motion-forensics 的直接前後對照使用相同 submission harness。修正前 archive `2026-07-17T16-21-04-610Z`：mobile Performance 94、LCP 2634 ms、TBT 75 ms、transfer 459090 B；desktop 100、LCP 555 ms、TBT 0 ms、transfer 442761 B。該輪最終 archive `2026-07-17T17-31-33-225Z` 為 mobile Performance 94、LCP 2651 ms、TBT 90 ms、transfer 460502 B，desktop Performance 100、LCP 560 ms、TBT 0 ms、transfer 444173 B；兩者 Accessibility／Best Practices／SEO 100、CLS 0。這組數字只證明當時 motion 修復相對基線的成本，屬文案改寫前的 localhost simulated lab；2026-07-19 後 source fingerprint 已漂移，不能當作目前 production 或 current-source 效能結論。

@@ -53,23 +53,23 @@ export const ReviewerPathSection = memo(function ReviewerPathSection() {
     >
       <div className="mx-auto grid max-w-7xl gap-10">
         <header className="grid gap-5 md:grid-cols-[0.34fr_0.66fr] md:gap-16">
-          <p className="meta-label text-[var(--theme-accent)]">證據導覽</p>
+          <p className="meta-label text-[var(--theme-accent)]">閱讀路線</p>
           <div className="grid gap-5">
             <EditorialHeading
               as="h2"
               id="reviewer-path-title"
               className="editorial-heading zh-display text-[length:var(--font-size-fluid-section)]"
-              lines={[["先看最強證據，"], ["再依目的", "深入閱讀。"]]}
+              lines={[["先從可操作", "原型開始，"], ["再依興趣深入", "作品與研究方向。"]]}
             >
-              先看最強證據，再依目的深入閱讀。
+              先從可操作原型開始，再依興趣深入作品與研究方向。
             </EditorialHeading>
             <p className="zh-copy-wide text-[color:var(--theme-muted)]">
-              這裡不是主導覽的重複清單，而是依證據強度與閱讀目的安排的入口。Web Audio 是目前最完整的聲音實作；Pure Data 是學習紀錄；研究構想與代表作品分開閱讀。
+              你可以先體驗 Web Audio，再依興趣前往 Pure Data 學習紀錄、影音與資料作品、研究構想或 AI 協作說明。
             </p>
           </div>
         </header>
 
-        <nav aria-label="依證據目的選擇閱讀路徑">
+        <nav aria-label="作品集閱讀路線">
           <ol className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {homepageNarrative.reviewerPaths.map((path, index) => (
               <li key={path.target}>

@@ -9,7 +9,7 @@ export default function LearningTrail() {
           <p className="meta-label text-[var(--theme-accent)]">學習進度</p>
           <div className="grid gap-5">
             <EditorialHeading as="h2" id="learning-trail-title" className="editorial-heading zh-display text-[length:var(--font-size-fluid-section)]" lines={[["聲音工具", "學到哪裡，"], ["目前有哪些材料", "可以看。"]]}>聲音工具學到哪裡，目前有哪些材料可以看。</EditorialHeading>
-            <p className="zh-copy-wide text-[color:var(--theme-muted)]">Web Audio 是目前最完整的聲音技術證據。Pure Data 從 2026/07/24 開始學習，REAPER 已安裝但尚未進入系統性練習；兩者都不列為完成作品。</p>
+            <p className="zh-copy-wide text-[color:var(--theme-muted)]">Web Audio 已能直接操作；Pure Data 從 2026/07/24 開始練習，REAPER 已完成安裝，但尚未形成工程或聲音輸出。這一區把可操作作品與正在累積的聲音工具經驗放在同一條學習路線上。</p>
             <a className="interactive-link chip-text w-fit rounded-full border border-[color:var(--theme-line)] px-5 py-3 text-sm font-extrabold" href="#project-index-title">接著看代表作品</a>
           </div>
         </div>
@@ -29,7 +29,7 @@ export default function LearningTrail() {
               <p className="zh-caption text-[color:var(--theme-muted)]">{item.evidence}</p>
               {item.aiAssistance ? (
                 <p className="zh-caption rounded-[var(--radius-sm)] border border-[color:var(--theme-line)] p-3 text-[color:var(--theme-muted)]">
-                  AI 協作邊界：{item.aiAssistance}
+                  AI 協作與我的學習：{item.aiAssistance}
                 </p>
               ) : null}
             </article>

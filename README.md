@@ -4,6 +4,16 @@
 
 這個資料夾是未來工作的唯一 canonical project root。舊資料夾 `portfolio-nextgen`、`personal-portfolio-nextgen`、以及原始 Codex 任務資料夾都只作為參考或封存，不應直接編輯。
 
+## 2026-07-26 公開展示版整備（本輪已驗證）
+
+- 公開作品資料與內部稽核已分層：`src/data/admission-evidence.js` 只保存公開敘事，完整 evidence／validation／rights／limitations／requests 改由 `src/data/admission-evidence.audit.js` 提供 Draft／Audit 使用。Submission 仍以 module boundary 排除內部資料，不以 CSS 隱藏。
+- `DataVisualizationSeries` 現在把文字固定在不透明的深色語意閱讀面；全畫面 mist／paper 場域只在閱讀面外轉場，`useThemeInversion` 以同一個 endpoint 狀態同步 field 與 navigation chrome。`App.jsx` 另以 `ResizeObserver` 在 lazy 內容改變高度後重新校正深層 hash。
+- 本輪另把 Draft-only audit data 改為動態拆分以守住 entry budget，修正 REAPER 過度敘述，並讓 print 取消 reading-surface 深色背景。
+- `pnpm install --frozen-lockfile` 與 `pnpm run doctor` 均 exit 0；18/18 sound、14/14 rights、73/73 scanner fixtures 通過。Draft 為 471 modules、initial JS gzip 200889 B、entry 180733 B、CSS 44315 B；submission 為 467 modules、initial JS gzip 192936 B、entry 153704 B、CSS 44315 B。
+- Submission scan 覆蓋 132 files／25 text files、67 個 text rules／9 個 inventory rules；118 個 `public/` files 在 132-file `dist/` 中為 0 missing、0 hash mismatch。`pnpm run check:publication` exit 0，manifest 為 `verified / approved`。
+- Browser 已在 1280×800、768×900、390×844、320×720 驗證 0 overflow、0 broken hashes、0 duplicate IDs、0 broken images、console 0 warning／error；Pure Data、Hamlet、`#selected-work`、`#contact` deep links 位於頂端約 95–112 px，dark／paper theme endpoints 與 mobile menu Escape 還焦通過。
+- Hamlet 核准只涵蓋具名的非營利作品集用途，不延伸為商業授權、private originals 已查驗或研究／學習成效成立。Screen reader、真實 200% zoom、system reduced-motion、實機與多瀏覽器音訊仍未驗；兩個 YouTube 作品的第三方 rights／完整 credit 仍待核對。目前 PR 是 Draft，不等於發布核准。
+
 ## Start Here
 
 ```powershell
@@ -69,7 +79,7 @@ decisions.
 
 ## Current Admission Structure
 
-The 2026-07-24 Admission Evidence Pass uses eleven stable review sections:
+The 2026-07-25 verified site uses eleven stable review sections:
 
 1. `#top`
 2. `#sound-transition`
@@ -142,20 +152,30 @@ Pure Data v0.2.1 目前只能稱為「學習中／可操作功能原型」與「
 - 仍未找到八幕原始生成紀錄、原始 EML 或可編輯 Canva 專案；權利核准不等於
   這些 private originals 已被獨立查驗，也不把研究／學習成效改為 validated。
 
-## 2026-07-24 Local Verification（歷史快照）
+## 2026-07-25 PR #6 Verification（歷史快照）
 
 - `pnpm run doctor`：exit 0；scanner fixtures 57/57，draft／submission
   分別完成 470／467 modules。
+- 當時的 build budgets：draft initial JS gzip 198914 B／entry 173631 B；
+  submission initial JS gzip 192733 B／entry 152769 B；CSS 43138 B；
+  lazy 3D closure 638680 raw／169383 gzip B。
 - submission `dist/`：132 files，其中 25 個文字檔；`public/` 118 files
   全數存在，0 missing、0 hash mismatch。
-- Pure Data MP4 與 poster 的本機 HTTP 檢查皆為 200，content type 與
-  bytes 符合檔案 inventory。
-- `pnpm run check:publication`：exit 1；11 個 Hamlet 權利與申請者
-  attestation blockers 均保留，這是預期的發布阻擋。
-- In-app Browser 已嘗試連線，但其本機連線隔離在 shell HTTP 200 時仍回報
-  connection refused／受限錯誤。因此本輪沒有把四 viewport、anchor／focus、
-  Web Audio、影片播放、reduced-motion、overflow 或 console 驗收標為通過。
-- 本輪沒有 commit、push、deploy 或改變 repository visibility。
+- PR #6 已合併到 `main`；工作分支 `e0e30b2` 與 `main` 的
+  `e8f35e0` tree identical。Pages run `30087568225` build／deploy
+  success，Pages API 為 public／`built`／HTTPS enforced。
+- 正式站首頁、目前 entry／CSS、三個 admission lazy chunks、Pure Data
+  MP4／poster、Hamlet MP4／雙語 VTT／poster、`llms.txt` 與 social preview
+  均實測 HTTP 200。
+- 當時 `pnpm run check:publication` exit 1，保留 11 個 Hamlet 權利與申請者
+  attestation blockers；此結果已由上方 2026-07-26 Phase B 的
+  `verified / approved` 與 exit 0 取代。
+- 當時的 submission production preview 以 1280、375 與 320 px 實測：
+  React 正常掛載、74 個站內 hash links 無失效 target、135 個 ID 無重複、
+  320／375 無全頁水平溢位；行動選單可由 Escape 關閉並還焦，Pure Data、
+  舊 `#research-proposal` alias 與 `#contact` 直接深連結可定位，console
+  warning／error 為 0。Web Audio 實際發聲、system reduced-motion、
+  Save-Data、screen reader、實機與完整四 viewport matrix 當時仍待人工驗收。
 
 ## 2026-07-26 Hamlet Rights Phase A（歷史快照）
 

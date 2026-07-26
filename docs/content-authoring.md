@@ -5,9 +5,13 @@ This project now uses a structured case-study model with separate public and int
 Public-facing case and homepage narrative content lives in `src/data/portfolio.js`.
 The standalone proposal, admission evidence, and AI／authorship records live in
 `src/data/admission-research.js`, `src/data/admission-evidence.js`, and
-`src/data/ai-workflow.js`. Construction-stage notes, replacement reminders,
-and pre-submission checks live in `src/data/portfolio.internal.js` and appear
-only in Draft Mode.
+`src/data/ai-workflow.js`. Detailed admission claim, validation, authorship,
+rights, limitation, and evidence-request records live in
+`src/data/admission-evidence.audit.js`; `DraftModeEnabled` dynamically imports
+that module so it stays outside the raw entry, while the submission bundle
+excludes it through its Draft alias. Construction-stage notes, replacement
+reminders, and pre-submission checks live in
+`src/data/portfolio.internal.js` and appear only in Draft Mode.
 
 For the complete current authoring workflow, use `docs/adding-portfolio-work.md`.
 For public/internal governance rules, use `docs/content-governance.md`.
@@ -18,6 +22,7 @@ For the research decisions behind the layout, use `docs/portfolio-display-resear
 - Project data: `src/data/portfolio.js`
 - Standalone proposal data: `src/data/admission-research.js`
 - Pure Data, representative-work, collaboration, roadmap, and final-link data: `src/data/admission-evidence.js`
+- Draft-only admission claim／validation／rights records: `src/data/admission-evidence.audit.js`
 - AI／authorship data: `src/data/ai-workflow.js`
 - Draft-only hidden case text: `src/data/portfolio.hidden.js`
 - Draft-only internal notes: `src/data/portfolio.internal.js`
@@ -29,31 +34,38 @@ For the research decisions behind the layout, use `docs/portfolio-display-resear
 
 ## Admission Evidence Records
 
-Admission evidence is not another `projectCaseStudies` collection. Keep these
-records in `src/data/admission-evidence.js` so their evidence level remains
-visible:
+Admission evidence is not another `projectCaseStudies` collection. Keep the
+reader-facing records in `src/data/admission-evidence.js`:
 
 - `pureDataLearningEvidence`: a learning record with a public operation video
-- `representativeWorks`: text-first records for 《畫本》 and the named MV remix
+- `representativeWorks`: records and canonical viewing links for 《畫本》 and
+  the named MV remix
 - `supportingEvidenceLinks`: links back to existing verifiable case studies
 - `collaborationEvidence`: event-backed collaboration and resilience evidence
 - `learningRoadmap`: evidence, learning, no-work-yet, and graduate-study stages
 - `finalPortfolioLinks`: the verified Portfolio and public GitHub URLs
 
-The Pure Data record must retain `status`, `evidenceStatus`,
-`validationStatus`, `version`, `startedAt`, `authorship`, `aiAssistance`,
-`rights`, `limitations`, `nextStep`, `evidenceLinks`, and
-`submissionVisibility`. Its public media contract includes a descriptive local
-filename, poster, MIME type, intrinsic dimensions, duration, codec summary,
-caption, accessibility summary, fallback, five-step viewing guide, and
-separate lists for what the record does and does not prove.
+The public Pure Data record must retain `status`, `version`, `startedAt`,
+`purpose`, `description`, `tools`, `roles`, `completed`, `authorshipNote`,
+`versionNote`, `nextStep`, `evidenceLinks`, and `submissionVisibility`. Its
+media contract includes a descriptive local filename, poster, MIME type,
+intrinsic dimensions, duration, caption, accessibility summary, fallback, and
+five-step viewing guide.
 
-Do not promote a representative-work fact into artifact evidence. 《畫本》 and
-《希望有羽毛和翅膀》 currently have no public media links. Their records must
-continue to state the applicant's claimed role, missing public materials,
-rights limits, and next evidence request. Participation does not imply an
-award, and a secondary-creation edit does not transfer ownership of characters,
-animation footage, or music.
+Keep the detailed evidence boundary in `admission-evidence.audit.js`. Every
+public Pure Data or representative-work record has a one-to-one audit record
+with the same stable ID. Audit records retain `evidenceStatus`,
+`validationStatus`, supported and unsupported claims, authorship, AI
+assistance, rights, limitations, evidence requests, and
+`submissionVisibility: "draft-only"`. This source is still readable in the
+public Repository; bundle exclusion is not privacy.
+
+Do not promote a representative-work fact or working link into stronger
+artifact or rights evidence. 《畫本》 and 《希望有羽毛和翅膀》 use canonical
+YouTube links that were confirmed open on 2026-07-26, but a direct URL does not
+establish awards, complete credits, long-term availability, or permission for
+third-party material. A secondary-creation edit does not transfer ownership of
+characters, animation footage, or music.
 
 ## Stable Admission Sections
 
@@ -165,13 +177,16 @@ Videos should:
 - keep Poster, summary, direct-file fallback, transcript, and surrounding case copy available when runtime media or subtitle loading fails
 - never autoplay evidence media
 
-The current Pure Data MP4 is a deliberately disclosed source-quality operation
-record, not a polished validation video. It visibly contains a local project
-path, `validated` wording, and cropped interface regions. Public copy must call
-it `v0.2.1 本機功能測試`, preserve `尚待驗證`, use “模擬視覺參數” rather
-than camera/gesture input, and keep the limitations beside the player. A future
-replacement should hide the local path, correct the validation wording, frame
-the complete interface, and retain the current accessible viewing guide.
+The current Pure Data MP4 is a source-quality operation record, not a polished
+validation video. It visibly contains a local project path, `validated`
+wording, and cropped interface regions. Public copy must call it
+`v0.2.1 本機功能測試`, keep the overall state as
+`學習中／可操作功能原型`, use “模擬視覺參數” rather than camera/gesture
+input, and keep concise version context beside the player. The full path,
+wording, framing, authorship, and validation caveats remain in the matching
+Draft audit record. A future replacement should hide the local path, correct
+the validation wording, frame the complete interface, and retain the current
+accessible viewing guide.
 
 The `.pd`/ZIP source, inconsistent v0.2.2 material, AI conversation, and
 independent-rebuild work remain outside `public/` and the public Repository.
@@ -238,11 +253,33 @@ Completeness checks apply evidence-heavy recommended groups only to submission-v
 
 `content:check` also validates the current admission-evidence order and
 boundaries: the Pure Data identity/media record, two ordered representative
-works, three supporting evidence links, three collaboration groups, four
-roadmap stages, two final HTTPS links, the six-item evidence-path navigation,
-the four-layer research proposal, and the three AI responsibility/failure
-chains. Passing that check does not replace rendered anchor, media playback,
-rights, or browser verification.
+works and their canonical links, the one-to-one public/audit stable IDs, the
+absence of audit-only fields from public records, three supporting evidence
+links, three collaboration groups, four roadmap stages, two final HTTPS links,
+the six-item evidence-path navigation, the four-layer research proposal, and
+the three AI responsibility/failure chains. Passing that check does not replace
+rendered anchor, media playback, rights, or browser verification.
+
+### 2026-07-26 final verification fingerprint
+
+- `pnpm run doctor`: exit 0.
+- Draft: 471 modules; entry 180733 B, CSS 44315 B, initial JS gzip 200889 B.
+- Submission: 467 modules; entry 153704 B, CSS 44315 B, initial JS gzip 192936 B.
+- Sound 18/18; rights 14/14; scanner fixtures 73/73.
+- Submission scanner: 132 dist files, 25 text files, 67 text rules and 9
+  inventory rules.
+- `public/` inventory: 118 entries, 0 missing and 0 mismatch.
+- `pnpm run check:publication`: exit 0, `verified / approved`, within the
+  documented Hamlet limited-use scope only.
+- Browser smoke at 1280／768／390／320: 0 overflow, broken hash, duplicate ID
+  or broken image; console 0; four deep links at 95–112 px; theme endpoints and
+  Menu Escape passed.
+
+This run did not check screen readers, real zoom, system reduced-motion,
+physical devices or multi-browser audio. REAPER copy is limited to installation
+only, with no project or output. The two YouTube links remain Draft-PR content;
+third-party rights and complete credits were not verified, so link reachability
+is not publication approval.
 
 ## Interactive sound content fields
 
