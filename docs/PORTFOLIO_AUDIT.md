@@ -1,6 +1,6 @@
 # 作品集稽核紀錄
 
-更新日期：2026-07-17。這份文件記錄可由原始碼、建置輸出與本機 rendered behavior 證明的結果；內容或學術決策不足時，不以推測代替申請者證據。
+更新日期：2026-07-27。這份文件記錄可由原始碼、建置輸出與本機 rendered behavior 證明的結果；內容或學術決策不足時，不以推測代替申請者證據。
 
 ## 判讀方式
 
@@ -42,6 +42,7 @@
 | PA-028 | FUNCTION | 旗艦案例 Reading map | `#interactive-sound-learning-media` 沒有對應 section，但 Reading map 仍產生連結 | 站內導覽會跳向不存在的目標 | High | fresh submission DOM 已確認 | 共用 renderer 只在 supporting media 實際可渲染時加入媒體錨點 | 已完成 | 83 個站內 hash links：0 broken target；0 duplicate ID |
 | PA-029 | VISUAL_MOTION | 深色支持證據 → 暖紙作品區 | 前一輪以 section 上的 96–240 px linear-gradient bridge 模擬轉場，只會穿過固定色帶，不能停在全畫面中間色或反向 scrub | 與初代敘事 motion 不一致，也以額外 layout 高度製造過場 | High | 程式碼與 rendered behavior 已確認 | 改為 fixed full-viewport、pointer-inert field；由實際 section geometry 連續控制 paper／mist／3 radial layers，只動畫 opacity／transform，不插值 root／foreground tokens | 已完成 | 1440×900 range 823 px／0.914 vh，375×812 range 712 px／0.877 vh；中段全畫面暖灰、停止保持、反向可逆、0 overflow、console 0 issue |
 | PA-030 | FUNCTION_ACCESSIBILITY | Prompt Template、7 個圖解長描述、雙語逐字稿與行動選單 | Native disclosure 與 mobile nav 開／關曾瞬間改變高度，長逐字稿造成明顯 layout jump | 開關狀態缺少連續 feedback，鍵盤與長內容閱讀節奏突兀 | High | 程式碼與 rendered behavior 已確認 | `AnimatedDetails` 以實際 height 動畫兩向開／關並保留 native semantics；indicator／content／`aria-expanded` 同步，完成後刷新 Lenis／ScrollTrigger。Mobile menu 沿用 Motion；reduced motion 立即切換 | 已完成 | 滑鼠、快速反轉、Enter、Space、Escape／focus restore 通過；375 px transcript 約 70→2056→70 px，0 horizontal overflow；print 展開內容 |
+| PA-031 | VISUAL_ACCESSIBILITY | 旗艦 Web Audio 視覺策略卡片 | 舊配圖帶有模板英文字與流程／架構誤標；底部 disclosure 只重複施工式圖像說明 | 評審可能把概念圖誤讀為已完成介面或技術證據，無功能感的箭頭也造成錯誤 affordance | High | 程式碼、build artifact 與 rendered behavior 已確認 | N1／N2／N3 固定配對；輸出 561／1122 AVIF/WebP；使用正式文案與 alt；移除三張卡片的 disclosure／箭頭／互動提示 | 已完成 | 7 組 viewport 0 overflow、0 title overflow、3/3 圖片載入、0 假控制、0 console issue；`doctor` exit 0 |
 
 ## 仍需人工完成的驗收
 

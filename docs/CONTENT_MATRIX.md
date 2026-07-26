@@ -1,12 +1,12 @@
 # 作品集內容矩陣
 
-更新日期：2026-07-17。公開內容的 source of truth 是 `src/data/portfolio.js`；hidden case 文字在 `src/data/portfolio.hidden.js`，施工與風險備註只放 `src/data/portfolio.internal.js`。此表不會把待補素材或 AI 推論直接曝光為完成內容。
+更新日期：2026-07-27。公開內容的 source of truth 是 `src/data/portfolio.js`；hidden case 文字在 `src/data/portfolio.hidden.js`，施工與風險備註只放 `src/data/portfolio.internal.js`。此表不會把待補素材或 AI 推論直接曝光為完成內容。
 
 | 模組 | 現有內容 | 真實來源 | 完整度 | 公開站處理 | 待補資料 | 不可由 AI 代填的內容 |
 |---|---|---|---|---|---|---|
 | Hero／申請定位 | 聲音 × 互動 × 數位學習命題、背景能力、兩個站內 CTA | 申請者背景與現行 `homepageNarrative` | 可公開 | 位於首屏；DOM 文字優先，3D 僅漸進增強 | 最終申請年度、截止日與是否加入校名專屬文案 | 學校適配承諾、學術能力結論、未經確認的經歷 |
 | 研究定位／五軌道 | 研究問題、證據鏈、能力轉譯、六個主題 | 既有作品內容與提示詞指定目標 | 可公開但仍是申請敘事 | 以研究入口呈現，不宣稱已完成研究 | 正式研究計畫、指導方向、官方招生要求核對 | 最終研究題目、研究成果、系所官方認可 |
-| 旗艦互動聲響原型 | React + 原生 Web Audio；pan、pitch、filter、gain 四個 mapping；3 張圖解 | repository 原始碼與本機 rendered prototype | 工程原型完整；研究證據不足 | `notValidated`，需手勢啟用且可停止／fallback | 形成性測試紀錄、可公開聲音錄製或操作影片、測試修訂 | 參與者人數、成功率、學習成效、測試結論 |
+| 旗艦互動聲響原型 | React + 原生 Web Audio；pan、pitch、filter、gain 四個 mapping；3 張視覺策略概念圖 | repository 原始碼、使用者提供的 N1／N2／N3 與本機 rendered prototype | 工程原型完整；研究證據不足；概念圖不作流程／架構證據 | `notValidated`，需手勢啟用且可停止／fallback；圖片只定位為視覺策略 | 形成性測試紀錄、可公開聲音錄製或操作影片、測試修訂 | 參與者人數、成功率、學習成效、測試結論 |
 | Learning Trail | Web Audio 有 artifact；Pure Data、REAPER 為學習中 | repository 與申請者目前自述 | Web Audio 可公開；另兩項不足 | 明確區分已有證據與學習中 | Pd patch、REAPER session／截圖、聲音輸出、製作反思 | 技術熟練度、未存在的 patch/session、作品完成度 |
 | AI 協作方法 | 正確稱為生成式 AI／LLM 協作；責任邊界、Prompt v1/v2、兩個失敗案例 | 兩份使用者提供 prompt、實際除錯文件與目前可讀 Git history | 方法紀錄可公開 | 位於 Learning Trail 後、作品索引前；比重低於旗艦作品 | 未來更多版本比較、若要公開的工具／模型版本與選擇理由 | 自研 LLM、AI 產出等同作者作品、未發生的決策或失敗案例 |
 | AI 文學故事 MV | 《Hamlet》40 秒／8 幕 clean MP4、雙語 WebVTT、實際分鏡、五階段工作流、Prompt 限制與衍生 Prompt Template v1 | 使用者提供 Hamlet delivery、`hamlet-media-manifest.json`、公開案例約束與可重跑 `audit:evidence` | 成片、字幕、衍生畫面與 manifest 關聯可核對；原始 Prompt log、教學成效與發布權利未驗證 | 原型中；`artifactVerified`、`artifactDerived`、`processDerived`、`specificationOnly` 分開標示；Template v1 明載 `usedForExistingVideo: false`；保留 `notValidated` | 原始 Prompt log、旁白版本、學生與教師形成性測試紀錄、申請者權利／來源簽核 | 學生回饋、學習成效、節省時間、Canva 專案連結、原始 Prompt 執行紀錄或素材授權結論 |

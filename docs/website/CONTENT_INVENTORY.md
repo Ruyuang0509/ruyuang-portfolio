@@ -49,7 +49,7 @@
 
 | ID／標題 | 狀態 | 核心內容 | 公開證據與限制 |
 | --- | --- | --- | --- |
-| `interactive-sound-learning` 互動聲響學習原型 | 原型中；`notValidated` | 把視覺位置、動態、量感轉成聲音回饋，支援抽象概念理解 | 原生 Web Audio 可操作 prototype、3 張圖解、4 個 mapping、signal flow、listening guide；沒有正式使用者結果 |
+| `interactive-sound-learning` 互動聲響學習原型 | 原型中；`notValidated` | 把視覺位置、動態、量感轉成聲音回饋，支援抽象概念理解 | 原生 Web Audio 可操作 prototype、3 張正式視覺策略概念圖、4 個 mapping、signal flow、listening guide；沒有正式使用者結果 |
 | `generative-interface-study` AI 文學故事 MV | 原型中；`notValidated` | 把文學理解、B1 英文、圖像、配樂與剪輯轉成五階段生成流程 | 40 秒／8 幕 clean MP4、英文與繁中 WebVTT、完整雙語逐字稿、8 張實際畫面；沒有學生／教師測試或學習成效結果 |
 | `data-visualization-cases` 資料視覺化實際案例與數位學習應用探討 | 已完成；`exploratory` | 分析 Spotify Wrapped 等資料敘事，推論數位學習回饋應用 | 1 張流程圖、1 部 YouTube privacy-enhanced 影片、章節化分析；不宣稱已驗證學習成效 |
 | `learning-dashboard-analysis` 線上學習互動行為與學科成績之資料視覺化分析 | 2026/06/11–06/12；原型中；`exploratory` | Power BI 探索互動、影片觀看與成績分布 | 3 張概念圖、公開 SVG；實際資料、儀表板與結果影像隔離；不作因果宣稱 |
@@ -65,6 +65,7 @@ Hidden case 現在使用空 media state。原有 13 個 `ph-after-*`／`mv-soft-
 - 研究問題：`視覺位置、動態與量感如何被轉譯成可理解的聲音回饋？`
 - 四個 mapping：水平位置→左右聲像；垂直位置→音高；移動速度→濾波亮度；物件大小→音量。
 - Signal flow：互動輸入經 mapping 後驅動 oscillator、filter、gain、stereo panner、compressor 與 master output。
+- 視覺策略：N1／N2／N3 固定對應互動原型、聲響主題、介面風格；圖片是概念視覺，不是實際軟體截圖、流程圖或技術架構證據。
 - Listening guide：引導使用者檢查左右、高低、速度亮度及大小音量。
 - 誠實聲明：聲音由瀏覽器合成，不是 Pure Data 或 REAPER 成果；尚未正式使用者驗證。
 - Planned methods：辨識映射的無提示觀察、短任務錯誤／口述紀錄、不同 motion 與輸入方式比較。

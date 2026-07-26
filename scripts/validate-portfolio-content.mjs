@@ -527,7 +527,7 @@ for (const project of projectCaseStudies) {
     if (!validDiagramTypes.has(diagram.type)) {
       errors.push(`${project.id}: unknown diagram type ${diagram.type}`);
     }
-    if (!diagram.caption?.trim() || !diagram.description?.trim()) {
+    if (!diagram.caption?.trim() || (diagram.kind !== "visualStrategy" && !diagram.description?.trim())) {
       errors.push(`${project.id}: diagram ${diagram.title} needs caption and long description`);
     }
     assertImage(project, `diagram ${diagram.title}`, diagram.image);

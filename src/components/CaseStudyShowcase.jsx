@@ -51,9 +51,11 @@ const getCaseReadingAnchors = (project) => project.workflow
       { key: "outcomes", label: "價值", title: "成果與價值" },
       { key: "next-steps", label: "後續", title: "洞察與下一步" },
     ]
-  : defaultCaseReadingAnchors.filter(
-      (anchor) => anchor.key !== "media" || hasSupportingMediaEvidence(project.media),
-    );
+  : defaultCaseReadingAnchors
+      .filter((anchor) => anchor.key !== "media" || hasSupportingMediaEvidence(project.media))
+      .map((anchor) => anchor.key === "process" && project.diagrams?.[0]?.kind === "visualStrategy"
+        ? { ...anchor, label: "視覺", title: "視覺策略" }
+        : anchor);
 // Codex-Fix: Give every case study a repeatable reviewer reading path instead of forcing long-scroll guessing.
 
 const countMediaEvidence = (media = {}) =>
@@ -64,7 +66,7 @@ function getEvidenceSnapshot(project) {
   return [
     project.workflow?.stages?.length
       ? { label: "流程階段", value: project.workflow.stages.length }
-      : { label: "流程圖", value: project.diagrams?.length ?? 0 },
+      : { label: "圖解", value: project.diagrams?.length ?? 0 },
     { label: "媒體件數", value: countMediaEvidence(project.media) },
     { label: "工具", value: project.tools?.length ?? 0 },
     { label: "角色", value: project.roles?.length ?? 0 },
@@ -104,7 +106,7 @@ function ResponsiveImage({ image, className = "", sizes = "100vw", loading = "la
         role="img"
         aria-label={`影像載入失敗：${image.alt}`}
       >
-        <span className="zh-caption max-w-[24rem] text-[color:var(--theme-muted)]">影像暫時無法顯示；請參考同一卡片的文字、時間碼與操作。</span>
+        <span className="zh-caption max-w-[24rem] text-[color:var(--theme-muted)]">影像暫時無法顯示；請參考同一卡片的標題與說明。</span>
       </div>
     );
   }
@@ -968,20 +970,22 @@ function StructuredProjectSections({ sections = [] }) {
 }
 // Codex-Fix: Case studies can now carry rich handoff-driven narrative sections without hard-coding bespoke layouts.
 
-function DiagramGallery({ id, diagrams = [] }) {
+function DiagramGallery({ id, diagrams = [], introduction }) {
   if (!diagrams.length) return null;
+
+  const isVisualStrategy = diagrams[0]?.kind === "visualStrategy";
 
   return (
     <section id={id} className="grid gap-8 border-t border-[color:var(--theme-line)] pt-8">
       <div className="grid gap-3 md:grid-cols-[0.32fr_0.68fr] md:gap-12">
         <h3 className="meta-label text-[var(--theme-accent)]">
-          流程與架構
+          {isVisualStrategy ? "視覺方向" : "流程與架構"}
         </h3>
         <p className="zh-copy text-[color:var(--theme-muted)]">
-          互動流程圖、系統架構圖與資訊架構圖用來補充作品方法，讓媒體成果背後的流程與系統關係更容易被理解。
+          {introduction ?? "互動流程圖、系統架構圖與資訊架構圖用來補充作品方法，讓媒體成果背後的流程與系統關係更容易被理解。"}
         </p>
       </div>
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className={isVisualStrategy ? "grid gap-6 md:grid-cols-2 lg:grid-cols-3" : "grid gap-6 md:grid-cols-3"}>
         {diagrams.map((diagram) => (
           <figure key={`${diagram.type}-${diagram.title}`} className="grid gap-4">
             <div className="media-frame overflow-hidden rounded-[var(--radius-md)]">
@@ -991,21 +995,23 @@ function DiagramGallery({ id, diagrams = [] }) {
                 sizes="(min-width: 1024px) 28vw, (min-width: 768px) 42vw, 92vw"
               />
             </div>
-            <figcaption className="grid gap-2">
+            <figcaption className="grid content-start gap-2">
               <p className="zh-label text-[var(--theme-accent)]">
-                {diagramLabels[diagram.type] ?? "Diagram"}
+                {diagram.kind === "visualStrategy" ? "視覺策略" : diagramLabels[diagram.type] ?? "Diagram"}
               </p>
               <h4 className="zh-heading text-[clamp(1.15rem,1.7vw,1.55rem)]">{diagram.title}</h4>
               <p className="zh-caption text-[color:var(--theme-muted)]">
                 {diagram.caption}
               </p>
-              <AnimatedDetails
-                className="zh-caption text-[color:var(--theme-muted)]"
-                summary="圖像文字說明"
-                summaryClassName="interactive-link cursor-pointer font-extrabold text-[var(--theme-text)]"
-              >
-                <p className="mt-2">{diagram.description}</p>
-              </AnimatedDetails>
+              {diagram.description ? (
+                <AnimatedDetails
+                  className="zh-caption text-[color:var(--theme-muted)]"
+                  summary={diagram.detailsLabel ?? "閱讀圖解說明"}
+                  summaryClassName="interactive-link cursor-pointer font-extrabold text-[var(--theme-text)]"
+                >
+                  <p className="mt-2">{diagram.description}</p>
+                </AnimatedDetails>
+              ) : null}
             </figcaption>
           </figure>
         ))}
@@ -1594,7 +1600,7 @@ function ProjectDetail({ project, previousProject, nextProject }) {
         <EvidenceBoundarySection id={`${project.id}-evidence-boundary`} boundary={project.evidenceBoundary} />
         <OutcomesSection id={`${project.id}-outcomes`} outcomes={project.outcomes} />
         <EvaluationPlanSection id={`${project.id}-evaluation-plan`} plan={project.evaluationPlan} />
-        <DiagramGallery id={`${project.id}-process`} diagrams={project.diagrams} />
+        <DiagramGallery id={`${project.id}-process`} diagrams={project.diagrams} introduction={project.diagramIntro} />
         <MediaEvidence id={`${project.id}-media`} media={project.media} />
         <ToolsRoles id={`${project.id}-tools`} project={project} />
         <TestingResults id={`${project.id}-testing`} testing={project.testing} />

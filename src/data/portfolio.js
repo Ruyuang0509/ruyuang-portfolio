@@ -2,11 +2,15 @@ import { hiddenProjectCaseStudies } from "#portfolio-hidden";
 
 const publicAssetBase = import.meta.env?.BASE_URL ?? "/";
 const publicAssetUrl = (assetPath) => `${publicAssetBase}${assetPath.replace(/^\/+/, "")}`;
+const portfolioVariantUrl = (slug, width, format) =>
+  publicAssetUrl(`media/portfolio/${slug}-${width}.${format}`);
+const portfolioSrcSet = (slug, widths, format) =>
+  widths.map((width) => `${portfolioVariantUrl(slug, width, format)} ${width}w`).join(", ");
 
 const responsivePortfolioImage = (slug, width, height, alt) => ({
-  src: publicAssetUrl(`media/portfolio/${slug}-1200.webp`),
-  avifSrcSet: `${publicAssetUrl(`media/portfolio/${slug}-420.avif`)} 420w, ${publicAssetUrl(`media/portfolio/${slug}-640.avif`)} 640w, ${publicAssetUrl(`media/portfolio/${slug}-1200.avif`)} 1200w`,
-  webpSrcSet: `${publicAssetUrl(`media/portfolio/${slug}-420.webp`)} 420w, ${publicAssetUrl(`media/portfolio/${slug}-640.webp`)} 640w, ${publicAssetUrl(`media/portfolio/${slug}-1200.webp`)} 1200w`,
+  src: portfolioVariantUrl(slug, 1200, "webp"),
+  avifSrcSet: portfolioSrcSet(slug, [420, 640, 1200], "avif"),
+  webpSrcSet: portfolioSrcSet(slug, [420, 640, 1200], "webp"),
   width,
   height,
   alt,
@@ -14,6 +18,15 @@ const responsivePortfolioImage = (slug, width, height, alt) => ({
 
 const mediaAsset = (slug, alt) => responsivePortfolioImage(slug, 1200, 1500, alt);
 // Codex-Fix: Keep public media metadata local, responsive, and free from remote demo CDNs.
+
+const webAudioVisualStrategyImage = (slug, alt) => ({
+  src: portfolioVariantUrl(slug, 1122, "webp"),
+  avifSrcSet: portfolioSrcSet(slug, [561, 1122], "avif"),
+  webpSrcSet: portfolioSrcSet(slug, [561, 1122], "webp"),
+  width: 1122,
+  height: 1402,
+  alt,
+});
 
 const svgAsset = (slug, width, height, alt) => ({
   src: publicAssetUrl(`media/data-visualization/${slug}.svg`),
@@ -38,12 +51,12 @@ const svgEvidence = (slug, title, caption, alt, width = 1200, height = 900) => (
 });
 // Codex-Fix: Let case studies reference lightweight local SVG diagrams through the same public media shape.
 
-const diagramEvidence = (slug, diagramType, title, caption, alt) => ({
+const visualStrategyEvidence = (slug, diagramType, title, caption, alt) => ({
+  kind: "visualStrategy",
   type: diagramType,
   title,
   caption,
-  description: `${title}以圖像方式補充流程、系統節點與資訊層級，協助讀者理解作品方法。`,
-  image: mediaAsset(slug, alt),
+  image: webAudioVisualStrategyImage(slug, alt),
 });
 
 export const instituteThemes = ["AI", "互動媒體", "聲響", "沉浸式體驗", "數位孿生", "跨域創生"];
@@ -260,27 +273,28 @@ export const projectCaseStudies = [
     problemAwareness:
       "許多學習內容只停留在閱讀或觀看，缺少可以操作、聽見與立即修正的回饋。本作品用聲響互動降低抽象概念的理解門檻。",
     audience: "目標對象為需要透過操作理解抽象概念的學習者，以及想把影音素材轉成互動教材的創作者。",
+    diagramIntro: "以下概念圖聚焦互動節奏、聲音特性與介面資訊層級，作為原型的視覺策略參照。",
     diagrams: [
-      diagramEvidence(
-        "gd-kinetic",
+      visualStrategyEvidence(
+        "web-audio-interaction-visual",
         "interactionFlow",
-        "互動流程圖",
-        "標示使用者從進入、操作、聽見回饋到完成任務的路徑。",
-        "互動流程圖，使用藍綠色幾何圖形表示節點與路徑。",
+        "互動原型的視覺方向",
+        "以操作軌跡、節點變化與即時回饋呈現互動節奏，讓使用者的輸入不只被執行，也能被看見與理解。",
+        "綠色光點與游標軌跡串聯互動節點，呈現使用者輸入與即時回饋的視覺概念。",
       ),
-      diagramEvidence(
-        "ph-geometry",
+      visualStrategyEvidence(
+        "web-audio-sound-visual",
         "systemArchitecture",
-        "系統架構圖",
-        "拆解輸入、聲音處理、視覺回饋與資料紀錄的關係。",
-        "系統架構圖，使用米色與藍色幾何形狀表示模組。",
+        "聲響主題的視覺方向",
+        "將波形、頻率密度與空間層次轉譯為幾何秩序，建立聲音特性與視覺節奏之間的連續關係。",
+        "亮綠色聲波橫跨空間網格與環形波紋，呈現頻率密度及聲音空間層次的視覺轉譯。",
       ),
-      diagramEvidence(
-        "gd-analog",
+      visualStrategyEvidence(
+        "web-audio-interface-visual",
         "informationArchitecture",
-        "資訊架構圖",
-        "整理任務說明、操作區、回饋區與成果區的內容層級。",
-        "資訊架構圖，使用粉色與綠色分層視覺。",
+        "介面風格的視覺方向",
+        "透過清楚的資訊層級、低干擾配色與即時狀態回饋，支撐聲音操作與互動結果的快速判讀。",
+        "藍紫色模組化控制面板、聲波與節點系統，呈現互動聲音介面的資訊層級。",
       ),
     ],
     media: { visualDrafts: [], screenshots: [], videos: [], audio: [], demos: [] },
@@ -842,7 +856,7 @@ export const projectCaseStudies = [
         svgEvidence(
           "work-02-dashboard-public",
           "儀表板架構示意",
-          "公開頁使用概念化圖像說明儀表板架構，不含原始資料或實際分析值。",
+          "公開頁以概念圖呈現儀表板架構，不含原始資料或實際分析值。",
           "Power BI 儀表板架構示意，以卡片與圖表區塊呈現。",
           1280,
           720,

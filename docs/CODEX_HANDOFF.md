@@ -1,5 +1,13 @@
 # Current State
 
+## 2026-07-27 Web Audio 視覺策略卡片定稿
+
+- `interactive-sound-learning` 原本三張模板式流程／架構配圖已改為使用者提供的 N1／N2／N3 正式視覺，固定配對為互動原型、聲響主題、介面風格；公開卡片統一使用「視覺策略」標籤與核准文案，不把概念視覺宣稱為實際介面、技術架構或研究結果。
+- 每張原始 PNG 為 1122×1402；正式資產以不裁切、不放大的 561／1122 px AVIF、WebP 輸出。1122 px WebP 為 143608–223140 B，AVIF 為 106965–152497 B；原 PNG 為 2147168–2528886 B。三組舊 `gd-kinetic`／`gd-analog`／`ph-geometry` 變體及 generator entries 已移除。
+- Web Audio 視覺策略卡不再渲染 `AnimatedDetails`、箭頭、連結或 hover 操作提示；其他真實圖解仍保留可展開的長描述。圖片維持 `loading="lazy"`、`decoding="async"`、1122×1402 intrinsic metadata、AVIF→WebP fallback 與相對 `BASE_URL`。
+- Responsive submission matrix 已實測 1440×900、1280×800、1024×768 為三欄，768×1024 為兩欄且第三張維持同寬，430×932、390×844、360×800 為單欄；七組均 0 horizontal overflow、0 title overflow、3/3 圖片載入、0 假控制與 0 console warning／error。
+- `pnpm run doctor` exit 0：workspace／media／text／CJK／evidence／5 件 content validation、18/18 sound tests、36/36 submission scanner fixtures、draft／submission production builds、budget、submission scan 與 Pages audit 全部通過。此輪未執行 Lighthouse、production deployment、push 或 merge；系統 reduced-motion 為 false，仍未以真實偏好、NVDA／VoiceOver 或實機觸控重驗。
+
 ## 2026-07-18 初代動態鑑識復原
 
 - 初代原始碼與錄影只證實 Hero 片語 line-mask stagger 與整個 viewport 的捲動色場轉換；本輪因此只復原 Hero 片語由 `y:112%`、交錯 `±3deg` 進入的節奏。研究介紹首幀維持部分可見，沒有恢復整頁 mount opacity／translate，也沒有新增證據不足的通用 section reveal 或卡片 opacity stagger。

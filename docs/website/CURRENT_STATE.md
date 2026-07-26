@@ -1,5 +1,11 @@
 # 目前產品與資訊架構
 
+## 2026-07-27 Web Audio 視覺策略卡片
+
+- 旗艦 Web Audio 案例的三張概念圖已定稿為 N1 互動原型、N2 聲響主題、N3 介面風格，卡片使用正式「視覺策略」標籤與公開文案，不再把視覺方向誤標為流程圖、系統架構圖或資訊架構圖。
+- 圖片使用 561／1122 px AVIF、WebP `srcset`、1122×1402 intrinsic metadata、lazy loading 與 async decoding；卡片沒有 disclosure、箭頭、連結或其他假操作。
+- 1440／1280／1024 px 使用三欄，768 px 使用兩欄，430／390／360 px 使用單欄；七組 submission viewport 均無全頁水平溢位或標題越界。
+
 ## 2026-07-18 初代動態鑑識復原
 
 - 依初代原始碼與錄影，只復原可驗證的 Hero 片語 line-mask stagger：片語由 `y:112%` 與交錯 `±3deg` 進場；研究介紹首幀保留部分 opacity，再收束到終態，因此 DOM 文字仍是 LCP 路徑。沒有恢復整頁 mount opacity／translate，也沒有新增證據不足的通用 section reveal 或卡片 opacity stagger。
@@ -69,7 +75,7 @@ flowchart TD
 | `#research-tracks` | 一條聲響主線與五個支援軌道 | 顯示軌道目的、能力與關聯案例數 |
 | `#translation-map` | 把學習／媒體經驗轉成研究能力 | 靜態術語對照卡 |
 | `#institute-alignment` | 由公開案例派生的 demonstrated 主題證據 | 目前列出 AI、互動媒體、聲響、跨域創生及其精確案例；「沉浸式體驗」與「數位孿生」因只是研究方向而不出現於摘要 |
-| `#interactive-sound-learning` | 旗艦長篇案例 | 原型中；包含 lazy Web Audio demo、3 張圖解、工具、角色、未驗證狀態及計畫 |
+| `#interactive-sound-learning` | 旗艦長篇案例 | 原型中；包含 lazy Web Audio demo、3 張視覺策略概念圖、工具、角色、未驗證狀態及計畫 |
 | `#interactive-sound-learning-demo` | 可操作視聽映射 | 需使用者點擊啟用聲音；pointer pad 以具說明的圖像語意呈現，touch／4 個 range 提供實際操作；starting／unsupported／timeout fallback；一般停止有短 release，頁面隱藏／unmount 立即清理 |
 | `#learning-trail` | 誠實呈現工具學習狀態 | Web Audio 有原型；Pure Data／REAPER 只有學習狀態，沒有偽造作品連結 |
 | `#ai-workflow` | 生成式 AI 協作方法 | 低比重呈現 AI 協助、作者責任、Prompt v1／v2、兩個真實失敗案例與文件路徑；不宣稱自研 LLM |
