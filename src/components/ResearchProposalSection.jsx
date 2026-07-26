@@ -52,8 +52,8 @@ export default function ResearchProposalSection() {
 
       <section className="grid gap-6 md:grid-cols-[0.3fr_0.7fr] md:gap-12" aria-labelledby="research-workflow-title">
         <div className="grid content-start gap-3">
-          <h3 id="research-workflow-title" className="meta-label text-[var(--theme-accent)]">預定研究流程</h3>
-          <p className="zh-caption text-[color:var(--theme-muted)]">這是可調整的方法順序，不是已執行的實驗紀錄。</p>
+          <h3 id="research-workflow-title" className="meta-label text-[var(--theme-accent)]">預計研究流程</h3>
+          <p className="zh-caption text-[color:var(--theme-muted)]">我會依課程訓練、設備條件與先導實驗結果，調整每個階段的順序與方法。</p>
         </div>
         <ol className="grid gap-3">
           {proposal.proposedWorkflow.map((item, index) => (

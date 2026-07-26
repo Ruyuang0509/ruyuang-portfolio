@@ -14,8 +14,8 @@ export const hiddenProjectCaseStudies = [
     priority: 3,
     summary:
       "以空間、影像、聲音與故事線索建立一個可被探索的記憶地圖，展示沉浸式敘事與互動導覽能力。",
-    valueProposition: "證明我能把攝影、影音、聲音與互動路徑組織成具空間感的體驗。",
-    whatThisProves: "這件作品證明我能處理場域資料、媒體敘事、空間節奏與觀眾行為路徑。",
+    valueProposition: "這項研究構想用來整理攝影、影音、聲音與互動路徑如何組成具空間感的體驗。",
+    whatThisProves: "現階段完成的是場域資料、媒體敘事、空間節奏與觀眾行為路徑的設計構想，仍需透過真實場域與觀眾測試發展。",
     designGoal: "讓觀眾透過探索、觀看與聆聽逐步組合記憶線索，而不是被動接收線性故事。",
     designProcess:
       "先整理場域與故事素材，再建立資訊架構與探索路徑，接著製作影像/聲音素材與 walkthrough 原型。",

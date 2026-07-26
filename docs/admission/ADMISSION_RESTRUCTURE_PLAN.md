@@ -1,6 +1,6 @@
 # 116 學年度申請作品集重構計畫
 
-更新日期：2026-07-24
+更新日期：2026-07-26
 
 本文件記錄本輪實作前後的資訊架構、證據狀態與發布邊界。它不是招生簡章，也不驗證正式系所名稱、時程或繳件格式。
 
@@ -11,7 +11,7 @@
 - **Needs User Evidence**：主張可保留為待核對紀錄，但升級為作品證據前需要申請者提供真實檔案、來源或決策。
 - **Must Not Publish**：目前不得放入 public、submission build 或 public Git history 的內容。
 
-## 1. Current information architecture
+## 1. Pre-refactor baseline
 
 重構前的實體順序：
 
@@ -33,9 +33,9 @@
 | 研究定位、研究構想、研究軌道與頁尾出口重複說明同一論點 | Confirmed |
 | 《畫本》與指定 MV 沒有出現在現有公開案例 | Confirmed |
 
-## 2. Target information architecture
+## 2. Adopted current information architecture
 
-本輪採用的 11 段送審順序：
+PR #6 已採用並部署的 11 段送審順序：
 
 1. `#top`：Hero／申請定位
 2. `#sound-transition`：轉向聲音的問題意識
@@ -71,8 +71,8 @@
 | Pure Data v0.2.1 影片含本機路徑、`validated`、裁切標籤與未分段畫面 | 以原始功能紀錄公開，網站逐項揭露限制；另要求重錄作品集版 | Confirmed |
 | v0.2.1 Patch／ZIP 沒有 AI 協作揭露與 LICENSE，validation 文案過強 | 原檔留在 private workbench，不搬入 public Git | Must Not Publish |
 | v0.2.2 外層版本與內部 README／manifest／status 不一致 | 不在網站主張或發布 | Must Not Publish |
-| 《畫本》缺成片、日期、完整 credit、活動紀錄與公開權利核對 | 網站只呈現申請者提供的角色、工具與參賽情境，不嵌入媒體 | Needs User Evidence |
-| 《希望有羽毛和翅膀》MV 缺成片、課程紀錄、素材清單與公開權利 | 只保留文字角色與第三方權利聲明 | Needs User Evidence |
+| 《畫本》已有可開啟的完整作品連結，但仍缺日期、完整 credit、活動紀錄與人物／音樂／場地權利清單 | 網站提供 canonical YouTube 入口與申請者角色；完整複核留在 Draft audit | Needs User Evidence |
+| 《希望有羽毛和翅膀》MV 已有可開啟的作品連結，但仍缺課程紀錄、素材來源清單與第三方公開範圍 | 網站提供 canonical YouTube 入口，並明示第三方權利與個人剪輯角色 | Needs User Evidence |
 | REAPER 沒有 `.rpp`、路由、輸出或反思 | Roadmap 標示尚未形成作品 | Needs User Evidence |
 | Web Audio 尚無形成性測試紀錄 | 保持可操作原型／尚待驗證 | Needs User Evidence |
 | 正式研究計畫 DOCX 含未核對文獻、樣本、預算、倫理與舊 metadata | 只用網站四層摘要，不放下載連結 | Must Not Publish |
@@ -118,7 +118,7 @@
 | 舊 `#learning-trail` 實體區段 | 改由 Pure Data 專段與 Roadmap 取代 | Confirmed |
 | 舊頁尾 `#reviewer-path` | 移除，避免 duplicate ID；早期證據導覽接手 | Confirmed |
 | 研究計畫原始 DOCX、Pure Data ZIP／`.pd`、REAPER 工程、原始測試資料 | 不放入 public／dist／public Git | Must Not Publish |
-| 《畫本》與指定 MV 未確認權利的影像、音樂與成片 | 不嵌入 | Must Not Publish |
+| 《畫本》與指定 MV 的第三方影像、音樂或下載副本 | 不下載、不重製、不重新託管；公開頁只連到申請者提供且已核對可開啟的 canonical YouTube URL | Must Not Publish |
 
 ## 9. Known risks
 
@@ -129,7 +129,7 @@
    UI 未渲染不代表 tracked source 私密；`public/` 會被 Vite 全量複製到 `dist/`。
 
 3. **Hamlet 權利閘門 — Confirmed**  
-   `check:publication` 必須在申請者完成 rights evidence 與 attestation 前保持失敗；Pages workflow 目前沒有執行該 gate。
+   申請者已於 2026-07-26 完成 rights evidence 與 attestation；本輪 `check:publication` 為 `verified / approved`、exit 0。任何後續非零結果仍是發布阻擋，不能由 submission build 或 Pages 狀態取代。
 
 4. **使用者提供事實與 artifact 的差異 — Confirmed**  
    《畫本》、指定 MV、社團人數與工作經驗可依本輪事實敘述，但不能寫成已由第三方文件驗證的結果。
@@ -151,4 +151,25 @@
 7. **Confirmed**：新增四階段 Roadmap、AI 作者性與 final links。
 8. **Confirmed**：同步 Navbar、anchors、SEO、`llms.txt`、social preview、validator 與 scanner fixtures。
 9. **Inferred**：同步現有 handoff 文件，避免保留「沒有 Pure Data 影片／沒有畫本紀錄」等過期敘述。
-10. **Needs User Evidence**：完成申請者擁有的權利、官方命名、成片、REAPER、使用者測試與正式研究計畫簽核後，再評估下一次公開升級。
+10. **Needs User Evidence**：完成官方命名、完整作品 credit／第三方素材清單、REAPER、使用者測試與正式研究計畫簽核後，再評估下一次公開升級；Hamlet 權利閘門則維持獨立重跑。
+
+## 11. 2026-07-26 final implementation and verification
+
+### Implementation closure
+
+- `DraftModeEnabled` 以 dynamic import 載入 `admission-evidence.audit.js`；Draft 稽核資料不再併入 raw entry，submission 仍由 alias 排除。
+- REAPER 文案已收斂為「已安裝」；沒有 `.rpp`、路由、工程或聲音輸出，也沒有把安裝狀態升級為作品證據。
+- Print stylesheet 會把 `.theme-reading-surface` 的語意色票重設為紙色端點，並將 `overflow` 改為 `visible`、`box-shadow` 改為 `none`。
+
+### Verification fingerprint
+
+- `pnpm run doctor`：exit 0。
+- Draft build：471 modules；entry 180733 B、CSS 44315 B、initial JS gzip 200889 B。
+- Submission build：467 modules；entry 153704 B、CSS 44315 B、initial JS gzip 192936 B。
+- Sound regression：18/18；rights checks：14/14；scanner fixtures：73/73。
+- Submission scanner：132 dist files、25 text files、67 text rules、9 inventory rules。
+- `public/` inventory：118 entries；0 missing、0 mismatch。
+- `pnpm run check:publication`：exit 0；Hamlet gate 為 `verified / approved`，但仍只涵蓋清單內的限定用途。
+- Browser smoke：1280／768／390／320 四個 viewport 均為 0 overflow、0 broken hash、0 duplicate ID、0 broken image、console 0；四個 deep links 落在 95–112 px，theme 兩端點與 Menu Escape 均通過。
+
+Screen reader、真實 zoom、system reduced-motion、實體裝置與多瀏覽器音訊未在本輪驗證。兩個 YouTube 連結雖可開啟，但第三方權利與完整 credit 尚未複核；它們目前只存在本 Draft PR，不構成 publication approval 或 merge／deploy 授權。

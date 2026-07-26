@@ -41,7 +41,7 @@ export default function AiWorkflowSection() {
 
         <div className="grid gap-8 lg:grid-cols-2">
           <div className="grid content-start gap-4">
-            <p className="meta-label text-[var(--theme-accent)]">三個提示詞版本</p>
+            <p className="meta-label text-[var(--theme-accent)]">協作方式的三次調整</p>
             {aiWorkflow.versions.map((item) => (
               <article key={item.version} className="evidence-panel grid gap-3 rounded-[var(--radius-md)] p-5">
                 <p className="meta-label text-[var(--theme-accent)]">{item.version}</p>
@@ -52,27 +52,18 @@ export default function AiWorkflowSection() {
           </div>
 
           <div className="grid content-start gap-4">
-            <p className="meta-label text-[var(--theme-accent)]">實際出錯與修正</p>
+            <p className="meta-label text-[var(--theme-accent)]">遇到的問題與修正</p>
             {aiWorkflow.failureCases.map((item) => (
               <article key={item.problem} className="evidence-panel grid gap-3 rounded-[var(--radius-md)] p-5">
                 <h3 className="zh-heading text-xl">{item.problem}</h3>
-                <p className="zh-caption text-[color:var(--theme-muted)]">如何發現：{item.discovery}</p>
+                <p className="zh-caption text-[color:var(--theme-muted)]">我怎麼發現：{item.discovery}</p>
                 <p className="zh-caption text-[color:var(--theme-muted)]">原因：{item.diagnosis}</p>
-                <p className="zh-caption text-[color:var(--theme-muted)]">如何檢查：{item.check}</p>
-                <p className="zh-caption text-[color:var(--theme-muted)]">如何修正：{item.correction}</p>
+                <p className="zh-caption text-[color:var(--theme-muted)]">我怎麼檢查：{item.check}</p>
+                <p className="zh-caption text-[color:var(--theme-muted)]">我怎麼修正：{item.correction}</p>
                 <p className="zh-caption rounded-[var(--radius-sm)] border border-[color:var(--theme-line)] p-3 text-[color:var(--theme-muted)]">學到什麼：{item.learning}</p>
               </article>
             ))}
           </div>
-        </div>
-
-        <div className="paper-panel grid gap-4 rounded-[var(--radius-lg)] p-6 md:grid-cols-[0.34fr_0.66fr] md:p-8">
-          <p className="meta-label">可查閱的文件</p>
-          <ul className="grid gap-2" aria-label="生成式 AI 使用說明文件">
-            {aiWorkflow.evidencePaths.map((path) => (
-              <li key={path} className="mixed-token text-sm font-semibold leading-relaxed">{path}</li>
-            ))}
-          </ul>
         </div>
     </div>
   );

@@ -9,12 +9,13 @@ This project uses one portfolio content system with two controlled output modes:
 
 The site should not be split into two unrelated websites because that would create content drift. It should also not rely on CSS hiding, because hidden text can still ship in HTML or JavaScript. Instead:
 
-1. Public case and homepage narrative content lives in `src/data/portfolio.js`; the standalone proposal, admission evidence, and AI／authorship data live in `src/data/admission-research.js`, `src/data/admission-evidence.js`, and `src/data/ai-workflow.js`.
+1. Public case and homepage narrative content lives in `src/data/portfolio.js`; the standalone proposal, reader-facing admission evidence, and AI／authorship data live in `src/data/admission-research.js`, `src/data/admission-evidence.js`, and `src/data/ai-workflow.js`.
 2. Hidden case text lives in `src/data/portfolio.hidden.js`; submission mode resolves `#portfolio-hidden` to an empty module.
-3. Internal build notes and editorial selection rules (`portfolioPriorityRules`) live in `src/data/portfolio.internal.js`.
-4. Draft-only rendering lives in `src/draft/DraftModeEnabled.jsx`.
-5. Submission builds resolve `#portfolio-draft` to `src/draft/DraftModeDisabled.jsx`, so internal panels are not imported.
-6. `scripts/submission-output-scanner.mjs` independently scans supported text files and the complete `dist/` inventory; the CLI and regression fixtures share that core.
+3. Detailed admission claims, validation, authorship, AI, rights, limitations, and evidence requests live in `src/data/admission-evidence.audit.js` and align with public records by stable ID.
+4. Internal build notes and editorial selection rules (`portfolioPriorityRules`) live in `src/data/portfolio.internal.js`.
+5. Draft-only rendering lives in `src/draft/DraftModeEnabled.jsx`, which dynamically imports `admission-evidence.audit.js` so the audit data stays outside the raw entry.
+6. Submission builds resolve `#portfolio-draft` to `src/draft/DraftModeDisabled.jsx`, so the audit module and internal panels are not imported.
+7. `scripts/submission-output-scanner.mjs` independently scans supported text files and the complete `dist/` inventory; the CLI and regression fixtures share that core.
 
 ## Public Content Fields
 
@@ -31,21 +32,27 @@ Use the public data modules `src/data/portfolio.js`,
 - optional structured workflow, Prompt decisions, provenance-labelled Prompt templates, real storyboard frames, media layers, evidence-linked deliverables, evidence boundaries, planned evaluation, value cards, next steps, and working CTAs
 - tools, roles, reflection, institute connections, and a `themeEvidenceStatus` value for every declared institute theme
 - public links, credits, SEO title and description
-- evidence status, validation status, authorship, AI assistance, rights,
-  limitations, next step, evidence links, and submission visibility
+- reader-facing admission status, purpose, completed work or highlights,
+  reflection/version context, next step, evidence links, and submission
+  visibility
 
 Public content must not include authoring reminders or construction wording.
 
 ## Admission Evidence Governance
 
 `src/data/admission-evidence.js` contains public review records with different
-evidence strengths. Do not flatten them into one “completed work” status:
+evidence strengths. `src/data/admission-evidence.audit.js` preserves the
+detailed evidence and validation boundary behind Draft Mode. Do not flatten
+the public labels or audit records into one “completed work” status:
 
-- Pure Data v0.2.1 is `學習中／可操作功能原型`,
-  `evidenceStatus: 可操作原型`, and `validationStatus: 尚待驗證`.
+- Pure Data v0.2.1 is publicly `學習中／可操作功能原型`; its matching audit
+  record remains `evidenceStatus: 可操作原型` and
+  `validationStatus: 尚待驗證`.
 - 《畫本》 and 《希望有羽毛和翅膀》 are applicant-provided completed-work
-  records, but currently have no public media links or independently reviewed
-  rights package.
+  records with canonical YouTube viewing links. Direct links do not establish
+  awards, complete credits, long-term availability, or rights to third-party
+  material; those boundaries remain in the matching audit records and public
+  material notes.
 - Collaboration cards support event-backed organization, resilience, and role
   adjustment. They do not replace sound or research evidence.
 - The roadmap distinguishes existing evidence, current learning, work that
@@ -55,12 +62,15 @@ evidence strengths. Do not flatten them into one “completed work” status:
   PDF exists.
 
 The current Pure Data MP4 and poster are in `public/media/portfolio`, so they
-enter every submission build. The record must disclose the visible local path,
-the original interface's `validated` wording, cropped interface regions, and
-AI-assisted authorship boundary. It may demonstrate local operation of four
-simulated parameter mappings and safety controls; it may not demonstrate
-independent Patch authorship, user validation, gesture tracking, Pure Data
-proficiency, or a completed research system.
+enter every submission build. The public record must use the source-safe
+`v0.2.1 本機功能測試` and `模擬視覺參數` labels, retain the learning/prototype
+state, and provide concise version context beside the player. The matching
+Draft audit record must preserve the visible local path, original
+`validated` wording, cropped interface regions, AI-assisted authorship, and
+validation limits. It may demonstrate local operation of four simulated
+parameter mappings and safety controls; it may not demonstrate independent
+Patch authorship, user validation, gesture tracking, Pure Data proficiency, or
+a completed research system.
 
 Keep the `.pd`/ZIP, inconsistent v0.2.2 material, AI conversation, and
 independent rebuild outside `public/` and public Git until the applicant makes
@@ -102,6 +112,8 @@ Use `src/data/portfolio.internal.js` for preparation material:
 - content readiness notes
 - evidence manifest/readiness paths and open gates
 - rights-review status and applicant attestation requirement
+- admission record claims, validation, authorship, rights, limitations, and
+  evidence requests in `admission-evidence.audit.js`
 - editorial portfolio selection/checklist rules (`portfolioPriorityRules`)
 
 These notes belong only to the draft/authoring path; submission builds must not import or expose them.
@@ -179,6 +191,28 @@ pnpm run check:publication
 
 Use `pnpm run check:submission` before any formal review export.
 Use `pnpm run check:publication` before publishing Hamlet media. The applicant-owned checkpoint was completed on 2026-07-26; any later non-zero exit is a release blocker and must not be bypassed.
+
+## 2026-07-26 Final Verification Fingerprint
+
+- `pnpm run doctor`: exit 0.
+- Draft: 471 modules; entry 180733 B, CSS 44315 B, initial JS gzip 200889 B.
+- Submission: 467 modules; entry 153704 B, CSS 44315 B, initial JS gzip 192936 B.
+- Sound 18/18; rights 14/14; scanner fixtures 73/73.
+- Submission scanner: 132 dist files, 25 text files, 67 text rules and 9
+  inventory rules.
+- `public/` inventory: 118 entries, 0 missing and 0 mismatch.
+- `pnpm run check:publication`: exit 0, `verified / approved`, within the
+  documented Hamlet limited-use scope only.
+- Browser smoke at 1280／768／390／320: 0 overflow, broken hash, duplicate ID
+  or broken image; console 0; four deep links at 95–112 px; theme endpoints and
+  Menu Escape passed.
+
+The print path resets `.theme-reading-surface` semantic tokens to paper,
+restores visible overflow and removes its shadow. REAPER copy is limited to
+installation only, with no project or output. Screen readers, real zoom, system
+reduced-motion, physical devices and multi-browser audio were not checked.
+YouTube link reachability does not resolve third-party rights or complete
+credits, and those links remain Draft-PR-only.
 
 ## Forbidden Formal Output Terms
 

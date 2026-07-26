@@ -1,5 +1,6 @@
 import { memo } from "react";
 import { dataVisualizationSeries, sortedProjectCaseStudies } from "../data/portfolio.js";
+import EditorialHeading from "./EditorialHeading.jsx";
 
 function SeriesImage({ image, className = "" }) {
   return (
@@ -25,21 +26,26 @@ const DataVisualizationSeries = memo(function DataVisualizationSeries() {
   return (
     <section
       id={dataVisualizationSeries.id}
-      className="theme-transition-source relative bg-[var(--theme-bg)] px-[clamp(1.25rem,6vw,10vw)] py-28 text-[var(--theme-text)] md:py-36"
+      className="theme-transition-source relative bg-[var(--theme-bg)] px-[clamp(0.75rem,4vw,5rem)] py-20 text-[var(--theme-text)] md:py-28"
       aria-labelledby="data-visualization-series-title"
     >
-      <div className="mx-auto grid max-w-7xl gap-12">
-        <div className="grid gap-10 lg:grid-cols-[0.52fr_0.48fr] lg:items-center">
-          <div className="grid gap-6">
+      <div className="theme-reading-surface theme-reading-surface--dark mx-auto grid max-w-7xl min-w-0 gap-12 rounded-[var(--radius-lg)] p-[clamp(1rem,4vw,3.5rem)]">
+        <div className="grid min-w-0 gap-10 lg:grid-cols-[minmax(0,0.56fr)_minmax(0,0.44fr)] lg:items-center">
+          <div className="grid min-w-0 gap-6">
             <p className="meta-label text-[var(--theme-accent)]">
               {dataVisualizationSeries.kicker}
             </p>
-            <h2
+            <EditorialHeading
+              as="h2"
               id="data-visualization-series-title"
-              className="zh-display text-[clamp(2.55rem,7.2vw,6.8rem)] leading-[0.98] tracking-[-0.04em]"
+              className="data-series-title editorial-heading zh-display"
+              lines={[
+                ["資料視覺化與"],
+                ["數位學習應用"],
+              ]}
             >
               {dataVisualizationSeries.title}
-            </h2>
+            </EditorialHeading>
             <p className="zh-lead max-w-[42rem] text-[color:var(--theme-muted)]">
               {dataVisualizationSeries.summary}
             </p>
@@ -47,7 +53,7 @@ const DataVisualizationSeries = memo(function DataVisualizationSeries() {
               {dataVisualizationSeries.independenceNote}
             </p>
           </div>
-          <figure className="media-frame overflow-hidden rounded-[var(--radius-lg)]">
+          <figure className="media-frame min-w-0 overflow-hidden rounded-[var(--radius-lg)]">
             <SeriesImage
               image={dataVisualizationSeries.cover}
               className="aspect-[4/3] h-full w-full object-cover"
@@ -55,8 +61,8 @@ const DataVisualizationSeries = memo(function DataVisualizationSeries() {
           </figure>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-[0.36fr_0.64fr]">
-          <div className="grid content-start gap-4">
+        <div className="grid min-w-0 gap-6 md:grid-cols-[minmax(0,0.38fr)_minmax(0,0.62fr)]">
+          <div className="grid min-w-0 content-start gap-4">
             <p className="meta-label text-[var(--theme-accent)]">
               我從兩件作品看到的事
             </p>
@@ -67,9 +73,9 @@ const DataVisualizationSeries = memo(function DataVisualizationSeries() {
               {dataVisualizationSeries.soundExtension}
             </p>
           </div>
-          <ul className="grid gap-3">
+          <ul className="grid min-w-0 gap-3">
             {dataVisualizationSeries.capabilities.map((capability) => (
-              <li key={capability} className="zh-copy rounded-[var(--radius-sm)] border border-[color:var(--theme-line)] p-4">
+              <li key={capability} className="zh-copy min-w-0 rounded-[var(--radius-sm)] border border-[color:var(--theme-line)] p-4">
                 {capability}
               </li>
             ))}
@@ -78,7 +84,7 @@ const DataVisualizationSeries = memo(function DataVisualizationSeries() {
 
         <div className="grid gap-6 lg:grid-cols-2">
           {seriesWorks.map((work) => (
-            <article key={work.id} className="portfolio-card grid gap-5 rounded-[var(--radius-lg)] p-5">
+            <article key={work.id} className="portfolio-card grid min-w-0 gap-5 rounded-[var(--radius-lg)] p-5">
               <p className="meta-label text-[var(--theme-accent)]">
                 {work.year ? `${work.year} / ` : ""}{work.source}
               </p>

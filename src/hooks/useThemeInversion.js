@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-const PAPER_NAV_THRESHOLD = 0.62;
+const THEME_ENDPOINT_THRESHOLD = 0.62;
 const MIN_TRANSITION_VIEWPORTS = 0.8;
 const MAX_TRANSITION_VIEWPORTS = 1.2;
 
@@ -38,17 +38,24 @@ export function useThemeInversion() {
     const animatedLayers = [paper, mist, fieldA, fieldB, fieldC].filter(Boolean);
     if (animatedLayers.length !== 5) return undefined;
 
-    let paperChromeState = null;
-    const setPaperChrome = (isPaper) => {
-      if (paperChromeState === isPaper) return;
-      paperChromeState = isPaper;
+    let themeEndpointState = null;
+    const applyThemeState = (progress) => {
+      const isPaper = progress >= THEME_ENDPOINT_THRESHOLD;
+      if (themeEndpointState === isPaper) return isPaper;
+      themeEndpointState = isPaper;
       navSurface.classList.toggle("nav-surface--paper", isPaper);
+      root.dataset.themeEndpoint = isPaper ? "paper" : "dark";
+      return isPaper;
+    };
+    const resetThemeState = () => {
+      themeEndpointState = null;
+      navSurface.classList.remove("nav-surface--paper");
+      delete root.dataset.themeEndpoint;
     };
     const resetLayers = () => {
       gsap.set(animatedLayers, { clearProps: "all" });
       root.classList.remove("theme-transition-ready");
-      paperChromeState = null;
-      setPaperChrome(false);
+      resetThemeState();
     };
     const revealTransition = (trigger) => {
       trigger.refresh();
@@ -72,8 +79,8 @@ export function useThemeInversion() {
           end: () => getTransitionBounds(sourceSection, targetTitle).end,
           scrub: true,
           invalidateOnRefresh: true,
-          onUpdate: (self) => setPaperChrome(self.progress >= PAPER_NAV_THRESHOLD),
-          onRefresh: (self) => setPaperChrome(self.progress >= PAPER_NAV_THRESHOLD),
+          onUpdate: (self) => applyThemeState(self.progress),
+          onRefresh: (self) => applyThemeState(self.progress),
         },
       });
 
@@ -99,13 +106,13 @@ export function useThemeInversion() {
     });
 
     matchMedia.add("(prefers-reduced-motion: reduce)", () => {
-      let paperEndpoint = null;
-      const setEndpoint = (isPaper) => {
-        if (paperEndpoint === isPaper) return;
-        paperEndpoint = isPaper;
+      let reducedLayerState = null;
+      const applyReducedState = (progress) => {
+        const isPaper = applyThemeState(progress);
+        if (reducedLayerState === isPaper) return;
+        reducedLayerState = isPaper;
         gsap.set(paper, { opacity: isPaper ? 1 : 0 });
         gsap.set([mist, fieldA, fieldB, fieldC], { opacity: 0, clearProps: "transform" });
-        setPaperChrome(isPaper);
       };
 
       const trigger = ScrollTrigger.create({
@@ -114,8 +121,8 @@ export function useThemeInversion() {
         start: () => getTransitionBounds(sourceSection, targetTitle).start,
         end: () => getTransitionBounds(sourceSection, targetTitle).end,
         invalidateOnRefresh: true,
-        onUpdate: (self) => setEndpoint(self.progress >= 0.5),
-        onRefresh: (self) => setEndpoint(self.progress >= 0.5),
+        onUpdate: (self) => applyReducedState(self.progress),
+        onRefresh: (self) => applyReducedState(self.progress),
       });
 
       revealTransition(trigger);

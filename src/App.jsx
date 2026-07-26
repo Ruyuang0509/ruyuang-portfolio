@@ -86,7 +86,7 @@ function SelectedWorkSection() {
       </SectionErrorBoundary>
       <section
         id="secondary-creation"
-        className="research-section bg-[var(--theme-bg)] px-[clamp(1.25rem,6vw,10vw)] py-24 text-[var(--theme-text)] md:py-32"
+        className="paper-surface research-section bg-[var(--theme-bg)] px-[clamp(1.25rem,6vw,10vw)] py-24 text-[var(--theme-text)] md:py-32"
         aria-labelledby="secondary-creation-title"
         data-stable-section-focus
       >
@@ -138,7 +138,9 @@ export default function App() {
   useEffect(() => {
     const settleFrames = new Set();
     let navigationTimer = 0;
+    let layoutTimer = 0;
     let activeCase = null;
+    let layoutObserver = null;
     let disposed = false;
     let settleToken = 0;
     let userInterruptedSinceNavigation = false;
@@ -159,6 +161,10 @@ export default function App() {
       if (navigationTimer) {
         window.clearTimeout(navigationTimer);
         navigationTimer = 0;
+      }
+      if (layoutTimer) {
+        window.clearTimeout(layoutTimer);
+        layoutTimer = 0;
       }
     };
 
@@ -229,6 +235,14 @@ export default function App() {
       if (!window.location.hash || userInterruptedSinceNavigation) return;
       settleHashTarget();
     };
+    const handleLayoutChange = () => {
+      if (!window.location.hash || userInterruptedSinceNavigation) return;
+      if (layoutTimer) window.clearTimeout(layoutTimer);
+      layoutTimer = window.setTimeout(() => {
+        layoutTimer = 0;
+        settleHashTarget();
+      }, 48);
+    };
     const handleUserInterruption = (event) => {
       if (event.type === "keydown" && !SCROLL_INTERRUPTION_KEYS.has(event.key)) return;
       userInterruptedSinceNavigation = true;
@@ -242,6 +256,10 @@ export default function App() {
     window.addEventListener("touchstart", handleUserInterruption, { passive: true });
     window.addEventListener("pointerdown", handleUserInterruption, { passive: true });
     window.addEventListener("keydown", handleUserInterruption);
+    layoutObserver = typeof ResizeObserver === "function"
+      ? new ResizeObserver(handleLayoutChange)
+      : null;
+    layoutObserver?.observe(document.getElementById("main-content") ?? document.body);
     settleHashTarget();
 
     return () => {
@@ -254,6 +272,7 @@ export default function App() {
       window.removeEventListener("touchstart", handleUserInterruption);
       window.removeEventListener("pointerdown", handleUserInterruption);
       window.removeEventListener("keydown", handleUserInterruption);
+      layoutObserver?.disconnect();
       activeCase?.removeAttribute("data-hash-target-active");
     };
   }, []);

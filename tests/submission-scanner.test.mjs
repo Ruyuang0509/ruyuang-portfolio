@@ -79,6 +79,53 @@ test("submission scanner regression fixtures", async (t) => {
     }
   });
 
+  await t.test("public audit and construction phrases fail closed in nested bundles", async (auditTest) => {
+    for (const [phrase, ruleId] of [
+      ["目前不能延伸的主張", "text.audit.unsupported-extension"],
+      ["目前不能證明", "text.audit.currently-cannot-prove"],
+      ["申請者提供的紀錄支持", "text.audit.applicant-record-support"],
+      ["目前公開頁沒有成片", "text.audit.no-public-finished-video"],
+      ["參賽不代表得獎", "text.audit.participation-not-award"],
+      ["本頁不主張", "text.audit.page-does-not-claim"],
+      ["原始紀錄未列出，不另行推測", "text.audit.missing-source-no-inference"],
+      ["本頁僅有申請者提供", "text.audit.applicant-provided-only"],
+      ["未經發布決策確認", "text.audit.unapproved-publication-decision"],
+      ["可核對材料", "text.audit.verifiable-materials"],
+      ["目前怎麼描述", "text.audit.current-description"],
+      ["原始影片限制", "text.audit.source-video-limitations"],
+      ["正式 GitHub Pages 專案網址", "text.audit.formal-pages-url"],
+    ]) {
+      await auditTest.test(ruleId, () => {
+        const directory = createFixture(auditTest);
+        writeFixtureFile(
+          directory,
+          "assets/lazy/admission/chunk.js",
+          `export default ${JSON.stringify({ copy: phrase })};`,
+        );
+        const result = runScanner(directory);
+        assertRuleFailure(result, ruleId, "assets/lazy/admission/chunk.js");
+        assert.doesNotMatch(result.stderr, new RegExp(phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "u"));
+      });
+    }
+  });
+
+  await t.test("natural public scope and next-step wording remains publishable", () => {
+    const directory = createFixture(t);
+    writeFixtureFile(
+      directory,
+      "assets/app.js",
+      JSON.stringify({
+        stage: "目前版本先確認互動、聲音映射與操作流程是否能穩定運作。",
+        scope: "公開展示聚焦方法、介面與分析流程；涉及個人學習資料的內容不直接公開。",
+        nextStep: "下一步將透過使用者觀察調整映射說明。",
+        link: "觀看完整作品",
+      }),
+    );
+    const result = runScanner(directory);
+    assert.equal(result.status, 0, result.stderr);
+    assert.match(result.stdout, /Submission scan passed:/);
+  });
+
   await t.test("Chinese placeholder wording fixture fails", () => {
     const directory = createFixture(t);
     writeFixtureFile(directory, "media/dashboard.svg", "<title>公開截圖佔位圖</title><text>公開截圖尚未提供</text>");
