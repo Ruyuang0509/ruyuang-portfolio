@@ -1,5 +1,15 @@
 # 公開內容清單
 
+## 2026-07-26 Hamlet rights inventory delta
+
+- 新增公開文件：`docs/evidence/hamlet-rights-evidence-public.md`、`docs/evidence/hamlet-applicant-attestation.md`；兩者只含刪節摘要與未簽草稿。
+- 新增公開 UI data：Suno canonical credit、六項素材來源／公開範圍與 `confirmed = false` attestation status。
+- 私人 inventory：原始 EML 0 份找到、原始八幕生成紀錄 0 份找到；沒有把需求附件或 MP4 抽幀誤列成原始證據。
+- `.eml`、private evidence directories 與 original authorization／support reply filenames 已由 Git ignore、publication audit 與 submission inventory scanner 三層阻擋。
+- Suno 使用限目前非營利範圍；rights review 不改變 Hamlet `notValidated` 的學習成效狀態。
+- Fresh submission artifact：132 files／25 text files；scanner 54 text rules／9 inventory rules，rights tests 13/13、scanner fixtures 58/58。Publication audit exit 1／25 blockers。
+- Browser 四個 viewport 確認 disclosure、credit link、pending status、影片、storyboard、tracks 與 11 anchors；duplicate ID、horizontal overflow 與 console error／warning 都是 0。
+
 更新日期：2026-07-24。下列內容依共享工作樹的最新 source、public 資產與最終自動驗證盤點。本輪變更尚未 commit、push 或 deploy；2026-07-23 Pages 狀態只保留為歷史公開邊界證據。互動式 Browser 因本機連線隔離未能執行；公開可達仍不代表權利或研究驗證已完成。
 
 ## 內容治理

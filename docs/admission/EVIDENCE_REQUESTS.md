@@ -1,5 +1,12 @@
 # Admission Evidence Requests
 
+## 2026-07-26 Hamlet update
+
+- Suno〈Blinds-Soft Lament〉特定非營利用途的官方回覆摘要、Song ID、00:00–00:40、限制與 supplied SHA 已進 public rights registry；原始 EML 本輪未找到，仍不得進 public Git。
+- 可核對的原始八幕 ChatGPT／OpenAI 生成紀錄為 0；reference image 與特定電影／演員複製的 absence 不能由搜尋空結果推定。
+- Canva stock／template inventory 未找到；文學現代來源排除與 Canva absence 均需申請者本人確認。
+- Attestation 草稿在 `docs/evidence/hamlet-applicant-attestation.md`，目前未簽。只有收到本人明確確認後才可填姓名、日期並解除 gate。
+
 更新日期：2026-07-24
 
 這份清單列出正式送審前仍需由申請者提供或核准的真實證據。建議先存放於 public Repository 之外的 private workbench；完成內容、權利與個資檢查後，再決定哪些衍生版本可進網站。

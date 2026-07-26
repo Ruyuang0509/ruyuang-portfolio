@@ -1,5 +1,14 @@
 # 現況與目標差距
 
+## 2026-07-26 Hamlet publication gap
+
+- 已完成：schema v2、rights evidence registry、public redacted summary、未簽 attestation 草稿、Suno credit、實際聲軌更正、純函式 audit、13 個 rights tests、private evidence scanner 與 pre-upload Pages gate。
+- 尚未完成：申請者對文字提示／reference image／特定電影或演員、現代文本未複製、Canva stock／template 缺席與實際無營利用途的確認。
+- Evidence 缺口：本輪找到 0 份原始生成紀錄、0 份 EML、0 份 Canva project／asset inventory；這些 empty results 不會自動把 absence checks 升為 true。
+- Gate 狀態：`pendingApplicantConfirmation`／`requiresApplicantAttestation`；`check:publication` 實測 exit 1／25 blockers，會阻止 Pages configure／upload 後續步驟。其餘 Phase A 指定命令均 exit 0。
+- 此差距只處理 publication rights；使用者研究、教學適切性與學習成效仍是另一組未驗證缺口。
+- Browser 四個 viewport 的 UI regression matrix 已通過；remaining gap 是申請者聲明與 private-original availability，不是版面或播放器故障。
+
 ## 2026-07-24 判讀基準
 
 - Admission Evidence Pass 已把首頁收斂為 11 段送審 IA：`#top` → `#sound-transition` → `#reviewer-path` → `#interactive-sound-learning` → `#pure-data-learning` → `#research-positioning` → `#selected-work` → `#collaboration` → `#learning-roadmap` → `#ai-workflow` → `#contact`。`#research-proposal` 只保留為相容錨點；`#selected-work` 內依序放《畫本》、既有資料視覺化／supporting cases、最後才是指定 MV。

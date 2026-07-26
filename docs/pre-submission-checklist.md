@@ -5,13 +5,14 @@ Run this checklist from the canonical project root `如願個人網站` before e
 ## Required Commands
 
 ```powershell
-pnpm install
+pnpm install --frozen-lockfile
 pnpm run workspace:check
 pnpm run audit:media
 pnpm run audit:text
 pnpm run audit:cjk
 pnpm run audit:evidence
 pnpm run content:check
+pnpm run test:hamlet-rights
 pnpm run test:sound
 pnpm run build:draft
 pnpm run test:submission-scanner
@@ -32,7 +33,18 @@ pnpm run check:submission
 pnpm run check:publication
 ```
 
-Hamlet manifest 目前仍是 `rightsReview.status: unverified`、`rightsManifestPresent: false`；2026-07-24 最新 `pnpm run check:publication` 實際 exit 1，列出 11 個 Hamlet rights／attestation blockers。不得由工程端或 AI 把 status 改成已核准來消除錯誤。Pages run `29680534295` success 與 production 資產 HTTP 200 只屬較早部署證據；現行 deploy workflow 只跑 `check:submission`，所以在 stakeholder 完成逐項 rights evidence 與 applicant attestation 前，應停止公開或移除未核准資產，並把 `check:publication` 接入 production deploy gate。HTTP 200 與 deployment success 都不是 rights clearance。
+2026-07-26 Hamlet manifest 已升級為 schema v2，`rightsManifestPresent: true`；目前仍是 `rightsReview.status: pendingApplicantConfirmation`、`applicantAttestation.confirmed: false` 與 `publicationGate: requiresApplicantAttestation`。Suno 特定 Song ID 的非營利條件已記錄，但原始 EML 本輪未找到；場景生成、現代文本排除與 Canva stock／template 項目仍等待本人確認。不得由工程端或 AI 把 status 改成已核准來消除錯誤。Deploy workflow 現在會在 `check:submission` 後、Configure Pages 與 upload 前執行 `check:publication`，因此 Phase A 將刻意阻擋 production deployment。HTTP 200 與 deployment success 都不是 rights clearance。
+
+Phase A privacy checks：
+
+```powershell
+git ls-files | rg "\.eml$|private-evidence|rights-evidence-private"
+rg -n "無歌詞配樂|實際成片.*no lyrics|本人作曲|本人作詞|本人演唱" src public
+```
+
+另以不寫入 Repository 的 privacy audit 執行已知私人郵件地址與完整郵件標頭 pattern scan。所有掃描都應無命中；無命中只能證明 tracked／source 邊界乾淨，不能證明 private original 存在或待本人確認的事實成立。
+
+2026-07-26 Phase A actual：install、evidence／content、rights tests、scanner、sound、draft build 與 submission check 均 exit 0；publication check exit 1，列出 25 個 pending blockers。四個 Browser viewport 的 disclosure、video、focus、anchors、overflow 與 console 檢查通過；這不解除 applicant checkpoint。
 
 ## Content Review
 

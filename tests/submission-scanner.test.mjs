@@ -240,6 +240,15 @@ test("submission scanner regression fixtures", async (t) => {
     }
   });
 
+  await t.test("private rights email and evidence paths fail from inventory", () => {
+    const directory = createFixture(t);
+    writeFixtureFile(directory, "evidence/suno-support.EML", "private");
+    writeFixtureFile(directory, "rights-evidence-private/support-reply-original.txt", "private");
+    const result = runScanner(directory);
+    assertRuleFailure(result, "inventory.rights.private-email", "evidence/suno-support.EML");
+    assertRuleFailure(result, "inventory.rights.private-evidence", "rights-evidence-private/support-reply-original.txt");
+  });
+
   await t.test("local absolute paths fail without echoing sensitive content", () => {
     const directory = createFixture(t);
     const privatePaths = [

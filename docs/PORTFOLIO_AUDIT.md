@@ -1,5 +1,13 @@
 # 作品集稽核紀錄
 
+## 2026-07-26 Hamlet rights Phase A
+
+- Schema v2、public redacted summary、attestation 草稿、純函式 rights validator、13 個 Node fixtures、公開 Suno credit 與 Pages publication gate 已建立。
+- Phase A install、workspace、media／text／CJK／evidence audits、content check、13/13 rights tests、58/58 scanner fixtures、18/18 sound tests、draft build 與 `check:submission` 均 exit 0；`check:publication` exit 1，列出 25 個 status／evidence lifecycle／attestation／具名 required-check blockers，符合本人簽核前的 fail-closed 設計。
+- 私人證據盤點沒有找到原始 EML 或八幕生成對話；current tracked、untracked 與 19 個 commits 歷史沒有 EML、私人 evidence path 或完整郵件標頭洩漏。
+- 公開 copy 已把「原始 instrumental／no lyrics 規格」與「實際含英語歌詞與人聲」分開。Rights verification 不等於形成性測試、研究或學習成效驗證。
+- In-app Browser 四個 viewport 實測：Suno credit／pending attestation 可見，link focus-visible，影片鍵盤播放／暫停有效，8 張 storyboard、2 tracks、11 anchors 保留，duplicate ID／global overflow／console warning or error 均為 0。
+
 更新日期：2026-07-24。這份文件記錄可由原始碼、建置輸出、本機 artifact inventory、GitHub API 與公開 Pages HTTP 證明的結果；內容或學術決策不足時，不以推測代替申請者證據。2026-07-17／07-18 的 Lighthouse 與先前 Admission Evidence Pass 的 browser matrix 均只保留為歷史本機證據。現行 11 段 IA 已完成本機自動驗證與 fresh build／inventory；互動式 in-app Browser 因本機連線隔離無法連線，即使 shell 端 localhost HTTP 200，仍沒有現行 rendered behavior 驗證。
 
 ## 目前 source 與最終本機驗證（互動式 Browser 未完成）

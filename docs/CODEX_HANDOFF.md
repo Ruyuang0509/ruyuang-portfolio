@@ -1,5 +1,14 @@
 # Current State
 
+## 2026-07-26 Hamlet rights applicant checkpoint
+
+- Working branch：`codex/hamlet-rights-attestation`，起點 `e8f35e0d73d1a314785f243230201f9d92a4f25b`。原 canonical worktree 的既有未提交變更未被覆蓋。
+- Hamlet manifest 為 schema v2；Suno 特定非營利條件、Song ID、00:00–00:40、公開 credit 與 supplied EML digest 已記錄。原始 EML 本輪未找到，完整生成對話與郵件仍必須留在 private evidence workspace。
+- `rightsReview.status = pendingApplicantConfirmation`、`publicationGate = requiresApplicantAttestation`、`applicantAttestation.confirmed = false`。場景、文學與 Canva 的本人聲明不可由 Codex 代答。
+- Pages build 會依序執行 `check:submission` → `check:publication` → Configure Pages → upload；Phase A 的預期 publication failure 會阻止 artifact 上傳與 deploy。
+- 公開頁已揭露 Suno 歌曲實際包含英語歌詞與人聲，雙語 WebVTT 仍是故事敘事字幕。11 段 IA、Hero、motion 與 `testing.statusKey: notValidated` 不變。
+- Phase A 指定命令除 `check:publication` 外全部 exit 0；後者實際 exit 1 並列出 25 個 pending blockers。Browser 在 1280×720、768×1024、375×812、320×568 驗證 disclosure、video、focus、11 anchors、overflow 與 console 均無回歸。
+
 ## 2026-07-24 11 段申請 IA 與 Pure Data 證據同步（本機自動驗證完成；互動式 Browser 未執行）
 
 - 本節描述目前共享工作樹的 source 與最終本機自動驗證狀態；下方 Admission Evidence Pass 的舊 bundle、`dist/` 與 browser 數字保留為改版前歷史快照，不能取代本節的現行結果。

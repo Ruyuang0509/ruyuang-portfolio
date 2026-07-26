@@ -1,9 +1,11 @@
 import { createHash } from "node:crypto";
+import { spawnSync } from "node:child_process";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 import { projectCaseStudies } from "../src/data/portfolio.js";
+import { validateHamletRights } from "./validate-hamlet-rights.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const manifestPath = path.join(root, "docs", "evidence", "hamlet-media-manifest.json");
@@ -17,6 +19,14 @@ const normalizeLanguageText = (value, language) =>
   language.startsWith("zh") ? normalizeText(value).replace(/\s+/g, "") : normalizeText(value);
 const sha256 = (filePath) => createHash("sha256").update(readFileSync(filePath)).digest("hex").toUpperCase();
 const sha256Text = (value) => createHash("sha256").update(value, "utf8").digest("hex").toUpperCase();
+const listRelativeFiles = (directory, relativeRoot = "") => {
+  if (!existsSync(directory)) return [];
+  return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    const relativePath = path.join(relativeRoot, entry.name);
+    const absolutePath = path.join(directory, entry.name);
+    return entry.isDirectory() ? listRelativeFiles(absolutePath, relativePath) : [relativePath];
+  });
+};
 
 const readWebpDimensions = (buffer) => {
   if (buffer.toString("ascii", 0, 4) !== "RIFF" || buffer.toString("ascii", 8, 12) !== "WEBP") return null;
@@ -114,9 +124,9 @@ if (!existsSync(manifestPath)) {
 
 const manifest = existsSync(manifestPath)
   ? JSON.parse(readFileSync(manifestPath, "utf8"))
-  : { directCopies: [], derivativeGroups: [], processEvidence: [], rightsReview: {} };
+  : { directCopies: [], derivativeGroups: [], processEvidence: [], rightsEvidence: [], rightsReview: {} };
 
-if (manifest.schemaVersion !== 1 || manifest.projectId !== "generative-interface-study") {
+if (manifest.schemaVersion !== 2 || manifest.projectId !== "generative-interface-study") {
   fail("Hamlet evidence manifest has an unsupported schema or project id");
 }
 
@@ -231,32 +241,33 @@ for (const item of manifest.processEvidence) {
   }
 }
 
-if (publicationMode) {
-  const rightsReview = manifest.rightsReview ?? {};
-  if (rightsReview.status !== "verified") {
-    fail(`publication gate blocked: rightsReview is ${rightsReview.status ?? "missing"}`);
-  }
-  if (rightsReview.publicationGate !== "approved") {
-    fail(`publication gate blocked: publicationGate is ${rightsReview.publicationGate ?? "missing"}`);
-  }
-  const attestation = rightsReview.applicantAttestation ?? {};
-  if (
-    attestation.confirmed !== true
-    || !attestation.confirmedBy?.trim()
-    || !/^\d{4}-\d{2}-\d{2}$/.test(attestation.confirmedAt ?? "")
-    || !attestation.evidenceRef?.trim()
-  ) {
-    fail("publication gate blocked: applicant attestation is incomplete");
-  }
-  for (const item of rightsReview.items ?? []) {
-    const booleanChecks = Object.entries(item).filter(([, value]) => typeof value === "boolean");
-    if (!booleanChecks.length || booleanChecks.some(([, value]) => value !== true)) {
-      fail(`publication gate blocked: ${item.id ?? "unknown rights item"} review is incomplete`);
-    }
-    if (!item.evidenceRefs?.length || item.evidenceRefs.some((reference) => !reference?.trim())) {
-      fail(`publication gate blocked: ${item.id ?? "unknown rights item"} has no evidence reference`);
-    }
-  }
+const trackedResult = spawnSync("git", ["ls-files", "-z"], {
+  cwd: root,
+  encoding: "utf8",
+  windowsHide: true,
+});
+if (trackedResult.status !== 0) {
+  fail("unable to inspect Git tracked files for private rights evidence");
+}
+const trackedFiles = trackedResult.status === 0
+  ? trackedResult.stdout.split("\0").filter(Boolean)
+  : [];
+const buildInventory = listRelativeFiles(path.join(root, "dist"));
+const rendererSource = readFileSync(path.join(root, "src", "components", "CaseStudyShowcase.jsx"), "utf8");
+const publicSource = [
+  JSON.stringify(project),
+  rendererSource,
+].join("\n");
+for (const rightsError of validateHamletRights({
+  manifest,
+  publicSource,
+  publicDisclosure: project?.featuredMediaDisclosure,
+  rendererSource,
+  trackedFiles,
+  buildInventory,
+  publicationMode,
+})) {
+  fail(rightsError);
 }
 
 if (errors.length) {

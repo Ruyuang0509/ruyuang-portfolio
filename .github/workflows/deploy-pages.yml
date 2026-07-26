@@ -34,6 +34,8 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Verify submission build
         run: pnpm run check:submission
+      - name: Verify publication rights
+        run: pnpm run check:publication
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload static artifact

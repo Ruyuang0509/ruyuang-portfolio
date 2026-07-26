@@ -1,5 +1,13 @@
 # 作品集內容矩陣
 
+## 2026-07-26 Hamlet 權利分層更新
+
+- Hamlet evidence manifest 已升級為 schema v2；四類素材的 `requiredChecks`、conditions、limitations 與可解析 evidence refs 已建立。
+- Suno〈Blinds-Soft Lament〉00:00–00:40 的特定非營利作品集使用條件與公開 credit 已記錄；commercial use、ads、paywall、affiliate revenue、商業廣告與音樂發行均不在允許範圍。
+- 八幕原始生成紀錄本輪找到 0 份；reference image、現代文本來源排除、Canva stock／template 缺席與目前實際無營利用途仍待本人確認。Applicant attestation 保持 `confirmed = false`。
+- `check:publication` 最新實測 exit 1，列出 25 個具名 blocker；Pages workflow 已在 artifact configure／upload 前接入 gate。其餘 Phase A 指定命令均 exit 0。Rights review 不改變 `testing.statusKey: notValidated`，也不構成研究或學習成效驗證。
+- In-app Browser 四個 viewport（1280×720、768×1024、375×812、320×568）通過 disclosure／影片／focus／anchor／overflow／console 檢查。
+
 更新日期：2026-07-24。公開案例與首頁敘事的 source of truth 是 `src/data/portfolio.js`；Pure Data、代表作品、合作、學習路線與最終連結在 `src/data/admission-evidence.js`，研究構想與 AI／作者性分別在 `src/data/admission-research.js`、`src/data/ai-workflow.js`。Hidden case 文字在 `src/data/portfolio.hidden.js`，施工與風險備註只放 `src/data/portfolio.internal.js`。目前 source 已接上 11 個高階申請錨點，`#research-proposal` 只作 `#research-positioning` 的相容 alias；既有詳細案例、樣式、動效、R3F 與 Web Audio lifecycle 保留。本機自動驗證與 fresh build／artifact inventory 已完成；互動式 in-app Browser 因本機連線隔離未能連線，即使 shell 端 localhost HTTP 200，四個 viewport 與互動／console 稽核仍全部未執行。此表區分「檔案存在／功能可操作」、「形成性或學術驗證」與「發布權利已核准」。
 
 | 模組 | 現有內容 | 真實來源 | 完整度 | 公開站處理 | 待補資料 | 不可由 AI 代填的內容 |

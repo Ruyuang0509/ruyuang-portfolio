@@ -1,5 +1,13 @@
 # 目標呈現
 
+## 2026-07-26 Hamlet rights target
+
+Hamlet 的目標呈現是在播放器附近以 compact evidence panel 同時說清楚素材來源、Suno 非營利條件、實際含英語歌詞與人聲、故事 WebVTT 的限制，以及 applicant attestation 狀態。公開頁不顯示私人聊天、原始 EML、帳號資料或私人 evidence path；也不把 Canva 寫成圖像或歌曲來源。
+
+Production 目標是 fail closed：submission artifact 可技術驗證，但只有 schema、具名 checks、可解析 evidence refs、影片 hash、public credit、private boundary 與本人 attestation 全部通過後，Pages 才可 configure／upload／deploy。Suno commercial use 必須維持 false；rights approval 不會把 `testing.statusKey` 從 `notValidated` 改成成功。
+
+2026-07-26 Phase A 已在四個 Browser viewport 達到 UI 目標：credit、pending status、影片控制、focus、11 anchors、storyboard、tracks 與 responsive width 正常，overflow／console 為 0。Publication 目標尚未達成，因 applicant attestation、evidence lifecycle 與 item-level checks 尚未全部確認；audit 共列 25 個 blockers。
+
 ## 2026-07-24 Admission Evidence Pass
 
 目前 source 已把「已完成／可操作」、「學習中」、「研究構想／尚待驗證」與「待申請者補件」分開，並採用 11 段送審 IA：Hero → 聲音轉向 → 證據導覽 → Web Audio → Pure Data → 研究構想 → 代表作品 → 合作 → Roadmap → AI／作者性 → 真實外部連結。Pure Data、研究構想、代表作品、合作、Roadmap、AI 與 final links 置於永久 anchor wrapper 中 lazy-load；`#selected-work` 內依序放《畫本》、既有資料視覺化／公開案例、最後才是指定 MV。Current source 已通過 `doctor`、build、submission scanner 與獨立 `dist/` inventory；本輪仍未 commit、push 或 deploy。In-app Browser 因本機連線隔離無法連到 shell 已確認 HTTP 200 的 preview，因此 320–1440 rendered matrix 未能執行，不能標為通過。

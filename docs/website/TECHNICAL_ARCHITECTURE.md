@@ -1,5 +1,15 @@
 # 技術架構
 
+## 2026-07-26 Hamlet publication architecture
+
+- `hamlet-media-manifest.json` schema v2 將 artifact evidence 與 `rightsEvidence` registry 分開；四個 rights items 只驗證列入常數表的具名 `requiredChecks`，conditions 中合法的 false 不會被 generic boolean heuristic 誤判。
+- `scripts/validate-hamlet-rights.mjs` 是純函式；`audit-portfolio-evidence.mjs` 傳入 manifest、公開 source、`git ls-files` 與 dist inventory。結構／固定事實在一般 audit fail closed，applicant readiness 只在 publication mode 阻擋。
+- Node tests 覆蓋 valid manifest、attestation false、unknown ref、Suno hash、commercial true、missing attribution、scene check、Canva check、literary check、tracked／built EML、指定確認人、evidence lifecycle，以及 disclosure renderer 接線。
+- Submission scanner 新增 `.eml` 與 private-rights-evidence inventory rules；`.gitignore` 另阻擋 private directories、EML 與 original authorization／support reply filenames。Ignore 規則不被解讀為 history cleanup。
+- Pages build 順序固定為 install → `check:submission` → `check:publication` → configure → upload；workspace check 驗證順序並拒絕 `continue-on-error: true`。
+- Phase A 的 applicant attestation 為 false，publication gate 實測 exit 1／25 blockers；其餘指定命令均 exit 0。這個部署阻擋不影響 11 段 IA、motion、Web Audio 或 `notValidated` 的研究邊界。
+- Browser runtime 以 production-like submission preview 驗證四個 viewport；影片 metadata duration 40 秒、controls true、autoplay false、keyboard play／pause 成功，2 tracks、8 storyboard images、Suno focus-visible link 與 pending panel 正常，duplicate IDs／global overflow／console logs 均為 0。
+
 ## 2026-07-24 最新共享工作樹（待最終驗證）
 
 - `HomePage` 目前以 11 個主要閱讀段落組合：Hero、`SoundTransitionSection`、`ReviewerPathSection`、旗艦 `CaseStudyShowcase`、`PureDataLearningSection`、`ResearchProposalSection`、代表作品／支持案例群、`CollaborationSection`、`LearningRoadmapSection`、`AiWorkflowSection`、`ContactSection`。資料視覺化系列與支持案例索引屬代表作品群的延伸，不另計為主段落。

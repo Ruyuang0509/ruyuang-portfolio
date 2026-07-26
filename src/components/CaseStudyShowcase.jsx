@@ -1149,7 +1149,9 @@ function VideoFigure({ video, featured = false, id }) {
                 summary="中英畫面文字逐字稿"
                 summaryClassName="interactive-link cursor-pointer font-extrabold text-[var(--theme-text)]"
               >
-                <p className="mt-4 rounded-[var(--radius-sm)] bg-[color:var(--theme-surface)] p-3 text-[color:var(--theme-muted)]">本片使用無歌詞配樂，沒有旁白或對話語音；下列內容整理影片中的畫面文字與場景描述，不是語音辨識結果。</p>
+                <p className="mt-4 rounded-[var(--radius-sm)] bg-[color:var(--theme-surface)] p-3 text-[color:var(--theme-muted)]">
+                  {video.transcriptNote ?? "下列內容整理影片中的畫面文字與場景描述，不是語音辨識結果。"}
+                </p>
                 <ol className="mt-4 grid gap-4">
                   {video.transcriptCues.map((cue) => (
                     <li key={cue.time} className="grid gap-1 border-t border-[color:var(--theme-line)] pt-3">
@@ -1170,6 +1172,50 @@ function VideoFigure({ video, featured = false, id }) {
   );
 }
 
+function FeaturedMediaDisclosure({ disclosure }) {
+  if (!disclosure) return null;
+
+  return (
+    <aside className="evidence-panel grid gap-6 rounded-[var(--radius-md)] p-5 md:p-6" aria-label={disclosure.title}>
+      <div className="grid gap-2">
+        <p className="meta-label text-[var(--theme-accent)]">Rights &amp; credits</p>
+        <h4 className="zh-heading text-[clamp(1.15rem,1.8vw,1.55rem)]">{disclosure.title}</h4>
+      </div>
+      {disclosure.musicCredit ? (
+        <div className="soft-panel grid gap-2 rounded-[var(--radius-sm)] p-4">
+          <p lang="en" className="font-extrabold text-[var(--theme-text)]">{disclosure.musicCredit.attribution}</p>
+          <a
+            className="interactive-link w-fit font-extrabold text-[var(--theme-accent)] underline decoration-2 underline-offset-4"
+            href={disclosure.musicCredit.href}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {disclosure.musicCredit.song}
+          </a>
+          <p className="zh-caption text-[color:var(--theme-muted)]">{disclosure.musicCredit.excerpt}</p>
+          <p className="zh-caption text-[color:var(--theme-muted)]">{disclosure.musicCredit.scope}</p>
+        </div>
+      ) : null}
+      {disclosure.sources?.length ? (
+        <dl className="grid gap-3 md:grid-cols-2">
+          {disclosure.sources.map((source) => (
+            <div key={source.label} className="grid content-start gap-1 border-t border-[color:var(--theme-line)] pt-3">
+              <dt className="zh-label text-[var(--theme-accent)]">{source.label}</dt>
+              <dd className="zh-caption text-[color:var(--theme-muted)]">{source.value}</dd>
+            </div>
+          ))}
+        </dl>
+      ) : null}
+      {disclosure.attestation ? (
+        <p className="zh-caption rounded-[var(--radius-sm)] border border-[color:var(--theme-line)] p-3 text-[color:var(--theme-muted)]">
+          <strong className="text-[var(--theme-text)]">{disclosure.attestation.label}：</strong>
+          {" "}{disclosure.attestation.value}
+        </p>
+      ) : null}
+    </aside>
+  );
+}
+
 function FeaturedMedia({ id, project }) {
   const video = project.media?.videos?.find((item) => item.featured);
   if (!video) return null;
@@ -1184,6 +1230,7 @@ function FeaturedMedia({ id, project }) {
         </div>
       </div>
       <VideoFigure id={`${id}-player`} video={video} featured />
+      <FeaturedMediaDisclosure disclosure={project.featuredMediaDisclosure} />
     </section>
   );
 }

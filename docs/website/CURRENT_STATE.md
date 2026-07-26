@@ -1,5 +1,13 @@
 # 目前產品與資訊架構
 
+## 2026-07-26 Hamlet public disclosure
+
+- Hamlet 播放器後方新增 compact「素材來源與公開範圍」面板，使用既有 `evidence-panel`／`soft-panel`；沒有新增 Navbar、主 IA anchor 或大型 section。
+- 面板列出 ChatGPT／OpenAI 場景圖、William Shakespeare 文學基礎、申請者與 ChatGPT 的改寫核對分工、Suno 音樂／歌詞／人聲、Canva editing/export-only 角色、非營利公開範圍及 pending attestation。
+- 公開 copy 保留原始 instrumental／no lyrics 提示方向，同時明確更正實際聲軌含英語歌詞與人聲；WebVTT 是故事字幕，不是歌曲逐字歌詞字幕。
+- Rights schema 與 Pages gate 已接入，但 applicant attestation 未完成，production publication 仍被阻擋。11 段 IA、Hero、motion、storyboard、fallback 與 testing boundary 未改。
+- Phase A 自動命令除 publication gate 外均 exit 0；gate 實測 exit 1／25 blockers。In-app Browser 四個 viewport 驗證 panel 可讀、Suno link 可鍵盤 focus、影片可鍵盤播放／暫停、8 張 storyboard／2 tracks／11 anchors 保留、overflow 0、console 0。
+
 ## 2026-07-24 最新共享工作樹與最終自動驗證
 
 - `App.jsx` 現在呈現 11 個主要閱讀段落：Hero、轉向聲音的問題意識、證據導覽、Web Audio 旗艦原型、Pure Data 學習紀錄、申請階段研究構想、代表作品與其他公開案例、專案與合作、學習路線、AI／作者性、研究方向與連結。資料視覺化系列及支持案例索引屬代表作品段落的延伸閱讀。

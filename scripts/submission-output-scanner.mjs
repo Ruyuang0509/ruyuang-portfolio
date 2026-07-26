@@ -116,6 +116,18 @@ export const INVENTORY_RULES = [
     ruleId: "inventory.restricted.raw-data",
     matches: ({ basename }) => /\.(?:pbix|xlsx|xls|csv|tsv)$/i.test(basename),
   },
+  {
+    ruleId: "inventory.rights.private-email",
+    matches: ({ basename }) => basename.endsWith(".eml"),
+  },
+  {
+    ruleId: "inventory.rights.private-evidence",
+    matches: ({ segments, basename }) =>
+      segments.includes(".private-evidence")
+      || segments.includes("rights-evidence-private")
+      || (segments.includes("docs") && segments.includes("evidence") && segments.includes("private"))
+      || /(?:authorization|support-reply)-original\.[^/]+$/u.test(basename),
+  },
 ];
 
 const dependencyBundlePattern = /^assets\/(?:react|motion|three|scroll|vendor|rolldown-runtime)-[^/]+\.(?:js|css)$/i;

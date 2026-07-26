@@ -1,5 +1,14 @@
 # 公開邊界稽核
 
+## 2026-07-26 current update
+
+- Hamlet public rights registry 已建立；Suno 的特定非營利用途書面摘要可公開，原始 EML 與完整 ChatGPT／OpenAI 生成對話不可進 Git、public 或 dist。
+- 本輪未找到原始 EML、八幕生成紀錄、reference image evidence 或 Canva stock／template inventory。未找到不等於已證明不存在；相關 required checks 保持 false。
+- Applicant attestation 仍為 `confirmed = false`；publication audit 實測 exit 1，列出 25 個具名 blockers。其餘 Phase A 指定命令均 exit 0。不得以 submission build、HTTP 200 或 workflow success 推論 rights approval。
+- Production workflow 已把 `check:publication` 放在 Configure Pages 與 upload 之前，沒有 `continue-on-error`。目前合入 main 會因 pending applicant checkpoint 而停止 deploy。
+- Suno 條件只涵蓋目前無廣告、無付費牆、無 affiliate revenue 的非營利研究所作品集；rights verification 與 research validation 分層。
+- Browser 四個 viewport 的公開 disclosure、影片控制、focus、11 anchors、overflow 與 console 已通過；rendered success 仍不等於 applicant attestation。
+
 更新日期：2026-07-24
 
 ## Executive verdict

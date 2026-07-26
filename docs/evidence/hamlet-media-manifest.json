@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "projectId": "generative-interface-study",
   "sourcePackage": {
     "label": "user-provided hamlet_mv_delivery",
@@ -7,7 +7,7 @@
     "originalSceneFilesPresent": false,
     "standaloneAudioPresent": false,
     "promptLogPresent": false,
-    "rightsManifestPresent": false
+    "rightsManifestPresent": true
   },
   "directCopies": [
     {
@@ -90,41 +90,199 @@
     "source": "approved project brief",
     "executionLogPresent": false
   },
+  "rightsEvidence": [
+    {
+      "id": "hamlet-scene-generation-records",
+      "kind": "applicantEvidenceSummary",
+      "status": "pendingApplicantConfirmation",
+      "localVerificationStatus": "recordsNotLocated",
+      "publicSummaryPath": "docs/evidence/hamlet-rights-evidence-public.md",
+      "generationRecordCountReviewed": 0,
+      "privateOriginalRetained": false,
+      "confirmedBy": null,
+      "confirmedAt": null,
+      "limitations": [
+        "No original generation conversation was located in the bounded local search.",
+        "Storyboard derivatives sampled from the MP4 are not generation records."
+      ]
+    },
+    {
+      "id": "hamlet-suno-support-confirmation",
+      "kind": "officialSupportConfirmation",
+      "status": "suppliedConfirmationRecorded",
+      "provider": "Suno",
+      "title": "Blinds-Soft Lament",
+      "songId": "06373cc4-76b9-45c0-a0c0-586882f55829",
+      "shareUrl": "https://suno.com/s/MKFh9OA4TJTXqYh8",
+      "canonicalUrl": "https://suno.com/song/06373cc4-76b9-45c0-a0c0-586882f55829",
+      "generatedAt": "2026-06-02",
+      "planAtGeneration": "Basic / Free",
+      "excerpt": "00:00–00:40",
+      "receivedAt": "2026-07-25",
+      "sha256": "8efadea341df3b12c6f8649dabfab941712ffef3b226d7348d832479bb33040e",
+      "bytes": 17014,
+      "publicSummaryPath": "docs/evidence/hamlet-rights-evidence-public.md",
+      "privateOriginalRetained": false,
+      "localVerificationStatus": "originalNotLocated",
+      "limitations": [
+        "The public repository stores only the redacted support summary and supplied digest.",
+        "The original EML was not located during the bounded local search, so its digest was not independently recalculated."
+      ]
+    },
+    {
+      "id": "hamlet-literary-rewrite-attestation",
+      "kind": "applicantAttestationComponent",
+      "status": "pendingApplicantConfirmation",
+      "publicSummaryPath": "docs/evidence/hamlet-rights-evidence-public.md",
+      "privateOriginalRetained": false,
+      "confirmedBy": null,
+      "confirmedAt": null
+    },
+    {
+      "id": "hamlet-canva-editing-only-attestation",
+      "kind": "applicantAttestationComponent",
+      "status": "pendingApplicantConfirmation",
+      "publicSummaryPath": "docs/evidence/hamlet-rights-evidence-public.md",
+      "privateOriginalRetained": false,
+      "confirmedBy": null,
+      "confirmedAt": null
+    },
+    {
+      "id": "hamlet-applicant-attestation-v1",
+      "kind": "applicantAttestation",
+      "status": "pendingApplicantConfirmation",
+      "publicDocumentPath": "docs/evidence/hamlet-applicant-attestation.md",
+      "videoSha256": "7E50B6EB01E646FB822D6384D73C9C01A08DC9DF8D5D22A3102B777A460D2312",
+      "privateOriginalRetained": false,
+      "confirmedBy": null,
+      "confirmedAt": null
+    }
+  ],
   "rightsReview": {
-    "status": "unverified",
+    "status": "pendingApplicantConfirmation",
     "publicationGate": "requiresApplicantAttestation",
+    "conditions": {
+      "nonCommercialOnly": true,
+      "commercialUsePermitted": false,
+      "attributionRequired": true,
+      "adsPermitted": false,
+      "paywallPermitted": false,
+      "affiliateRevenuePermitted": false
+    },
     "applicantAttestation": {
       "confirmed": false,
       "confirmedBy": null,
       "confirmedAt": null,
-      "evidenceRef": null
+      "evidenceRef": "hamlet-applicant-attestation-v1",
+      "videoSha256": "7E50B6EB01E646FB822D6384D73C9C01A08DC9DF8D5D22A3102B777A460D2312"
     },
     "items": [
       {
         "id": "scene-images",
-        "termsEvidencePresent": false,
-        "publicUseConfirmed": false,
-        "evidenceRefs": []
+        "status": "pendingApplicantConfirmation",
+        "requiredChecks": {
+          "generationRecordsReviewed": false,
+          "applicantDirectedGenerationConfirmed": true,
+          "textPromptGenerationConfirmed": false,
+          "thirdPartyReferenceImagesAbsent": false,
+          "specificFilmOrActorCopyingAbsent": false,
+          "publicPortfolioUseConfirmed": false
+        },
+        "evidenceRefs": [
+          "hamlet-scene-generation-records",
+          "hamlet-applicant-attestation-v1"
+        ],
+        "conditions": {
+          "generator": "ChatGPT / OpenAI",
+          "sceneCount": 8
+        },
+        "limitations": [
+          "Zero original generation records were available for local review.",
+          "Absence of reference images or specific-film copying cannot be inferred from an empty search result."
+        ]
       },
       {
         "id": "music",
-        "termsEvidencePresent": false,
-        "publicUseConfirmed": false,
-        "evidenceRefs": []
+        "status": "pendingApplicantConfirmation",
+        "requiredChecks": {
+          "providerAndSongIdentified": true,
+          "planAtGenerationRecorded": true,
+          "officialSupportConfirmationPresent": true,
+          "permittedUseScopeRecorded": true,
+          "attributionPublished": true,
+          "nonMonetizedUseConfirmed": false
+        },
+        "evidenceRefs": [
+          "hamlet-suno-support-confirmation",
+          "hamlet-applicant-attestation-v1"
+        ],
+        "conditions": {
+          "nonCommercialOnly": true,
+          "commercialUsePermitted": false,
+          "ownershipClaimedByApplicant": false,
+          "ownershipRetainedByProvider": true,
+          "attributionRequired": true,
+          "adsPermitted": false,
+          "paywallPermitted": false,
+          "affiliateRevenuePermitted": false,
+          "commercialAdvertisingPermitted": false,
+          "musicReleasePermitted": false,
+          "excerpt": "00:00–00:40",
+          "authorizationReceivedAt": "2026-07-25"
+        },
+        "limitations": [
+          "Authorization is limited to the stated non-commercial portfolio use.",
+          "Music, lyrics, and vocals are Suno-generated; the applicant does not claim composition, lyric writing, performance, or song ownership.",
+          "The supplied support-email digest could not be recalculated because the original EML was not located locally."
+        ]
       },
       {
         "id": "literary-source",
-        "editionOrTranslationRecorded": false,
-        "copiedTextReviewComplete": false,
-        "publicUseConfirmed": false,
-        "evidenceRefs": []
+        "status": "pendingApplicantConfirmation",
+        "requiredChecks": {
+          "literaryBasisRecorded": true,
+          "aiAssistedRewriteConfirmed": true,
+          "applicantReviewConfirmed": true,
+          "modernTranslationNotCopied": false,
+          "filmSubtitleNotCopied": false,
+          "publicPortfolioUseConfirmed": false
+        },
+        "evidenceRefs": [
+          "hamlet-literary-rewrite-attestation",
+          "hamlet-applicant-attestation-v1"
+        ],
+        "conditions": {
+          "literaryBasis": "William Shakespeare, Hamlet",
+          "modernRewriteClaimedAsOriginalShakespeareText": false
+        },
+        "limitations": [
+          "The modern story text is an AI-assisted rewrite reviewed by the applicant, not a quotation of Shakespeare's original wording.",
+          "The absence of copied modern translations, film subtitles, stage subtitles, or web summaries awaits applicant confirmation."
+        ]
       },
       {
         "id": "canva-project",
-        "projectEvidencePresent": false,
-        "sourceReviewComplete": false,
-        "publicUseConfirmed": false,
-        "evidenceRefs": []
+        "status": "pendingApplicantConfirmation",
+        "requiredChecks": {
+          "editingOnlyConfirmed": true,
+          "applicantUploadedAssetInventoryRecorded": true,
+          "canvaStockImageAbsent": false,
+          "canvaStockVideoAbsent": false,
+          "canvaStockAudioAbsent": false,
+          "unreviewedTemplateMediaAbsent": false,
+          "publicPortfolioUseConfirmed": false
+        },
+        "evidenceRefs": [
+          "hamlet-canva-editing-only-attestation",
+          "hamlet-applicant-attestation-v1"
+        ],
+        "conditions": {
+          "toolRole": "timing, image editing, subtitles, transitions, volume adjustment, and MP4 export only"
+        },
+        "limitations": [
+          "No editable Canva project or stock/template asset inventory was available for local review.",
+          "Canva stock and unreviewed template media absence awaits applicant confirmation."
+        ]
       }
     ]
   },

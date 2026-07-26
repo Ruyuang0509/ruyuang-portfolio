@@ -52,6 +52,8 @@ package scripts 會透過 `scripts/run-node.ps1` 執行，所以 Windows/Codex s
 - Hamlet evidence manifest: `docs/evidence/hamlet-media-manifest.json`
 - Hamlet formative test plan: `docs/evidence/hamlet-formative-test-plan.md`
 - Hamlet rights checklist: `docs/evidence/hamlet-rights-checklist.md`
+- Hamlet public rights summary: `docs/evidence/hamlet-rights-evidence-public.md`
+- Hamlet applicant attestation draft: `docs/evidence/hamlet-applicant-attestation.md`
 - Product and technical documentation index: `docs/website/README.md`
 - AI-assisted workflow evidence: `docs/ai-workflow/README.md`
 - Admission evidence classification: `docs/admission/ADMISSION_EVIDENCE_SUMMARY.md`
@@ -114,7 +116,7 @@ Pure Data v0.2.1 目前只能稱為「學習中／可操作功能原型」與「
   initial/lazy bundle budgets、執行內建禁用詞掃描與 GitHub Pages 路徑檢查。
   這是必要門檻，不是完整的公開邊界證明。
 - `pnpm run check:publication`: 額外的公開發佈授權門檻。Hamlet 權利審查目前是
-  `unverified`，因此這條命令預期會中止；不得為了讓命令通過而自行改成已授權。
+  `pendingApplicantConfirmation`，因此這條命令預期會中止；不得為了讓命令通過而自行改成已授權。
 - `public/` 會由 Vite 全量複製。Pure Data MP4／poster、Hamlet 媒體、
   `llms.txt`、social preview 與其他未被 React 引用的檔案都屬實際輸出邊界。
 - 目前 canonical／Open Graph URL 使用已確認的 GitHub Pages 專案網址；
@@ -138,3 +140,14 @@ Pure Data v0.2.1 目前只能稱為「學習中／可操作功能原型」與「
   connection refused／受限錯誤。因此本輪沒有把四 viewport、anchor／focus、
   Web Audio、影片播放、reduced-motion、overflow 或 console 驗收標為通過。
 - 本輪沒有 commit、push、deploy 或改變 repository visibility。
+
+## 2026-07-26 Hamlet Rights Phase A
+
+- Evidence manifest 已升級為 schema v2，四類素材使用具名 `requiredChecks`、可解析 `evidenceRefs`、conditions 與 limitations；合法的 `commercialUsePermitted: false` 不再被錯誤當作 audit failure。
+- Suno〈Blinds-Soft Lament〉00:00–00:40 的特定非營利作品集使用條件、Song ID、公開 credit 與 supplied EML digest 已記錄；本輪沒有找到原始 EML，因此沒有在本機重新計算 digest。
+- 八幕原始生成紀錄找到 0 份；reference image 與 Canva stock／template 也沒有足夠證據證明不存在。Applicant attestation 仍為 `confirmed = false`，rights status 與 publication gate 保持 pending／blocked。
+- Pages workflow 已在 `check:submission` 後、Configure Pages 與 upload 前加入 `check:publication`。Phase A 合入 main 會刻意停止 production deployment，直到申請者本人確認且 gate 真正通過。
+- 公開 Hamlet 頁已更正：原始方向要求 instrumental／no lyrics，但實際 Suno 輸出包含英語歌詞與人聲；WebVTT 是故事字幕，不是歌曲逐字歌詞字幕。
+- Rights verification 只處理素材來源與公開範圍，不代表使用者研究、教學效果或學習成效已驗證；`testing.statusKey` 維持 `notValidated`。
+- Phase A 實測：install、workspace、media／text／CJK／evidence audits、content check、13/13 rights tests、58/58 scanner fixtures、18/18 sound tests、draft build、submission build／scan／Pages audit 全部 exit 0；`check:publication` 依設計 exit 1，保留 25 個具名 blocker。
+- In-app Browser 實測 1280×720、768×1024、375×812、320×568：影片可由鍵盤播放／暫停，Suno link 可取得 `:focus-visible`，八幕 storyboard 與雙語 tracks 保留，11 個 IA anchors 全部存在、duplicate ID 0、global horizontal overflow 0、console warning／error 0。

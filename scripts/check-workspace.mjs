@@ -7,6 +7,7 @@ const folderName = path.basename(cwd);
 const pathSegments = cwd.split(path.sep);
 const packagePath = path.join(cwd, "package.json");
 const identityPath = path.join(cwd, ".project-identity.json");
+const pagesWorkflowPath = path.join(cwd, ".github", "workflows", "deploy-pages.yml");
 const expectedFolder = "如願個人網站";
 const expectedPackageName = "ruyuan-personal-website";
 const errors = [];
@@ -71,6 +72,7 @@ if (packageJson) {
     "audit:cjk",
     "audit:evidence",
     "content:check",
+    "test:hamlet-rights",
     "test:sound",
     "build:draft",
     "check:submission",
@@ -108,8 +110,30 @@ if (packageJson) {
   "scripts/run-node.ps1",
   "scripts/run-lighthouse.mjs",
   "scripts/audit-media.mjs",
+  "scripts/validate-hamlet-rights.mjs",
   "scripts/validate-portfolio-content.mjs",
+  "tests/hamlet-rights.test.mjs",
+  "docs/evidence/hamlet-rights-evidence-public.md",
+  "docs/evidence/hamlet-applicant-attestation.md",
 ].forEach(requirePath);
+
+if (existsSync(pagesWorkflowPath)) {
+  const workflow = readFileSync(pagesWorkflowPath, "utf8");
+  const orderedMarkers = [
+    "pnpm install --frozen-lockfile",
+    "pnpm run check:submission",
+    "pnpm run check:publication",
+    "actions/configure-pages@",
+    "actions/upload-pages-artifact@",
+  ];
+  const positions = orderedMarkers.map((marker) => workflow.indexOf(marker));
+  if (positions.some((position) => position < 0) || positions.some((position, index) => index > 0 && position <= positions[index - 1])) {
+    errors.push("Pages workflow must run install -> check:submission -> check:publication -> configure -> upload.");
+  }
+  if (/continue-on-error\s*:\s*true/iu.test(workflow)) {
+    errors.push("Pages workflow must not bypass publication checks with continue-on-error.");
+  }
+}
 
 if (warnings.length) {
   console.warn("Workspace warnings:");
