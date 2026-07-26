@@ -3,6 +3,10 @@ const EXPECTED_SUNO_SONG_ID = "06373cc4-76b9-45c0-a0c0-586882f55829";
 const EXPECTED_SUNO_SHA256 = "8efadea341df3b12c6f8649dabfab941712ffef3b226d7348d832479bb33040e";
 const EXPECTED_SUNO_EXCERPT = "00:00–00:40";
 const EXPECTED_SUNO_URL = `https://suno.com/song/${EXPECTED_SUNO_SONG_ID}`;
+const EXPECTED_APPLICANT = "蕭智仁";
+const EXPECTED_ATTESTATION_DATE = "2026-07-26";
+const EXPECTED_ATTESTATION_PATH = "docs/evidence/hamlet-applicant-attestation.md";
+const EXPECTED_ATTESTATION_VERSION = "1.0";
 
 export const HAMLET_RIGHTS_REQUIRED_CHECKS = {
   "scene-images": [
@@ -268,11 +272,68 @@ const validatePublicDisclosure = ({
   }
 };
 
+const validateAttestationDocument = ({
+  errors,
+  attestationDocument,
+  attestationEvidence,
+}) => {
+  if (attestationEvidence?.publicDocumentPath !== EXPECTED_ATTESTATION_PATH) {
+    errors.push(`publication gate blocked: applicant attestation publicDocumentPath must be ${EXPECTED_ATTESTATION_PATH}`);
+  }
+
+  if (typeof attestationDocument !== "string" || !attestationDocument.trim()) {
+    errors.push("publication gate blocked: applicant attestation document is missing or unreadable");
+    return;
+  }
+
+  const normalizedDocument = attestationDocument.replace(/\r\n?/gu, "\n");
+  const requiredMetadata = [
+    "狀態：`confirmed`",
+    `申請者：${EXPECTED_APPLICANT}`,
+    `確認日期：${EXPECTED_ATTESTATION_DATE}`,
+    `影片 SHA-256：\`${EXPECTED_VIDEO_SHA256}\``,
+    `Attestation version：\`${EXPECTED_ATTESTATION_VERSION}\``,
+  ];
+  const requiredDeclarations = [
+    "生成過程完全使用文字提示，且未上傳第三方參考圖片。",
+    "生成過程未要求重製特定電影版本、特定演員外貌或其他創作者的具體受保護畫面。",
+    "由 GPT 依 William Shakespeare《Hamlet》的原始劇情重新摘要與改寫，再由我選擇、修訂與核對。",
+    "未直接複製現代出版譯本、電影字幕、舞台字幕或網路摘要。",
+    "Canva 僅用於時間編排、剪輯、字幕、轉場、音量調整與 MP4 匯出。",
+    "成片沒有使用 Canva stock image、stock video、stock audio，或未列入本權利清單的 template media。",
+    "本網站與本影片沒有廣告、付費牆、與影片相關的聯盟收益，也不作音樂發行或商業廣告使用。",
+  ];
+  for (const fragment of requiredMetadata) {
+    if (!normalizedDocument.includes(fragment)) {
+      errors.push(`publication gate blocked: applicant attestation document is missing required metadata: ${fragment}`);
+    }
+  }
+  for (const fragment of requiredDeclarations) {
+    if (!normalizedDocument.includes(fragment)) {
+      errors.push(`publication gate blocked: applicant attestation document is missing required declaration: ${fragment}`);
+    }
+  }
+
+  const prohibitedMarkers = [
+    "[待本人確認]",
+    "pendingApplicantConfirmation",
+    "1.0-draft",
+    "申請者：________________",
+    "確認日期：________________",
+  ];
+  for (const marker of prohibitedMarkers) {
+    if (normalizedDocument.includes(marker)) {
+      errors.push(`publication gate blocked: applicant attestation document contains pending marker: ${marker}`);
+    }
+  }
+};
+
 export function validateHamletRights({
   manifest,
   publicSource = "",
   publicDisclosure,
   rendererSource = "",
+  attestationDocument = "",
   trackedFiles = [],
   buildInventory = [],
   publicationMode = false,
@@ -385,6 +446,11 @@ export function validateHamletRights({
   }
 
   if (publicationMode) {
+    validateAttestationDocument({
+      errors,
+      attestationDocument,
+      attestationEvidence,
+    });
     if (rightsReview.status !== "verified") {
       errors.push(`publication gate blocked: rightsReview is ${rightsReview.status ?? "missing"}`);
     }
@@ -393,8 +459,8 @@ export function validateHamletRights({
     }
     if (
       attestation.confirmed !== true
-      || attestation.confirmedBy !== "蕭智仁"
-      || !/^\d{4}-\d{2}-\d{2}$/u.test(attestation.confirmedAt ?? "")
+      || attestation.confirmedBy !== EXPECTED_APPLICANT
+      || attestation.confirmedAt !== EXPECTED_ATTESTATION_DATE
     ) {
       errors.push("publication gate blocked: applicant attestation is incomplete");
     }
@@ -440,4 +506,8 @@ export const HAMLET_RIGHTS_EXPECTED_VALUES = Object.freeze({
   sunoSha256: EXPECTED_SUNO_SHA256,
   sunoExcerpt: EXPECTED_SUNO_EXCERPT,
   sunoUrl: EXPECTED_SUNO_URL,
+  applicant: EXPECTED_APPLICANT,
+  attestationDate: EXPECTED_ATTESTATION_DATE,
+  attestationPath: EXPECTED_ATTESTATION_PATH,
+  attestationVersion: EXPECTED_ATTESTATION_VERSION,
 });

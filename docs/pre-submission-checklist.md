@@ -21,9 +21,9 @@ pnpm run check:submission
 
 `check:submission` first runs isolated scanner regression fixtures, then performs a submission-mode production build, scans supported text-based files and the complete `dist/` file inventory, and audits the output for GitHub Pages-breaking root-relative asset paths. It is a required baseline; the independent checks below remain defense in depth.
 
-2026-07-24 最新本機自動驗證快照：`pnpm run doctor` exit 0；scanner fixtures 57/57、inventory rules 7；draft build 470 modules、submission build 467 modules；fresh `dist/` 132 files／25 text files、`public/` 118 files，public→dist 0 missing／0 hash mismatch。這些結果適用目前 11 段 IA fingerprint；正式匯出前仍應依本清單記錄新一輪實際 exit code。
+2026-07-26 最新本機自動驗證快照：`pnpm run doctor` exit 0；scanner fixtures 58/58、inventory rules 9；draft build 470 modules、submission build 467 modules；fresh `dist/` 132 files／25 text files、`public/` 118 files，public→dist 0 missing／0 hash mismatch。這些結果適用目前 11 段 IA 與 Hamlet rights Phase B fingerprint；正式匯出前仍應依本清單記錄新一輪實際 exit code。
 
-互動式 in-app Browser 已嘗試，但本機連線隔離使其無法連到 preview；shell 端 localhost HTTP 200 不代表 Browser 可用。因此四個要求 viewport，以及 anchor／focus、Web Audio、Pure Data video、reduced-motion、horizontal overflow 與 console 檢查全部未執行，不能列為通過。
+In-app Browser 已在 1280×720、768×1024、375×812、320×568 核對 Hamlet confirmed disclosure、Suno focus、影片 keyboard play／pause、8 幕、2 tracks、case targets、responsive width 與 clean-tab console；待本人確認、舊權利卡片、duplicate ID、broken case target 與 global horizontal overflow 均為 0。Screen reader、真實 zoom、system reduced-motion、實機與多瀏覽器音訊仍需人工驗收。
 
 ## Production Publication Gate
 
@@ -33,18 +33,20 @@ pnpm run check:submission
 pnpm run check:publication
 ```
 
-2026-07-26 Hamlet manifest 已升級為 schema v2，`rightsManifestPresent: true`；目前仍是 `rightsReview.status: pendingApplicantConfirmation`、`applicantAttestation.confirmed: false` 與 `publicationGate: requiresApplicantAttestation`。Suno 特定 Song ID 的非營利條件已記錄，但原始 EML 本輪未找到；場景生成、現代文本排除與 Canva stock／template 項目仍等待本人確認。不得由工程端或 AI 把 status 改成已核准來消除錯誤。Deploy workflow 現在會在 `check:submission` 後、Configure Pages 與 upload 前執行 `check:publication`，因此 Phase A 將刻意阻擋 production deployment。HTTP 200 與 deployment success 都不是 rights clearance。
+2026-07-26 Hamlet manifest 為 schema v2，`rightsManifestPresent: true`；蕭智仁完成 applicant attestation 後，目前為 `rightsReview.status: verified`、`applicantAttestation.confirmed: true` 與 `publicationGate: approved`。Suno 特定 Song ID 的非營利條件維持不變，原始 EML 本輪仍未找到；場景、現代文本排除與 Canva stock／template checks 的依據是 applicant attestation。Deploy workflow 會在 `check:submission` 後、Configure Pages 與 upload 前執行 `check:publication`。HTTP 200 與 deployment success 仍不能單獨取代 rights clearance。
 
-Phase A privacy checks：
+Privacy checks：
 
 ```powershell
 git ls-files | rg "\.eml$|private-evidence|rights-evidence-private"
 rg -n "無歌詞配樂|實際成片.*no lyrics|本人作曲|本人作詞|本人演唱" src public
 ```
 
-另以不寫入 Repository 的 privacy audit 執行已知私人郵件地址與完整郵件標頭 pattern scan。所有掃描都應無命中；無命中只能證明 tracked／source 邊界乾淨，不能證明 private original 存在或待本人確認的事實成立。
+另以不寫入 Repository 的 privacy audit 執行已知私人郵件地址與完整郵件標頭 pattern scan。所有掃描都應無命中；無命中只能證明 tracked／source 邊界乾淨，不能證明 private original 存在，也不能取代 applicant attestation。
 
-2026-07-26 Phase A actual：install、evidence／content、rights tests、scanner、sound、draft build 與 submission check 均 exit 0；publication check exit 1，列出 25 個 pending blockers。四個 Browser viewport 的 disclosure、video、focus、anchors、overflow 與 console 檢查通過；這不解除 applicant checkpoint。
+2026-07-26 Phase B actual：蕭智仁已完成具名／日期／影片 SHA-256 綁定；`check:publication` exit 0，manifest 為 `verified / approved`。完整 `doctor`、14/14 rights tests、58/58 scanner fixtures、54 個 text rules、9 個 inventory rules、submission build／scan、Pages audit 與 privacy checks 均通過。四 viewport targeted Hamlet smoke 通過；完整 11 段導覽、Web Audio、Pure Data、system reduced-motion、實機與多瀏覽器矩陣仍需人工驗收。原始八幕生成紀錄、原始 EML 與可編輯 Canva 專案仍未找到，且研究／學習成效維持 `notValidated`。
+
+2026-07-26 Phase A historical actual：install、evidence／content、rights tests、scanner、sound、draft build 與 submission check 均 exit 0；publication check 當時 exit 1，列出 25 個 pending blockers。四個 Browser viewport 的 disclosure、video、focus、anchors、overflow 與 console 檢查通過；該快照不解除當時的 applicant checkpoint。
 
 ## Content Review
 

@@ -336,7 +336,7 @@ For a project with a publication-rights gate, run its publication check separate
 pnpm run check:publication
 ```
 
-This command must remain blocked until the applicant completes the rights/source checklist: top-level status and gate, named/date-stamped attestation with an evidence reference, and every rights item's checks plus evidence references. Changing only `status` from `unverified` is intentionally insufficient. A successful submission build proves output hygiene and artifact consistency, not permission to publish.
+This command must remain blocked unless the applicant has completed the rights/source checklist: top-level status and gate, named/date-stamped attestation with an evidence reference, evidence lifecycle, and every rights item's checks plus evidence references. Hamlet's 2026-07-26 attestation currently satisfies that checkpoint; changing only `status` from `unverified` remains intentionally insufficient. A successful submission build proves output hygiene and artifact consistency, not permission to publish.
 
 ## Interactive prototype schema extension
 

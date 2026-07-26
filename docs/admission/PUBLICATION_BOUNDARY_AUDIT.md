@@ -3,13 +3,13 @@
 ## 2026-07-26 current update
 
 - Hamlet public rights registry 已建立；Suno 的特定非營利用途書面摘要可公開，原始 EML 與完整 ChatGPT／OpenAI 生成對話不可進 Git、public 或 dist。
-- 本輪未找到原始 EML、八幕生成紀錄、reference image evidence 或 Canva stock／template inventory。未找到不等於已證明不存在；相關 required checks 保持 false。
-- Applicant attestation 仍為 `confirmed = false`；publication audit 實測 exit 1，列出 25 個具名 blockers。其餘 Phase A 指定命令均 exit 0。不得以 submission build、HTTP 200 或 workflow success 推論 rights approval。
-- Production workflow 已把 `check:publication` 放在 Configure Pages 與 upload 之前，沒有 `continue-on-error`。目前合入 main 會因 pending applicant checkpoint 而停止 deploy。
+- 本輪未找到原始 EML、八幕生成紀錄、reference image evidence 或 Canva stock／template inventory。蕭智仁於 2026-07-26 完成具名 applicant attestation，因此相關 applicant-owned required checks 為 true；這不會把未找到的 private originals 改寫成已找到。
+- Applicant attestation 為 `confirmed = true`，`rightsReview.status = verified`、`publicationGate = approved`；targeted publication audit 實測 exit 0。不得以 submission build、HTTP 200 或 workflow success 單獨推論 rights approval。
+- Production workflow 已把 `check:publication` 放在 Configure Pages 與 upload 之前，沒有 `continue-on-error`。合入 main 後仍須由當次 submission 與 publication checks 同時通過才會 deploy。
 - Suno 條件只涵蓋目前無廣告、無付費牆、無 affiliate revenue 的非營利研究所作品集；rights verification 與 research validation 分層。
-- Browser 四個 viewport 的公開 disclosure、影片控制、focus、11 anchors、overflow 與 console 已通過；rendered success 仍不等於 applicant attestation。
+- Phase B Browser 已在 1280×720、768×1024、375×812、320×568 核對 confirmed disclosure、Suno focus、影片鍵盤播放／暫停、8 幕、2 tracks 與 responsive width；待本人確認、舊權利卡片、duplicate ID、broken case target、global overflow 與 clean-tab console error 均為 0。Rendered success 與 applicant attestation 仍是兩種不同證據。
 
-更新日期：2026-07-24
+更新日期：2026-07-26
 
 ## Executive verdict
 
@@ -18,9 +18,9 @@
 - Repository `Ruyuang0509/ruyuang-portfolio` 目前是 public。
 - `submissionVisibility: hidden`、draft-only、不渲染與 Vite alias 只控制 runtime bundle。
 - Vite 會把 `public/` 全量複製到 `dist/`，無論 React 是否引用。
-- Pages workflow 執行 `check:submission`，不執行 `check:publication`。
-- Hamlet publication gate 仍為 `unverified／requiresApplicantAttestation`。
-- 本輪沒有變更 Repository visibility、Git history、Pages、attestation、commit、push、PR 或 deployment。
+- Pages workflow 依序執行 `check:submission`、`check:publication`，通過後才 Configure Pages 與 upload。
+- Hamlet publication gate 為 `verified／approved`，applicant attestation 綁定蕭智仁、2026-07-26 與交付影片 SHA-256。
+- 本輪沒有變更 Repository visibility、Git history 或既有 Pages deployment；commit、push 與 PR 由本次交付流程另行完成，仍不合併 `main` 或 deploy。
 
 ## Public and intended／公開且預期
 
@@ -52,7 +52,7 @@
 
 - 影片、poster、雙語 WebVTT 與八幕 responsive derivatives 都在 `public/` 並已部署。
 - `audit:evidence` 可核對 hash、尺寸、字幕與 derivative 關係。
-- 權利、來源與 applicant attestation 未完成；`check:publication` 必須保持阻擋。
+- 權利、來源與 applicant attestation 已完成具名確認；`check:publication` exit 0。原始八幕生成紀錄、原始 EML 與可編輯 Canva 專案仍未找到，因此不能寫成已完成獨立原始證據查驗。
 
 ### 代表作品文字
 
@@ -128,9 +128,9 @@
 - `pnpm run check:publication`：Hamlet 權利與 applicant attestation gate。
 - `check:submission` 通過、Pages deployment success、HTTP 200 或媒體可播放，都不能替代 publication approval。
 
-2026-07-24 本輪 fresh 結果：
+2026-07-26 本輪 fresh 結果：
 
-- `pnpm run doctor`：exit 0；scanner fixtures 57/57，draft／submission 分別完成 470／467 modules。
+- `pnpm run doctor`：exit 0；scanner fixtures 58/58，draft／submission 分別完成 470／467 modules。
 - submission `dist/`：132 files／25 text files；118 個 `public/` files 為 0 missing、0 hash mismatch。
-- `pnpm run check:publication`：exit 1；共 11 個 Hamlet rights／applicant-attestation blockers，屬預期阻擋，未被降級或繞過。
-- In-app Browser 因本機連線隔離，無法對 shell 已確認 HTTP 200 的 preview 執行 rendered matrix；此項是未能執行，不是通過。
+- `pnpm run check:publication`：exit 0；manifest 報告 `verified／approved`。
+- In-app Browser 四 viewport 的 confirmed disclosure、Suno focus、40 秒影片、8 幕、2 tracks、case targets、overflow 與 clean-tab console smoke 通過；screen reader、真實 zoom、system reduced-motion、實機與多瀏覽器音訊仍未涵蓋。

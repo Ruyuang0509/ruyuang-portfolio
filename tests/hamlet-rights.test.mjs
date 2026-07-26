@@ -13,6 +13,10 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const sourceManifest = JSON.parse(readFileSync(path.join(root, "docs", "evidence", "hamlet-media-manifest.json"), "utf8"));
 const hamletProject = projectCaseStudies.find((project) => project.id === "generative-interface-study");
 const rendererSource = readFileSync(path.join(root, "src", "components", "CaseStudyShowcase.jsx"), "utf8");
+const attestationDocument = readFileSync(
+  path.join(root, "docs", "evidence", "hamlet-applicant-attestation.md"),
+  "utf8",
+);
 const publicSource = [
   JSON.stringify(hamletProject),
   rendererSource,
@@ -68,6 +72,7 @@ const validateFixture = (manifest, overrides = {}) => validateHamletRights({
   publicSource,
   publicDisclosure: disclosureForManifest(manifest),
   rendererSource,
+  attestationDocument,
   trackedFiles: [],
   buildInventory: [],
   publicationMode: true,
@@ -173,4 +178,24 @@ test("disclosure strings without featured-media renderer wiring fail", () => {
   );
   assert.ok(validateFixture(makeValidManifest(), { rendererSource: disconnectedRenderer })
     .some((error) => error.includes("featured-media wiring")));
+});
+
+test("missing or stale applicant attestation document blocks publication", () => {
+  const manifest = makeValidManifest();
+  assert.ok(validateFixture(manifest, { attestationDocument: "" })
+    .some((error) => error.includes("document is missing or unreadable")));
+
+  const staleDocument = attestationDocument
+    .replace("狀態：`confirmed`", "狀態：`pendingApplicantConfirmation`")
+    .replace("申請者：蕭智仁", "申請者：其他人")
+    .replace("確認日期：2026-07-26", "確認日期：2026-07-25")
+    .replace(
+      "7E50B6EB01E646FB822D6384D73C9C01A08DC9DF8D5D22A3102B777A460D2312",
+      "0".repeat(64),
+    )
+    .replace("未直接複製現代出版譯本、電影字幕、舞台字幕或網路摘要。", "");
+  const staleErrors = validateFixture(manifest, { attestationDocument: staleDocument });
+  assert.ok(staleErrors.some((error) => error.includes("missing required metadata")));
+  assert.ok(staleErrors.some((error) => error.includes("missing required declaration")));
+  assert.ok(staleErrors.some((error) => error.includes("contains pending marker")));
 });

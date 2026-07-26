@@ -232,7 +232,7 @@ pnpm run check:submission
 pnpm run check:publication
 ```
 
-That command is expected to fail while `docs/evidence/hamlet-rights-checklist.md` remains `unverified` and the applicant attestation is missing. `check:submission` passing is therefore not equivalent to publication approval.
+That command must fail whenever `docs/evidence/hamlet-rights-checklist.md`, the named/date-stamped applicant attestation, evidence lifecycle, or any item-level check becomes incomplete. The current 2026-07-26 applicant attestation satisfies that checkpoint, but `check:submission` passing by itself is still not equivalent to publication approval.
 
 Completeness checks apply evidence-heavy recommended groups only to submission-visible projects. A submission-hidden case may display `不適用 · submission-hidden` for workflow/media groups; this is an intentional governance state, not a missing-evidence warning and not permission to ship placeholder files.
 

@@ -178,7 +178,7 @@ pnpm run check:publication
 ```
 
 Use `pnpm run check:submission` before any formal review export.
-Use `pnpm run check:publication` before publishing Hamlet media; until the applicant-owned rights gate is resolved, its non-zero exit is expected and intentional.
+Use `pnpm run check:publication` before publishing Hamlet media. The applicant-owned checkpoint was completed on 2026-07-26; any later non-zero exit is a release blocker and must not be bypassed.
 
 ## Forbidden Formal Output Terms
 

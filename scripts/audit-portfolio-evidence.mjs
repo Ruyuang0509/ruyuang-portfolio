@@ -254,6 +254,23 @@ const trackedFiles = trackedResult.status === 0
   : [];
 const buildInventory = listRelativeFiles(path.join(root, "dist"));
 const rendererSource = readFileSync(path.join(root, "src", "components", "CaseStudyShowcase.jsx"), "utf8");
+const attestationEvidence = manifest.rightsEvidence
+  .find((entry) => entry?.id === "hamlet-applicant-attestation-v1");
+const attestationDocumentPath = typeof attestationEvidence?.publicDocumentPath === "string"
+  ? path.resolve(root, attestationEvidence.publicDocumentPath)
+  : "";
+const attestationDocumentRelativePath = attestationDocumentPath
+  ? path.relative(root, attestationDocumentPath)
+  : "";
+const attestationDocumentIsInsideRoot = Boolean(attestationDocumentRelativePath)
+  && attestationDocumentRelativePath !== ".."
+  && !attestationDocumentRelativePath.startsWith(`..${path.sep}`)
+  && !path.isAbsolute(attestationDocumentRelativePath);
+const attestationDocument = attestationDocumentIsInsideRoot
+  && existsSync(attestationDocumentPath)
+  && statSync(attestationDocumentPath).isFile()
+  ? readFileSync(attestationDocumentPath, "utf8")
+  : "";
 const publicSource = [
   JSON.stringify(project),
   rendererSource,
@@ -263,6 +280,7 @@ for (const rightsError of validateHamletRights({
   publicSource,
   publicDisclosure: project?.featuredMediaDisclosure,
   rendererSource,
+  attestationDocument,
   trackedFiles,
   buildInventory,
   publicationMode,

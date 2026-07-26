@@ -10,7 +10,7 @@
 - 範圍：八幕場景圖片。
 - 申請者負責：原作情節拆解、場景設定、提示方向、輸出篩選、畫面排序與影片整合。
 - 原始生成紀錄：應由申請者在私人證據工作區保存；本輪界定搜尋找到 0 份可核對紀錄。
-- Reference image 核對：`pendingApplicantConfirmation`。未發現 reference image 不等於已證明未使用；因沒有原始生成紀錄，文字提示生成、第三方參考圖像未使用，以及未要求複製特定電影版本或演員外貌，都等待申請者本人確認。
+- Reference image 核對：`confirmedByApplicant`。蕭智仁於 2026-07-26 確認八幕場景均以文字提示透過 ChatGPT／OpenAI 生成，未使用第三方參考圖片，也未要求重製特定電影版本、特定演員外貌或其他創作者的具體受保護畫面。本輪仍找到 0 份原始生成紀錄，因此這些項目的核對依據是 applicant attestation，不是 Codex 對生成對話的獨立查驗。
 
 公開網站目前使用的八幕 responsive storyboard 是從已核對 MP4 抽出的衍生畫面，不是原始生成紀錄。
 
@@ -30,7 +30,7 @@
 - 摘要所記錄的原始 EML bytes：`17014`
 - 原始 EML：不得進入 public、dist、docs 附件或 Git history。本輪界定搜尋沒有找到原始 EML，因此沒有在本機重新計算上述 digest；不能把需求文字當成原始郵件證據。
 
-歌曲中的音樂、英語歌詞與人聲均由 Suno 生成。申請者不主張本人作曲、作詞、演唱或擁有歌曲完整著作權。申請者仍須在 attestation 中確認網站與影片確實維持無廣告、無付費牆、無相關聯盟收益及非商業用途。
+歌曲中的音樂、英語歌詞與人聲均由 Suno 生成。申請者不主張本人作曲、作詞、演唱或擁有歌曲完整著作權。蕭智仁於 2026-07-26 確認網站與影片維持無廣告、無付費牆、無相關聯盟收益，且不作音樂發行或商業廣告使用。
 
 ## 文學來源與故事字幕
 
@@ -39,7 +39,7 @@
 - Credit：`Literary basis: William Shakespeare, Hamlet`。
 - Credit：`Story adaptation and subtitle review: 蕭智仁 with ChatGPT assistance`。
 - 公開邊界：現代改寫不宣稱為莎士比亞原文，也不宣稱為公共領域原文。
-- 最終核對：未直接複製現代出版譯本、電影字幕、舞台字幕或網路摘要，狀態為 `pendingApplicantConfirmation`。
+- 最終核對：蕭智仁於 2026-07-26 確認未直接複製現代出版譯本、電影字幕、舞台字幕或網路摘要，狀態為 `confirmedByApplicant`。本輪沒有可供獨立比對的來源 archive。
 
 目前英文與繁中 WebVTT 是故事敘事字幕，不是歌曲逐字歌詞字幕。
 
@@ -48,14 +48,14 @@
 - 工具角色：時間編排、圖像剪輯、字幕、轉場、音量調整與最終 MP4 匯出。
 - 上傳素材：申請者提供的 ChatGPT／OpenAI 場景圖，以及 Suno 音訊。
 - 公開邊界：Canva 不被描述為場景圖片、歌曲、歌詞或人聲的來源。
-- Stock／template 核對：本輪沒有找到可編輯專案或素材盤點，因此 Canva stock image、stock video、stock audio 與未盤點 template media 是否缺席，均為 `pendingApplicantConfirmation`。
+- Stock／template 核對：蕭智仁於 2026-07-26 確認成片沒有使用 Canva stock image、stock video、stock audio 或未列入權利清單的 template media，狀態為 `confirmedByApplicant`。本輪仍沒有找到可編輯 Canva 專案或素材盤點，因此這是本人聲明，不是獨立專案檢查結果。
 
 ## Applicant attestation
 
-- 狀態：`confirmed = false`／`pendingApplicantConfirmation`
-- 確認人：尚未由本人填寫
-- 確認日期：尚未由本人填寫
-- 草稿：[`hamlet-applicant-attestation.md`](./hamlet-applicant-attestation.md)
+- 狀態：`confirmed = true`／`confirmed`
+- 確認人：蕭智仁
+- 確認日期：2026-07-26
+- 正式聲明：[`hamlet-applicant-attestation.md`](./hamlet-applicant-attestation.md)
 - 對應影片 SHA-256：`7E50B6EB01E646FB822D6384D73C9C01A08DC9DF8D5D22A3102B777A460D2312`
 
-申請者確認前，`rightsReview.status` 不得是 `verified`，`publicationGate` 不得是 `approved`。Rights verification 也不代表研究、使用者測試或學習成效已獲驗證。
+Applicant attestation 完成後，`rightsReview.status = verified`、`publicationGate = approved`。這只代表目前列明的非營利公開範圍通過 repository 權利門檻；Rights verification 仍不代表研究、使用者測試或學習成效已獲驗證。

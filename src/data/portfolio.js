@@ -391,7 +391,7 @@ export const projectCaseStudies = [
     technologyAndMedia:
       "我用 ChatGPT 整理故事、分鏡、字幕與圖像提示，場景圖由 ChatGPT／OpenAI 生成；Suno 提供包含音樂、英語歌詞與人聲的完整歌曲輸出，Canva 只用於時間編排、剪輯、字幕、轉場、音量與 MP4 匯出。",
     outcomeShowcase:
-      "目前能核對的是 40 秒、8 幕《Hamlet》故事 MV、雙語 WebVTT、逐字稿，以及後來整理的提示詞模板 v1。Suno 特定歌曲的非營利作品集使用條件已有書面摘要；八幕原始生成紀錄、文學改寫來源排除、Canva stock／template 盤點與申請者 attestation 仍待本人確認。學習成效尚未驗證。",
+      "目前能核對的是 40 秒、8 幕《Hamlet》故事 MV、雙語 WebVTT、逐字稿，以及後來整理的提示詞模板 v1。Suno 特定歌曲的非營利作品集使用條件已有書面摘要；蕭智仁已於 2026-07-26 完成場景生成、文學改寫來源、Canva 素材與目前非營利用途的 applicant attestation。八幕原始生成紀錄、原始 EML 與可編輯 Canva 專案仍未在本輪找到，學習成效也尚未驗證。",
     trackIds: ["ai-interactive-learning-creation", "multimedia-video-sound", "edtech-digital-content"],
     cover: mediaAsset("hamlet-story-mv-cover", "《Hamlet》故事 MV 封面裁切，哈姆雷特在月夜城牆上面對父親的鬼魂。"),
     problemAwareness:
@@ -575,14 +575,14 @@ export const projectCaseStudies = [
     ],
     evidenceBoundary: {
       governanceRef: "hamlet-media-manifest",
-      title: "成片可核對；Suno 非營利條件已記錄，其餘聲明仍待本人確認",
+      title: "成片可核對；Suno 非營利條件與申請者權利聲明已記錄",
       verifiedArtifacts: ["MP4 與技術規格", "英文／繁中 WebVTT 與八段時間碼", "由成片衍生的影片封面、首頁封面與八幕畫面"],
       approvedSpecifications: ["五階段工具分工", "四項提示詞限制", "原始 instrumental / no lyrics 方向與實際含歌詞／人聲輸出的差異", "若未來加入旁白時的混音規則"],
       notIndependentlyVerified: [
         "原始提示詞執行紀錄與八張原始場景檔；本輪可核對的原始生成紀錄為 0",
         "Suno 官方回覆的刪節摘要、Song ID、非營利範圍與 supplied SHA 已記錄，但本輪沒有找到原始 EML 可重新計算 digest",
-        "文字提示生成、未使用第三方參考圖或特定電影／演員、未複製現代譯本／電影字幕，以及 Canva stock／template 缺席仍待本人確認",
-        "Applicant attestation 尚未完成，因此 publication gate 仍阻擋",
+        "文字提示生成、未使用第三方參考圖或特定電影／演員、未複製現代譯本／電影字幕，以及 Canva stock／template 缺席已由蕭智仁於 2026-07-26 聲明確認，但沒有原始生成對話、來源 archive 或 Canva 專案可供獨立查驗",
+        "Applicant attestation 已完成，publication gate 只核准目前列明的非營利公開範圍",
         "學生或教師的課堂測試與學習成效",
       ],
     },
@@ -606,7 +606,7 @@ export const projectCaseStudies = [
     keyInsight:
       "這次我學到，工具越多，越需要先決定每一步要交付什麼、誰來檢查。把故事拆成八幕後，我才能逐項修正字幕、圖像與配樂，而不是在最後才發現它們彼此不合。",
     nextSteps: [
-      "由申請者確認場景生成、現代文本未複製、Canva stock／template 缺席與目前非營利用途，完成 attestation 後再評估 publication gate。",
+      "維持 applicant attestation、Suno 非營利限制與公開 credit；若網站用途、營利模式或素材組成改變，重新執行權利核對與 publication gate。",
       "用另一部文學作品首次實際使用提示詞模板 v1，保留提示詞紀錄、失敗輸出與人工修改。",
       "安排學生與教師的形成性測試，再依誤解、字幕可讀性與課堂適用性修改。",
     ],
@@ -616,7 +616,7 @@ export const projectCaseStudies = [
       { label: "閱讀提示詞設計", href: "#generative-interface-study-prompt-system" },
     ],
     diagrams: [],
-    featuredMediaIntro: "影片共八幕，每幕 5 秒，故事字幕可切換英文與繁中。背景歌曲含英語歌詞與人聲；Suno 特定非營利使用條件已公開揭露，其餘素材聲明與 applicant attestation 仍待本人確認。",
+    featuredMediaIntro: "影片共八幕，每幕 5 秒，故事字幕可切換英文與繁中。背景歌曲含英語歌詞與人聲；Suno 特定非營利使用條件與蕭智仁於 2026-07-26 完成的 applicant attestation 已公開揭露。",
     featuredMediaDisclosure: {
       title: "素材來源與公開範圍",
       musicCredit: {
@@ -627,7 +627,7 @@ export const projectCaseStudies = [
         scope: "Suno 官方客服書面摘要確認此片段可用於目前無廣告、無付費牆、無聯盟收益的非營利研究所申請作品集；不得作商業廣告或音樂發行。",
       },
       sources: [
-        { label: "場景圖像", value: "ChatGPT／OpenAI 生成；生成紀錄與 reference image 狀態待本人確認" },
+        { label: "場景圖像", value: "ChatGPT／OpenAI 生成（完全使用文字提示）；蕭智仁於 2026-07-26 確認未使用第三方 reference image 或要求重製特定電影／演員畫面" },
         { label: "文學基礎", value: "Literary basis: William Shakespeare, Hamlet" },
         { label: "故事改寫與字幕核對", value: "Story adaptation and subtitle review: 蕭智仁 with ChatGPT assistance" },
         { label: "音樂、歌詞與人聲", value: "Suno；申請者不主張歌曲創作、演唱或完整著作權" },
@@ -636,8 +636,8 @@ export const projectCaseStudies = [
       ],
       attestation: {
         label: "Applicant attestation",
-        value: "待本人確認 · confirmed = false · 尚無確認日期",
-        statusKey: "pendingApplicantConfirmation",
+        value: "已由 蕭智仁 於 2026-07-26 確認",
+        statusKey: "confirmed",
       },
     },
     media: {
@@ -689,8 +689,8 @@ export const projectCaseStudies = [
     },
     reflection: {
       strengths: "我已完成 40 秒成片、八幕實際畫面與雙語字幕，也寫下每個工具要處理的內容與限制。",
-      limitations: "目前沒有學生測試、教師評閱、原始提示詞紀錄、原始場景檔或可編輯 Canva 專案；Suno 非營利條件已記錄，但原始 EML 未在本輪找到，其餘素材聲明與 applicant attestation 仍待本人確認。",
-      graduateDirection: "下一步會先完成 applicant attestation，再測試字幕、故事理解與含歌詞／人聲歌曲是否適合課堂任務。",
+      limitations: "目前沒有學生測試、教師評閱、原始提示詞紀錄、原始場景檔或可編輯 Canva 專案；Suno 原始 EML 也未在本輪找到。Applicant attestation 已完成，但這些本人聲明不等於原始證據的獨立查驗。",
+      graduateDirection: "下一步會在維持非營利權利邊界的前提下，測試字幕、故事理解與含歌詞／人聲歌曲是否適合課堂任務。",
     },
     instituteConnections: ["AI", "聲響", "跨域創生"],
     themeEvidenceStatus: {

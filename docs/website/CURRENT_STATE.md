@@ -3,12 +3,12 @@
 ## 2026-07-26 Hamlet public disclosure
 
 - Hamlet 播放器後方新增 compact「素材來源與公開範圍」面板，使用既有 `evidence-panel`／`soft-panel`；沒有新增 Navbar、主 IA anchor 或大型 section。
-- 面板列出 ChatGPT／OpenAI 場景圖、William Shakespeare 文學基礎、申請者與 ChatGPT 的改寫核對分工、Suno 音樂／歌詞／人聲、Canva editing/export-only 角色、非營利公開範圍及 pending attestation。
+- 面板列出 ChatGPT／OpenAI 場景圖、William Shakespeare 文學基礎、申請者與 ChatGPT 的改寫核對分工、Suno 音樂／歌詞／人聲、Canva editing/export-only 角色、非營利公開範圍及 confirmed attestation。
 - 公開 copy 保留原始 instrumental／no lyrics 提示方向，同時明確更正實際聲軌含英語歌詞與人聲；WebVTT 是故事字幕，不是歌曲逐字歌詞字幕。
-- Rights schema 與 Pages gate 已接入，但 applicant attestation 未完成，production publication 仍被阻擋。11 段 IA、Hero、motion、storyboard、fallback 與 testing boundary 未改。
-- Phase A 自動命令除 publication gate 外均 exit 0；gate 實測 exit 1／25 blockers。In-app Browser 四個 viewport 驗證 panel 可讀、Suno link 可鍵盤 focus、影片可鍵盤播放／暫停、8 張 storyboard／2 tracks／11 anchors 保留、overflow 0、console 0。
+- Rights schema 與 Pages gate 已接入；蕭智仁於 2026-07-26 完成 applicant attestation，targeted publication audit exit 0。11 段 IA、Hero、motion、storyboard、fallback 與 testing boundary 未改。
+- Phase B final validation：完整 `doctor`、14/14 rights tests、58/58 scanner fixtures、54 個 text rules、9 個 inventory rules、content check、submission build／scan、Pages audit 與 publication audit 均 exit 0。In-app Browser 在 1280×720、768×1024、375×812、320×568 核對 confirmed disclosure、Suno focus、影片鍵盤播放／暫停、8 幕、2 tracks、responsive width 與 clean-tab console；待本人確認、舊權利卡片、duplicate ID、broken case target 與 global overflow 均為 0。原始生成紀錄、原始 EML 與可編輯 Canva 專案仍未找到，rights approval 不等於這些 private originals 已被獨立查驗。
 
-## 2026-07-24 最新共享工作樹與最終自動驗證
+## 2026-07-24 共享工作樹與自動驗證（歷史快照；上方 Phase B 為目前狀態）
 
 - `App.jsx` 現在呈現 11 個主要閱讀段落：Hero、轉向聲音的問題意識、證據導覽、Web Audio 旗艦原型、Pure Data 學習紀錄、申請階段研究構想、代表作品與其他公開案例、專案與合作、學習路線、AI／作者性、研究方向與連結。資料視覺化系列及支持案例索引屬代表作品段落的延伸閱讀。
 - 新增 [`../../src/data/admission-evidence.js`](../../src/data/admission-evidence.js) 與 [`../../src/components/AdmissionEvidenceSections.jsx`](../../src/components/AdmissionEvidenceSections.jsx)。前者集中保存 Pure Data、兩件代表作品、合作事件、四階段學習路線與外部連結；後者將其拆成可延後載入、具固定 section wrapper、錯誤隔離與 fragment 重新校正的五個區段。
@@ -78,8 +78,8 @@
 - 2026-07-23 盤點時，HEAD 為 `61ea9d8`，位於 `codex/public-copy-rewrite` 並追蹤同名 `origin`；`main`／`origin/main` 均為 PR #5 squash 後的 `695b520`。兩個 refs 的檔案樹完全相同（`git diff --quiet main HEAD` exit 0），但 `main...HEAD` 的 lineage 為 main 1、目前分支 6 個各自獨有 commits。
 - GitHub PR #1 至 #5 均已 merged；PR #5 `caption adjust` 於 2026-07-19 合併。舊文件中的 `feat/portfolio-admission-foundation`／PR #4 最新狀態與「Draft PR #1」描述均已失效；後續開發應從最新 `main` 建立新的 `codex/` 分支。
 - `.github/workflows/deploy-pages.yml` 會在 push 到 `main` 或 `workflow_dispatch` 時執行。`695b520` 的最新 run `29680534295` 與 deployment 均成功，environment URL 為 `https://ruyuang0509.github.io/ruyuang-portfolio/`；該 URL 與當前資產實測 HTTP 200。Repository 沒有 `CNAME`，也沒有 production field-performance、輔具或實機證據；本輪未能從未認證 Pages-site endpoint 重新取得 `built` 欄位。
-- 應用、內容與文件已能形成完整本機 review flow；hidden-only assets、built construction wording、stale metadata、hidden 完整度假警告與 Three 超大 lazy chunk 的已知本機缺口已關閉。2026-07-17／07-18 曾產生 Lighthouse lab 證據，但之後已有公開文案與 bundle 變更，該報告只能視為歷史效能快照，不能作為 2026-07-23 source fingerprint 的當前驗證。真實使用者研究、Hamlet 原始 Prompt log、權利審查、輔具／實機仍未完成。
-- **公開狀態與權利閘門不一致：** Hamlet manifest 仍為 `rightsReview.status: unverified` 且 `rightsManifestPresent: false`，但 2026-07-23 production Pages 的 MP4、英文與繁中 VTT、poster 均實測 HTTP 200。部署 workflow 只跑 `check:submission`，沒有跑預期失敗的 `check:publication`；本輪執行後者仍以 11 個 blockers exit 1。這是「已公開可達但未取得發布核准」的現況。
+- 應用、內容與文件已能形成完整本機 review flow；hidden-only assets、built construction wording、stale metadata、hidden 完整度假警告與 Three 超大 lazy chunk 的已知本機缺口已關閉。2026-07-17／07-18 Lighthouse 只能視為歷史效能快照。真實使用者研究、Hamlet private originals、輔具／實機與 current production field evidence 仍未完成。
+- **公開狀態與權利閘門已對齊於 current branch：** Hamlet manifest 為 `verified / approved`，蕭智仁已於 2026-07-26 完成具名 attestation；部署 workflow 會在 configure／upload 前執行 `check:publication`，本輪本機 exit 0。既有 production Pages 仍是較早 fingerprint；本次只 commit、push 與建立 PR，不 merge 或 deploy。
 
 ## 路由與導覽模型
 
@@ -147,9 +147,9 @@ flowchart TD
 
 ## 已確認的 submission 邊界
 
-- Scanner core 可注入任意 output directory，CLI fail closed；目前使用 54 個 text rules 與 7 個 inventory rules，57 個 fixtures 斷言 bad output exit 1、clean／明確否定 caveat exit 0，diagnostics 不回印敏感內容；VTT、Web Manifest 與 source map 也納入文字掃描。
+- Scanner core 可注入任意 output directory，CLI fail closed；目前使用 54 個 text rules 與 9 個 inventory rules，58 個 fixtures 斷言 bad output exit 1、clean／明確否定 caveat exit 0，diagnostics 不回印敏感內容；VTT、Web Manifest 與 source map 也納入文字掃描。
 - 最新 submission `dist/` 為 132 files／25 text files；118 個 `public/` files 全數存在，0 missing／0 SHA-256 mismatch。整合前 129／24 與 116-public 數字只保留於歷史快照。
-- `audit:evidence` 核對 Hamlet 三份直接交付檔的 bytes／SHA-256、60 份衍生圖像的 inventory SHA-256／實際 dimensions、16 個 WebVTT cues 與 63 個 public Hamlet files；`check:publication` 同時要求頂層核准、完整 applicant attestation、逐項 rights checks 與 evidence refs，目前正確地被擋下。
+- `audit:evidence` 核對 Hamlet 三份直接交付檔的 bytes／SHA-256、60 份衍生圖像的 inventory SHA-256／實際 dimensions、16 個 WebVTT cues 與 63 個 public Hamlet files；`check:publication` 同時要求頂層核准、完整 applicant attestation、逐項 rights checks 與 evidence refs，本輪 exit 0。
 - Submission dev middleware 對 13 個舊 hidden media URL 與 `/dist/*` 回傳 404，避免 Vite SPA fallback 偽裝成 200；有效 public media 仍為 200。Filesystem deny 對 restricted media、internal／hidden modules 與歷史 report copy 回傳 403。
 - Scanner 的文字規則不能移除 binary 影片／poster 畫面中的本機路徑與 `validated` 字樣；兩項 Pd 媒體既已放入 `public/`，就必須按「公開可達但仍有揭露風險」處理，不能以 React 是否引用或頁面否定句取代 binary 內容審查。
 - `llms.txt`、favicon、social preview、index／JSON-LD 與案例 SEO title 使用 RU / YUAN，`llms.txt` 只列實際存在的 Navbar anchors。
@@ -157,4 +157,4 @@ flowchart TD
 
 ## 外部系統與缺席功能
 
-沒有 CMS、API request、backend、database、authentication、storage、analytics、contact form、search、filter、modal、carousel 或獨立 404 route。`#contact` 只是 GitHub Pages 與 GitHub Repository 的外部連結集合，不是聯絡表單。已配置 push-to-`main`／手動兩種觸發的 GitHub Pages workflow與相對 base path；run `29680534295` 與既有 Pages URL 是 2026-07-23 歷史部署證據，未包含目前未 commit 的 AdmissionEvidence／Pd 媒體整合。公開可達性不等於權利核准或 production-ready 驗收。
+沒有 CMS、API request、backend、database、authentication、storage、analytics、contact form、search、filter、modal、carousel 或獨立 404 route。`#contact` 只是 GitHub Pages 與 GitHub Repository 的外部連結集合，不是聯絡表單。已配置 push-to-`main`／手動兩種觸發的 GitHub Pages workflow與相對 base path；run `29680534295` 與既有 Pages URL 是 2026-07-23 歷史部署證據，未包含本次 branch／PR 的 AdmissionEvidence、Pd 媒體與 Hamlet Phase B 更新；本次尚未 merge／deploy。公開可達性不等於權利核准或 production-ready 驗收。

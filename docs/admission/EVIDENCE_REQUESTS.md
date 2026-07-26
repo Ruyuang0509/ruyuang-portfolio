@@ -3,9 +3,9 @@
 ## 2026-07-26 Hamlet update
 
 - Suno〈Blinds-Soft Lament〉特定非營利用途的官方回覆摘要、Song ID、00:00–00:40、限制與 supplied SHA 已進 public rights registry；原始 EML 本輪未找到，仍不得進 public Git。
-- 可核對的原始八幕 ChatGPT／OpenAI 生成紀錄為 0；reference image 與特定電影／演員複製的 absence 不能由搜尋空結果推定。
-- Canva stock／template inventory 未找到；文學現代來源排除與 Canva absence 均需申請者本人確認。
-- Attestation 草稿在 `docs/evidence/hamlet-applicant-attestation.md`，目前未簽。只有收到本人明確確認後才可填姓名、日期並解除 gate。
+- 可核對的原始八幕 ChatGPT／OpenAI 生成紀錄為 0；蕭智仁已於 2026-07-26 確認完全使用文字提示、未使用第三方 reference image，也未要求重製特定電影／演員或受保護畫面。這是 applicant attestation，不是由搜尋空結果推定。
+- Canva stock／template inventory 與可編輯專案未找到；文學現代來源排除與 Canva absence 已由蕭智仁於 2026-07-26 完成本人確認。
+- 正式 attestation 在 `docs/evidence/hamlet-applicant-attestation.md`，已填姓名、ISO 日期並綁定影片 SHA-256；原始生成紀錄、EML 與 Canva project availability 仍是獨立 evidence request。
 
 更新日期：2026-07-24
 

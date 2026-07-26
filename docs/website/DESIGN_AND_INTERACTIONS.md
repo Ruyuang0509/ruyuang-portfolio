@@ -1,12 +1,12 @@
 # 視覺、互動、響應式與可及性
 
-## 2026-07-24 最新設計與互動狀態
+## 2026-07-26 最新設計與互動狀態
 
 - 本輪改的是文案層級、11 段 IA、AdmissionEvidence 區段與研究構想呈現；既有 palette、字體、spacing、R3F Hero、GSAP／Lenis、fixed viewport transition、Custom Cursor、卡片回饋、聲音操作與 reduced-motion 行為均保留。
 - Hero 兩個 CTA 現在直達 Web Audio demo 與學習／研究路線；paper surface 承接支持案例 gallery、專案與合作、學習路線、AI／作者性及研究方向／連結。研究構想本身位於深色 `#research-positioning` wrapper。
 - `ResearchPositioning.jsx` 現只負責 `SoundTransitionSection` 與 `ReviewerPathSection`；四層研究構想由獨立 `ResearchProposalSection` 呈現。舊 `LearningTrail` 不在 `App.jsx` 主 IA，現行四階段學習路線由 `AdmissionEvidenceSections` 提供。
-- `pnpm run doctor` exit 0；draft／submission 分別為 470／467 modules，fresh `dist/` 132 files／25 text files，118 個 `public/` files 為 0 missing／0 SHA-256 mismatch。這些是自動與 artifact 證據，不是 rendered interaction 證據。
-- 互動式 in-app Browser 已嘗試，但本機連線隔離使其無法連上預覽，即使 shell HTTP 回應為 200。四個 viewport、桌面／行動導覽與焦點、Web Audio 啟停、Pure Data 影片播放、reduced-motion、horizontal overflow 與 console 均未能執行，不可寫成通過。
+- `pnpm run doctor` exit 0；draft／submission 分別為 470／467 modules，fresh `dist/` 132 files／25 text files，118 個 `public/` files 為 0 missing／0 SHA-256 mismatch。
+- In-app Browser 已在 1280×720、768×1024、375×812、320×568 完成 Hamlet rights Phase B smoke：confirmed disclosure、Suno focus、40 秒影片 keyboard play／pause、8 幕、2 tracks 與 responsive width 正常；待本人確認、舊權利卡片、duplicate ID、broken case target、horizontal overflow 與 clean-tab console error 均為 0。
 - 2026-07-17／07-18 的 viewport matrix、2026-07-24 整合前 1440×900／375×812 結果與 Lighthouse 數據只保留為舊 IA／舊 source 的歷史證據，不擴張成目前工作樹、真機、輔具或 field 結論。
 
 ## 2026-07-23 公開文案更新
@@ -118,7 +118,7 @@
 
 ## Accessibility 與視覺缺口
 
-- 舊 IA 曾完成桌面導覽、Logo、行動導覽與 sound range 的 rendered keyboard/focus matrix；整合前也曾留下 1440×900／375×812 紀錄。最新工作樹原定的四 viewport、導覽／焦點、Web Audio、影片播放、reduced-motion、overflow 與 console 回歸因 in-app Browser 本機連線隔離未能執行；上述舊結果不能代替目前 source，也不能取代 screen reader、全站 touch target 或完整 WCAG 人工 audit。2026-07-17 Lighthouse accessibility 亦只是 content fingerprint 已漂移的歷史資料。
+- 舊 IA 曾完成桌面導覽、Logo、行動導覽與 sound range 的 rendered keyboard/focus matrix；整合前也曾留下 1440×900／375×812 紀錄。2026-07-26 Phase B 已對目前 source 完成四 viewport Hamlet disclosure／media／focus／overflow／console smoke，但沒有重跑全站 Web Audio、reduced-motion、screen reader、全站 touch target 或完整 WCAG 人工 audit。2026-07-17 Lighthouse accessibility 亦只是 content fingerprint 已漂移的歷史資料。
 - sound pad 的 pointer 操作區本身不是 keyboard widget；它以圖像語意說明映射，鍵盤使用者改用四個 range controls，仍需真實使用者研究確認是否足夠易懂。
 - visible readout 由四個 range 的 `aria-describedby` 關聯，另以節流 `aria-live` 宣告參數；仍需 screen reader 實測確認訊息頻率。
 - 行動 menu 沒有 focus trap；它是非 modal nav，但仍應做實際 tab-order 測試。

@@ -94,13 +94,13 @@
     {
       "id": "hamlet-scene-generation-records",
       "kind": "applicantEvidenceSummary",
-      "status": "pendingApplicantConfirmation",
+      "status": "confirmedByApplicant",
       "localVerificationStatus": "recordsNotLocated",
       "publicSummaryPath": "docs/evidence/hamlet-rights-evidence-public.md",
       "generationRecordCountReviewed": 0,
       "privateOriginalRetained": false,
-      "confirmedBy": null,
-      "confirmedAt": null,
+      "confirmedBy": "蕭智仁",
+      "confirmedAt": "2026-07-26",
       "limitations": [
         "No original generation conversation was located in the bounded local search.",
         "Storyboard derivatives sampled from the MP4 are not generation records."
@@ -132,35 +132,35 @@
     {
       "id": "hamlet-literary-rewrite-attestation",
       "kind": "applicantAttestationComponent",
-      "status": "pendingApplicantConfirmation",
+      "status": "confirmedByApplicant",
       "publicSummaryPath": "docs/evidence/hamlet-rights-evidence-public.md",
       "privateOriginalRetained": false,
-      "confirmedBy": null,
-      "confirmedAt": null
+      "confirmedBy": "蕭智仁",
+      "confirmedAt": "2026-07-26"
     },
     {
       "id": "hamlet-canva-editing-only-attestation",
       "kind": "applicantAttestationComponent",
-      "status": "pendingApplicantConfirmation",
+      "status": "confirmedByApplicant",
       "publicSummaryPath": "docs/evidence/hamlet-rights-evidence-public.md",
       "privateOriginalRetained": false,
-      "confirmedBy": null,
-      "confirmedAt": null
+      "confirmedBy": "蕭智仁",
+      "confirmedAt": "2026-07-26"
     },
     {
       "id": "hamlet-applicant-attestation-v1",
       "kind": "applicantAttestation",
-      "status": "pendingApplicantConfirmation",
+      "status": "confirmed",
       "publicDocumentPath": "docs/evidence/hamlet-applicant-attestation.md",
       "videoSha256": "7E50B6EB01E646FB822D6384D73C9C01A08DC9DF8D5D22A3102B777A460D2312",
       "privateOriginalRetained": false,
-      "confirmedBy": null,
-      "confirmedAt": null
+      "confirmedBy": "蕭智仁",
+      "confirmedAt": "2026-07-26"
     }
   ],
   "rightsReview": {
-    "status": "pendingApplicantConfirmation",
-    "publicationGate": "requiresApplicantAttestation",
+    "status": "verified",
+    "publicationGate": "approved",
     "conditions": {
       "nonCommercialOnly": true,
       "commercialUsePermitted": false,
@@ -170,23 +170,23 @@
       "affiliateRevenuePermitted": false
     },
     "applicantAttestation": {
-      "confirmed": false,
-      "confirmedBy": null,
-      "confirmedAt": null,
+      "confirmed": true,
+      "confirmedBy": "蕭智仁",
+      "confirmedAt": "2026-07-26",
       "evidenceRef": "hamlet-applicant-attestation-v1",
       "videoSha256": "7E50B6EB01E646FB822D6384D73C9C01A08DC9DF8D5D22A3102B777A460D2312"
     },
     "items": [
       {
         "id": "scene-images",
-        "status": "pendingApplicantConfirmation",
+        "status": "verified",
         "requiredChecks": {
-          "generationRecordsReviewed": false,
+          "generationRecordsReviewed": true,
           "applicantDirectedGenerationConfirmed": true,
-          "textPromptGenerationConfirmed": false,
-          "thirdPartyReferenceImagesAbsent": false,
-          "specificFilmOrActorCopyingAbsent": false,
-          "publicPortfolioUseConfirmed": false
+          "textPromptGenerationConfirmed": true,
+          "thirdPartyReferenceImagesAbsent": true,
+          "specificFilmOrActorCopyingAbsent": true,
+          "publicPortfolioUseConfirmed": true
         },
         "evidenceRefs": [
           "hamlet-scene-generation-records",
@@ -203,14 +203,14 @@
       },
       {
         "id": "music",
-        "status": "pendingApplicantConfirmation",
+        "status": "verified",
         "requiredChecks": {
           "providerAndSongIdentified": true,
           "planAtGenerationRecorded": true,
           "officialSupportConfirmationPresent": true,
           "permittedUseScopeRecorded": true,
           "attributionPublished": true,
-          "nonMonetizedUseConfirmed": false
+          "nonMonetizedUseConfirmed": true
         },
         "evidenceRefs": [
           "hamlet-suno-support-confirmation",
@@ -238,14 +238,14 @@
       },
       {
         "id": "literary-source",
-        "status": "pendingApplicantConfirmation",
+        "status": "verified",
         "requiredChecks": {
           "literaryBasisRecorded": true,
           "aiAssistedRewriteConfirmed": true,
           "applicantReviewConfirmed": true,
-          "modernTranslationNotCopied": false,
-          "filmSubtitleNotCopied": false,
-          "publicPortfolioUseConfirmed": false
+          "modernTranslationNotCopied": true,
+          "filmSubtitleNotCopied": true,
+          "publicPortfolioUseConfirmed": true
         },
         "evidenceRefs": [
           "hamlet-literary-rewrite-attestation",
@@ -257,20 +257,20 @@
         },
         "limitations": [
           "The modern story text is an AI-assisted rewrite reviewed by the applicant, not a quotation of Shakespeare's original wording.",
-          "The absence of copied modern translations, film subtitles, stage subtitles, or web summaries awaits applicant confirmation."
+          "The applicant confirmed that no modern translation, film subtitle, stage subtitle, or web summary was directly copied; no independent source archive was available for local review."
         ]
       },
       {
         "id": "canva-project",
-        "status": "pendingApplicantConfirmation",
+        "status": "verified",
         "requiredChecks": {
           "editingOnlyConfirmed": true,
           "applicantUploadedAssetInventoryRecorded": true,
-          "canvaStockImageAbsent": false,
-          "canvaStockVideoAbsent": false,
-          "canvaStockAudioAbsent": false,
-          "unreviewedTemplateMediaAbsent": false,
-          "publicPortfolioUseConfirmed": false
+          "canvaStockImageAbsent": true,
+          "canvaStockVideoAbsent": true,
+          "canvaStockAudioAbsent": true,
+          "unreviewedTemplateMediaAbsent": true,
+          "publicPortfolioUseConfirmed": true
         },
         "evidenceRefs": [
           "hamlet-canva-editing-only-attestation",
@@ -281,7 +281,7 @@
         },
         "limitations": [
           "No editable Canva project or stock/template asset inventory was available for local review.",
-          "Canva stock and unreviewed template media absence awaits applicant confirmation."
+          "The applicant confirmed that no Canva stock image, stock video, stock audio, or unlisted template media was used; no editable Canva project was available for independent local review."
         ]
       }
     ]

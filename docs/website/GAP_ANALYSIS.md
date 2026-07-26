@@ -2,14 +2,14 @@
 
 ## 2026-07-26 Hamlet publication gap
 
-- 已完成：schema v2、rights evidence registry、public redacted summary、未簽 attestation 草稿、Suno credit、實際聲軌更正、純函式 audit、13 個 rights tests、private evidence scanner 與 pre-upload Pages gate。
-- 尚未完成：申請者對文字提示／reference image／特定電影或演員、現代文本未複製、Canva stock／template 缺席與實際無營利用途的確認。
-- Evidence 缺口：本輪找到 0 份原始生成紀錄、0 份 EML、0 份 Canva project／asset inventory；這些 empty results 不會自動把 absence checks 升為 true。
-- Gate 狀態：`pendingApplicantConfirmation`／`requiresApplicantAttestation`；`check:publication` 實測 exit 1／25 blockers，會阻止 Pages configure／upload 後續步驟。其餘 Phase A 指定命令均 exit 0。
+- 已完成：schema v2、rights evidence registry、public redacted summary、蕭智仁於 2026-07-26 確認的 attestation、Suno credit、實際聲軌更正、純函式 audit、14 個 rights tests、private evidence scanner 與 pre-upload Pages gate。
+- 申請者已確認：文字提示／reference image／特定電影或演員、現代文本未複製、Canva stock／template 缺席與實際無營利用途。
+- Evidence 缺口：本輪找到 0 份原始生成紀錄、0 份 EML、0 份 Canva project／asset inventory；absence checks 目前依據 applicant attestation，不能誤寫成 private originals 已獨立查驗。
+- Gate 狀態：`verified`／`approved`；targeted `check:publication` 實測 exit 0。Pages 仍會在每次 configure／upload 前重新執行 submission 與 publication gates。
 - 此差距只處理 publication rights；使用者研究、教學適切性與學習成效仍是另一組未驗證缺口。
-- Browser 四個 viewport 的 UI regression matrix 已通過；remaining gap 是申請者聲明與 private-original availability，不是版面或播放器故障。
+- Phase B Browser 已在 1280×720、768×1024、375×812、320×568 核對 confirmed disclosure、Suno focus、40 秒影片 keyboard play／pause、8 幕、2 tracks 與 responsive width；待本人確認、舊權利卡片、duplicate ID、broken case target、global overflow 與 clean-tab console error 均為 0。Remaining evidence gap 是 private-original availability 與人工／實機驗收，不是申請者聲明、版面或播放器故障。
 
-## 2026-07-24 判讀基準
+## 2026-07-24 判讀基準（歷史快照）
 
 - Admission Evidence Pass 已把首頁收斂為 11 段送審 IA：`#top` → `#sound-transition` → `#reviewer-path` → `#interactive-sound-learning` → `#pure-data-learning` → `#research-positioning` → `#selected-work` → `#collaboration` → `#learning-roadmap` → `#ai-workflow` → `#contact`。`#research-proposal` 只保留為相容錨點；`#selected-work` 內依序放《畫本》、既有資料視覺化／supporting cases、最後才是指定 MV。
 - Pure Data、代表作品、合作、Roadmap、AI 與 final links 使用永久 section wrapper 加 lazy-loaded content；原有 motion、R3F、Web Audio、CaseStudyShowcase、reduced-motion、focus 與 error boundary 未因敘事收斂而移除。
@@ -36,20 +36,20 @@
 
 | 優先級 | 現況 | 風險／目標 | 建議 |
 | --- | --- | --- | --- |
-| P0 | GitHub Pages 已公開，最新 run `29680534295` 成功；首頁、Hamlet MP4、英文與繁中 VTT、poster 於 2026-07-23 皆實測 HTTP 200，但 `check:publication` 仍因 rights／attestation 的 11 個 blockers exit 1，deploy workflow 只跑 `check:submission` | 實際公開範圍已超過 repository 自己定義的 publication gate；workflow success 或媒體可達性可能被誤讀為授權完成 | 由 stakeholder 立即二選一：完成逐項 rights evidence、attestation 並讓 `check:publication` 通過；或在核准前停止 Pages／移除 Hamlet 公開資產。之後把 `check:publication` 納入 production deploy gate，保留 draft／submission preview 不受影響 |
-| P0 | GitHub Repository 為 public；tracked hidden／internal data、完整 prompts、evidence docs 與 Git history 可讀。Submission alias 只讓部分內容不進 bundle | 「不渲染／不進 `dist/`」可能被誤認為保密，後續加入原始測試、音訊工程或研究草稿會擴大暴露 | 由申請者決定 public repository scope；個資、原始測試、未核權利文件、AI transcripts、`.pd`／`.rpp`、原始錄音與研究草稿先放 private workbench。新 `docs/admission/*` 目前只在本機，commit／push 前重新核對公開範圍 |
+| P0 | Hamlet 已由蕭智仁於 2026-07-26 完成 limited-use attestation，`check:publication` exit 0；commercial use、ads、paywall、affiliate revenue、商業廣告與音樂發行仍不允許 | 未來若改變網站營利模式或影片用途，沿用本次核准會超出現有 Suno 條件與申請者聲明 | 保留 production workflow 的 pre-upload publication gate；任何營利／商業用途變更都先取得新授權、更新 manifest／attestation，再重新驗證 |
+| P0 | GitHub Repository 為 public；tracked hidden／internal data、完整 prompts、evidence docs 與 Git history 可讀。Submission alias 只讓部分內容不進 bundle | 「不渲染／不進 `dist/`」可能被誤認為保密，後續加入原始測試、音訊工程或研究草稿會擴大暴露 | 由申請者決定 public repository scope；個資、原始測試、未核權利文件、AI transcripts、`.pd`／`.rpp`、原始錄音與研究草稿先放 private workbench。`docs/admission/*` 已納入本次 branch／PR 的公開邊界；本次尚未 merge／deploy |
 | P0 | Power BI restricted screenshot 已移出 public；資料使用說明不支持公開分析結果，另行公開許可未取得，部分 measures 仍待核對 | 重新公開原圖或錯誤推論會造成隱私／研究誠信風險 | 維持 quarantine；只有另取得資料提供方明確許可後才重新評估，正式輸出必跑 submission scan |
 | P1 | Web Audio 有可操作 prototype，但 `notValidated` | 旗艦證據仍無使用者理解／學習效果資料 | 執行 planned formative tasks，保留匿名紀錄、錯誤、口述理解與 limitation |
 | P1 | Pure Data v0.2.1 MP4／poster 已進 public，可核對本機功能操作；但原始畫面含本機路徑、`validated` 與裁切區，初版有 AI 協作，Repository 沒有可公開 `.pd`、版本差異或獨立重建證據。REAPER 只有已安裝狀態 | 影片能證明功能紀錄，不足以證明獨立作者性、熟練度、使用者驗證或研究系統；現有影片亦有送審觀感與路徑揭露風險 | 優先重錄不含本機路徑／過強 validation 用語且完整框取的作品集版；同步補最小可獨立重建 Patch、signal flow、版本差異、錯誤／修正與反思。REAPER 完成最小 routing 與原創輸出前維持未形成作品 |
 | P1 | 《畫本》與指定 MV 已作為文字型代表作品納入；前者缺成片、日期、完整 credit／權利，後者缺成片、課程紀錄、cue sheet／公開授權 | 申請者提供的作品事實可支持有限角色敘述，但不能視為已有公開 artifact、競賽結果或第三方媒體所有權 | 維持文字、角色與限制；只有申請者補交原始檔、完成日期、完整 credit、公開範圍與可驗證輸出後才加入媒體或提高證據強度 |
-| P1 | AI 文學故事 MV 已有可播放《Hamlet》成片、雙語字幕、八幕實際畫面、可重跑 evidence manifest 與衍生 Prompt Template v1；形成性評估只完成 planned protocol | Template v1 明確不是原始生成對話，成片證據也不等於教學有效；原始 Prompt log、實測紀錄與素材權利／來源簽核仍缺，`check:publication` 應維持 blocked | 維持 `notValidated` 與 `usedForExistingVideo: false`；以另一文本試跑模板並保留版本紀錄，執行學生／教師任務後才寫結果，由申請者完成權利 checklist／attestation 後才開啟發布閘門 |
+| P1 | AI 文學故事 MV 已有可播放成片、雙語字幕、八幕畫面、可重跑 manifest、衍生 Prompt Template v1 與具名 applicant attestation；publication gate approved，形成性評估仍只有 planned protocol | Template v1 不是原始生成對話，applicant attestation 也不是已找到的八幕生成紀錄、原始 EML 或 Canva 專案；成片證據不等於教學有效 | 維持 `notValidated` 與 `usedForExistingVideo: false`；private originals 如日後取得應留在私人 evidence workspace；以另一文本試跑模板並保留版本紀錄，執行學生／教師任務後才寫結果 |
 | P1 | 資料視覺化影片字幕／transcript 品質未人工確認 | 聽覺可及性與快速審查不足 | 檢查 YouTube captions，另提供同頁 transcript summary |
 | P1 | `#contact` 現在提供可核對的 GitHub Pages 與 public Repository 連結；仍沒有公開 Email、CV、社群或研究計畫下載 | 已有真實外部出口，但不等於申請者已決定公開個資、履歷或完整研究文件 | 保留兩個已確認 URL；其他聯絡／下載只有在申請者提供並核對公開範圍後加入 |
 | P1 | 先前 6 viewport 與同日 1440×900／375×812 smoke 都早於目前 11 段 IA、lazy admission module 與 Pure Data media；目前 source 尚無對應 320／375／768／1024／1440 完整回歸 | 舊 rendered evidence 不能證明新 anchors、deferred focus、影片 fallback、11 段順序與最窄／平板版仍通過 | 對 current submission artifact 重跑 320×568、375×812、768×1024、1024×768、1440×900；檢查 overflow、duplicate ID、11 anchors、lazy deep link／focus、媒體、console、touch targets、reduced-motion 與 Save-Data，再補 VoiceOver／NVDA、真實 zoom 與實機 |
 | P2 | 歷史 851 kB 單一 Three chunk 已改為 638680 raw／169383 gzip B 的完整 lazy 3D closure，initial preload 排除 3D；2026-07-23 fresh submission initial JS 為 193737 gzip B、entry 160908 B、CSS 43688 B。Lighthouse 94／100 與 LCP 2651 ms 是 2026-07-17、文案改寫前的歷史 fingerprint | Fresh build budget 支持目前仍維持 lazy 邊界，但歷史 localhost simulated profile 不能代表目前 source、低階實機、GPU／耗電或 production network | 保留 visibility-aware lazy／device gating 與 closure budget；若要引用目前效能，先重跑 Lighthouse，再以低階 Android／iOS、Save-Data 與 Pages URL 的 field evidence 判斷是否簡化 shader scene |
 | P2 | sound 自動測試已有 5 個 mapping 與 13 個 controller lifecycle tests；React controls、Escape、offscreen 與 live region 目前只有 rendered smoke evidence | 核心 AudioContext race／cleanup 可重跑，但 component UI regression 尚未自動化 | 若未來加入正式 browser test runner，再補 React interaction tests；不要依賴間接 Puppeteer dependency |
 | P2 | 單頁 anchors | 獨立分享、case SEO、browser history 能力有限 | 只有確定有分享需求時再評估 router/static routes |
-| P2 | Pages workflow 會在 push 到 `main` 或手動觸發，已有成功 runs；但沒有一般 PR CI、lint、formatter 或廣泛 tests，完整 submission gate 要到合併後的 deploy job 才執行 | 品質仍依賴本機 `doctor` 與人工矩陣，錯誤可能合併後才由部署 job 發現 | 評估加入不含部署權限的最小 Windows PR CI 與 a11y smoke tests；production job 另補 publication gate |
+| P2 | Pages workflow 會在 push 到 `main` 或手動觸發，並在 configure／upload 前依序執行 submission 與 publication gates；但沒有一般 PR CI、lint、formatter 或廣泛 tests | 本機已完整執行兩個 gate，但缺少 PR-stage 自動驗證，錯誤仍可能在合併後才由 deploy job 攔截 | 評估加入不含部署權限的最小 Windows PR CI 與 a11y smoke tests；保留現有 production submission／publication gates |
 | P2 | Canonical、`og:url` 與 JSON-LD URL 已統一為已確認的 GitHub Pages project URL；social preview 仍是 SVG，custom domain 尚未決定 | 基本 URL identity 已收斂，但部分分享平台的 SVG 相容性與未來網域遷移流程仍未完成 | 補 raster 1200×630；若改 custom domain，同步更新 canonical、Open Graph、JSON-LD、`llms.txt`、final links 與部署設定 |
 | P2 | 2026-07-17 Lighthouse 已封存完整 artifact／source lineage；2026-07-19 copy 後又有 2026-07-24 admission-evidence、media、lazy section 與 metadata 變更，目前沒有對應的新 localhost 或 production／field 數據 | 舊分數只能說明當時的 motion 修復，不可包裝成目前網站效能 | 本輪 final source 穩定後才重跑；另以 Pages URL 保留 production lab／field 證據，並與 localhost 結果分開 |
 
@@ -60,14 +60,14 @@
 - 行動版 section menu、Escape 關閉與 focus restore。
 - 原型 start/stop、visibility/offscreen cleanup、不支援與錯誤 fallback。
 - AudioContext resume cancel／timeout、graceful release、background immediate cleanup、context interruption 與 destroy 的可測 controller。
-- 桌面六個高階導覽連結、Logo、行動 menu、鍵盤焦點交接與 active-target 邏輯仍保留；current source 已通過建置與靜態檢查，但本輪 in-app Browser 因本機連線隔離無法執行 fresh rendered matrix，不可由舊版 regression 推論通過。
+- 桌面六個高階導覽連結、Logo、行動 menu、鍵盤焦點交接與 active-target 邏輯仍保留；current source 已通過建置與靜態檢查。Phase B 已完成四 viewport targeted Hamlet smoke；完整 11 段導覽、fixed-nav、Web Audio、Pure Data、system reduced-motion、實機與多瀏覽器矩陣仍不可由舊版 regression 推論通過。
 - `notValidated`／`exploratory` 明確測試狀態與 validator enforcement。
 - Hamlet delivery 已建立 manifest、SHA-256／bytes、WebVTT／逐字稿與 63 個 public assets 的可重跑 `audit:evidence`；這些完整性證據與發布權利分開治理。
 - Hamlet Prompt Template v1 已以 `processDerived` 發布，明載不曾用來生成現有成片；原始 Prompt log 仍保留為外部缺口。
-- Hamlet 形成性評估已建立 planned protocol，但不含參與者人數、日期、結果或成效；rights checklist 未簽核前，`check:publication` 的失敗是預期閘門。
+- Hamlet 形成性評估已建立 planned protocol，但不含參與者人數、日期、結果或成效；rights checklist 已於 2026-07-26 由申請者確認，這不會把形成性研究狀態升格為已驗證。
 - hidden immersive case 文字由 `#portfolio-hidden` alias 隔離，media 保持空；13 個專用 placeholders、generator refs 與 captions 已移除，submission dev 舊 URL 404。
 - submission-hidden case 的流程圖／媒體 completeness 項目已標為不適用並排除 `recommendedMissing`；這不改變空 media、alias 與 scanner 隔離。
-- submission scanner 已拆成可注入 core／thin CLI，加入送審內部詞、成效／系統完成過度主張與 unsupported proficiency 規則、7 個 inventory rules、redacted diagnostics 與 57/57 Node regression fixtures；`#contact` 已是有效 anchor，VTT、Web Manifest、source map 也納入文字掃描，並仍保留獨立 `dist/` audit。
+- submission scanner 已拆成可注入 core／thin CLI，加入送審內部詞、成效／系統完成過度主張與 unsupported proficiency 規則、54 個 text rules、9 個 inventory rules、redacted diagnostics 與 58/58 Node regression fixtures；`#contact` 已是有效 anchor，VTT、Web Manifest、source map 也納入文字掃描，並仍保留獨立 `dist/` audit。
 - R3F 已改用 lean canvas 與精準 constructor extend；遞迴 built-import budget 覆蓋 initial／完整 lazy closure 與單一 chunk，2026-07-23 closure 為 638680 raw／169383 gzip B，851 kB 歷史 warning 已關閉。
 - `llms.txt`、favicon、social preview、index／Open Graph／Twitter／JSON-LD 與頁面 anchors 已改成蕭智仁聲響、互動與數位學習申請敘事；canonical／`og:url`／JSON-LD URL 使用已確認的 GitHub Pages project URL。Raster preview 與 custom domain 仍待後續決策。
 - Power BI 實作日期已確認為 2026/06/11–06/12；實際資料與結果媒體移出 public，公開 conceptual SVG。
@@ -110,4 +110,4 @@
 
 ## 本次無法確認
 
-利害關係人簽核、當年度官方申請要求、真實使用者測試、Hamlet 原始 Prompt log／素材權利與來源簽核、Pure Data 獨立重建／可公開 `.pd`／版本差異、REAPER 工程與原創輸出、《畫本》／指定 MV 的公開成片與完整權利、Power BI 另行公開許可、Email／CV／社群、custom domain、analytics、screen reader、真實 200% zoom、system reduced-motion、實機與 field performance 均不在目前可驗證證據中。Pure Data v0.2.1 MP4／poster、現有 GitHub Pages URL 與 public Repository URL 已確認，但不能延伸成獨立作者性、驗證或權利結論。Current source 的 final build 與獨立 `dist/` inventory 已完成；本輪 320–1440 rendered browser matrix 因 in-app Browser 的本機連線隔離未能執行，deployment 與 field 驗證也未執行。2026-07-17 Lighthouse 與既有 rendered smoke evidence只代表各自當時的 source。
+最終申請敘事簽核、當年度官方申請要求、真實使用者測試、Hamlet 原始 Prompt log／生成紀錄／原始 EML／可編輯 Canva 專案、Pure Data 獨立重建／可公開 `.pd`／版本差異、REAPER 工程與原創輸出、《畫本》／指定 MV 的公開成片與完整權利、Power BI 另行公開許可、Email／CV／社群、custom domain、analytics、screen reader、真實 200% zoom、system reduced-motion、實機與 field performance 均不在目前可驗證證據中。Hamlet limited-use rights 已由蕭智仁具名確認並通過 publication gate，但不能延伸成 private originals 已查驗或研究成效。Current source 的 final build、獨立 `dist/` inventory 與四 viewport Hamlet Browser smoke 已完成；deployment 與 production field 驗證未執行。2026-07-17 Lighthouse 與較早 rendered evidence 只代表各自當時的 source。
