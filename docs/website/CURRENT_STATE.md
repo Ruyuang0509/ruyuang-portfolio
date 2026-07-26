@@ -81,7 +81,7 @@
 ## Repository 與交付狀態
 
 - Canonical root 是 `C:\Users\911su\Documents\Codex\如願個人網站`。
-- PR #1 至 #7 均已 merged；本輪 PR #8 Draft 工作樹已整合公開展示版與 PR #7 limited-use rights／attestation 基線，衝突後自動與 Browser 驗證均通過。Draft PR 仍不是 merge、deploy 或 production publication approval。
+- PR #1 至 #7 均已 merged；本輪 Draft PR #9 從最新 `main` 整合公開展示版與 PR #7 limited-use rights／attestation 基線，GitHub 回報 mergeable，且自動與 Browser 驗證均通過。PR #8 保持原衝突狀態；Draft PR 仍不是 merge、deploy 或 production publication approval。
 - `.github/workflows/deploy-pages.yml` 會在 push 到 `main` 或 `workflow_dispatch` 時執行，並在 configure／upload 前依序要求 `check:submission` 與 `check:publication`。PR #6 的 run `30087568225`、build job `89463242126`、deploy job `89463660241` 是較早成功部署；它不包含 PR #7 rights 更新或本次公開展示版組合。
 - Repository 沒有 `CNAME`，也沒有 production field-performance、輔具或實機證據。本輪不把未重新核對的 Pages API／HTTP 狀態寫成 current production。
 - 應用、內容與文件已形成完整本機 review flow；hidden-only assets、built construction wording、stale metadata、hidden 完整度假警告與 Three 超大 lazy chunk 的既有缺口已關閉。2026-07-17／07-18 Lighthouse 只能視為歷史效能快照。真實使用者研究、Hamlet private originals、輔具／實機與 current production field evidence 仍未完成。

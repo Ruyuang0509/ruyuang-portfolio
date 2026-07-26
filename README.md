@@ -12,7 +12,7 @@
 - `pnpm install --frozen-lockfile` 與 `pnpm run doctor` 均 exit 0；18/18 sound、14/14 rights、73/73 scanner fixtures 通過。Draft 為 471 modules、initial JS gzip 200889 B、entry 180733 B、CSS 44315 B；submission 為 467 modules、initial JS gzip 192936 B、entry 153704 B、CSS 44315 B。
 - Submission scan 覆蓋 132 files／25 text files、67 個 text rules／9 個 inventory rules；118 個 `public/` files 在 132-file `dist/` 中為 0 missing、0 hash mismatch。`pnpm run check:publication` exit 0，manifest 為 `verified / approved`。
 - Browser 已在 1280×800、768×900、390×844、320×720 驗證 0 overflow、0 broken hashes、0 duplicate IDs、0 broken images、console 0 warning／error；Pure Data、Hamlet、`#selected-work`、`#contact` deep links 位於頂端約 95–112 px，dark／paper theme endpoints 與 mobile menu Escape 還焦通過。
-- Hamlet 核准只涵蓋具名的非營利作品集用途，不延伸為商業授權、private originals 已查驗或研究／學習成效成立。Screen reader、真實 200% zoom、system reduced-motion、實機與多瀏覽器音訊仍未驗；兩個 YouTube 作品的第三方 rights／完整 credit 仍待核對。目前 PR 是 Draft，不等於發布核准。
+- Hamlet 核准只涵蓋具名的非營利作品集用途，不延伸為商業授權、private originals 已查驗或研究／學習成效成立。Screen reader、真實 200% zoom、system reduced-motion、實機與多瀏覽器音訊仍未驗；兩個 YouTube 作品的第三方 rights／完整 credit 仍待核對。目前 PR #9 是 Draft，不等於發布核准。
 
 ## Start Here
 

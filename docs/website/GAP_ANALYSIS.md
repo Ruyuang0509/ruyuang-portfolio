@@ -80,7 +80,7 @@
 - Web Audio 第四個鍵盤控制、可讀 readout、starting／busy、3 秒 resume timeout 及 pending context cleanup。
 - 320px 繁中 display heading 越界修正與暖紙主題 accent 對比 5.71:1；資料視覺化深色 reading surface、dark／paper endpoints 與 320×720 viewport 已在最新整合回歸通過。Print reading-surface 也會重設為紙色 tokens、visible overflow 與無 shadow，但真實列印仍待人工檢查。
 - 長頁平台 scrollbar 已恢復並跟隨深色／暖紙 theme token；`body` 最小寬度修正曾在 320×568、375×812、1440×900 取得 0 global horizontal overflow，現階段保留為歷史 regression，不代填新 11 段 source 的結果。
-- 有效 Git history、`origin` 與 `main` 已確認；PR #1–#7 均已 merged。本輪 PR #8 Draft 已整合公開展示版與 PR #7 rights 基線並通過本機 gates／Browser QA；Draft PR 不等於 merge、deploy 或 production publication approval。
+- 有效 Git history、`origin` 與 `main` 已確認；PR #1–#7 均已 merged。本輪 Draft PR #9 已從最新 `main` 整合公開展示版與 PR #7 rights 基線，GitHub 回報 mergeable，且通過本機 gates／Browser QA；PR #8 維持原衝突狀態。Draft PR 不等於 merge、deploy 或 production publication approval。
 - 生成式 AI 協作方法區段、Prompt 版本、三個實際失敗案例、`AI 協助／申請者負責／申請者尚需補強` 與人類最終責任揭露。
 - 公開文案已改成自然、第一人稱的繁體中文，並清楚區分作者角色、方法、已有證據與未驗證限制；PR #5 只改 copy／labels／metadata，沒有移除既有 runtime、motion 或 visual system。
 - submission-only Lighthouse harness 的跨程序鎖、stale-lock dead-PID 驗證、archive completion marker、canonical rollback／summary-last、完整受測 `dist`／source manifests、CLI transcript、完整 profile／environment fingerprint、freshness／runtime 驗證與 mobile／desktop 分流；Hero LCP、current-geometry first-load、scene fallback、前一輪離散主題對比、theme-aware nav、sound-pad ARIA、busy/live-region 與 pending-start 取消問題已修正。本輪再以 fixed viewport field 恢復可逆、可停留的深墨→暖灰→暖紙 scrub，並補齊 disclosure 兩向高度動畫。

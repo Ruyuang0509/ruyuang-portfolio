@@ -2,7 +2,7 @@
 
 ## 2026-07-26 公開展示版與 Hamlet Rights Phase B 整合（本輪已驗證）
 
-- 本節描述目前整合 fingerprint 與實際驗證；2026-07-25、Phase B base 與 `75b8df7` 的紀錄仍保留為歷史證據，不取代本節結果。目前變更位於 Draft PR，尚未 merge 或 deploy，不能當成發布核准。
+- 本節描述目前整合 fingerprint 與實際驗證；2026-07-25、Phase B base 與 `75b8df7` 的紀錄仍保留為歷史證據，不取代本節結果。目前變更位於 Draft PR #9，尚未 merge 或 deploy，不能當成發布核准；衝突中的 PR #8 保持原狀。
 - `src/data/admission-evidence.js` 已收斂為公開作品敘事；完整證據狀態、驗證限制、作者性、AI 協作、權利、limitations 與 evidence requests 以 stable ID 移到 `src/data/admission-evidence.audit.js`。公開元件只 import public data，Draft layer 才以動態拆分讀取 audit records，以守住 entry budget；validator 同時核對兩層 ID／schema，但公開施工字串規則不套到 audit records。這是 submission bundle 邊界，不代表 public Repository 內的 audit source 是私密資料。
 - `DataVisualizationSeries` 的背景轉場來源仍保留，但所有標題、摘要、卡片與說明現在位於不透明 `theme-reading-surface--dark`；mist／paper fixed field 只在閱讀面周圍可見，避免任何中間進度出現淺底淺字。`useThemeInversion` 以單一 theme endpoint threshold 同步 ScrollTrigger `onUpdate`／`onRefresh`、reduced endpoint 與 navigation surface。
 - `App.jsx` 對 `#main-content` 加入 `ResizeObserver`，lazy admission sections 或媒體尺寸改變時會重新執行受控 hash settle；`portfolio:deferred-ready` 與使用者中斷保護仍保留。這修正直接 deep link 在延後內容展開後落點漂移的問題。

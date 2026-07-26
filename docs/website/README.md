@@ -47,7 +47,7 @@
 | 證據資料 | `src/data/admission-evidence.js` 保存 public narrative；`src/data/admission-evidence.audit.js` 依 stable ID 保存 evidence／validation／rights／limitations／requests。`src/components/AdmissionEvidenceSections.jsx` 只依賴 public module，其同一 dynamic import 提供 Pure Data、代表作品、secondary creation、合作、四階段學習路線與外部連結 6 個 exports。研究構想與 AI／作者性各有獨立 lazy chunk。 |
 | Pure Data 媒體 | `pd-crossmodal-mapping-v0.2.1-operation-demo.mp4` 與同名 poster 已由公開頁實際引用；狀態固定為「學習中／可操作功能原型」「尚待驗證」，不等同獨立作者性、使用者驗證或研究驗證。 |
 | 研究定位 | `ResearchProposalSection` 以問題／初步構想／可帶入能力／入學後需補強四層呈現混合監聽研究；完整研究計畫仍留在非公開工作區，網站沒有下載連結。 |
-| Git／Pages | PR #1–#7 均已 merged；本輪 PR #8 Draft 已整合公開展示版與 PR #7 rights 基線。Pages run `30087568225` 是 PR #6 歷史部署；Draft PR 尚未 merge／deploy，不能視為 production publication approval。 |
+| Git／Pages | PR #1–#7 均已 merged；本輪 Draft PR #9 已從最新 `main` 整合公開展示版與 PR #7 rights 基線，GitHub 回報 mergeable；PR #8 保持原衝突狀態。Pages run `30087568225` 是 PR #6 歷史部署；Draft PR 尚未 merge／deploy，不能視為 production publication approval。 |
 | 公開邊界 | `public/` 影片與 poster 會被 Vite 複製並可公開存取；admission public／audit source 與 `docs/admission/*` 在 public Git 中也可讀。`.pd`、完整研究計畫、REAPER 工程與 private originals 未放入 public；兩件代表作品以 canonical YouTube URL 連出。Submission alias 不能提供 repository 保密。Metadata 與 canonical 已完成。 |
 | 自動驗證 | Install／`doctor` exit 0；draft 471 modules、entry 180733 B、CSS 44315 B、initial JS gzip 200889 B；submission 467 modules、entry 153704 B、CSS 44315 B、initial JS gzip 192936 B。Sound 18/18、rights 14/14、scanner 73/73；132 files／25 text files、67 text／9 inventory rules，118 public files 0 missing／0 hash mismatch。 |
 | Publication | 蕭智仁已完成 limited-use applicant attestation；最新整合 `check:publication` exit 0，manifest 為 `verified / approved`。原始八幕生成紀錄、原始 EML、可編輯 Canva 專案、第三方 YouTube 完整 rights／credit仍待核對。 |
@@ -82,7 +82,7 @@
 - 案例與首頁敘事以 [`../../src/data/portfolio.js`](../../src/data/portfolio.js) 為 source of truth；Pure Data／代表作品／合作／學習路線／連結的 public narrative 與 audit records 分別在 [`../../src/data/admission-evidence.js`](../../src/data/admission-evidence.js)、[`../../src/data/admission-evidence.audit.js`](../../src/data/admission-evidence.audit.js)，研究構想與 AI／作者性分別在 [`../../src/data/admission-research.js`](../../src/data/admission-research.js)、[`../../src/data/ai-workflow.js`](../../src/data/ai-workflow.js)；施工備註只放 [`../../src/data/portfolio.internal.js`](../../src/data/portfolio.internal.js)。
 - Power BI 原始資料、清洗檔、儀表板與實際結果影像不屬於 public 或 build input；公開頁只使用不含資料值的概念化 SVG。
 - 沒有 CMS、backend、database、authentication、analytics 或表單。GitHub Pages workflow 會在 push 到 `main` 或手動觸發時執行；相對 base、Pages audit、成功遠端 run 與公開 Pages URL 已確認，沒有 custom domain。
-- Git repository、`origin` 與 `main` 已確認；PR #1–#7 均已合併，PR #8 Draft 是目前整合工作。衝突後自動與 Browser QA 已通過；Draft PR 仍不是 merge／deploy。
+- Git repository、`origin` 與 `main` 已確認；PR #1–#7 均已合併，Draft PR #9 是目前整合工作且 GitHub 回報 mergeable；PR #8 維持原衝突狀態。自動與 Browser QA 已通過；Draft PR 仍不是 merge／deploy。
 - 最新 Browser artifacts 已涵蓋四個 viewport、行動導覽、theme endpoints、deep links、overflow／IDs／images與console。未宣稱完成 screen reader、真實 200% zoom、system reduced-motion、實機、多瀏覽器音訊或 production-device 驗證。
 - `index.html` title／OG／Twitter／JSON-LD 與 `llms.txt` 主標統一為「蕭智仁｜聲響、互動與數位學習作品集」；RU / YUAN 保留於 Navbar、`og:site_name`、favicon 與部分案例品牌。`llms.txt` 列完整 11 個高階 anchors；scanner 會攔截施工／audit 字詞、舊品牌、失效 anchors、hidden／restricted／private evidence filenames 與 raw data extensions。
 

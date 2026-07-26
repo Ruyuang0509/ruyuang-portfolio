@@ -218,7 +218,7 @@ pnpm run doctor
 ### 每輪開始
 
 1. 確認 `git rev-parse --show-toplevel` 指向 canonical root。
-2. 檢查 branch／remote／dirty state；PR #1–#7 已 merged，本輪 PR #8 Draft 已整合公開展示版與 PR #7 rights 基線並通過本機 gates／Browser QA。Draft PR 仍不是 merge 或 deploy。
+2. 檢查 branch／remote／dirty state；PR #1–#7 已 merged，本輪 Draft PR #9 已從最新 `main` 整合公開展示版與 PR #7 rights 基線，GitHub 回報 mergeable，且通過本機 gates／Browser QA；PR #8 維持原衝突狀態。Draft PR 仍不是 merge 或 deploy。
 3. 先讀本索引、`CODEX_HANDOFF.md`、`PORTFOLIO_AUDIT.md`、`CONTENT_MATRIX.md` 與本次要改動領域的 guardrail 文件。
 4. 執行 `pnpm run workspace:check`，再依改動範圍選擇 content、sound、build、submission 或 Lighthouse 驗證。
 
