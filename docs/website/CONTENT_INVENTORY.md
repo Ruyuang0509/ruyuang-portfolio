@@ -1,6 +1,6 @@
 # 公開內容清單
 
-更新日期：2026-07-24。下列內容依共享工作樹的最新 source、public 資產與最終自動驗證盤點。本輪變更尚未 commit、push 或 deploy；2026-07-23 Pages 狀態只保留為歷史公開邊界證據。互動式 Browser 因本機連線隔離未能執行；公開可達仍不代表權利或研究驗證已完成。
+更新日期：2026-07-25。下列內容依目前 source、public 資產、fresh 自動驗證、submission production preview、Git／PR、Actions／Pages 與 production HTTP 盤點。PR #6 已把 11 段 IA、AdmissionEvidence、admission docs 與 Pure Data 媒體合併並部署；公開可達仍不代表權利、作者能力或研究驗證已完成。
 
 ## 內容治理
 
@@ -29,6 +29,25 @@
 | 行動 trigger | 關閉時 `閱讀選單`；開啟時 `關閉` |
 | 行動 trigger aria-label | `開啟區段選單`／`關閉區段選單` |
 
+### 聲音轉向與證據導覽
+
+| 區塊 | 公開文字／目的 |
+| --- | --- |
+| 01｜開始注意 | 2020 年聆聽經驗使申請者注意同一段聲音在不同播放方式下的距離、位置與細節差異。 |
+| 02｜遇到門檻 | 既有說明多依賴器材術語；聽見差異不等於能描述、操作與比較。 |
+| 03｜帶入方法 | 數位學習用來拆解抽象概念與理解順序，視覺敘事／資訊架構用來把關係轉成可見介面。 |
+
+Reviewer Path 不是 Navbar 的重複清單，而是六張依證據目的分流的卡：
+
+| 標籤 | 標題 | 說明 | Target |
+| --- | --- | --- | --- |
+| 最強可操作證據 | Web Audio 跨模態映射 | 直接操作四組聲音參數，並閱讀可證明／不能證明範圍 | `#interactive-sound-learning` |
+| 當前工具學習 | Pure Data v0.2.1 | 查看本機功能測試、AI 協作邊界、觀看指南與逆向拆解 | `#pure-data-learning` |
+| 原創影音敘事 | 《畫本》與代表作品 | 先看原創短劇角色，再讀其他可核對案例 | `#selected-work` |
+| 申請階段研究 | 混合監聽研究構想 | 分開問題、初步構想、可帶入能力與入學後補強 | `#research-positioning` |
+| 能力補強時序 | 聲音學習與研究路線 | 區分已有證據、正在學習、尚未形成作品與研究所階段 | `#learning-roadmap` |
+| 協作與作者性 | AI 協助與本人責任 | 揭露 AI 協助、申請者決策責任與實際修正案例 | `#ai-workflow` |
+
 ## 11 段 IA 內容順序
 
 | 順序 | Anchor／內容 |
@@ -55,6 +74,14 @@
 | Pure Data | 學習中／可操作功能原型；尚待驗證；2026/07/24 開始 | 公開頁已嵌入 v0.2.1 約 63 秒 H.264／AAC 本機功能測試與 poster，可核對四組參數映射、Preset、Reset、Panic 及輸出監看；`.pd` 與版本資料未放入 repository，初版 Patch 曾由生成式 AI 協作產生，不能主張申請者獨立完成或已熟練 |
 | REAPER | 學習中 | 軟體已安裝，但尚未開始系統性練習，也沒有可公開工程、混音成果或聲音輸出 |
 
+### Pure Data 公開觀看與證據文字
+
+- 觀看指南依序要求比較：水平值→左右聲道、垂直值→音高、速度值→濾波明亮度、物件大小→輸出增益、Panic→靜音。
+- 「目前可以證明」只有本機可執行、四組映射會回應、介面有安全控制／輸出監看，以及申請者正用真實 Patch 逆向拆解。
+- 「目前不能證明」明列：非申請者獨立完成整份 Patch；未完成使用者驗證；沒有攝影機手勢、追蹤或感測器輸入；不是可直接進行學術實驗的正式系統。
+- 作者性文字將操作核對、公開敘事、限制判斷與後續拆解歸於申請者；初版 Patch 為 AI 協作，後續目標是逐步建立可由本人說明、修改與重建的模組。
+- 限制共四項：影片可見本機 D 槽路徑、介面含 `validated`、部分 Preset／Patch 超出畫面、尚無分段標題／放大訊號路徑／完整作品集旁白。下一步是獨立重建最小訊號路徑並重錄公開安全版本。
+
 ## 生成式 AI 使用說明
 
 - Eyebrow：`生成式 AI 使用說明`。
@@ -63,6 +90,14 @@
 - 責任群組分為 `AI 協助`、`申請者負責`、`申請者尚需補強`；作品事實、研究方向、公開內容與最終驗收仍由申請者負責。
 - 網站在代表作品、研究構想、合作事件與學習路線之後，以低比重 `#ai-workflow` 區段呈現提示詞版本與三個實際失敗案例。每案保留問題、發現、診斷、檢查、修正與學習鏈；其中一案明載 AI 產生的 Pure Data 結構超出當下理解能力。
 - 完整 Prompt、changelog 與 failure cases 位於 [`../ai-workflow/`](../ai-workflow/README.md)。
+
+| 群組 | 公開項目摘要 |
+| --- | --- |
+| AI 協助 | 程式草稿／Pure Data 初版與除錯線索；文件架構／重複內容／部分文案候選；建置、媒體、證據、公開邊界與可及性稽核整理 |
+| 申請者負責 | 作品事實、研究方向／主張與公開取捨；視覺／媒體／權利與功能操作；修改驗收與最終文字／設計判斷 |
+| 申請者尚需補強 | Pure Data 獨立重建與解釋；REAPER 工程／路由／原創輸出；使用者測試、聲學量測與研究方法 |
+
+公開版本摘要固定為三版：v1「作品集主提示詞」、v2「續作提示詞」、v3「送審證據補強」。三個 failure chain 分別是 GitHub Pages 子路徑、無 Web Audio 時的錯誤狀態、以及 AI 產生的 Pure Data 結構超出當下理解能力；每案都保留 discovery → diagnosis → check → correction → learning，而不是只呈現成功結果。
 
 ## 公開案例矩陣（submission：4 件）
 
@@ -79,6 +114,20 @@
 | --- | --- | --- |
 | `huaben-short-film`《畫本》 | 申請者提供的原創短劇、故事構思、Samsung S24 Ultra 攝影、DaVinci Resolve 剪輯及第 15 屆感動久久競賽情境 | 沒有公開成片、活動紀錄、完整 credit 或權利核對；參賽不等於得獎，不主張名次、評語、觀看數或觀眾成效 |
 | `hope-feathers-wings-mv`《希望有羽毛和翅膀》個人 MV 混剪 | 非商業二次創作／課程練習；只主張選曲、媒體研究、畫面取材、素材篩選與剪輯 | 角色、原始動畫影像與音樂權利屬原權利人；沒有公開成片、來源清單或授權資料，不能把第三方素材列為原創成果 |
+
+## 專案與合作、Roadmap 與最終連結
+
+| 區塊 | 使用者可見內容 |
+| --- | --- |
+| 系統化 | 兩度擔任民雄動漫社社長，整理規章、Discord、雲端資料、帳號與交接；任期紀錄為 6→17，但不把成長歸因單一措施 |
+| 具韌性 | 餐飲工作中持續調整執行方式；在英語補習班與青年旅遊數位行銷工作適應不同對象、節奏與溝通情境 |
+| 能調整角色 | 畢業專題卡關時主動說明限制，轉向器材、製作協調與展出準備，避免中斷團隊進度 |
+| 已有可核對證據 | Web Audio 原型、Pure Data v0.2.1 影片、網站建置／內容整理、現有影音作品與案例 |
+| 正在學習 | Pure Data 訊號流程、模組重建、參數映射、AI 產出驗證；開始日期 2026/07/24 |
+| 尚未形成作品 | REAPER、多聲道路由、空間聲音製作、聲學量測 |
+| 研究所階段 | 心理聲學、聲學、空間音訊、混合監聽、實驗設計、監聽轉譯 |
+
+`#contact` 標題為「以可操作證據為起點，補足聲音方法，再推進混合監聽研究。」；外部卡只有「目前作品集」與「GitHub Repository」，皆在新分頁開啟。末段固定說明研究計畫全文仍在非公開工作區，沒有建立未經發布決策確認的下載連結。
 
 ## Draft-only 隱藏案例
 
@@ -139,16 +188,17 @@ Hidden case 現在使用空 media state。原有 13 個 `ph-after-*`／`mv-soft-
 - 資料視覺化影片使用 YouTube ID `NrmK31F2S-M`，renderer 採 `youtube-nocookie.com`。
 - 圖解需 alt、caption 與文字長描述；video/audio 架構支援 transcript／caption；iframe demo 需明確使用者操作後載入。
 - `index.html` 的 title／Open Graph／Twitter title 為 `蕭智仁｜聲響、互動與數位學習作品集`。
-- `index.html` description、Open Graph／Twitter description 與 JSON-LD 說明同步為蕭智仁 116 學年度申請作品集，明列 Web Audio 目前證據、混合監聽研究構想、學習軌跡、跨域作品與尚待驗證限制。
-- Canonical URL、`public/llms.txt`、social preview 與 image alt 使用同一定位與有效 anchors；favicon 維持 RU / YUAN 品牌。Metadata／canonical 已完成，不再列為待補。
+- `index.html` description、Open Graph／Twitter description 與 JSON-LD 使用同一原文：`蕭智仁的研究所申請作品集，呈現Web Audio聲響互動原型、Pure Data學習紀錄、影音作品，以及精簡揚聲器與開放式耳機混合監聽的研究構想。`
+- Canonical URL、`public/llms.txt`、social preview 與 image alt 使用同一產品方向與有效 anchors；`llms.txt` 另明載 116 學年度與證據邊界，favicon 維持 RU / YUAN 品牌。Metadata／canonical 已完成，不再列為待補。
 
 ## 最新驗證與發布狀態
 
-- `pnpm run doctor` exit 0；draft build 470 modules、submission build 467 modules。
+- `pnpm install --frozen-lockfile` 與 `pnpm run doctor` exit 0；draft build 470 modules、submission build 467 modules。Current draft initial JS gzip 198914 B／entry 173631 B；submission 192733 B／152769 B；CSS 43138 B；lazy 3D closure 638680 raw／169383 gzip B。
 - Fresh submission `dist/` 為 132 files／25 text files；118 個 `public/` files 為 0 missing／0 SHA-256 mismatch。
 - Submission scanner 使用 54 個 text rules、7 個 inventory rules，另有 57/57 regression fixtures。
 - `pnpm run check:publication` exit 1，原因為 11 個 Hamlet 權利／applicant attestation blockers。
-- 已嘗試 in-app Browser；即使 shell 對本機預覽取得 HTTP 200，Browser 仍受本機連線隔離而無法連線。因此四 viewport、導覽／焦點、Web Audio、Pure Data 影片播放、reduced-motion、overflow 與 console 均未能執行，不可寫為通過。
+- Current submission production preview 在 1280、375、320 px 正常渲染；74 個站內 hash links 0 missing、135 個 ID 0 duplicate，320／375 0 overflow；行動 menu Escape／還焦及三個 fresh deep links通過；Pure Data／Hamlet video metadata ready，console warning／error 0。Web Audio 發聲、reduced-motion、Save-Data、失敗媒體、screen reader、實機及完整四 viewport matrix仍未執行。
+- Git／production：HEAD／remote branch `e0e30b2` 與 `main`／`origin/main` `e8f35e0` tree identical；PR #6 merged。Pages run `30087568225` success，Pages API public／`built`／HTTPS enforced；正式首頁、entry／CSS、三個 admission lazy chunks、Pure Data／Hamlet 媒體、`llms.txt`、social preview 均 HTTP 200。
 
 ## 仍缺少的內容
 
@@ -158,4 +208,4 @@ Hidden case 現在使用空 media state。原有 13 個 `ph-after-*`／`mv-soft-
 - AI 文學故事 MV 已有影片、字幕與實際分鏡；rights checklist／publication gate 文件已存在，但逐項 rights evidence、applicant attestation 與 manifest 核准仍未完成。原始 Prompt log、原始場景檔、獨立音樂、可編輯 Canva 與課堂測試也仍缺；成片本來就設計為無旁白，不把「旁白版本」列成已承諾交付物。最新 `pnpm run check:publication` 以 11 個 Hamlet 權利／attestation blockers exit 1，因此現況仍是「技術輸出存在但未取得權利發布核准」。
 - Power BI 實作日期已確認為 2026/06/11–06/12；資料使用說明不支持公開分析結果，清洗規則與部分 measure 定義仍需核對。
 - 原有 portfolio case `links` 皆空；`#contact` 只新增已知 Pages 與 GitHub Repository。仍沒有公開 email、履歷、研究計畫下載或其他個人聯絡資料。
-- GitHub Pages hosting、run `29680534295` 與公開 URL `https://ruyuang0509.github.io/ruyuang-portfolio/` 是 2026-07-23 歷史部署證據，不含目前未 commit 的 11 段 IA、AdmissionEvidence 與 Pd 媒體整合。最新工作樹已完成本機自動建置與掃描，但尚未 commit／deploy；2026-07-17／07-18 Lighthouse 也只是舊 source fingerprint 的 localhost 歷史快照。
+- GitHub Pages run `30087568225` 已部署 11 段 IA、AdmissionEvidence 與 Pd 媒體整合；這解決的是 source／deployment 漂移，不解除 Hamlet publication gate，也不提供使用者研究、輔具／實機或 field performance。2026-07-17／07-18 Lighthouse 仍只是舊 source fingerprint 的 localhost 歷史快照。

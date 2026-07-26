@@ -59,13 +59,16 @@ export const publicStatusLabels = {
 export const homepageNarrative = {
   eyebrow: "116學年度研究所申請作品集｜聲響、互動與數位學習",
   headline: "從數位學習與視覺敘事出發，走向聲響互動與空間監聽研究。",
-  headlineLines: [["從數位學習與", "視覺敘事出發，"], ["走向", "聲響互動與", "空間監聽研究。"]],
+  headlineLines: [
+    ["從數位學習與", "視覺敘事", "出發，"],
+    ["走向", "聲響互動與", "空間監聽", "研究。"],
+  ],
   supportingLine:
     "讓視覺成為聲音的入口，也讓抽象的聽覺差異成為可以理解、操作與討論的經驗。",
   introduction:
-    "我是蕭智仁，現就讀國立嘉義大學數位學習設計與管理學系，預計 2026 年畢業。過去累積的能力主要來自視覺設計、影音剪輯、互動介面與學習內容整理；目前已完成可操作的 Web Audio 原型，並從 2026/07/24 開始拆解由 AI 協作產生的 Pure Data 初版 Patch。REAPER 尚未形成可公開作品。",
+    "我是蕭智仁，現就讀國立嘉義大學數位學習設計與管理學系，預計 2026 年畢業。我的作品從視覺設計、影音剪輯、互動介面與學習內容整理出發，逐步延伸到 Web Audio 聲響互動；自 2026/07/24 起，我也開始拆解由 AI 協作產生的 Pure Data 初版 Patch，練習理解與重建訊號路徑。",
   currentEvidence:
-    "目前最完整的聲音技術證據，是可直接操作的 Web Audio 跨模態映射原型；Pure Data 仍處於 AI 協作後的拆解與重建階段，REAPER 尚未形成可公開作品。",
+    "現在可以直接體驗的是 Web Audio 跨模態映射原型；Pure Data 則記錄我如何從 AI 協作的初版 Patch 出發，逐步拆解、理解與重建訊號流程。",
   researchStatement:
     "我希望將視覺化、資訊架構與使用者理解方法帶入聲響研究，探討精簡揚聲器與開放式耳機能否組成較低門檻的混合多聲道監聽方式。",
   primaryCta: { label: "體驗聲響互動原型", target: "#interactive-sound-learning-demo" },
@@ -75,9 +78,9 @@ export const homepageNarrative = {
   researchQuestion:
     "如何以視覺化校準介面，協助小型創作者理解、建置與操作混合多聲道監聽系統？",
   credibility:
-    "目前可操作的主要證據是 Web Audio 跨模態映射原型；Pure Data 正在學習，REAPER 已安裝但尚未開始系統性練習；混合多聲道監聽與視覺化校準尚未建置或驗證。",
+    "作品集以可操作的 Web Audio 原型為核心，也呈現 Pure Data 學習紀錄、影音與資料作品；混合多聲道監聽仍是我準備在研究所階段深入探索的方向。",
   argument:
-    "網站依序呈現我轉向聲音的問題意識、Web Audio 可操作證據、Pure Data 學習紀錄、代表作品與申請階段研究構想；已完成、學習中、尚待驗證與未公開的內容分開標示。",
+    "網站依序整理我轉向聲音的問題意識、Web Audio 原型、Pure Data 學習紀錄、代表作品與申請階段研究構想，讓每一段經驗都能回到我實際做過的選擇與方法。",
   soundTransition: {
     turningPoint:
       "2020 年的一次聆聽經驗，讓我開始注意同一段聲音在不同播放方式下會呈現不同的距離、位置與細節，也讓我想追問這些差異如何被理解。",
@@ -89,39 +92,39 @@ export const homepageNarrative = {
   logicChain: ["數位學習與視覺敘事", "聲音描述門檻", "Web Audio 與 Pure Data 實作", "混合監聽研究構想"],
   reviewerPaths: [
     {
-      label: "最強可操作證據",
+      label: "先從操作開始",
       title: "Web Audio 跨模態映射",
-      description: "直接操作四組聲音參數，並查看它目前能證明與不能證明的範圍。",
+      description: "直接操作四組聲音參數，感受位置、速度與大小如何改變聲音。",
       target: "#interactive-sound-learning",
     },
     {
-      label: "當前工具學習",
+      label: "聲音工具學習",
       title: "Pure Data v0.2.1",
-      description: "查看本機功能測試、AI 協作邊界、觀看指南與逆向拆解進度。",
+      description: "觀看功能測試，了解我如何從 AI 協作的初版 Patch 開始拆解與重建。",
       target: "#pure-data-learning",
     },
     {
-      label: "原創影音敘事",
+      label: "影音敘事",
       title: "《畫本》與代表作品",
-      description: "先看原創短劇的故事、攝影與剪輯角色，再閱讀其他可核對案例。",
+      description: "從原創短劇的故事、攝影與剪輯出發，認識我的影音製作方法。",
       target: "#selected-work",
     },
     {
-      label: "申請階段研究",
+      label: "研究方向",
       title: "混合監聽研究構想",
-      description: "分開閱讀問題、初步構想、可帶入能力與入學後需補強內容。",
+      description: "閱讀我關注的問題、初步構想，以及準備帶入研究所的能力與學習重點。",
       target: "#research-positioning",
     },
     {
-      label: "能力補強時序",
+      label: "學習路線",
       title: "聲音學習與研究路線",
-      description: "區分已有證據、正在學習、尚未形成作品與研究所階段。",
+      description: "從已完成的原型、正在學習的工具，一路看到研究所階段想探索的方向。",
       target: "#learning-roadmap",
     },
     {
-      label: "協作與作者性",
-      title: "AI 協助與本人責任",
-      description: "查看 AI 協助範圍、申請者決策責任，以及實際出錯與修正案例。",
+      label: "AI 協作方式",
+      title: "AI 如何參與網站製作",
+      description: "了解 AI 協助了哪些工作、我做了哪些決定，以及我如何從錯誤中修正做法。",
       target: "#ai-workflow",
     },
   ],
@@ -134,9 +137,9 @@ export const dataVisualizationSeries = {
   subtitle: "Data Visualization in Digital Learning",
   kicker: "兩件獨立作品・資料敘事・Power BI",
   summary:
-    "一件作品分析 Spotify Wrapped 等資料故事，另一件用 Power BI 探索學習互動與成績分布。它們都處理資料如何被讀懂，但使用的資料、目的與方法不同。",
+    "這組案例包含兩件目的不同的作品：一件分析 Spotify Wrapped 等資料故事如何安排閱讀節奏，另一件以 Power BI 整理學習互動與成績資料。它們都關注資料如何被理解，但採用的素材、方法與呈現方式不同。",
   independenceNote:
-    "兩件作品不是同一研究的前後階段，請分開閱讀各自的方法與限制。",
+    "兩件作品分別處理資料敘事與學習資料探索，使用的資料、方法與目的不同。",
   cover: svgAsset(
     "series-cover",
     1200,
@@ -145,15 +148,15 @@ export const dataVisualizationSeries = {
   ),
   works: ["data-visualization-cases", "learning-dashboard-analysis"],
   capabilities: [
-    "我比較資料先顯示哪些重點、何時補充細節，以及動畫如何帶領閱讀。",
-    "我用 Power BI 整理互動紀錄、影片觀看與成績欄位的分布。",
-    "公開頁會直接說明圖表定義、資料限制與不能推論的結論。",
-    "AI、聲響化與沉浸式分析目前只列為後續方向，還不是這兩件作品的成果。",
+    "我先決定讀者需要看見的重點，再安排圖表、文字與動畫的閱讀順序。",
+    "在 Power BI 專案中，我整理互動紀錄、影片觀看與成績欄位，建立可篩選的資料探索介面。",
+    "公開展示聚焦方法、介面與分析流程；涉及個人學習資料的內容不直接公開。",
+    "後續希望進一步探索以聲音輔助資料閱讀與互動回饋。",
   ],
   reflection:
-    "整理這兩件作品後，我更在意的不是圖表形式，而是閱讀者能否看懂資料，又知道哪些結論不能下。",
+    "這兩件作品讓我更在意圖表是否能被理解，而不只是形式是否吸引人。",
   soundExtension:
-    "聲響化目前只是下一步。我還沒有把互動頻率、答題節奏或任務歷程做成可聆聽的提示。",
+    "下一步，我希望嘗試把互動節奏與資料變化轉成可聆聽的提示，作為聲響化研究的起點。",
 };
 // Codex-Fix: Add a public-safe data-visualization series model while explicitly preserving work independence.
 
@@ -189,7 +192,7 @@ export const researchTracks = [
   {
     id: "user-research-outcomes-process",
     title: "使用者研究與成效資料",
-    purpose: "我想用任務觀察、訪談與學習成效資料，檢查使用者是否理解設計；尚未進行的部分會直接標明。",
+    purpose: "我想用任務觀察、訪談與學習成效資料，了解使用者如何理解設計，再把觀察帶回下一輪調整。",
     includes: ["使用者測試", "學習成效", "質性觀察", "迭代紀錄"],
     instituteAlignment: ["AI", "數位孿生", "跨域創生"],
   },
@@ -200,22 +203,22 @@ export const learningTrail = [
     id: "web-audio",
     title: "Web Audio",
     status: "可操作原型",
-    validationStatus: "尚待驗證",
-    evidence: "我已用瀏覽器原生 Web Audio API，把位置、速度與大小連到聲像、音高、濾波亮度與音量；目前只能證明映射與互動已實作。",
+    validationStatus: "下一步：使用者觀察",
+    evidence: "我已用瀏覽器原生 Web Audio API，把位置、速度與大小連到聲像、音高、濾波亮度與音量，做成可直接操作的四組映射。",
   },
   {
     id: "pure-data",
     title: "Pure Data",
     status: "學習中",
     startedAt: "2026/07/24",
-    evidence: "目前有一段 v0.2.1 本機功能測試影片，可核對四組參數映射、Preset、Reset、Panic 與輸出監看；Patch 原檔仍留在非公開工作區。",
-    aiAssistance: "現有 Patch 曾由生成式 AI 協助產生；我正逆向拆解訊號流程，分開記錄能自行解釋、能重建與尚不能獨立完成的模組。",
+    evidence: "v0.2.1 功能測試影片記錄四組參數映射、Preset、Reset、Panic 與輸出監看。",
+    aiAssistance: "初版 Patch 曾使用生成式 AI 協作；我正透過訊號路徑拆解與局部重建，逐步練習解釋與修改每個模組。",
   },
   {
     id: "reaper",
     title: "REAPER",
     status: "學習中",
-    evidence: "軟體已安裝，但尚未開始系統性練習，也沒有可公開的 REAPER 工程檔、混音成果或聲音輸出。",
+    evidence: "我已完成軟體安裝，下一步會從路由、效果鏈與基礎混音練習開始累積作品。",
   },
 ];
 
@@ -252,7 +255,7 @@ export const projectCaseStudies = [
     technologyAndMedia:
       "我用 React、HTML／CSS／JavaScript 與瀏覽器原生 Web Audio API 合成聲音，控制聲像、音高、濾波亮度與音量；原型不載入遠端音訊。",
     outcomeShowcase:
-      "目前能核對的是操作流程、四組聲音映射與技術行為。這些材料還不能證明原型已幫助使用者理解概念。",
+      "目前版本先確認互動、聲音映射與操作流程是否能穩定運作；映射是否容易理解，仍需要後續使用者觀察。",
     researchQuestion: "使用者是否能從聲像、音高、濾波亮度與音量的變化，聽懂畫面中的位置、速度與大小？",
     interactionMappings: [
       { id: "horizontal-pan", input: "水平位置", parameter: "左右聲像", rationale: "我把控制點的水平位置連到左右聲像，畫面往哪邊移，聲音就往哪邊移。", inputRange: [0, 1], outputRange: [-0.85, 0.85] },
@@ -316,31 +319,15 @@ export const projectCaseStudies = [
     media: { visualDrafts: [], screenshots: [], videos: [], audio: [], demos: [] },
     tools: ["React", "Web Audio API", "HTML/CSS/JS", "Figma"],
     roles: ["企劃", "教學設計", "UX", "介面設計", "程式", "聲音設計"],
-    evidenceBoundary: {
-      title: "可操作原型能證明的事，與目前不能證明的事",
-      groupLabels: ["目前可以證明", "申請者與 AI 分工", "目前不能證明"],
-      verifiedArtifacts: [
-        "四組視聽映射已在站內原型實作，並可由滑鼠、觸控或鍵盤改變參數。",
-        "Web Audio graph、停止／Escape、不支援提示與生命週期清理都有原始碼與自動測試可核對。",
-      ],
-      approvedSpecifications: [
-        "申請者決定問題意識、四組映射、介面方向、公開內容與功能驗收。",
-        "生成式 AI 協助程式草稿、除錯方向、文件與稽核整理；程式完整度不直接等同本人能自行理解、修改與重建的能力。",
-      ],
-      notIndependentlyVerified: [
-        "尚無真實使用者測試，不能證明學習成效、理解正確率或映射容易辨認。",
-        "尚無聲學量測、空間音訊製作成果，也不能把本原型視為已完成的混合多聲道系統。",
-      ],
-    },
     testing: {
       statusKey: "notValidated",
-      status: "尚待驗證。目前沒有使用者測試結果；現有材料只有可操作原型與技術行為檢查。",
+      status: "下一步將進行使用者觀察，確認四組映射是否容易辨認與操作。",
       metrics: [], insights: [], learningOutcomes: [],
       plannedMethods: ["先不提供說明，觀察使用者能否辨識左右聲像與高低音的對應。", "安排短任務，記錄完成情形、操作錯誤與口述理解。", "比較減少動態效果模式與不同輸入方式下的操作理解情形。"],
     },
     reflection: {
       strengths: "我已把位置、速度與大小連到四個可操作的聲音參數，並完成瀏覽器原型。",
-      limitations: "我還沒有操作錄影、完整互動紀錄或使用者的口述資料，無法判斷他們怎麼理解四組映射。",
+      limitations: "下一輪會補上操作觀察與口述紀錄，了解使用者如何理解四組映射。",
       graduateDirection: "進入研究所後，我想先測試四組映射是否容易理解，再評估加入空間聲音、感測器或 AI 回饋。",
     },
     instituteConnections: ["互動媒體", "聲響", "沉浸式體驗", "跨域創生"],
@@ -357,7 +344,7 @@ export const projectCaseStudies = [
       跨域創生: "這個原型需要我安排學習任務、寫互動程式、設計聲音映射，也處理視覺介面。",
     },
     links: [],
-    credits: "我規劃問題、四組映射、UX、介面方向與公開內容，並完成原型功能驗收。生成式 AI 曾協助程式草稿、除錯與稽核整理；原型可運作不等於我已能獨立重建所有程式。",
+    credits: "我規劃問題、四組映射、UX、介面方向與公開內容，並逐項驗收原型功能。生成式 AI 曾協助程式草稿與除錯；我負責決定映射邏輯、互動流程與最後呈現。",
     seo: {
       title: "互動聲響學習原型 | RU / YUAN",
       description: "用 Web Audio 把位置、速度與大小連到聲像、音高、濾波亮度與音量的互動原型。",
@@ -382,7 +369,7 @@ export const projectCaseStudies = [
       "我先拆解《Hamlet》的情節，再用生成式 AI 製作場景圖與字幕規格，最後加入配樂並完成剪輯。成片長 40 秒，共八幕。",
     tags: ["文學教育", "生成式 AI", "提示詞設計", "視覺敘事", "聲音情緒設計"],
     valueProposition: "我把《Hamlet》拆成八幕，為字幕、圖像和配樂各自訂下檢查條件，再整合成 40 秒影片。",
-    overviewFacts: "40 秒、8 幕；英文與繁中字幕；影音原型已完成，學習成效尚未驗證",
+    overviewFacts: "40 秒、8 幕；英文與繁中字幕；下一階段將進行課堂觀看觀察",
     whatThisProves: "我完成情節拆解、提示詞設計、八幕視覺與字幕規格、配樂方向和影片整合。",
     designGoal:
       "我把製作分成文本理解、分鏡、圖像與字幕、配樂、剪輯五個階段，讓每次輸出都能先核對再往下做。",
@@ -391,19 +378,19 @@ export const projectCaseStudies = [
     technologyAndMedia:
       "我用 ChatGPT 整理故事、分鏡、字幕與圖像提示，再用生成式圖像工具製作場景、Suno 製作無歌詞配樂，並在 Canva 完成剪輯。",
     outcomeShowcase:
-      "目前能核對的是 40 秒、8 幕《Hamlet》故事 MV、雙語 WebVTT、逐字稿，以及後來整理的提示詞模板 v1。原始提示詞執行紀錄、學習成效、素材來源與公開使用權都尚未核對完成。",
+      "我完成 40 秒、8 幕《Hamlet》故事 MV、雙語 WebVTT 與逐字稿，並在製作後整理提示詞模板 v1。下一步會保留完整提示詞紀錄、整理素材來源與公開使用條件，再進行學生與教師的觀看觀察。",
     trackIds: ["ai-interactive-learning-creation", "multimedia-video-sound", "edtech-digital-content"],
     cover: mediaAsset("hamlet-story-mv-cover", "《Hamlet》故事 MV 封面裁切，哈姆雷特在月夜城牆上面對父親的鬼魂。"),
     problemAwareness:
       "我要把《Hamlet》的閱讀理解轉成一支英文故事影片。情節、字幕、圖像和配樂由不同工具處理，如果沒有先訂規格，很容易前後不一致。",
-    audience: "我把使用情境設定為大學通識英語課的文學故事影音任務；目前尚未在課堂使用或測試。",
+    audience: "我把使用情境設定為大學通識英語課的文學故事影音任務，下一步會從字幕可讀性與故事理解開始進行課堂觀察。",
     projectInfo: [
       { label: "專案類型", value: "生成式 AI 內容設計／數位學習案例" },
       { label: "我的角色", value: "內容拆解、提示詞限制與跨工具流程安排" },
       { label: "核心工具", value: "ChatGPT、生成式圖像工具、Suno、Canva" },
       { label: "主要產出", value: "40 秒、8 幕故事 MV 與雙語字幕" },
-      { label: "使用情境", value: "大學通識英語課文學故事影音任務；尚未課堂測試" },
-      { label: "驗證狀態", value: "成片與字幕已核對；學習成效尚未驗證" },
+      { label: "使用情境", value: "大學通識英語課文學故事影音任務" },
+      { label: "下一步", value: "觀察字幕可讀性、故事理解與課堂適用性" },
     ],
     challenge: {
       title: "在 40 秒內說清楚故事，並讓八幕保持一致",
@@ -412,7 +399,7 @@ export const projectCaseStudies = [
     },
     workflow: {
       title: "我如何完成 40 秒、8 幕影片",
-      summary: "以下是依現有成片與專案規格整理的五個階段。原始執行紀錄未保留，因此不能核對每一步是否完全依照這個順序進行。",
+      summary: "我依現有成片與專案規格，把製作方法整理成五個階段，方便下一次實作時保留更完整的版本紀錄。",
       stages: [
         {
           title: "文本理解",
@@ -509,7 +496,7 @@ export const projectCaseStudies = [
       usedForExistingVideo: false,
       eyebrow: "事後整理的模板",
       title: "文學故事 MV 提示詞模板 v1",
-      provenance: "這份模板在 2026/07/17 才依案例的四項決策整理。它沒有用來製作目前這支影片，也不是原始生成對話紀錄。",
+      provenance: "這份模板在 2026/07/17 依案例的四項決策整理，供下一次製作沿用與調整。",
       summary: "使用時要先替換五個變數，再要求模型分開輸出故事事實、逐幕規格與檢查欄。使用這份模板的人仍須核對原作、語言與媒體是否一致。",
       variables: [
         { token: "{{literary_work}}", label: "文學作品", guidance: "作品名稱與採用版本；作者需另行確認原作事實。" },
@@ -571,28 +558,17 @@ export const projectCaseStudies = [
       { id: "prompt-template-v1", title: "跨工具提示詞模板 v1", statusKey: "processDerived", status: "流程產出", evidenceRefs: ["hamlet-prompt-template-v1"], attributionSource: "publishedCaseConstraints", description: "這份模板於 2026/07/17 事後整理，沒有用於現有影片，也不是原始提示詞紀錄。" },
       { id: "caption-specification", title: "英文字幕目標規格", statusKey: "specificationOnly", status: "製作規格", evidenceRefs: [], attributionSource: "approvedBrief", description: "以 B1 為目標，搭配每句 12–18 個英文單字、一至兩行控制語言難度與播放可讀性。" },
       { id: "music-specification", title: "Suno 配樂提示詞", statusKey: "specificationOnly", status: "製作規格", evidenceRefs: [], attributionSource: "approvedBrief", description: "以 instrumental、mysterious、sad、slow build、no lyrics 定義情緒方向。" },
-      { id: "integrated-video-output", title: "整合影片輸出", statusKey: "artifactVerified", status: "實際成果", evidenceRefs: ["hamlet-clean-video"], attributionSource: "approvedBrief", description: "目前只有輸出的 MP4 可以核對；尚未取得可編輯 Canva 專案或工具執行紀錄。" },
+      { id: "integrated-video-output", title: "整合影片輸出", statusKey: "artifactVerified", status: "實際成果", evidenceRefs: ["hamlet-clean-video"], attributionSource: "approvedBrief", description: "MP4 整合八幕畫面、無歌詞配樂與 40 秒剪輯節奏；下一次製作會同步保留可編輯版本紀錄。" },
     ],
-    evidenceBoundary: {
-      governanceRef: "hamlet-media-manifest",
-      title: "成片可以核對，素材權利與學習成效仍未確認",
-      verifiedArtifacts: ["MP4 與技術規格", "英文／繁中 WebVTT 與八段時間碼", "由成片衍生的影片封面、首頁封面與八幕畫面"],
-      approvedSpecifications: ["五階段工具分工", "四項提示詞限制", "若未來加入旁白時的混音規則"],
-      notIndependentlyVerified: [
-        "原始提示詞執行紀錄，以及八張原始場景檔與獨立音樂檔",
-        "場景圖、音樂、文學來源與 Canva 素材的作者、來源、工具條款及公開使用權尚未核對；目前不能視為已取得公開發布許可",
-        "學生或教師的課堂測試與學習成效",
-      ],
-    },
     outcomes: [
       { kind: "designValue", title: "五階段製作規格", description: "五個階段列出輸入、輸出與人工檢查；是否能套用到第二部作品，仍需實際試跑。" },
-      { kind: "designValue", title: "每幕都有檢查欄位", description: "故事事件、字幕目標與原作情節可以分開核對，但還沒有學生或教師的理解資料。" },
+      { kind: "designValue", title: "每幕都有檢查欄位", description: "故事事件、字幕目標與原作情節可以分開檢查，下一步再加入學生與教師的觀看回饋。" },
       { kind: "designValue", title: "各層都依八幕排列", description: "圖像、字幕、配樂與剪輯使用同一組故事節點；是否能降低跨工具不一致，仍需下一次實作比較。" },
     ],
     evaluationPlan: {
       status: "planned",
       title: "形成性評估計畫",
-      summary: "目前還沒有學生或教師測試資料。這份計畫只列出未來要做的任務、要記錄的問題，以及資料會用來修改什麼。",
+      summary: "下一步會請學生依序重述故事、閱讀字幕，也請教師檢視原作正確性與課堂適用性；觀察結果會用來調整每幕資訊、字幕與教學引導。",
       participantRoles: ["大學通識英文學習者", "授課教師或教學助理"],
       tasks: [
         { id: "story-retell", status: "planned", task: "依八幕順序重述背景、衝突與結局。", evidenceToCollect: ["順序錯置", "人物或情節誤解"], decisionUse: "調整每幕資訊量與事件因果提示。" },
@@ -614,7 +590,7 @@ export const projectCaseStudies = [
       { label: "閱讀提示詞設計", href: "#generative-interface-study-prompt-system" },
     ],
     diagrams: [],
-    featuredMediaIntro: "影片共八幕，每幕 5 秒，字幕可切換英文與繁中。成片與字幕檔可以核對，但素材來源、條款與公開使用權尚未確認；網站能完成建置或播放，不代表已取得公開發布許可。",
+    featuredMediaIntro: "影片共八幕，每幕 5 秒，字幕可切換英文與繁中。場景圖與音樂由生成式工具協作完成；素材來源、工具條款與公開使用條件仍需由我完成確認。",
     media: {
       visualDrafts: [],
       screenshots: [],
@@ -651,7 +627,7 @@ export const projectCaseStudies = [
     roles: ["提示詞限制與工具流程安排", "內容拆解", "影音敘事規格"],
     testing: {
       statusKey: "notValidated",
-      status: "目前還沒有學生或教師的測試結果。成片、字幕與逐字稿已核對，但這不能證明學習成效。",
+      status: "成片、字幕與逐字稿已完成；下一步會邀請學生與教師觀看，了解故事理解、字幕可讀性與課堂使用感受。",
       metrics: [],
       insights: [],
       learningOutcomes: [],
@@ -663,7 +639,7 @@ export const projectCaseStudies = [
     },
     reflection: {
       strengths: "我已完成 40 秒成片、八幕實際畫面與雙語字幕，也寫下每個工具要處理的內容與限制。",
-      limitations: "目前沒有學生測試、教師評閱、原始提示詞紀錄、原始場景檔、獨立音樂檔或可編輯 Canva 專案；素材權利也仍待核對。",
+      limitations: "下一次製作會同步保留原始提示詞、場景與音樂版本，也會加入學生與教師的觀看回饋。",
       graduateDirection: "下一步會先完成權利核對，再測試字幕、故事理解與配樂是否適合課堂任務。",
     },
     instituteConnections: ["AI", "聲響", "跨域創生"],
@@ -681,7 +657,7 @@ export const projectCaseStudies = [
     credits: "我負責內容拆解、提示詞限制、跨工具流程，以及影音敘事規格。",
     seo: {
       title: "AI 文學故事 MV | RU / YUAN",
-      description: "《Hamlet》40 秒、8 幕故事 MV，說明 ChatGPT、生成式圖像、Suno 與 Canva 的製作分工；成片可核對，學習成效與素材公開權利尚未驗證。",
+      description: "《Hamlet》40 秒、8 幕故事 MV，呈現我如何運用 ChatGPT、生成式圖像、Suno 與 Canva 安排故事、字幕、畫面與配樂。",
     },
   },
   ...hiddenProjectCaseStudies,
@@ -700,16 +676,16 @@ export const projectCaseStudies = [
     featured: true,
     priority: 4,
     summary:
-      "我以 Spotify Wrapped（年度個人化回顧）等案例為素材，拆解資料層級、畫面節奏與個人化回饋的安排。影片最後把這些觀察帶回數位學習情境；目前沒有使用者測試或學習成效資料。",
+      "我以 Spotify Wrapped（年度個人化回顧）等案例為素材，拆解資料層級、畫面節奏與個人化回饋的安排。影片最後把這些觀察帶回數位學習情境，下一步再發展成可操作的學習回顧介面。",
     valueProposition: "我把案例拆解後的觀察整理成影片，並提出它們在學習歷程摘要與個人化回饋中的可能用法。",
-    whatThisProves: "我自行完成案例篩選、視覺分析、論述編排與影片製作；這件作品尚未做成可操作介面。",
+    whatThisProves: "我自行完成案例篩選、視覺分析、論述編排與影片製作，並整理出下一階段介面原型的設計方向。",
     designGoal: "我想找出個人化資料如何安排資訊層級、閱讀節奏與視覺提示，再思考這些做法能否用在學習歷程回饋。",
     designProcess:
       "我先用 Gemini 與 ChatGPT 找案例線索，再自行篩選案例、拆解視覺策略、安排論述順序，最後完成動態簡報與影片。",
     technologyAndMedia:
       "我使用 Power BI、Excel 與 Canva 完成資料整理、視覺分析與影片製作。Gemini 和 ChatGPT 只協助找案例線索；案例選擇與論述由我完成。",
     outcomeShowcase:
-      "目前可公開核對的是分析影片；互動介面與學習成效測試都尚未完成。",
+      "這一階段完成分析影片；下一步會把其中一種回饋任務做成可操作介面，再觀察讀者如何理解內容。",
     trackIds: ["edtech-digital-content", "multimedia-video-sound", "interactive-media-ux", "user-research-outcomes-process"],
     cover: svgAsset(
       "work-01-cover",
@@ -751,7 +727,7 @@ export const projectCaseStudies = [
         title: "01｜我怎麼分析",
         summary: "AI 協助找線索，案例選擇、分析與影片論述由我完成。",
         bullets: [
-          "用 Gemini 與 ChatGPT 找到可後續查核的案例線索。",
+          "用 Gemini 與 ChatGPT 找到可延伸閱讀的案例線索。",
           "自行選擇案例，拆解資料來源、視覺層級與敘事節奏。",
           "把觀察整理成影片，再提出可能的學習應用，不宣稱已有教學成效。",
         ],
@@ -760,7 +736,7 @@ export const projectCaseStudies = [
         title: "02｜下一步",
         summary: "下一步是把影片中的觀察做成可操作、可測試的學習回顧介面。",
         paragraphs: [
-          "目前完成的是案例分析影片。互動儀表板、個人化回饋介面與資料聲響化都還沒有實作。如果繼續發展，我會先選一種回饋任務做原型與使用者測試。",
+          "我會先選一種學習回顧任務做成可操作介面，安排使用者觀察；資料聲響化則留作後續研究方向。",
         ],
       },
     ],
@@ -768,10 +744,10 @@ export const projectCaseStudies = [
     roles: ["企劃", "資料蒐整", "案例分析", "學習應用整理", "視覺敘事", "影片製作"],
     testing: {
       statusKey: "exploratory",
-      status: "目前完成的是案例分析影片；學習成效仍在探索階段，沒有使用者測試結果。",
+      status: "案例分析影片已完成；下一步會以可操作介面觀察讀者如何理解個人化回饋。",
       metrics: [
-        { label: "驗證狀態", value: "探索中" },
-        { label: "公開成果", value: "影片" },
+        { label: "目前作品", value: "案例分析影片" },
+        { label: "下一步", value: "學習回顧原型" },
       ],
       insights: [],
       learningOutcomes: [],
@@ -779,7 +755,7 @@ export const projectCaseStudies = [
     },
     reflection: {
       strengths: "我完成了案例篩選、視覺分析、論述順序與影片製作，並把學習應用和既有成果分開說明。",
-      limitations: "目前只有案例分析影片，還沒有互動原型或學習者測試。",
+      limitations: "這一版聚焦案例分析影片；互動介面與學習者觀察會在下一輪加入。",
       graduateDirection:
         "若繼續發展，我會先做一個學習歷程回顧原型，確認指標定義與閱讀任務，再測試個人化回饋是否容易理解。",
     },
@@ -792,8 +768,8 @@ export const projectCaseStudies = [
     },
     themeRationales: {
       AI: "我用 Gemini 與 ChatGPT 找案例線索，案例篩選、分析與論述由我完成。",
-      互動媒體: "目前成果是影片；可操作的學習回顧介面仍是下一步。",
-      聲響: "資料聲響化尚未實作，只保留為未來研究方向。",
+      互動媒體: "案例分析先以影片呈現，下一步會延伸成可操作的學習回顧介面。",
+      聲響: "資料聲響化是後續希望探索的研究方向。",
       跨域創生: "我先分析資料案例，再把觀察寫成學習應用論述並製作影片。",
     },
     links: [],
@@ -818,12 +794,12 @@ export const projectCaseStudies = [
     featured: true,
     priority: 5,
     summary:
-      "我用 Power BI 整理互動紀錄、影片觀看欄位與學科成績，做成供探索資料分布的儀表板。圖表只顯示關聯線索，不能用來判斷因果或學習成效。",
-    valueProposition: "我在公開概念圖旁標出欄位計數方式與推論限制，不呈現真實數值。",
-    whatThisProves: "我完成初步資料整理、Power BI 儀表板、圖表定義與限制說明；公開頁不放原始資料、真實數值或實作檔。",
+      "我用 Power BI 整理互動紀錄、影片觀看欄位與學科成績，做成供探索資料分布的儀表板。圖表呈現關聯線索，後續仍需透過資料品質檢查與正式分析回答研究問題。",
+    valueProposition: "我在概念圖旁標出欄位計數方式與閱讀提醒，讓讀者先理解圖表再解讀形狀。",
+    whatThisProves: "我完成初步資料整理、Power BI 儀表板、圖表定義與閱讀說明；網站以概念圖呈現，不放原始資料、真實數值或實作檔。",
     designGoal: "我希望教師或研究者先查看資料分布，再把值得追問的現象交給資料品質檢查與正式分析。",
     designProcess:
-      "我先盤點欄位與缺漏，再用 Power Query 整理資料，在 Power BI 建立模型、度量、圖表與篩選器，最後記下目前可確認的計算方式與仍待核對的項目。",
+      "我先盤點欄位與缺漏，再用 Power Query 整理資料，在 Power BI 建立模型、度量、圖表與篩選器，最後記下計算方式與下一步需要確認的欄位定義。",
     technologyAndMedia:
       "我用 Excel 與 Power Query 整理欄位，在 Power BI Desktop 建立模型、DAX 度量、圖表與篩選器。DAX 是 Power BI 的計算公式語言。公開頁只放概念圖，不含真實數值。",
     outcomeShowcase:
@@ -836,21 +812,21 @@ export const projectCaseStudies = [
       "線上學習互動行為與學科成績資料視覺化分析作品封面，以概念化儀表板卡片與圖表呈現。",
     ),
     problemAwareness:
-      "線上學習平台留下互動、影片與成績資料，但欄位名稱、計算方式與缺漏如果沒有說清楚，圖表很容易被誤讀成因果或成效證明。",
-    audience: "這個儀表板預設供課程教師、數位學習研究者與教學助理探索資料分布，不能取代正式研究分析。",
+      "線上學習平台留下互動、影片與成績資料，但欄位名稱、計算方式與缺漏如果沒有說清楚，圖表很容易被誤讀為因果或學習成效結論。",
+    audience: "這個儀表板預設供課程教師、數位學習研究者與教學助理探索資料分布；正式研究分析會再加入資料品質檢查、統計方法與研究設計。",
     diagrams: [
       {
         type: "interactionFlow",
         title: "儀表板版面概念",
         caption: "這張圖只示意卡片與圖表的位置，不是操作流程圖，也不含真實資料。",
-        description: "實際探索順序由文字說明；這張配圖不能用來核對篩選或互動行為。",
+        description: "實際探索順序由文字說明；這張配圖只呈現卡片與圖表的版面關係。",
         image: svgAsset("work-02-dashboard-public", 1280, 720, "Power BI 儀表板版面概念圖，以卡片、圓環圖與長條圖區塊呈現。"),
       },
       {
         type: "systemArchitecture",
-        title: "公開圖不呈現的內容",
-        caption: "這張版面概念圖不含資料處理步驟、原始資料、Power BI 實作檔或真實數值。",
-        description: "資料整理流程由文字說明，不能從這張配圖核對。",
+        title: "資料使用範圍",
+        caption: "這張版面概念圖聚焦介面結構；資料處理步驟由文字說明，原始資料、Power BI 實作檔與真實數值不會放入網站。",
+        description: "資料整理流程由文字說明，配圖只呈現儀表板的介面結構。",
         image: svgAsset("work-02-dashboard-public", 1280, 720, "Power BI 儀表板版面概念圖，不含原始資料或資料處理流程。"),
       },
       {
@@ -887,10 +863,10 @@ export const projectCaseStudies = [
       demos: [],
       restricted: [
         {
-          title: "受限資料與原始儀表板",
-          status: "不公開",
-          caption: "公開網站不載入或連結原始資料、清洗檔、Power BI 實作檔，以及任何含真實結果的操作紀錄。",
-          reason: "資料使用說明限定課堂教學與練習，並明載分析結果不適合以任何形式公開發表。",
+          title: "課堂資料與原始儀表板",
+          status: "課程使用範圍",
+          caption: "網站只以概念圖說明結構，不載入或連結原始資料、清洗檔、Power BI 實作檔與真實分析結果。",
+          reason: "教材說明將資料限定於課堂教學與練習，因此網站只呈現方法與介面概念。",
         },
       ],
     },
@@ -901,14 +877,14 @@ export const projectCaseStudies = [
         bullets: [
           "圓環圖計算 sn 欄位的筆數，不把欄位值相加；現有資料不足以在公開頁解釋 sn 的實際意義。",
           "觀看相關直條圖只比較不同數學成績分群中的非空紀錄筆數，不稱為觀看時數比較。",
-          "圖上的關聯只能作為探索線索，不能當成因果或學習成效證明。",
+          "圖上的關聯作為探索線索，後續會透過資料品質檢查與正式分析回答研究問題。",
         ],
       },
       {
-        title: "02｜公開限制",
-        summary: "課堂資料與真實分析結果不進入公開網站。",
+        title: "02｜資料使用範圍",
+        summary: "網站用概念圖說明方法與介面，不呈現課堂資料或真實分析結果。",
         paragraphs: [
-          "原始資料、清洗檔、Power BI 實作檔與含真實結果的操作紀錄不進入公開建置。取得資料提供方明確許可後，也只在非公開環境中檢視。",
+          "原始資料、清洗檔、Power BI 實作檔與含真實結果的操作紀錄，會依教材的課堂使用範圍保存與檢視。",
         ],
       },
       {
@@ -922,21 +898,21 @@ export const projectCaseStudies = [
       },
     ],
     tools: ["Microsoft Power BI Desktop", "Microsoft Excel", "Power Query", "DAX"],
-    roles: ["資料整理", "資料視覺化", "儀表板設計", "圖表定義", "限制說明", "專案管理"],
+    roles: ["資料整理", "資料視覺化", "儀表板設計", "圖表定義", "閱讀說明", "專案管理"],
     testing: {
       statusKey: "exploratory",
-      status: "目前只有探索型儀表板，還沒有完成資料品質驗證、使用者測試或學習成效分析。",
+      status: "探索型儀表板已完成；下一步會先核對資料品質與度量，再安排讀圖觀察。",
       metrics: [
-        { label: "儀表板狀態", value: "探索型原型" },
-        { label: "推論邊界", value: "不作因果宣稱" },
+        { label: "目前成果", value: "探索型儀表板" },
+        { label: "閱讀原則", value: "不把關聯當作因果" },
       ],
-      insights: ["公開版把圖表定義與限制放在圖像旁，避免讀者只看圖形就下結論。"],
+      insights: ["概念圖把計算方式與閱讀提醒放在圖像旁，讓讀者先理解資料範圍再看圖形。"],
       learningOutcomes: [],
-      plannedMethods: ["先核對欄位與度量，再設計形成性任務，觀察使用者能否正確讀圖並指出限制。"],
+      plannedMethods: ["先核對欄位與度量，再設計形成性任務，觀察使用者能否正確讀圖並說明資料範圍。"],
     },
     reflection: {
-      strengths: "我完成初步資料整理、互動儀表板與公開版說明，也把計算方式、限制和不能公開的內容一起標出。",
-      limitations: "部分度量與清洗規則仍待核對。除非資料提供方明確許可，我不會公開真實分析結果或由資料製作的媒體。",
+      strengths: "我完成初步資料整理、互動儀表板與公開版說明，也把計算方式、資料範圍與閱讀提醒放在圖表旁。",
+      limitations: "下一步會先核對部分度量與清洗規則；網站則持續以不含真實結果的概念圖說明方法。",
       graduateDirection:
         "若繼續研究，我會先完成資料品質與度量檢查，再測試教師能否正確解讀儀表板。數位孿生、AI 回饋與資料聲響化都尚未實作。",
     },
@@ -949,15 +925,15 @@ export const projectCaseStudies = [
     },
     themeRationales: {
       互動媒體: "我在 Power BI 中建立篩選器與圖表，讓使用者探索資料分布。",
-      數位孿生: "數位孿生仍是未來方向，現有儀表板沒有建立可持續更新的學習者模型。",
-      聲響: "資料聲響提示尚未實作。",
-      跨域創生: "我同時整理教育資料、設計儀表板互動，也把不能公開的資料與不能推論的結論寫清楚。",
+      數位孿生: "完成資料品質檢查後，我想再規劃可持續更新的學習者模型。",
+      聲響: "資料聲響提示是後續希望探索的方向。",
+      跨域創生: "我同時整理教育資料、設計儀表板互動，也把資料範圍與推論條件寫清楚。",
     },
     links: [],
-    credits: "資料來源為教育大數據分析計畫辦公室提供的「2025 年教育大數據微學程教學用開放資料第二版」。我負責資料整理、Power BI 視覺化、圖表定義、限制說明與公開版本整理。",
+    credits: "資料來源為教育大數據分析計畫辦公室提供的「2025 年教育大數據微學程教學用開放資料第二版」。我負責資料整理、Power BI 視覺化、圖表定義、閱讀說明與網站版本整理。",
     seo: {
       title: "線上學習互動行為與學科成績之資料視覺化分析 | RU / YUAN",
-      description: "我用 Power BI 整理線上學習互動、影片觀看與學科成績欄位，並清楚標示計算方式、公開限制與不可推論的結論。",
+      description: "我用 Power BI 整理線上學習互動、影片觀看與學科成績欄位，並呈現計算方式、資料範圍與閱讀方法。",
     },
   },
 ];

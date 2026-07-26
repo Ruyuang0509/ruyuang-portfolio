@@ -3,6 +3,7 @@ import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 import {
+  dataVisualizationSeries,
   homepageNarrative,
   instituteEvidenceGroups,
   learningTrail,
@@ -20,6 +21,7 @@ import {
   representativeWorks,
   supportingEvidenceLinks,
 } from "../src/data/admission-evidence.js";
+import { admissionAuditRecords } from "../src/data/admission-evidence.audit.js";
 import { aiWorkflow } from "../src/data/ai-workflow.js";
 import { getProjectCompleteness } from "../src/data/portfolio.governance.js";
 import { getProjectInternalNotes } from "../src/data/portfolio.internal.js";
@@ -41,7 +43,7 @@ const validAttributionSources = new Set(["deliveryPackage", "verifiedArtifact", 
 const validTrackKinds = new Set(["subtitles", "captions", "descriptions", "chapters", "metadata"]);
 const validPromptTemplateOriginStatuses = new Set(["derived", "source-record"]);
 const validPromptEvidenceStatuses = new Set(["artifactVerified", "processDerived", "specificationOnly"]);
-const validAdmissionEvidenceStatuses = new Set(["已完成", "可操作原型", "學習中", "研究構想", "尚待驗證"]);
+const validAdmissionEvidenceStatuses = new Set(["已完成", "可操作原型", "學習中", "研究構想", "下一步：使用者觀察"]);
 const validProjectStatuses = new Map([
   ["completed", new Set(["已完成"])],
   ["prototype", new Set(["原型中", "可操作原型"])],
@@ -121,12 +123,13 @@ const assertImage = (project, label, image) => {
 
 const hasTextFields = (entry, fields) => fields.every((field) => entry?.[field]?.trim());
 
-const publicConstructionPattern = /待補|可替換|範例|正式送審前|佔位|尚未提供|placeholder|sample|Content Readiness|Internal Build Notes|INTERNAL_|PRE_SUBMISSION_CHECK|HIDE_FROM_SUBMISSION|這裡保留|未來可放入|審查者|評審可以/i;
+const publicConstructionPattern = /待補|可替換|範例|正式送審前|佔位|尚未提供|placeholder|sample|Content Readiness|Internal Build Notes|INTERNAL_|PRE_SUBMISSION_CHECK|HIDE_FROM_SUBMISSION|這裡保留|未來可放入|審查者|評審可以|目前不能延伸的主張|目前不能證明|申請者提供的紀錄支持|目前公開頁沒有成片|參賽不代表得獎|本頁不主張|可核對材料|本頁僅有申請者提供|原始紀錄未列出，不另行推測|未主張競賽結果|未確認公開授權|目前可公開內容限於|不取代|不解除各案自己的驗證或權利限制|未經發布決策確認|正式\s*GitHub Pages\s*專案網址|目前怎麼描述|原始影片限制/i;
 const sensitivePublicPattern = /\.pbix|\.xlsx|\.xls|\.csv|C:\\|\/Users\/|youtu\.be\//i;
 const mojibakePattern = /[�]|[-]|(?:敺|蝛|雿|銝|嚗|霅|瘚|鞈|憭|摨|餌|蝟|暸|踴|甇|鋆|瞍|蝝|靘|撟|銵|閬|蔣|慦|隞|賊|乓|繚|憟|唳|孵)/u;
 // Codex-Fix: Fail fast on common mojibake sequences so corrupted Traditional Chinese copy cannot quietly ship again.
 
 const publicAdmissionData = {
+  dataVisualizationSeries,
   homepageNarrative,
   admissionResearchProposal,
   pureDataLearningEvidence,
@@ -151,7 +154,7 @@ if (mojibakePattern.test(publicAdmissionText)) {
 
 const expectedHomepageHeadline = "從數位學習與視覺敘事出發，走向聲響互動與空間監聽研究。";
 const expectedHomepageIntroduction =
-  "我是蕭智仁，現就讀國立嘉義大學數位學習設計與管理學系，預計 2026 年畢業。過去累積的能力主要來自視覺設計、影音剪輯、互動介面與學習內容整理；目前已完成可操作的 Web Audio 原型，並從 2026/07/24 開始拆解由 AI 協作產生的 Pure Data 初版 Patch。REAPER 尚未形成可公開作品。";
+  "我是蕭智仁，現就讀國立嘉義大學數位學習設計與管理學系，預計 2026 年畢業。我的作品從視覺設計、影音剪輯、互動介面與學習內容整理出發，逐步延伸到 Web Audio 聲響互動；自 2026/07/24 起，我也開始拆解由 AI 協作產生的 Pure Data 初版 Patch，練習理解與重建訊號路徑。";
 if (
   !hasTextFields(homepageNarrative, [
     "eyebrow",
@@ -189,7 +192,7 @@ if (
 }
 
 const expectedProposalDisclaimer =
-  "本內容為申請階段研究構想。系統配置、渲染方法、樣本數、量測程序與技術細節，仍須依課程訓練、指導教授建議、場地設備與先導實驗結果調整。";
+  "這是申請階段的研究構想。系統配置、渲染方法、樣本數、量測程序與技術細節，將依課程訓練、指導教授建議、場地設備與先導實驗結果調整。";
 if (
   !hasTextFields(admissionResearchProposal, [
     "id",
@@ -208,11 +211,13 @@ if (
   errors.push("Admission research proposal needs a complete, explicitly prospective identity");
 }
 const expectedProposalLayerIds = ["problem", "concept", "transferable-skills", "study-needs"];
+const expectedProposalLayerLabels = ["1. 問題", "2. 初步構想", "3. 我帶入的能力", "4. 入學後的學習重點"];
 if (
   admissionResearchProposal.layers?.length !== expectedProposalLayerIds.length
   || admissionResearchProposal.layers.some(
     (layer, index) =>
       layer.id !== expectedProposalLayerIds[index]
+      || layer.label !== expectedProposalLayerLabels[index]
       || !hasTextFields(layer, ["id", "label", "summary"])
       || !Array.isArray(layer.items)
       || layer.items.length < 2
@@ -228,32 +233,78 @@ if (
   errors.push("Admission research proposal needs a five-step, explicitly prospective workflow");
 }
 
+const expectedDataVisualizationCapabilities = [
+  "我先決定讀者需要看見的重點，再安排圖表、文字與動畫的閱讀順序。",
+  "在 Power BI 專案中，我整理互動紀錄、影片觀看與成績欄位，建立可篩選的資料探索介面。",
+  "公開展示聚焦方法、介面與分析流程；涉及個人學習資料的內容不直接公開。",
+  "後續希望進一步探索以聲音輔助資料閱讀與互動回饋。",
+];
+if (
+  !hasTextFields(dataVisualizationSeries, [
+    "id",
+    "title",
+    "subtitle",
+    "kicker",
+    "summary",
+    "independenceNote",
+    "reflection",
+    "soundExtension",
+  ])
+  || dataVisualizationSeries.id !== "data-visualization-series"
+  || dataVisualizationSeries.title !== "資料視覺化與數位學習應用"
+  || dataVisualizationSeries.kicker !== "兩件獨立作品・資料敘事・Power BI"
+  || dataVisualizationSeries.summary !== "這組案例包含兩件目的不同的作品：一件分析 Spotify Wrapped 等資料故事如何安排閱讀節奏，另一件以 Power BI 整理學習互動與成績資料。它們都關注資料如何被理解，但採用的素材、方法與呈現方式不同。"
+  || dataVisualizationSeries.independenceNote !== "兩件作品分別處理資料敘事與學習資料探索，使用的資料、方法與目的不同。"
+  || dataVisualizationSeries.reflection !== "這兩件作品讓我更在意圖表是否能被理解，而不只是形式是否吸引人。"
+  || dataVisualizationSeries.soundExtension !== "下一步，我希望嘗試把互動節奏與資料變化轉成可聆聽的提示，作為聲響化研究的起點。"
+  || JSON.stringify(dataVisualizationSeries.works) !== JSON.stringify(["data-visualization-cases", "learning-dashboard-analysis"])
+  || JSON.stringify(dataVisualizationSeries.capabilities) !== JSON.stringify(expectedDataVisualizationCapabilities)
+) {
+  errors.push("Data visualization series needs the approved public title, two-work framing, capabilities, reflection, and sound extension");
+}
+
+const publicAuditOnlyFields = [
+  "evidenceStatus",
+  "validationStatus",
+  "supportedClaims",
+  "unsupportedClaims",
+  "whatThisProves",
+  "whatThisDoesNotProve",
+  "authorship",
+  "aiAssistance",
+  "rights",
+  "limitations",
+  "evidenceRequests",
+];
+
 if (
   !hasTextFields(pureDataLearningEvidence, [
     "id",
     "title",
     "status",
-    "evidenceStatus",
-    "validationStatus",
     "version",
     "startedAt",
     "purpose",
     "description",
-    "authorship",
-    "aiAssistance",
-    "rights",
+    "authorshipNote",
+    "versionNote",
     "nextStep",
     "submissionVisibility",
   ])
   || pureDataLearningEvidence.id !== "pure-data-learning"
   || pureDataLearningEvidence.status !== "學習中／可操作功能原型"
-  || pureDataLearningEvidence.evidenceStatus !== "可操作原型"
-  || pureDataLearningEvidence.validationStatus !== "尚待驗證"
   || pureDataLearningEvidence.version !== "v0.2.1　本機功能測試"
   || pureDataLearningEvidence.startedAt !== "2026/07/24"
   || pureDataLearningEvidence.submissionVisibility !== "public"
+  || publicAuditOnlyFields.some((field) => Object.hasOwn(pureDataLearningEvidence, field))
+  || !Array.isArray(pureDataLearningEvidence.tools)
+  || pureDataLearningEvidence.tools.length < 3
+  || pureDataLearningEvidence.tools.some((item) => !item?.trim())
+  || !Array.isArray(pureDataLearningEvidence.roles)
+  || pureDataLearningEvidence.roles.length < 3
+  || pureDataLearningEvidence.roles.some((item) => !item?.trim())
 ) {
-  errors.push("Pure Data evidence needs the learning/prototype identity, local-test label, start date, authorship, rights, and next step");
+  errors.push("Pure Data public evidence needs the learning/prototype identity, local-test label, public authorship/version notes, and no audit-only fields");
 }
 
 const pureDataMedia = pureDataLearningEvidence.media;
@@ -263,7 +314,6 @@ if (
     "src",
     "poster",
     "mimeType",
-    "codecSummary",
     "caption",
     "accessibilitySummary",
     "fallbackMessage",
@@ -280,24 +330,29 @@ if (
   assertAsset(pureDataLearningEvidence, "Pure Data video", pureDataMedia.src);
   assertAsset(pureDataLearningEvidence, "Pure Data poster", pureDataMedia.poster);
 }
-for (const field of ["viewingGuide", "whatThisProves", "whatThisDoesNotProve", "limitations"]) {
+for (const [field, minimumLength] of [["viewingGuide", 5], ["completed", 3]]) {
   if (
     !Array.isArray(pureDataLearningEvidence[field])
-    || pureDataLearningEvidence[field].length < 3
+    || pureDataLearningEvidence[field].length < minimumLength
     || pureDataLearningEvidence[field].some((item) => !item?.trim())
   ) {
-    errors.push(`Pure Data evidence ${field} needs at least three non-empty entries`);
+    errors.push(`Pure Data public evidence ${field} needs at least ${minimumLength} non-empty entries`);
   }
 }
 if (
   pureDataLearningEvidence.viewingGuide?.length !== 5
   || pureDataLearningEvidence.evidenceLinks?.length !== 1
+  || !hasTextFields(pureDataLearningEvidence.evidenceLinks[0], ["type", "label", "href"])
   || pureDataLearningEvidence.evidenceLinks[0]?.href !== pureDataMedia?.src
 ) {
-  errors.push("Pure Data evidence needs the five-step viewing guide and one matching video evidence reference");
+  errors.push("Pure Data public evidence needs the five-step viewing guide and one matching video link");
 }
 
 const expectedRepresentativeIds = ["huaben-short-film", "hope-feathers-wings-mv"];
+const expectedRepresentativeLinks = new Map([
+  ["huaben-short-film", "https://www.youtube.com/watch?v=mJ9o_u1W2cY"],
+  ["hope-feathers-wings-mv", "https://www.youtube.com/watch?v=9VznR4XSiM0"],
+]);
 if (
   representativeWorks.length !== expectedRepresentativeIds.length
   || representativeWorks.some(
@@ -308,28 +363,80 @@ if (
         "title",
         "type",
         "status",
-        "evidenceStatus",
-        "validationStatus",
         "summary",
         "purpose",
-        "authorship",
-        "aiAssistance",
-        "rights",
-        "limitations",
-        "nextStep",
+        "reflection",
+        "materialsNote",
         "submissionVisibility",
       ])
       || work.status !== "已完成"
       || work.submissionVisibility !== "public"
+      || publicAuditOnlyFields.some((field) => Object.hasOwn(work, field))
       || !Array.isArray(work.roles)
       || work.roles.length < 3
-      || !Array.isArray(work.evidenceLinks),
+      || work.roles.some((item) => !item?.trim())
+      || !Array.isArray(work.tools)
+      || work.tools.some((item) => !item?.trim())
+      || !Array.isArray(work.highlights)
+      || work.highlights.length < 3
+      || work.highlights.some((item) => !item?.trim())
+      || !Array.isArray(work.evidenceLinks)
+      || work.evidenceLinks.length < 1
+      || work.evidenceLinks.some(
+        (link) =>
+          !hasTextFields(link, ["type", "label", "href"])
+          || !/^https:\/\/www\.youtube\.com\/watch\?v=[\w-]{11}$/.test(link.href),
+      )
+      || work.evidenceLinks[0]?.href !== expectedRepresentativeLinks.get(work.id),
   )
 ) {
-  errors.push("Representative works need the ordered Huaben and secondary-creation records with role, evidence, AI, rights, and limitation boundaries");
+  errors.push("Representative works need ordered public cards with roles, optional tools, highlights, reflection, material notes, and canonical HTTPS YouTube links");
 }
-if (!representativeWorks[1]?.rights.includes("角色、原始動畫影像與音樂權利屬原權利人")) {
+if (!representativeWorks[1]?.materialsNote.includes("原始角色、動畫影像與音樂權利屬原權利人")) {
   errors.push("The secondary-creation MV needs the explicit third-party rights statement");
+}
+
+const publicAdmissionRecords = [pureDataLearningEvidence, ...representativeWorks];
+const publicAdmissionRecordsById = new Map(publicAdmissionRecords.map((record) => [record.id, record]));
+const auditRecordEntries = Object.entries(admissionAuditRecords ?? {});
+if (
+  auditRecordEntries.length !== expectedRepresentativeIds.length + 1
+  || auditRecordEntries.some(([recordId]) => !publicAdmissionRecordsById.has(recordId))
+  || publicAdmissionRecords.some((record) => !Object.hasOwn(admissionAuditRecords, record.id))
+) {
+  errors.push("Admission audit records must align one-to-one with the stable IDs in public admission records");
+}
+for (const [recordId, auditRecord] of auditRecordEntries) {
+  const publicRecord = publicAdmissionRecordsById.get(recordId);
+  if (
+    !publicRecord
+    || !hasTextFields(auditRecord, [
+      "id",
+      "publicRecordId",
+      "title",
+      "evidenceStatus",
+      "validationStatus",
+      "authorship",
+      "aiAssistance",
+      "rights",
+      "submissionVisibility",
+    ])
+    || auditRecord.id !== recordId
+    || auditRecord.publicRecordId !== recordId
+    || auditRecord.title !== publicRecord.title
+    || auditRecord.submissionVisibility !== "draft-only"
+  ) {
+    errors.push(`Admission audit record ${recordId} needs a stable public ID plus complete evidence, validation, authorship, AI, and rights fields`);
+  }
+  for (const field of ["supportedClaims", "unsupportedClaims", "limitations", "evidenceRequests"]) {
+    if (
+      !Array.isArray(auditRecord?.[field])
+      || auditRecord[field].length < 2
+      || auditRecord[field].some((item) => !item?.trim())
+    ) {
+      errors.push(`Admission audit record ${recordId} ${field} needs at least two non-empty entries`);
+    }
+  }
 }
 if (
   supportingEvidenceLinks.length < 2
@@ -345,7 +452,7 @@ if (
 ) {
   errors.push("Collaboration evidence needs exactly three event-backed traits");
 }
-const expectedRoadmapStatuses = ["已有可核對證據", "正在學習", "尚未形成作品", "研究所階段"];
+const expectedRoadmapStatuses = ["已完成與可操作", "正在學習", "下一階段", "研究所學習方向"];
 if (
   learningRoadmap.length !== expectedRoadmapStatuses.length
   || learningRoadmap.some(
@@ -378,7 +485,7 @@ for (const item of learningTrail) {
 }
 if (
   learningTrailById.get("web-audio")?.status !== "可操作原型"
-  || learningTrailById.get("web-audio")?.validationStatus !== "尚待驗證"
+  || learningTrailById.get("web-audio")?.validationStatus !== "下一步：使用者觀察"
 ) {
   errors.push("Web Audio learning trail must distinguish operable prototype from pending validation");
 }
@@ -393,7 +500,7 @@ if (learningTrailById.get("reaper")?.status !== "學習中") {
   errors.push("REAPER learning trail must remain a learning state");
 }
 
-const expectedResponsibilityGroups = ["AI 協助", "申請者負責", "申請者尚需補強"];
+const expectedResponsibilityGroups = ["AI 協助的部分", "我負責的決策", "我正在補強的能力"];
 const responsibilityGroups = Array.isArray(aiWorkflow.responsibilityGroups)
   ? aiWorkflow.responsibilityGroups
   : [];
@@ -410,6 +517,9 @@ if (
   )
 ) {
   errors.push("AI workflow must keep assistance, applicant responsibility, and capability gaps separate");
+}
+if (Object.hasOwn(aiWorkflow, "evidencePaths")) {
+  errors.push("AI workflow public data must not include internal evidence-document paths");
 }
 const failureCases = Array.isArray(aiWorkflow.failureCases) ? aiWorkflow.failureCases : [];
 if (failureCases.length < 3) {
@@ -859,8 +969,19 @@ for (const project of projectCaseStudies) {
     ) {
       errors.push(`${project.id}: Web Audio signalFlow must preserve input, normalization, mapping, DSP graph, and output order`);
     }
-    if (!project.evidenceBoundary?.groupLabels || project.evidenceBoundary.groupLabels[0] !== "目前可以證明") {
-      errors.push(`${project.id}: Web Audio prototype needs an explicit public evidence boundary`);
+    const internalEvidenceBoundary = getProjectInternalNotes(project.id)?.evidenceBoundary;
+    if (
+      project.evidenceBoundary
+      || internalEvidenceBoundary?.id !== "interactive-sound-learning-evidence-boundary"
+      || internalEvidenceBoundary?.groupLabels?.[0] !== "目前可以證明"
+      || ["verifiedArtifacts", "approvedSpecifications", "notIndependentlyVerified"].some(
+        (field) =>
+          !Array.isArray(internalEvidenceBoundary?.[field])
+          || internalEvidenceBoundary[field].length < 2
+          || internalEvidenceBoundary[field].some((item) => !item?.trim()),
+      )
+    ) {
+      errors.push(`${project.id}: Web Audio evidence boundary must remain complete in draft-only internal notes and absent from public project data`);
     }
   }
 

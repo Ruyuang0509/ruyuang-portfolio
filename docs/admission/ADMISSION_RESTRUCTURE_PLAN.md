@@ -1,6 +1,6 @@
 # 116 學年度申請作品集重構計畫
 
-更新日期：2026-07-24
+更新日期：2026-07-25
 
 本文件記錄本輪實作前後的資訊架構、證據狀態與發布邊界。它不是招生簡章，也不驗證正式系所名稱、時程或繳件格式。
 
@@ -11,7 +11,7 @@
 - **Needs User Evidence**：主張可保留為待核對紀錄，但升級為作品證據前需要申請者提供真實檔案、來源或決策。
 - **Must Not Publish**：目前不得放入 public、submission build 或 public Git history 的內容。
 
-## 1. Current information architecture
+## 1. Pre-refactor baseline
 
 重構前的實體順序：
 
@@ -33,9 +33,9 @@
 | 研究定位、研究構想、研究軌道與頁尾出口重複說明同一論點 | Confirmed |
 | 《畫本》與指定 MV 沒有出現在現有公開案例 | Confirmed |
 
-## 2. Target information architecture
+## 2. Adopted current information architecture
 
-本輪採用的 11 段送審順序：
+PR #6 已採用並部署的 11 段送審順序：
 
 1. `#top`：Hero／申請定位
 2. `#sound-transition`：轉向聲音的問題意識

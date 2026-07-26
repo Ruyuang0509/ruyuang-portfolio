@@ -20,9 +20,21 @@ pnpm run check:submission
 
 `check:submission` first runs isolated scanner regression fixtures, then performs a submission-mode production build, scans supported text-based files and the complete `dist/` file inventory, and audits the output for GitHub Pages-breaking root-relative asset paths. It is a required baseline; the independent checks below remain defense in depth.
 
-2026-07-24 最新本機自動驗證快照：`pnpm run doctor` exit 0；scanner fixtures 57/57、inventory rules 7；draft build 470 modules、submission build 467 modules；fresh `dist/` 132 files／25 text files、`public/` 118 files，public→dist 0 missing／0 hash mismatch。這些結果適用目前 11 段 IA fingerprint；正式匯出前仍應依本清單記錄新一輪實際 exit code。
+## 2026-07-26 Current Verification
 
-互動式 in-app Browser 已嘗試，但本機連線隔離使其無法連到 preview；shell 端 localhost HTTP 200 不代表 Browser 可用。因此四個要求 viewport，以及 anchor／focus、Web Audio、Pure Data video、reduced-motion、horizontal overflow 與 console 檢查全部未執行，不能列為通過。
+- [x] `pnpm run doctor`：exit 0。
+- [x] Submission scanner：72/72 fixtures；fresh `dist/` 132 files／25 text files；67 個 text rules／7 個 inventory rules。
+- [x] Submission build：467 modules；initial JS gzip 191397 B；entry 148553 B；CSS 44122 B。
+- [x] Browser matrix：1440／1280／768／390／320、7 個 hash 入口、theme forward／reverse、Web Audio 與 Pure Data 影片。
+- [x] Public／audit schema 已分離；Draft／Audit 保留 stable-ID 限制紀錄，submission public components 不讀取 audit records。
+- [ ] System reduced-motion rendered flow 尚未完整驗證。
+- [ ] 完整 Tab／Enter 鍵盤巡覽尚未完整驗證。
+- [ ] `pnpm run check:publication` 仍因 11 個 Hamlet rights／attestation blockers exit 1；不得繞過。
+- [ ] 本輪 working tree 尚未 commit、push 或發布。下方 2026-07-25 快照僅供歷史比較。
+
+2026-07-25 最新自動驗證快照：`pnpm install --frozen-lockfile` 與 `pnpm run doctor` exit 0；scanner fixtures 57/57、text／inventory rules 54／7；draft build 470 modules、submission build 467 modules；draft initial JS gzip／entry 198914／173631 B，submission 192733／152769 B，CSS 43138 B，lazy 3D closure 638680 raw／169383 gzip B；fresh `dist/` 132 files／25 text files、`public/` 118 files，public→dist 0 missing／0 hash mismatch。這些結果適用目前 11 段 IA fingerprint；正式匯出前仍應依本清單記錄新一輪實際 exit code。
+
+Current submission production preview 已在 1280／375／320 px 完成基本 Browser 稽核：74 個站內 hash links 0 missing、135 個 IDs 0 duplicate、320／375 0 horizontal overflow；行動 menu Escape／還焦、三個 fresh deep links、Pure Data／Hamlet video metadata與 console 0 warning／error已確認。Web Audio發聲、影片實播／fallback、system reduced-motion、Save-Data、screen reader、實機及完整四 viewport matrix仍未執行。
 
 ## Production Publication Gate
 
@@ -32,7 +44,7 @@ pnpm run check:submission
 pnpm run check:publication
 ```
 
-Hamlet manifest 目前仍是 `rightsReview.status: unverified`、`rightsManifestPresent: false`；2026-07-24 最新 `pnpm run check:publication` 實際 exit 1，列出 11 個 Hamlet rights／attestation blockers。不得由工程端或 AI 把 status 改成已核准來消除錯誤。Pages run `29680534295` success 與 production 資產 HTTP 200 只屬較早部署證據；現行 deploy workflow 只跑 `check:submission`，所以在 stakeholder 完成逐項 rights evidence 與 applicant attestation 前，應停止公開或移除未核准資產，並把 `check:publication` 接入 production deploy gate。HTTP 200 與 deployment success 都不是 rights clearance。
+Hamlet manifest 目前仍是 `rightsReview.status: unverified`、`rightsManifestPresent: false`；2026-07-25 最新 `pnpm run check:publication` 實際 exit 1，列出 11 個 Hamlet rights／attestation blockers。不得由工程端或 AI 把 status 改成已核准來消除錯誤。Pages run `30087568225` 已成功部署 PR #6 source，Hamlet 資產仍 HTTP 200；現行 deploy workflow 只跑 `check:submission`，所以在 stakeholder 完成逐項 rights evidence 與 applicant attestation 前，應停止公開或移除未核准資產，並把 `check:publication` 接入 production deploy gate。HTTP 200 與 deployment success 都不是 rights clearance。
 
 ## Content Review
 
@@ -79,15 +91,18 @@ Hamlet manifest 目前仍是 `rightsReview.status: unverified`、`rightsManifest
 - Confirm Traditional Chinese line breaking still reads naturally.
 - Confirm reduced-motion mode does not depend on animation to reveal core content.
 
-## Current Browser Limitation
+## Current Browser Coverage And Remaining Checks
 
-- [ ] Run all four requested viewports in an interactive Browser. The latest attempt was blocked by local connection isolation even though shell-side localhost HTTP returned 200.
-- [ ] Verify all 11 high-level anchors, duplicate IDs, broken targets, deep links, fixed-nav offsets, and keyboard／menu focus behavior.
+- [x] Verify current React render at 1280×720, 375×812 and 320×568; confirm 0 global overflow at 375／320 and 0 console warning／error.
+- [x] Inventory the current DOM: 74 internal hash links, 0 broken target; 135 IDs, 0 duplicate.
+- [x] Verify mobile menu open／Escape close／trigger focus restore, plus fresh `#pure-data-learning`, `#research-proposal` and `#contact` deep-link offsets.
+- [x] Verify Pure Data and Hamlet video elements load metadata without media error; this does not mean playback／subtitles／fallback passed.
+- [ ] Complete the requested 768×1024, 1024×768 and 1440×900 viewports, desktop keyboard path, all target sizes and representative section reflow.
 - [ ] Verify Web Audio enable／stop／Escape／fallback behavior and confirm there is no autoplay.
 - [ ] Verify the Pure Data video, poster, native controls, Save-Data path, keyboard focus, and failed-media fallbacks.
-- [ ] Verify system reduced-motion behavior, horizontal overflow, broken media, and console warnings／errors.
+- [ ] Verify system reduced-motion, screen reader, real 200% zoom, iOS／Android and multi-browser audio／video behavior.
 
-None of the items in this section were executed in the latest Browser attempt; they must remain unchecked and must not be reported as passing.
+Only checked items above are current Browser evidence. Do not generalize them into a full responsive, accessibility, media-playback or device pass.
 
 ## Final Export
 

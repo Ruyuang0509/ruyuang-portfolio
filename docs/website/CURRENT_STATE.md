@@ -1,18 +1,28 @@
 # 目前產品與資訊架構
 
-## 2026-07-24 最新共享工作樹與最終自動驗證
+## 2026-07-26 公開展示版整備
+
+- Admission data 現分為 public narrative 與 `admission-evidence.audit.js`。公開區段只渲染作品、方法、角色與下一步；Draft／Audit 仍以 stable ID 保存完整 evidence／validation／rights／limitations／requests。Submission module graph 不讀 audit records，但 public Repository 內的 source 仍應視為公開。
+- 《畫本》與指定 MV 已有經確認的 canonical YouTube 作品入口，公開卡片改為作品摘要、角色、工具、重點、反思及一段必要素材說明；Pure Data 公開頁保留功能測試、觀看指南、AI 協作學習與簡短版本說明，詳細限制留在 audit。
+- `DataVisualizationSeries` 使用不透明深色閱讀面，mist／paper 動畫留在周圍背景；`useThemeInversion` 以 central endpoint 同步 navigation 與 field。`App` 的 `ResizeObserver` 在 lazy 內容改變高度時重新校正 deep links。
+- `pnpm run doctor` exit 0；scanner 72/72，fresh submission output 132 files／25 text files、67 個 text rules／7 個 inventory rules。Submission build 467 modules、initial JS gzip 191397 B、entry 148553 B、CSS 44122 B。
+- In-app Browser 已驗證 1440／1280／768／390／320、7 個 hash 入口、theme forward／reverse、Web Audio 及 Pure Data 影片。System reduced-motion 與完整 Tab／Enter 尚未完整執行。
+- `check:publication` 仍以 11 個 Hamlet rights／attestation blockers exit 1。本輪 working tree 未發布，也沒有 commit 或 push；2026-07-25 PR #6／Pages 狀態只描述上一個已部署版本。
+
+## 2026-07-25 最新 source、部署與驗證
 
 - `App.jsx` 現在呈現 11 個主要閱讀段落：Hero、轉向聲音的問題意識、證據導覽、Web Audio 旗艦原型、Pure Data 學習紀錄、申請階段研究構想、代表作品與其他公開案例、專案與合作、學習路線、AI／作者性、研究方向與連結。資料視覺化系列及支持案例索引屬代表作品段落的延伸閱讀。
-- 新增 [`../../src/data/admission-evidence.js`](../../src/data/admission-evidence.js) 與 [`../../src/components/AdmissionEvidenceSections.jsx`](../../src/components/AdmissionEvidenceSections.jsx)。前者集中保存 Pure Data、兩件代表作品、合作事件、四階段學習路線與外部連結；後者將其拆成可延後載入、具固定 section wrapper、錯誤隔離與 fragment 重新校正的五個區段。
+- [`../../src/data/admission-evidence.js`](../../src/data/admission-evidence.js) 集中保存 Pure Data、兩件代表作品、合作事件、四階段學習路線與外部連結；[`../../src/components/AdmissionEvidenceSections.jsx`](../../src/components/AdmissionEvidenceSections.jsx) 的單一 dynamic import 提供 Pure Data、代表作品、secondary creation、合作、學習路線與聯絡 6 個 lazy exports。研究構想與 AI／作者性各有獨立 lazy chunk；各段仍具永久 section wrapper、錯誤隔離與 fragment 重新校正。
 - Pure Data 不再只是「沒有 artifact」的學習狀態。公開頁已整合 v0.2.1 約 63 秒本機功能測試影片與 1276×720 poster，呈現四組參數映射、Preset、Reset、Panic 與輸出監看；狀態仍是 `學習中／可操作功能原型`、`尚待驗證`，初版 Patch 並非申請者獨立完成。
 - Pure Data 影片與 poster 位於 `public/media/portfolio/`，因此會被 Vite 原樣複製。兩者畫面仍可見本機 D 槽專案路徑與 `validated` 字樣；頁面雖統一改稱「本機功能測試」，但 binary 畫面中的風險仍然存在，不能寫成已清理或已取得研究驗證。
 - 《畫本》與《希望有羽毛和翅膀》MV 混剪已加入文字型作品證據。前者只主張故事構思、攝影、剪輯及申請者提供的參賽情境；後者明列為非商業二次創作，只主張選曲、素材研究、取材、篩選與剪輯。兩案都沒有公開成片連結，分別等待 credit、活動紀錄、來源與權利範圍。
 - 混合監聽研究構想由四層資料驅動：`1. 問題`、`2. 初步構想`、`3. 申請者可帶入的能力`、`4. 入學後需補強`；另列五步預定流程、預期貢獻與申請階段聲明。完整研究計畫仍在非公開工作區，頁面沒有下載連結。
-- 公開／私有界線以實際檔案位置判斷：`public/` 的 Pd 影片／poster 與未來 commit／push 的 `src/data/admission-evidence.js` 都屬公開範圍；`.pd` 原檔、完整研究計畫、REAPER 工程及兩件代表作品成片未放入公開 repository。Submission alias 只能隔離 bundle，不能保護 public repository 中的 tracked source 或文件。
+- 公開／私有界線以實際檔案位置判斷：`public/` 的 Pd 影片／poster、admission source 與 `docs/admission/*` 均已 tracked、push 並進入 public `main`；`.pd` 原檔、完整研究計畫、REAPER 工程及兩件代表作品成片未放入公開 repository。Submission alias 只能隔離 bundle，不能保護 public repository 中的 tracked source 或文件。
 - `index.html` metadata、canonical URL、JSON-LD、`llms.txt`、favicon 與 social preview 已完成同步，不再列為本輪未決缺口。
-- `pnpm run doctor` exit 0；draft build 470 modules、submission build 467 modules；fresh `dist/` 132 files／25 text files；118 個 `public/` files 在 `dist/` 中 0 missing／0 SHA-256 mismatch。Submission scanner 為 54 個 text rules／7 個 inventory rules，fixtures 57/57。
+- `pnpm install --frozen-lockfile` 與 `pnpm run doctor` exit 0；draft build 470 modules、submission build 467 modules；draft initial JS gzip 198914 B／entry 173631 B，submission initial JS gzip 192733 B／entry 152769 B，CSS 43138 B，lazy 3D closure 638680 raw／169383 gzip B。Fresh `dist/` 132 files／25 text files；118 個 `public/` files 在 `dist/` 中 0 missing／0 SHA-256 mismatch。Submission scanner 為 54 個 text rules／7 個 inventory rules，fixtures 57/57。
 - `pnpm run check:publication` exit 1，精確原因為 11 個 Hamlet 權利／applicant attestation blockers；其他自動門檻通過不等於 publication clearance。
-- 互動式 in-app Browser 已嘗試，但本機連線隔離使 Browser 無法連線，即使 shell 對同一預覽取得 HTTP 200。四個 viewport、導覽／焦點、Web Audio、Pure Data 影片播放、reduced-motion、overflow 與 console 均未能執行，不可標記通過。下節數字與 browser 結果只代表整合前歷史快照。
+- Current submission production preview 已以 in-app Browser 在 1280、375 與 320 px 驗證：React 正常掛載；135 個 ID 無重複；74 個站內 hash links 無缺失 target；320／375 無 global overflow；行動 menu 可開啟、Escape 關閉並把焦點留在 trigger；fresh `#pure-data-learning`、`#research-proposal` alias 與 `#contact` 深連結落在 fixed nav 下約 95–96 px；Pure Data 影片讀到 1276×720／62.983 秒且無 media error，Hamlet 影片讀到 1920×1080／40 秒；console warning／error 為 0。Web Audio 實際發聲、system reduced-motion、Save-Data、失敗媒體、screen reader、實機與完整四 viewport matrix仍未執行。
+- Git／部署已重新核對：工作分支／remote 為 `e0e30b2`，`main`／`origin/main` 為 PR #6 squash merge `e8f35e0`；兩者 tree identical、lineage 1／1，PR #1–#6 均 merged。Pages run `30087568225` build／deploy success，Pages API 為 public、`built`、HTTPS enforced；正式站首頁、目前 bundle、三個 admission lazy chunks、Pure Data／Hamlet 媒體、`llms.txt` 與 social preview 均 HTTP 200。
 
 ## 2026-07-24 Admission Evidence Pass（整合前歷史快照）
 
@@ -61,17 +71,16 @@
 
 ## 產品目的與受眾（已驗證）
 
-網站的明文定位是國立臺南藝術大學 116 學年度申請作品集。作者以第一人稱說明自己是蕭智仁，現就讀國立嘉義大學數位學習設計與管理學系並預計 2026 年畢業，由視覺敘事、資訊架構與互動介面走向聲音。主要受眾先理解轉向聲音的問題，再操作 Web Audio、觀看 Pure Data 本機功能紀錄、區分研究構想與已完成能力，最後查閱代表作品、合作事件、學習路線與作者性。來源：[`../../src/data/portfolio.js`](../../src/data/portfolio.js)、[`../../src/data/admission-evidence.js`](../../src/data/admission-evidence.js)、[`../../src/data/admission-research.js`](../../src/data/admission-research.js)。
+公開頁的明文定位是「116學年度研究所申請作品集」，沒有在目前 user-facing source 寫出特定申請學校。作者以第一人稱說明自己是蕭智仁，現就讀國立嘉義大學數位學習設計與管理學系並預計 2026 年畢業，由視覺敘事、資訊架構與互動介面走向聲音。使用者另指定國立臺南藝術大學為目標語境，但正式系所名稱、簡章、時程與格式尚未由 current official source 核對，屬待 stakeholder 確認。主要受眾先理解轉向聲音的問題，再操作 Web Audio、觀看 Pure Data 本機功能紀錄、區分研究構想與已完成能力，最後查閱代表作品、合作事件、學習路線與作者性。來源：[`../../src/data/portfolio.js`](../../src/data/portfolio.js)、[`../../src/data/admission-evidence.js`](../../src/data/admission-evidence.js)、[`../../src/data/admission-research.js`](../../src/data/admission-research.js)。
 
 ## Repository 與交付狀態
 
 - Canonical root 是 `C:\Users\911su\Documents\Codex\如願個人網站`。
-- 2026-07-24 最新共享工作樹包含尚未 commit 的 IA、內容、元件與公開 Pd 媒體整合；本輪文件只描述目前 source，不將下列舊 branch／Pages／build 數字延伸為最新 release 狀態。
-- 2026-07-23 盤點時，HEAD 為 `61ea9d8`，位於 `codex/public-copy-rewrite` 並追蹤同名 `origin`；`main`／`origin/main` 均為 PR #5 squash 後的 `695b520`。兩個 refs 的檔案樹完全相同（`git diff --quiet main HEAD` exit 0），但 `main...HEAD` 的 lineage 為 main 1、目前分支 6 個各自獨有 commits。
-- GitHub PR #1 至 #5 均已 merged；PR #5 `caption adjust` 於 2026-07-19 合併。舊文件中的 `feat/portfolio-admission-foundation`／PR #4 最新狀態與「Draft PR #1」描述均已失效；後續開發應從最新 `main` 建立新的 `codex/` 分支。
-- `.github/workflows/deploy-pages.yml` 會在 push 到 `main` 或 `workflow_dispatch` 時執行。`695b520` 的最新 run `29680534295` 與 deployment 均成功，environment URL 為 `https://ruyuang0509.github.io/ruyuang-portfolio/`；該 URL 與當前資產實測 HTTP 200。Repository 沒有 `CNAME`，也沒有 production field-performance、輔具或實機證據；本輪未能從未認證 Pages-site endpoint 重新取得 `built` 欄位。
-- 應用、內容與文件已能形成完整本機 review flow；hidden-only assets、built construction wording、stale metadata、hidden 完整度假警告與 Three 超大 lazy chunk 的已知本機缺口已關閉。2026-07-17／07-18 曾產生 Lighthouse lab 證據，但之後已有公開文案與 bundle 變更，該報告只能視為歷史效能快照，不能作為 2026-07-23 source fingerprint 的當前驗證。真實使用者研究、Hamlet 原始 Prompt log、權利審查、輔具／實機仍未完成。
-- **公開狀態與權利閘門不一致：** Hamlet manifest 仍為 `rightsReview.status: unverified` 且 `rightsManifestPresent: false`，但 2026-07-23 production Pages 的 MP4、英文與繁中 VTT、poster 均實測 HTTP 200。部署 workflow 只跑 `check:submission`，沒有跑預期失敗的 `check:publication`；本輪執行後者仍以 11 個 blockers exit 1。這是「已公開可達但未取得發布核准」的現況。
+- 2026-07-25 盤點時，HEAD／`origin/codex/public-copy-rewrite` 為 `e0e30b2`；`main`／`origin/main` 為 PR #6 squash merge `e8f35e0`。兩者 tree identical（`git diff --quiet main HEAD` exit 0），`main...HEAD` lineage 各有 1 個獨有 commit；這是 squash history，不是內容未合併。
+- GitHub PR #1 至 #6 均已 merged；PR #6 `Structural changes` 於 2026-07-24 合併。Admission source、`docs/admission/*` 與 Pure Data binaries 已進 public `main`。續作應由目前 `main` 建立新的 `codex/` 分支，不沿用已合併 PR #6。
+- `.github/workflows/deploy-pages.yml` 會在 push 到 `main` 或 `workflow_dispatch` 時執行。`e8f35e0` 的 run `30087568225`、build job `89463242126`、deploy job `89463660241` 均 success；Pages API 回報 public、`built`、HTTPS enforced，environment URL 為 `https://ruyuang0509.github.io/ruyuang-portfolio/`。Repository 沒有 `CNAME`，也沒有 production field-performance、輔具或實機證據。
+- 應用、內容與文件已能形成完整本機 review flow；hidden-only assets、built construction wording、stale metadata、hidden 完整度假警告與 Three 超大 lazy chunk 的已知本機缺口已關閉。2026-07-17／07-18 Lighthouse 僅是歷史 localhost lab；其後已有公開文案與 bundle 變更，不能作為目前 source fingerprint 或 production field 結論。真實使用者研究、Hamlet 原始 Prompt log、權利審查、輔具／實機仍未完成。
+- **公開狀態與權利閘門不一致：** Hamlet manifest 仍為 `rightsReview.status: unverified` 且 `rightsManifestPresent: false`，但 current production Pages 的 MP4、英文與繁中 VTT、poster 均實測 HTTP 200。部署 workflow 只跑 `check:submission`，沒有跑預期失敗的 `check:publication`；本輪執行後者仍以 11 個 blockers exit 1。這是「已公開可達但未取得發布核准」的現況。
 
 ## 路由與導覽模型
 
@@ -98,7 +107,7 @@ flowchart TD
   J --> K["11 研究方向與公開連結"]
 ```
 
-旗艦案例在代表作品之前完整呈現。第 7 段先顯示《畫本》與 MV 混剪的文字型證據，再以資料視覺化系列入口與 `CaseStudyShowcase scope="supporting"` 延伸至既有公開案例；這些巢狀 anchors 不另計為主要 IA 段落。來源：[`../../src/App.jsx`](../../src/App.jsx)、[`../../src/components/AdmissionEvidenceSections.jsx`](../../src/components/AdmissionEvidenceSections.jsx)、[`../../src/components/CaseStudyShowcase.jsx`](../../src/components/CaseStudyShowcase.jsx)。
+旗艦案例在代表作品之前完整呈現。第 7 段先顯示《畫本》，再以資料視覺化系列入口與 `CaseStudyShowcase scope="supporting"` 延伸至既有公開案例，最後由 `#secondary-creation` 顯示指定 MV 混剪；這些巢狀 anchors 不另計為主要 IA 段落。來源：[`../../src/App.jsx`](../../src/App.jsx)、[`../../src/components/AdmissionEvidenceSections.jsx`](../../src/components/AdmissionEvidenceSections.jsx)、[`../../src/components/CaseStudyShowcase.jsx`](../../src/components/CaseStudyShowcase.jsx)。
 
 ## 區段清單
 
@@ -144,9 +153,9 @@ flowchart TD
 - `audit:evidence` 核對 Hamlet 三份直接交付檔的 bytes／SHA-256、60 份衍生圖像的 inventory SHA-256／實際 dimensions、16 個 WebVTT cues 與 63 個 public Hamlet files；`check:publication` 同時要求頂層核准、完整 applicant attestation、逐項 rights checks 與 evidence refs，目前正確地被擋下。
 - Submission dev middleware 對 13 個舊 hidden media URL 與 `/dist/*` 回傳 404，避免 Vite SPA fallback 偽裝成 200；有效 public media 仍為 200。Filesystem deny 對 restricted media、internal／hidden modules 與歷史 report copy 回傳 403。
 - Scanner 的文字規則不能移除 binary 影片／poster 畫面中的本機路徑與 `validated` 字樣；兩項 Pd 媒體既已放入 `public/`，就必須按「公開可達但仍有揭露風險」處理，不能以 React 是否引用或頁面否定句取代 binary 內容審查。
-- `llms.txt`、favicon、social preview、index／JSON-LD 與案例 SEO title 使用 RU / YUAN，`llms.txt` 只列實際存在的 Navbar anchors。
+- `index.html` title／OG／Twitter／JSON-LD 與 `llms.txt` 主標使用「蕭智仁｜聲響、互動與數位學習作品集」；RU / YUAN 保留於 Navbar、`og:site_name`、favicon 與部分案例品牌。`llms.txt` 列實際存在的 11 個高階 App anchors，不只 6 個 Navbar anchors。
 - 內容 validator 與 submission gate 的通過不代表授權、使用者研究、screen reader、實機或 production-ready publication 已完整。
 
 ## 外部系統與缺席功能
 
-沒有 CMS、API request、backend、database、authentication、storage、analytics、contact form、search、filter、modal、carousel 或獨立 404 route。`#contact` 只是 GitHub Pages 與 GitHub Repository 的外部連結集合，不是聯絡表單。已配置 push-to-`main`／手動兩種觸發的 GitHub Pages workflow與相對 base path；run `29680534295` 與既有 Pages URL 是 2026-07-23 歷史部署證據，未包含目前未 commit 的 AdmissionEvidence／Pd 媒體整合。公開可達性不等於權利核准或 production-ready 驗收。
+沒有 CMS、API request、backend、database、authentication、storage、analytics、contact form、search、filter、modal 或獨立 404 route。Hamlet 八幕 storyboard 是可鍵盤操作的水平 scroll-snap rail，不是 modal carousel。`#contact` 只是 GitHub Pages 與 GitHub Repository 的外部連結集合，不是聯絡表單。已配置 push-to-`main`／手動兩種觸發的 GitHub Pages workflow與相對 base path；run `30087568225` 已部署 AdmissionEvidence／Pd 媒體整合。公開可達性不等於權利核准或 production-ready 驗收。

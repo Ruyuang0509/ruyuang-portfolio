@@ -1,8 +1,8 @@
 # 目標呈現
 
-## 2026-07-24 Admission Evidence Pass
+## 2026-07-25 current-to-target status
 
-目前 source 已把「已完成／可操作」、「學習中」、「研究構想／尚待驗證」與「待申請者補件」分開，並採用 11 段送審 IA：Hero → 聲音轉向 → 證據導覽 → Web Audio → Pure Data → 研究構想 → 代表作品 → 合作 → Roadmap → AI／作者性 → 真實外部連結。Pure Data、研究構想、代表作品、合作、Roadmap、AI 與 final links 置於永久 anchor wrapper 中 lazy-load；`#selected-work` 內依序放《畫本》、既有資料視覺化／公開案例、最後才是指定 MV。Current source 已通過 `doctor`、build、submission scanner 與獨立 `dist/` inventory；本輪仍未 commit、push 或 deploy。In-app Browser 因本機連線隔離無法連到 shell 已確認 HTTP 200 的 preview，因此 320–1440 rendered matrix 未能執行，不能標為通過。
+目前 source 已把「已完成／可操作」、「學習中」、「研究構想／尚待驗證」與「待申請者補件」分開，並採用 11 段送審 IA：Hero → 聲音轉向 → 證據導覽 → Web Audio → Pure Data → 研究構想 → 代表作品 → 合作 → Roadmap → AI／作者性 → 真實外部連結。Pure Data、研究構想、代表作品、合作、Roadmap、AI 與 final links 置於永久 anchor wrapper 中，以 1 個 shared evidence chunk＋2 個獨立 chunks 做 code split；`#selected-work` 內依序放《畫本》、既有資料視覺化／公開案例、最後才是指定 MV。PR #6 已把這套 source 合併並由 Pages run `30087568225` 成功部署；正式 bundle與 Pure Data 媒體均已在線。Current source 已通過 `doctor`、build、submission scanner 與獨立 `dist/` inventory；Browser 已覆蓋 1280／375／320 基本渲染、anchors、menu、overflow、video metadata 與 console，但 Web Audio 發聲、reduced-motion、Save-Data、失敗媒體、screen reader、實機及完整四 viewport matrix仍待驗。
 
 ## 2026-07-23 current-to-target 判讀
 
@@ -61,4 +61,4 @@ PR #5 已把自然、第一人稱的繁體中文敘事部署到 GitHub Pages，�
 - screen reader、真實 zoom、system reduced-motion、行動實機與多瀏覽器 Web Audio 有人工紀錄；
 - 研究結果、授權、角色、credits、聯絡與申請資訊均由 stakeholder 確認，沒有 AI 代填或未驗證成效。
 
-2026-07-24 current source 已完成 `doctor`（exit 0）、draft／submission build（470／467 modules）、57/57 scanner fixtures，以及 132-file submission `dist/` 對 118-file `public/` inventory 的 0 missing／0 hash mismatch 檢查。2026-07-23 Pages run `29680534295` 與 2026-07-17 Lighthouse 仍只代表更早的 deployed/source fingerprint；本輪沒有 commit、push、deploy 或 current-fingerprint Lighthouse。In-app Browser 的本機連線隔離讓 320–1440 rendered matrix 未能執行，不能以舊 smoke evidence補成通過。Hamlet 權利／attestation 仍未完成，`check:publication` 以 11 個 blockers exit 1；production workflow 未執行此 gate 的 policy gap 也仍需處理，線上可達性不能等同正式公開核准。
+2026-07-25 current source 已完成 `doctor`（exit 0）、draft／submission build（470／467 modules）、57/57 scanner fixtures，以及 132-file submission `dist/` 對 118-file `public/` inventory 的 0 missing／0 hash mismatch 檢查。Current submission initial JS gzip／entry／CSS 為 192733／152769／43138 B；lazy 3D closure 為 638680 raw／169383 gzip B。PR #6、Pages run `30087568225`、Pages API `built` 與正式資產 HTTP 200 已確認；current Browser 也已完成上述有限矩陣。2026-07-17 Lighthouse 仍只代表更早 source fingerprint，本輪沒有 current-fingerprint Lighthouse、production field、輔具或實機證據。Hamlet 權利／attestation 仍未完成，`check:publication` 以 11 個 blockers exit 1；production workflow 未執行此 gate 的 policy gap 也仍需處理，線上可達性不能等同正式公開核准。

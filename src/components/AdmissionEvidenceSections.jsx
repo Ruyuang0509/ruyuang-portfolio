@@ -19,9 +19,9 @@ function useDeferredReady(targetId) {
 
 function SectionHeader({ eyebrow, id, title, lines, description }) {
   return (
-    <header className="grid gap-5 md:grid-cols-[0.34fr_0.66fr] md:gap-16">
+    <header className="grid min-w-0 gap-5 md:grid-cols-[minmax(0,0.34fr)_minmax(0,0.66fr)] md:gap-16">
       <p className="meta-label text-[var(--theme-accent)]">{eyebrow}</p>
-      <div className="grid gap-5">
+      <div className="grid min-w-0 gap-5">
         <EditorialHeading
           as="h2"
           id={`${id}-title`}
@@ -36,7 +36,9 @@ function SectionHeader({ eyebrow, id, title, lines, description }) {
   );
 }
 
-function EvidenceList({ title, items, tone = "default" }) {
+function PublicList({ title, items, tone = "default" }) {
+  if (!items?.length) return null;
+
   return (
     <section className={`grid content-start gap-4 rounded-[var(--radius-md)] p-5 ${tone === "paper" ? "paper-panel" : "soft-panel"}`}>
       <h3 className="zh-heading text-[clamp(1.2rem,2vw,1.65rem)]">{title}</h3>
@@ -69,7 +71,7 @@ export function PureDataLearningSection() {
         description={evidence.purpose}
       />
 
-      <div className="flex flex-wrap gap-2" aria-label="Pure Data 證據狀態">
+      <div className="flex flex-wrap gap-2" aria-label="Pure Data 作品狀態">
         <span className="chip-text rounded-full border border-[color:var(--theme-line)] px-4 py-2 text-sm font-extrabold">{evidence.status}</span>
         <span className="chip-text rounded-full border border-[color:var(--theme-line)] px-4 py-2 text-sm font-extrabold">{evidence.version}</span>
         <span className="chip-text rounded-full border border-[color:var(--theme-line)] px-4 py-2 text-sm font-extrabold">開始日期：{evidence.startedAt}</span>
@@ -97,7 +99,7 @@ export function PureDataLearningSection() {
           <p className="zh-caption text-[color:var(--theme-muted)]">{evidence.media.caption}</p>
           <p id="pure-data-video-summary" className="zh-caption text-[color:var(--theme-muted)]">{evidence.media.accessibilitySummary}</p>
           <p className="meta-label text-[var(--theme-accent)]">
-            {Math.round(evidence.media.durationSeconds)} 秒 · {evidence.media.width}×{evidence.media.height} · {evidence.media.codecSummary}
+            {Math.round(evidence.media.durationSeconds)} 秒 · {evidence.media.width}×{evidence.media.height}
           </p>
           {videoFailed ? (
             <p className="zh-caption rounded-[var(--radius-sm)] border border-[color:var(--theme-line)] p-4 text-[color:var(--theme-muted)]" role="alert">
@@ -107,15 +109,15 @@ export function PureDataLearningSection() {
         </figcaption>
       </figure>
 
-      <div className="evidence-panel grid gap-5 rounded-[var(--radius-lg)] p-6 md:grid-cols-[0.3fr_0.7fr] md:p-8">
-        <p className="meta-label text-[var(--theme-accent)]">目前怎麼描述</p>
+      <section className="evidence-panel grid gap-5 rounded-[var(--radius-lg)] p-6 md:grid-cols-[0.3fr_0.7fr] md:p-8" aria-labelledby="pure-data-description-title">
+        <h3 id="pure-data-description-title" className="meta-label text-[var(--theme-accent)]">原型說明</h3>
         <p className="zh-copy-wide text-[color:var(--theme-muted)]">{evidence.description}</p>
-      </div>
+      </section>
 
       <section className="grid gap-5 md:grid-cols-[0.3fr_0.7fr] md:gap-12" aria-labelledby="pure-data-viewing-guide-title">
         <div className="grid content-start gap-3">
           <h3 id="pure-data-viewing-guide-title" className="meta-label text-[var(--theme-accent)]">觀看指南</h3>
-          <p className="zh-caption text-[color:var(--theme-muted)]">影片不自動播放；請依序比較控制值、輸出 meters 與聲音變化。</p>
+          <p className="zh-caption text-[color:var(--theme-muted)]">影片不自動播放；可以依序比較控制值、輸出監看與聲音變化。</p>
         </div>
         <ol className="grid gap-3">
           {evidence.viewingGuide.map((item, index) => (
@@ -128,29 +130,34 @@ export function PureDataLearningSection() {
       </section>
 
       <div className="grid gap-4 lg:grid-cols-3">
-        <EvidenceList title="目前可以證明" items={evidence.whatThisProves} />
-        <EvidenceList title="目前不能證明" items={evidence.whatThisDoesNotProve} />
-        <EvidenceList
-          title="作者性與 AI 協作"
-          items={[evidence.authorship, evidence.aiAssistance, evidence.rights]}
-          tone="paper"
-        />
-      </div>
-
-      <div className="grid gap-4 lg:grid-cols-[0.62fr_0.38fr]">
-        <EvidenceList title="原始影片限制" items={evidence.limitations} />
+        <PublicList title="目前完成" items={evidence.completed} />
         <section className="paper-panel grid content-start gap-4 rounded-[var(--radius-md)] p-5">
-          <h3 className="zh-heading text-[clamp(1.2rem,2vw,1.65rem)]">下一步</h3>
-          <p className="zh-caption text-[var(--theme-inverse-text)] opacity-80">{evidence.nextStep}</p>
+          <h3 className="zh-heading text-[clamp(1.2rem,2vw,1.65rem)]">AI 協作與我的學習</h3>
+          <p className="zh-caption text-[var(--theme-inverse-text)] opacity-80">{evidence.authorshipNote}</p>
+        </section>
+        <section className="soft-panel grid content-start gap-4 rounded-[var(--radius-md)] p-5">
+          <h3 className="zh-heading text-[clamp(1.2rem,2vw,1.65rem)]">回顧與下一步</h3>
+          <p className="zh-caption text-[color:var(--theme-muted)]">{evidence.nextStep}</p>
         </section>
       </div>
+
+      <details className="soft-panel rounded-[var(--radius-md)] p-5">
+        <summary className="interactive-link zh-label cursor-pointer text-[var(--theme-accent)]">版本說明</summary>
+        <p className="zh-caption mt-4 text-[color:var(--theme-muted)]">{evidence.versionNote}</p>
+      </details>
     </div>
   );
 }
 
 function WorkEvidenceCard({ work }) {
+  const metadata = [
+    { label: "創作目的", value: work.purpose },
+    { label: "個人角色", value: work.roles?.join("／") },
+    { label: "使用工具", value: work.tools?.length ? work.tools.join("／") : "" },
+  ].filter((item) => item.value);
+
   return (
-    <article className="portfolio-card grid gap-8 rounded-[var(--radius-lg)] p-6 md:p-8">
+    <article className="portfolio-card grid gap-8 rounded-[var(--radius-lg)] p-6 md:p-8" aria-labelledby={`${work.id}-title`}>
       <header className="grid gap-4 md:grid-cols-[0.32fr_0.68fr] md:gap-10">
         <div className="grid content-start gap-3">
           <p className="meta-label text-[var(--theme-accent)]">{work.type}</p>
@@ -158,41 +165,53 @@ function WorkEvidenceCard({ work }) {
           {work.context ? <p className="zh-caption text-[color:var(--theme-muted)]">{work.context}</p> : null}
         </div>
         <div className="grid gap-4">
-          <h3 className="zh-heading text-[clamp(1.7rem,4vw,3.5rem)]">{work.title}</h3>
+          <h3 id={`${work.id}-title`} className="zh-heading text-[clamp(1.7rem,4vw,3.5rem)]">{work.title}</h3>
           <p className="zh-copy-wide text-[color:var(--theme-muted)]">{work.summary}</p>
         </div>
       </header>
 
-      <dl className="grid gap-4 border-y border-[color:var(--theme-line)] py-5 sm:grid-cols-2 lg:grid-cols-4">
-        <div>
-          <dt className="zh-label text-[var(--theme-accent)]">為什麼做</dt>
-          <dd className="zh-caption mt-2 text-[color:var(--theme-muted)]">{work.purpose}</dd>
+      {work.evidenceLinks?.length ? (
+        <div className="flex flex-wrap gap-3" aria-label={`${work.title}作品連結`}>
+          {work.evidenceLinks.map((link) => (
+            <a
+              key={link.href}
+              className="paper-panel interactive-link rounded-full px-5 py-3"
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${link.label}：${work.title}（在新分頁開啟）`}
+            >
+              <span className="zh-label">{link.label} ↗</span>
+            </a>
+          ))}
         </div>
-        <div>
-          <dt className="zh-label text-[var(--theme-accent)]">個人角色</dt>
-          <dd className="zh-caption mt-2 text-[color:var(--theme-muted)]">{work.roles.join("／")}</dd>
-        </div>
-        <div>
-          <dt className="zh-label text-[var(--theme-accent)]">使用工具</dt>
-          <dd className="zh-caption mt-2 text-[color:var(--theme-muted)]">{work.tools.length ? work.tools.join("／") : "原始紀錄未列出，不另行推測"}</dd>
-        </div>
-        <div>
-          <dt className="zh-label text-[var(--theme-accent)]">可核對材料</dt>
-          <dd className="zh-caption mt-2 text-[color:var(--theme-muted)]">
-            {work.evidenceLinks.length ? work.evidenceLinks.map((link) => link.label).join("／") : "本頁僅有申請者提供的作品事實，沒有公開媒體連結"}
-          </dd>
-        </div>
-      </dl>
+      ) : null}
+
+      {metadata.length ? (
+        <dl className={`grid gap-4 border-y border-[color:var(--theme-line)] py-5 ${metadata.length > 1 ? "sm:grid-cols-2 lg:grid-cols-3" : ""}`}>
+          {metadata.map((item) => (
+            <div key={item.label}>
+              <dt className="zh-label text-[var(--theme-accent)]">{item.label}</dt>
+              <dd className="zh-caption mt-2 text-[color:var(--theme-muted)]">{item.value}</dd>
+            </div>
+          ))}
+        </dl>
+      ) : null}
 
       <div className="grid gap-4 lg:grid-cols-2">
-        <EvidenceList title="目前支持的能力" items={work.whatThisProves} />
-        <EvidenceList title="目前不能延伸的主張" items={work.whatThisDoesNotProve} />
+        <PublicList title="這件作品呈現的能力" items={work.highlights} />
+        <section className="soft-panel grid content-start gap-4 rounded-[var(--radius-md)] p-5">
+          <h4 className="zh-heading text-[clamp(1.2rem,2vw,1.65rem)]">回顧與下一步</h4>
+          <p className="zh-caption text-[color:var(--theme-muted)]">{work.reflection}</p>
+        </section>
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-2">
-        <EvidenceList title="作者性與素材權利" items={[work.authorship, work.aiAssistance, work.rights]} tone="paper" />
-        <EvidenceList title="目前限制與下一步" items={[work.limitations, work.nextStep]} />
-      </div>
+      {work.materialsNote ? (
+        <section className="paper-panel grid gap-3 rounded-[var(--radius-md)] p-5" aria-labelledby={`${work.id}-materials-title`}>
+          <h4 id={`${work.id}-materials-title`} className="zh-heading text-[clamp(1.1rem,1.8vw,1.45rem)]">我的角色與素材說明</h4>
+          <p className="zh-caption text-[var(--theme-inverse-text)] opacity-80">{work.materialsNote}</p>
+        </section>
+      ) : null}
     </article>
   );
 }
@@ -206,18 +225,18 @@ export function RepresentativeWorksSection() {
       <SectionHeader
         eyebrow="代表作品"
         id="selected-work"
-        title="先看原創影音敘事，再看可核對案例與二次創作。"
-        lines={[["先看原創", "影音敘事，"], ["再看可核對案例與", "二次創作。"]]}
-        description="《畫本》是目前申請者提供的原創影音敘事代表作；因公開成片與權利紀錄尚未完成核對，本頁只呈現可確認的角色、工具與限制，不以其他素材冒充作品證據。"
+        title="從原創短劇出發，整理我的影音敘事與製作方法。"
+        lines={[["從原創", "短劇出發，"], ["整理我的", "影音敘事與"], ["製作方法。"]]}
+        description="《畫本》記錄我第一次從故事構思走到拍攝與剪輯的完整流程；後續案例則呈現資料敘事、學習設計與素材剪輯經驗。"
       />
 
       <WorkEvidenceCard work={huaben} />
 
-      <section className="grid gap-6" aria-labelledby="supporting-evidence-title">
+      <section className="grid gap-6" aria-labelledby="supporting-work-title">
         <div className="grid gap-3 md:grid-cols-[0.32fr_0.68fr] md:gap-10">
-          <h3 id="supporting-evidence-title" className="meta-label text-[var(--theme-accent)]">其他可核對案例</h3>
+          <h3 id="supporting-work-title" className="meta-label text-[var(--theme-accent)]">延伸案例</h3>
           <p className="zh-copy-wide text-[color:var(--theme-muted)]">
-            這些案例已有網站原始碼、公開媒體或受控方法敘事可查閱；它們不取代《畫本》的原創短劇角色，也不解除各案自己的驗證或權利限制。
+            從影音、資料敘事到學習介面，這些案例呈現我如何整理素材、安排閱讀順序，並把不同形式的內容轉成可理解的作品。
           </p>
         </div>
         <div className="grid gap-4 lg:grid-cols-3">
@@ -241,13 +260,13 @@ export function SecondaryCreationWorkSection() {
   return (
     <div className="mx-auto grid max-w-7xl gap-8">
       <header className="grid gap-4 md:grid-cols-[0.32fr_0.68fr] md:gap-10">
-        <p className="meta-label text-[var(--theme-accent)]">二次創作／後置案例</p>
+        <p className="meta-label text-[var(--theme-accent)]">二次創作／剪輯練習</p>
         <div className="grid gap-3">
           <h3 id="secondary-creation-title" className="zh-heading text-[clamp(1.7rem,4vw,3.5rem)]">
-            最後閱讀素材選擇與剪輯練習。
+            從既有素材練習取材、段落安排與聲畫節奏。
           </h3>
           <p className="zh-copy-wide text-[color:var(--theme-muted)]">
-            這件作品只用來說明媒體研究、素材篩選與剪輯判斷；第三方角色、動畫影像與音樂不列為本人原創成果。
+            這項課程練習讓我把注意力放在素材選擇、情緒連接與剪輯節奏，也開始建立整理素材來源的習慣。
           </p>
         </div>
       </header>
@@ -271,9 +290,9 @@ export function CollaborationSection() {
       <SectionHeader
         eyebrow="專案與合作"
         id="collaboration"
-        title="不以性格形容詞代替事件，改用三組行動證據。"
-        lines={[["不以性格形容詞", "代替事件，"], ["改用三組", "行動證據。"]]}
-        description="社團重整、畢業專題角色調整與工作經驗只用來支持組織、韌性與溝通能力，不取代聲音實作與研究證據。"
+        title="在不同任務裡整理系統、調整角色，也持續回應合作需要。"
+        lines={[["在不同任務裡", "整理系統，"], ["調整角色，", "持續回應"], ["合作需要。"]]}
+        description="社團重整、畢業專題與工作經驗，讓我練習把複雜任務拆開、清楚溝通限制，並在團隊需要時調整自己的位置。"
       />
       <div className="grid gap-4 lg:grid-cols-3">
         {collaborationEvidence.map((item, index) => (
@@ -281,8 +300,8 @@ export function CollaborationSection() {
             <p className="meta-label text-[var(--theme-accent)]">{String(index + 1).padStart(2, "0")}</p>
             <h3 className="zh-heading text-[clamp(1.4rem,2.4vw,2.2rem)]">{item.title}</h3>
             <ul className="grid gap-3">
-              {item.evidence.map((evidence) => (
-                <li key={evidence} className="zh-caption text-[color:var(--theme-muted)]">{evidence}</li>
+              {item.evidence.map((itemEvidence) => (
+                <li key={itemEvidence} className="zh-caption text-[color:var(--theme-muted)]">{itemEvidence}</li>
               ))}
             </ul>
           </article>
@@ -300,9 +319,9 @@ export function LearningRoadmapSection() {
       <SectionHeader
         eyebrow="學習路線"
         id="learning-roadmap"
-        title="把已有證據、正在學習與未來訓練分開。"
-        lines={[["把已有證據、", "正在學習與"], ["未來訓練分開。"]]}
-        description="軟體已安裝、曾看過教學或列入計畫，都不等於已形成作品；每個階段只放目前能支持的狀態。"
+        title="從可操作作品出發，逐步補足聲音工具與研究方法。"
+        lines={[["從可操作作品", "出發，"], ["逐步補足", "聲音工具與"], ["研究方法。"]]}
+        description="我把已完成的作品、正在練習的工具與研究所階段希望深入的方向分開整理，讓每一步都能接到下一次實作。"
       />
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {learningRoadmap.map((stage, index) => (
@@ -330,9 +349,9 @@ export function ContactSection() {
       <SectionHeader
         eyebrow="研究方向與連結"
         id="contact"
-        title="以可操作證據為起點，補足聲音方法，再推進混合監聽研究。"
-        lines={[["以可操作證據", "為起點，"], ["補足聲音方法，再推進", "混合監聽研究。"]]}
-        description="這份作品集不把我包裝成已完成訓練的聲音專家；它呈現我已做出的原型、正在建立的工具理解，以及能從數位學習與視覺溝通帶入研究的工作方法。"
+        title="以可操作原型為起點，繼續走向聲音方法與混合監聽研究。"
+        lines={[["以可操作原型", "為起點，"], ["繼續走向", "聲音方法與"], ["混合監聽研究。"]]}
+        description="我希望把數位學習、視覺溝通與互動原型的經驗帶進研究訓練，逐步補足聲音製作、空間音訊與實驗設計方法。"
       />
 
       <div className="grid gap-4 md:grid-cols-2">
@@ -342,7 +361,7 @@ export function ContactSection() {
             className="portfolio-card interactive-link grid gap-4 rounded-[var(--radius-md)] p-6"
             href={link.href}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             <h3 className="zh-heading text-[clamp(1.3rem,2vw,1.9rem)]">{link.label}</h3>
             <p className="zh-caption text-[color:var(--theme-muted)]">{link.description}</p>
@@ -350,10 +369,6 @@ export function ContactSection() {
           </a>
         ))}
       </div>
-
-      <p className="zh-caption rounded-[var(--radius-md)] border border-[color:var(--theme-line)] p-5 text-[color:var(--theme-muted)]">
-        研究計畫全文目前保留在非公開工作區；本頁只呈現申請階段摘要，沒有建立未經發布決策確認的下載連結。
-      </p>
     </div>
   );
 }

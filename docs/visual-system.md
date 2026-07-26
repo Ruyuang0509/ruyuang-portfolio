@@ -1,8 +1,17 @@
 # Visual System Notes
 
-Updated: 2026-07-23
+Updated: 2026-07-26
 
-This site should feel like a calm, personal research portfolio, not a flashing demo reel. The document root stays warm ink; supporting case studies and the reviewer endpoint use section-scoped paper tokens, while a dedicated fixed viewport field carries the scroll-linked passage between the two states. PR #5 changed public copy, labels, ARIA text, and metadata only; it did not authorize removing or flattening the approved motion system.
+This site should feel like a calm, personal research portfolio, not a flashing demo reel. The document root stays warm ink; supporting case studies, collaboration, learning roadmap, AI／authorship and contact use section-scoped paper tokens, while a dedicated fixed viewport field carries the scroll-linked passage between dark and paper states. PR #5 changed public copy, labels, ARIA text and metadata; PR #6 added the 11-section admission IA, lazy evidence boundaries and Pure Data media. Neither change authorizes removing or flattening the approved motion system.
+
+## 2026-07-26 Theme Reading-Surface Update
+
+- `DataVisualizationSeries` keeps `theme-transition-source` only as the field trigger. All foreground copy, media and cards sit inside an opaque `.theme-reading-surface.theme-reading-surface--dark`, so text never inherits the mist or paper midpoint behind it.
+- `.theme-reading-surface--dark` owns the complete semantic token set: background, text, muted text, lines, control boundaries, accent, surfaces, panels and inverse colors. Component markup does not scatter hard-coded black／white fixes.
+- `useThemeInversion` applies one `THEME_ENDPOINT_THRESHOLD` through the central `applyThemeState` path. ScrollTrigger `onUpdate`／`onRefresh`, navigation chrome and the reduced endpoint therefore share the same dark／paper decision.
+- `App.jsx` observes `#main-content` with `ResizeObserver`; lazy sections or media that change document height trigger a bounded hash resettle instead of requiring a manual scroll nudge.
+- Browser checks covered 1440／1280／768／390／320, seven hash entry points and theme forward／reverse. System reduced-motion and the complete Tab／Enter flow remain unverified and must not be inferred from the shared endpoint implementation.
+- The 2026-07-26 working tree passed `doctor` and submission scanning but has not been committed, pushed or deployed; the 11-item Hamlet publication block remains unchanged.
 
 ## Tone Strategy
 
@@ -10,7 +19,7 @@ This site should feel like a calm, personal research portfolio, not a flashing d
 - Keep verified results, `notValidated` outcomes, rights／publication limits, and future plans distinct. A deployed or playable asset must never be described as rights-cleared without the required evidence and attestation.
 - Avoid pure black and pure white for major surfaces.
 - Default dark tone: warm ink, used for the proposal entrance and research framing.
-- Light tone: warm paper, scoped to the supporting gallery and reviewer endpoint rather than applied to the document root.
+- Light tone: warm paper, scoped to the supporting gallery, collaboration, learning roadmap, AI／authorship and contact rather than applied to the document root. The early reviewer path and research proposal remain on the dark reading surface.
 - Inverse elements use `--theme-inverse-bg` and `--theme-inverse-text`, not direct black/white.
 - The deep-ink-to-paper passage uses the text-free, `aria-hidden`, `pointer-events: none` `ViewportThemeTransition` fixed layer. It covers the viewport without adding layout height.
 - ScrollTrigger scrubs only that layer's paper/mist opacity and three low-contrast radial-field transforms. The natural bounds begin near `#data-visualization-series` bottom 70% and finish with `#project-index-title` top 25%; current DOM geometry then clamps the distance to 0.8–1.2 viewport heights. This keeps draft/submission layouts and resize recalculation consistent while fixed navigation chrome follows the same progress threshold.

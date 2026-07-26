@@ -46,6 +46,7 @@
   --theme-text: var(--color-text);
   --theme-muted: var(--color-muted);
   --theme-line: rgba(239, 233, 220, 0.14);
+  --theme-control-line: rgba(239, 233, 220, 0.4);
   --theme-accent: var(--color-accent);
   --theme-surface: rgba(239, 233, 220, 0.075);
   --theme-panel: rgba(239, 233, 220, 0.105);
@@ -58,8 +59,9 @@
 .nav-surface--paper {
   --theme-bg: #d8cfbd;
   --theme-text: #1a1711;
-  --theme-muted: rgba(26, 23, 17, 0.64);
+  --theme-muted: rgba(26, 23, 17, 0.68);
   --theme-line: rgba(26, 23, 17, 0.16);
+  --theme-control-line: rgba(26, 23, 17, 0.52);
   --theme-accent: #405016;
   --theme-surface: rgba(26, 23, 17, 0.055);
   --theme-panel: rgba(244, 236, 221, 0.56);
@@ -71,6 +73,32 @@
   color-scheme: light;
 }
 /* Codex-Fix: Paper tokens are section-scoped; the scroll trigger only applies the same endpoint to fixed navigation chrome. */
+
+.theme-reading-surface {
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--theme-line);
+  color: var(--theme-text);
+  background: var(--theme-bg);
+  box-shadow: var(--shadow-soft);
+}
+
+.theme-reading-surface--dark {
+  --theme-bg: #11100d;
+  --theme-text: #efe9dc;
+  --theme-muted: rgba(239, 233, 220, 0.72);
+  --theme-line: rgba(239, 233, 220, 0.16);
+  --theme-control-line: rgba(239, 233, 220, 0.4);
+  --theme-accent: #cbe86b;
+  --theme-surface: rgba(239, 233, 220, 0.075);
+  --theme-panel: rgba(239, 233, 220, 0.105);
+  --theme-inverse-bg: #d8cfbd;
+  --theme-inverse-text: #1a1711;
+  color-scheme: dark;
+}
+/* Codex-Fix: Keep narrative text on opaque semantic surfaces while the fixed mist field remains visible around the reading area. */
 
 * {
   box-sizing: border-box;
@@ -194,7 +222,7 @@ section {
 .nav-section-link--active {
   color: var(--theme-text);
   background: var(--theme-surface);
-  box-shadow: inset 0 0 0 1px var(--theme-line);
+  box-shadow: inset 0 0 0 1px var(--theme-control-line);
 }
 
 @media (min-width: 768px) {
@@ -265,11 +293,10 @@ section {
   background: radial-gradient(circle at 58% 82%, rgba(91, 87, 73, 0.52), transparent 48%);
 }
 
-html.theme-transition-ready .theme-transition-source,
-html.theme-transition-ready .supporting-case-studies {
+html.theme-transition-ready .theme-transition-source {
   background: transparent;
 }
-/* Codex-Fix: The dark-to-paper passage is now a fixed viewport field; only adjacent sections become transparent after ScrollTrigger is ready. */
+/* Codex-Fix: The fixed field remains visible around the dark reading surface; the paper project index stays opaque so ink never crosses the mist midpoint. */
 
 .portfolio-card,
 .evidence-panel,
@@ -485,6 +512,17 @@ html.theme-transition-ready .supporting-case-studies {
   text-wrap: balance;
 }
 /* Codex-Fix: Replace English poster-style uppercase/negative tracking with Chinese-friendly display rhythm. */
+
+.data-series-title {
+  max-inline-size: 100%;
+  overflow-wrap: normal;
+  word-break: normal;
+  font-size: clamp(2rem, 1.35rem + 3vw, 5.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.012em;
+  text-wrap: balance;
+}
+/* Codex-Fix: Keep the data-series title at two semantic phrase lines on desktop and inside the 320px reading surface. */
 
 .interactive-link {
   transition:
@@ -732,6 +770,11 @@ html.theme-transition-ready .supporting-case-studies {
   min-height: 2.75rem;
 }
 
+.case-cta:not(.cta-button) {
+  border-color: var(--theme-control-line);
+}
+/* Codex-Fix: Separate interactive control boundaries from intentionally subtle decorative dividers. */
+
 .case-prompt-template {
   overflow-wrap: break-word;
   white-space: pre-wrap;
@@ -778,6 +821,7 @@ html.theme-transition-ready .supporting-case-studies {
     --theme-text: #1a1711;
     --theme-muted: rgba(26, 23, 17, 0.7);
     --theme-line: rgba(26, 23, 17, 0.24);
+    --theme-control-line: rgba(26, 23, 17, 0.52);
     --theme-accent: #405016;
     --theme-surface: rgba(26, 23, 17, 0.04);
     --theme-panel: rgba(255, 255, 255, 0.42);

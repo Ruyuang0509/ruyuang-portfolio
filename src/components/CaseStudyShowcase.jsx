@@ -24,15 +24,6 @@ const diagramLabels = {
   informationArchitecture: "圖像說明",
 };
 
-const defaultCaseReadingAnchors = [
-  { key: "problem", label: "問題", title: "問題意識" },
-  { key: "process", label: "流程", title: "流程與系統" },
-  { key: "media", label: "媒體", title: "公開媒體" },
-  { key: "tools", label: "工具", title: "工具與角色" },
-  { key: "reflection", label: "反思", title: "接下來想做的事" },
-  { key: "themes", label: "連結", title: "與研究方向的關係" },
-];
-
 const hasSupportingMediaEvidence = (media = {}) => Boolean(
   media.visualDrafts?.length
   || media.screenshots?.length
@@ -41,43 +32,6 @@ const hasSupportingMediaEvidence = (media = {}) => Boolean(
   || media.demos?.length
   || media.restricted?.length,
 );
-
-const getCaseReadingAnchors = (project) => project.workflow
-  ? [
-      { key: "problem", label: "背景", title: "專案背景" },
-      { key: "workflow", label: "流程", title: "五階段工作流" },
-      { key: "prompt-system", label: "提示詞", title: "提示詞限制" },
-      { key: "storyboard", label: "分鏡", title: "實際八幕分鏡" },
-      { key: "outcomes", label: "成果", title: "目前成果" },
-      { key: "next-steps", label: "後續", title: "學到什麼與下一步" },
-    ]
-  : [
-      ...defaultCaseReadingAnchors.slice(0, 2),
-      ...(project.evidenceBoundary
-        ? [{ key: "evidence-boundary", label: "證據邊界", title: "可以證明與不能證明的事" }]
-        : []),
-      ...defaultCaseReadingAnchors.slice(2),
-    ].filter(
-      (anchor) => anchor.key !== "media" || hasSupportingMediaEvidence(project.media),
-    );
-// Codex-Fix: Give every case study a repeatable reviewer reading path instead of forcing long-scroll guessing.
-
-const countMediaEvidence = (media = {}) =>
-  [media.visualDrafts, media.screenshots, media.videos, media.audio, media.demos, media.restricted]
-    .reduce((total, items) => total + (items?.length ?? 0), 0);
-
-function getEvidenceSnapshot(project) {
-  return [
-    project.workflow?.stages?.length
-      ? { label: "流程階段", value: project.workflow.stages.length }
-      : { label: "圖像說明", value: project.diagrams?.length ?? 0 },
-    { label: "材料項目", value: countMediaEvidence(project.media) },
-    { label: "工具", value: project.tools?.length ?? 0 },
-    { label: "角色", value: project.roles?.length ?? 0 },
-    { label: "驗證狀態", value: project.testing?.statusKey === "validated" ? "已驗證" : project.testing?.statusKey === "exploratory" ? "探索中" : "尚待驗證" },
-  ];
-}
-// Codex-Fix: Summarize evidence density from public data so reviewers can scan credibility before deep reading.
 
 function ChipList({ items = [], accent = false, label = "標籤" }) {
   if (!items.length) return null;
@@ -342,39 +296,6 @@ function ProjectOverviewCard({ project, index }) {
     </motion.article>
   );
 }
-
-function ProjectReadingMap({ project }) {
-  const evidence = getEvidenceSnapshot(project);
-  const anchors = getCaseReadingAnchors(project);
-
-  return (
-    <aside className="case-reading-map soft-panel grid gap-6 rounded-[var(--radius-md)] p-5" aria-label={`${project.title} 閱讀路徑與內容快覽`}>
-      <div className="grid gap-3 md:grid-cols-[0.26fr_0.74fr] md:items-center">
-        <p className="meta-label text-[var(--theme-accent)]">案例閱讀順序</p>
-        <nav className="flex flex-wrap gap-2" aria-label={`${project.title} 案例章節`}>
-          {anchors.map((anchor) => (
-            <a
-              key={anchor.key}
-              className="case-reading-link interactive-link chip-text inline-flex items-center rounded-full border border-[color:var(--theme-line)] px-3.5 py-1.5 text-xs font-extrabold text-[color:var(--theme-muted)] hover:text-[var(--theme-text)]"
-              href={`#${project.id}-${anchor.key}`}
-            >
-              {anchor.label}
-            </a>
-          ))}
-        </nav>
-      </div>
-      <dl className="grid gap-3 sm:grid-cols-5">
-        {evidence.map((item) => (
-          <div key={item.label} className="rounded-[var(--radius-sm)] bg-[color:var(--theme-surface)] p-3">
-            <dt className="zh-label text-[var(--theme-accent)]">{item.label}</dt>
-            <dd className="zh-caption mt-1 font-extrabold text-[var(--theme-text)]">{item.value}</dd>
-          </div>
-        ))}
-      </dl>
-    </aside>
-  );
-}
-// Codex-Fix: Add a compact case-study map so long evidence pages remain navigable and admissions-friendly.
 
 function MetaGrid({ project }) {
   const rows = project.projectInfo?.length
@@ -772,7 +693,7 @@ function MediaLayerSection({ id, layers = [] }) {
             <h4 className="zh-heading text-[clamp(1.15rem,1.6vw,1.45rem)]">{layer.label}</h4>
             <p className="zh-caption text-[color:var(--theme-muted)]">{layer.role}</p>
             <div className="mt-auto border-t border-[color:var(--theme-line)] pt-3">
-              <p className="zh-label text-[var(--theme-accent)]">檢查點</p>
+              <p className="zh-label text-[var(--theme-accent)]">製作重點</p>
               <p className="zh-caption mt-2 text-[var(--theme-text)]">{layer.check}</p>
             </div>
           </li>
@@ -788,10 +709,10 @@ function DeliverablesSection({ id, deliverables = [] }) {
   return (
     <section id={id} className="case-anchor grid gap-8 border-t border-[color:var(--theme-line)] pt-8" aria-labelledby={`${id}-title`}>
       <div className="grid gap-4 md:grid-cols-[0.32fr_0.68fr] md:gap-12">
-        <p className="meta-label text-[var(--theme-accent)]">公開材料分類</p>
+        <p className="meta-label text-[var(--theme-accent)]">作品內容</p>
         <div className="grid gap-3">
-          <h3 id={`${id}-title`} className="zh-heading text-[clamp(1.55rem,3vw,2.8rem)]">哪些檔案已找到，哪些只是製作規格</h3>
-          <p className="zh-copy text-[color:var(--theme-muted)]">只有已找到並核對的檔案列為現有成果；其他項目會標明是流程產出或規格。</p>
+          <h3 id={`${id}-title`} className="zh-heading text-[clamp(1.55rem,3vw,2.8rem)]">這一版包含的成果與製作規格</h3>
+          <p className="zh-copy text-[color:var(--theme-muted)]">現有成果、由成片整理的流程內容與後續可延伸的製作規格，會以不同狀態呈現。</p>
         </div>
       </div>
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -800,39 +721,6 @@ function DeliverablesSection({ id, deliverables = [] }) {
             <p className="meta-label text-[var(--theme-accent)]">{item.status}</p>
             <h4 className="zh-heading text-[clamp(1.15rem,1.7vw,1.5rem)]">{item.title}</h4>
             <p className="zh-caption text-[color:var(--theme-muted)]">{item.description}</p>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function EvidenceBoundarySection({ id, boundary }) {
-  if (!boundary) return null;
-
-  const groupLabels = boundary.groupLabels ?? ["已核對的檔案", "專案原有規格", "尚未核對的項目"];
-  const groups = [
-    [groupLabels[0], boundary.verifiedArtifacts],
-    [groupLabels[1], boundary.approvedSpecifications],
-    [groupLabels[2], boundary.notIndependentlyVerified],
-  ];
-
-  return (
-    <section id={id} className="case-anchor evidence-panel grid gap-7 rounded-[var(--radius-lg)] p-6 md:p-8" aria-labelledby={`${id}-title`}>
-      <div className="grid gap-4 md:grid-cols-[0.32fr_0.68fr] md:gap-12">
-        <p className="meta-label text-[var(--theme-accent)]">核對範圍</p>
-        <h3 id={`${id}-title`} className="zh-heading text-[clamp(1.55rem,3vw,2.8rem)]">{boundary.title}</h3>
-      </div>
-      <div className="grid gap-4 md:grid-cols-3">
-        {groups.map(([title, items], index) => (
-          <article key={title} className="soft-panel rounded-[var(--radius-md)] p-5">
-            <p className="meta-label text-[var(--theme-accent)]">0{index + 1}</p>
-            <h4 className="zh-heading mt-3 text-[clamp(1.12rem,1.6vw,1.45rem)]">{title}</h4>
-            <ul className="mt-4 grid gap-3">
-              {items.map((item) => (
-                <li key={item} className="zh-caption border-t border-[color:var(--theme-line)] pt-3 text-[color:var(--theme-muted)]">{item}</li>
-              ))}
-            </ul>
           </article>
         ))}
       </div>
@@ -849,7 +737,7 @@ function OutcomesSection({ id, outcomes = [] }) {
         <p className="meta-label text-[var(--theme-accent)]">目前成果</p>
         <div className="grid gap-3">
           <h3 id={`${id}-title`} className="zh-heading text-[clamp(1.55rem,3vw,2.8rem)]">這一版實際完成了什麼</h3>
-          <p className="zh-copy text-[color:var(--theme-muted)]">以下只整理目前看得到的內容與流程，不替尚未進行的學習成效測試下結論。</p>
+          <p className="zh-copy text-[color:var(--theme-muted)]">以下整理已完成的內容與流程；學習觀察會在下一階段另外進行。</p>
         </div>
       </div>
       <div className="grid gap-4 md:grid-cols-3">
@@ -942,7 +830,7 @@ function StructuredProjectSections({ sections = [] }) {
           案例補充
         </h3>
         <p className="zh-copy text-[color:var(--theme-muted)]">
-          補充製作方法、公開限制與下一步。
+          補充製作方法、資料範圍與下一步。
         </p>
       </div>
       <div className="grid gap-4 md:grid-cols-2">
@@ -1278,7 +1166,7 @@ function DemoEmbedCard({ demo }) {
         </a>
       ) : (
         <span className="chip-text mt-5 inline-flex rounded-full border border-[color:var(--theme-line)] px-5 py-3 text-sm font-extrabold text-[color:var(--theme-muted)]">
-          Demo 位置已預留
+          目前提供案例與操作說明
         </span>
       )}
     </div>
@@ -1306,7 +1194,7 @@ function RestrictedMediaEvidence({ items = [] }) {
 
   return (
     <section className="grid gap-4">
-      <h4 className="meta-label text-[var(--theme-accent)]">不公開資料</h4>
+      <h4 className="meta-label text-[var(--theme-accent)]">資料使用範圍</h4>
       <div className="grid gap-4 md:grid-cols-2">
         {items.map((item) => (
           <article key={item.title} className="rounded-[var(--radius-md)] border border-[color:var(--theme-line)] bg-[color:var(--theme-surface)] p-5">
@@ -1314,7 +1202,7 @@ function RestrictedMediaEvidence({ items = [] }) {
             <p className="zh-label mt-3 text-[var(--theme-accent)]">{item.status}</p>
             <p className="zh-caption mt-3 text-[color:var(--theme-muted)]">{item.caption}</p>
             <p className="zh-caption mt-3 rounded-[var(--radius-sm)] bg-[color:var(--color-surface)] p-3 text-[color:var(--theme-muted)]">
-              公開限制：{item.reason}
+              使用方式：{item.reason}
             </p>
           </article>
         ))}
@@ -1423,7 +1311,7 @@ function ReflectionPanel({ id, reflection }) {
 
   const items = [
     ["做得好的地方", reflection.strengths],
-    ["限制", reflection.limitations],
+    ["我會調整的地方", reflection.limitations],
     ["接下來想做的事", reflection.graduateDirection],
   ];
 
@@ -1450,7 +1338,7 @@ function InstituteConnection({ project }) {
     },
     {
       status: "researchDirection",
-      label: "尚未實作的方向",
+      label: "想延伸的方向",
       items: project.instituteConnections
         .filter((theme) => project.themeEvidenceStatus?.[theme] === "researchDirection")
         .map((theme) => ({ theme, rationale: project.themeRationales?.[theme] })),
@@ -1468,7 +1356,7 @@ function InstituteConnection({ project }) {
           <ChipList
             items={group.items.map((item) => item.theme)}
             accent={group.status === "demonstrated"}
-            label={`${project.title} 的${group.status === "demonstrated" ? "已做內容" : "尚未實作方向"}`}
+            label={`${project.title} 的${group.status === "demonstrated" ? "已做內容" : "延伸方向"}`}
           />
           <dl className="grid gap-3 md:grid-cols-2">
             {group.items.map(({ theme, rationale }) => (
@@ -1509,9 +1397,10 @@ function ProjectLinksCredits({ project }) {
                     className="interactive-link font-black underline decoration-[var(--theme-accent)] decoration-2 underline-offset-4"
                     href={link.href}
                     target={isExternal ? "_blank" : undefined}
-                    rel={isExternal ? "noreferrer" : undefined}
+                    rel={isExternal ? "noopener noreferrer" : undefined}
+                    aria-label={isExternal ? `${link.label}（另開新視窗）` : undefined}
                   >
-                    {link.label}
+                    {link.label}{isExternal ? <span aria-hidden="true"> ↗</span> : null}
                   </a>
                 </li>
               );
@@ -1521,7 +1410,7 @@ function ProjectLinksCredits({ project }) {
       ) : null}
       <div className="grid gap-4">
         <h3 className="meta-label text-[var(--theme-accent)]">
-          角色與註記
+          我的角色與素材說明
         </h3>
         <p className="zh-caption text-[color:var(--theme-muted)]">
           {project.credits}
@@ -1567,7 +1456,6 @@ function ProjectDetail({ project, previousProject, nextProject }) {
         </header>
 
         <FeaturedMedia id={`${project.id}-featured-media`} project={project} />
-        <ProjectReadingMap project={project} />
         <PortfolioDraftLayer projectId={project.id} />
         <NarrativeBlock id={`${project.id}-problem`} title={project.challenge ? "專案背景" : "問題意識"}>{project.problemAwareness}</NarrativeBlock>
         <ChallengePanel id={`${project.id}-challenge`} challenge={project.challenge} />
@@ -1598,7 +1486,6 @@ function ProjectDetail({ project, previousProject, nextProject }) {
         <FeaturedExample id={`${project.id}-featured-example`} example={project.featuredExample} />
         <MediaLayerSection id={`${project.id}-media-layers`} layers={project.mediaLayers} />
         <DeliverablesSection id={`${project.id}-deliverables`} deliverables={project.deliverables} />
-        <EvidenceBoundarySection id={`${project.id}-evidence-boundary`} boundary={project.evidenceBoundary} />
         <OutcomesSection id={`${project.id}-outcomes`} outcomes={project.outcomes} />
         <EvaluationPlanSection id={`${project.id}-evaluation-plan`} plan={project.evaluationPlan} />
         <DiagramGallery id={`${project.id}-process`} diagrams={project.diagrams} />
@@ -1661,7 +1548,7 @@ export default function CaseStudyShowcase({ scope = "all", showIndex = true }) {
                   <EditorialHeading as="h2" id="project-index-title" className="gallery-title editorial-heading zh-display" lines={[["作品", "索引"]]}>作品索引</EditorialHeading>
                 </div>
                 <div className="grid gap-5">
-                  <p className="zh-lead text-[color:var(--theme-muted)]">這裡收錄聲響原型、AI 文學影片與兩件資料作品。每個案例都分開寫明我的角色、使用方法、目前成果與限制。</p>
+                  <p className="zh-lead text-[color:var(--theme-muted)]">這裡收錄聲響原型、AI 文學影片與兩件資料作品。每個案例都整理我的角色、使用方法、製作成果與後續方向。</p>
                   <PortfolioDraftLayer placement="overview" />
                 </div>
               </div>

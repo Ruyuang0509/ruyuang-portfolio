@@ -97,6 +97,7 @@ if (packageJson) {
   "src/components/AdmissionEvidenceSections.jsx",
   "src/components/ResearchPositioning.jsx",
   "src/data/admission-evidence.js",
+  "src/data/admission-evidence.audit.js",
   "src/data/portfolio.js",
   "docs/admission/ADMISSION_RESTRUCTURE_PLAN.md",
   "docs/admission/COPY_AND_CLAIMS_AUDIT.md",

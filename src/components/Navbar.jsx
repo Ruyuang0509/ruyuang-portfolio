@@ -54,7 +54,7 @@ const getActiveNavTarget = (targetId) => {
       : "#selected-work";
   }
   if (target?.id === "project-index" || target?.closest("#project-index")) return "#selected-work";
-  if (target?.closest("#data-visualization-series")) return "#selected-work";
+  if (target?.closest("#selected-work")) return "#selected-work";
   if (target?.id === "research-proposal" || target?.closest("#research-positioning")) return "#research-positioning";
   return null;
 };

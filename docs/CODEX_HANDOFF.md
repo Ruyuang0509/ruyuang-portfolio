@@ -1,8 +1,18 @@
 # Current State
 
-## 2026-07-24 11 段申請 IA 與 Pure Data 證據同步（本機自動驗證完成；互動式 Browser 未執行）
+## 2026-07-26 公開展示版整備
 
-- 本節描述目前共享工作樹的 source 與最終本機自動驗證狀態；下方 Admission Evidence Pass 的舊 bundle、`dist/` 與 browser 數字保留為改版前歷史快照，不能取代本節的現行結果。
+- 本節是目前 working tree 的最新交接；2026-07-25 與更早段落保留為已部署版本／歷史驗證，不可取代本節的 source、bundle 與 Browser 結果。本輪尚未發布、commit、push 或建立 PR。
+- `src/data/admission-evidence.js` 已收斂為公開作品敘事；完整證據狀態、驗證限制、作者性、AI 協作、權利、limitations 與 evidence requests 以 stable ID 移到 `src/data/admission-evidence.audit.js`。公開元件只 import public data，Draft layer 才讀 audit records；validator 同時核對兩層 ID／schema，但公開施工字串規則不套到 audit records。這是 submission bundle 邊界，不代表 public Repository 內的 audit source 是私密資料。
+- `DataVisualizationSeries` 的背景轉場來源仍保留，但所有標題、摘要、卡片與說明現在位於不透明 `theme-reading-surface--dark`；mist／paper fixed field 只在閱讀面周圍可見，避免任何中間進度出現淺底淺字。`useThemeInversion` 以單一 theme endpoint threshold 同步 ScrollTrigger `onUpdate`／`onRefresh`、reduced endpoint 與 navigation surface。
+- `App.jsx` 對 `#main-content` 加入 `ResizeObserver`，lazy admission sections 或媒體尺寸改變時會重新執行受控 hash settle；`portfolio:deferred-ready` 與使用者中斷保護仍保留。這修正直接 deep link 在延後內容展開後落點漂移的問題。
+- Fresh `pnpm run doctor` exit 0；scanner fixtures 72/72，submission output 132 files／25 text files，67 個 text rules／7 個 inventory rules。Submission build 為 467 modules，initial JS gzip 191397 B、entry 148553 B、CSS 44122 B。
+- Current submission preview 已在 1440／1280／768／390／320 寬度與 7 個 hash 入口重驗；資料視覺化閱讀面、theme forward／reverse、deep-link settle、Web Audio 操作及 Pure Data 影片控制均有 Browser 紀錄。System reduced-motion 與完整 Tab／Enter 鍵盤巡覽尚未完成，因此只能保留 source-level fallback，不得列為 rendered pass。
+- `pnpm run check:publication` 仍為預期 exit 1，11 個 Hamlet rights／applicant attestation blockers 完整保留。這輪沒有修改權利狀態、Repository visibility、deploy workflow 或已部署 Pages。
+
+## 2026-07-25 11 段申請 IA、PR #6 部署與文件再打包
+
+- 本節描述目前 source、fresh 自動驗證、submission production preview、Git／PR、Pages 與 production HTTP；下方 Admission Evidence Pass 的舊 bundle、`dist/` 與 browser 數字保留為改版前歷史快照，不能取代本節的現行結果。
 - 高階閱讀順序已接為：`#top` Hero → `#sound-transition` 問題意識 → `#reviewer-path` 證據導覽 → `#interactive-sound-learning` Web Audio → `#pure-data-learning` Pure Data → `#research-positioning` 研究構想 → `#selected-work` 代表作品 → `#collaboration` 專案與合作 → `#learning-roadmap` 學習路線 → `#ai-workflow` AI／作者性 → `#contact` 研究方向與連結。`#selected-work` 內依序放《畫本》、既有資料視覺化與支持案例、最後才是指定 MV；這些細節不另列為高階申請路徑。
 - `#research-proposal` 保留為 `#research-positioning` 內的向後相容 alias；Navbar 使用問題意識、Web Audio、Pure Data、研究構想、代表作品、學習路線六個高階入口，`public/llms.txt` 則列出完整 11 個錨點。
 - Hero 現為「116學年度研究所申請作品集｜聲響、互動與數位學習」，並以「現就讀／預計 2026 年畢業」描述申請者狀態；不可沿用下方歷史快照中的「2026 年畢業於」敘述，除非申請者另行確認。
@@ -11,8 +21,10 @@
 - `#selected-work` 的內部順序固定為《畫本》→ 其他可驗證作品（AI 文學故事 MV、資料視覺化、Power BI）→《希望有羽毛和翅膀》個人 MV 混剪。《畫本》與個人 MV 的文字型新案例已存在，但目前只有申請者提供的角色／情境文字，沒有公開成片或可逐項核對連結；不得把參賽寫成得獎，也不得把第三方角色、影像或音樂寫成原創。
 - `#research-positioning` 只呈現申請階段的混合監聽構想，分開問題、初步配置、可帶入能力與入學後補強；沒有已完成多聲道系統、聲學量測、心理聲學結果或指導教授認可。`#ai-workflow` 仍分開 AI 協助、申請者決策與尚需補強，不把 AI 生成 Patch 或程式完整度等同作者熟練度。
 - `#contact` 只公開目前作品集與 public GitHub Repository。私人研究工作區內確有研究計畫 DOCX，但尚未形成核准的公開審閱版；其中的文獻、設備、樣本、預算、倫理與 metadata 仍需逐項核對，因此目前沒有公開下載，也不得把私人檔案存在誤寫成可公開或已驗證。Metadata 已改為 `蕭智仁｜聲響、互動與數位學習作品集`，canonical／Open Graph URL 為 `https://ruyuang0509.github.io/ruyuang-portfolio/`。
-- 本輪最終本機自動驗證為：`pnpm run doctor` exit 0；scanner fixtures 57/57、inventory rules 7；draft build 470 modules、submission build 467 modules；fresh `dist/` 132 files／25 text files、`public/` 118 files，public→dist 0 missing／0 hash mismatch。`pnpm run check:publication` exit 1，仍有 11 個 Hamlet rights／attestation blockers。
-- 互動式 in-app Browser 已嘗試，但本機連線隔離使 Browser 無法連線，即使 shell 端 localhost HTTP 回 200 也不能建立互動工作階段。因此四個要求 viewport，以及 anchor／focus、Web Audio、Pure Data video、reduced-motion、horizontal overflow 與 console 檢查均未能執行；本輪不得把任何一項列為通過。
+- 本輪 fresh 自動驗證為：`pnpm install --frozen-lockfile` 與 `pnpm run doctor` exit 0；scanner fixtures 57/57、text／inventory rules 54／7；draft build 470 modules、submission build 467 modules；draft initial JS gzip 198914 B／entry 173631 B，submission 192733 B／152769 B，CSS 43138 B，lazy 3D closure 638680 raw／169383 gzip B；fresh `dist/` 132 files／25 text files、`public/` 118 files，public→dist 0 missing／0 hash mismatch。`pnpm run check:publication` exit 1，仍有 11 個 Hamlet rights／attestation blockers。
+- Current submission production preview 已在 1280／375／320 px 渲染；74 個站內 hash links 0 missing、135 個 IDs 0 duplicate、320／375 0 horizontal overflow。行動 menu Escape／trigger focus、Pure Data／`#research-proposal` alias／`#contact` fresh deep links、Pure Data／Hamlet video metadata與 console 0 warning／error已確認。Web Audio 發聲、system reduced-motion、Save-Data、失敗媒體、screen reader、實機及完整四 viewport matrix仍未執行。
+- Git／Pages：HEAD／remote branch 為 `e0e30b2`，`main`／`origin/main` 為 PR #6 squash merge `e8f35e0`；tree identical、lineage 1／1。PR #1–#6 均 merged。Pages run `30087568225`、build job `89463242126`、deploy job `89463660241` 均 success；Pages API public／`built`／HTTPS enforced。正式首頁、entry／CSS、三個 admission lazy chunks、Pure Data／Hamlet 媒體、`llms.txt` 與 social preview均 HTTP 200。
+- Admission source、`docs/admission/*` 與 Pd binaries 已進 public `main`，不再是只在本機的未提交材料。這次文件打包只更新 Markdown，不修改應用 source、styles、media、workflow、dependencies 或 runtime。
 
 ## 歷史快照 — 2026-07-24 Admission Evidence Pass
 
@@ -21,7 +33,7 @@
 - 實體順序為研究定位 → Web Audio 可操作證據 → Pure Data／REAPER 學習軌跡 → 代表作品 → 混合監聽與視覺化校準研究構想 → 補充能力脈絡 → AI／作者性 → 送審閱讀出口。新增 `#research-proposal`；既有案例 ID、R3F、GSAP／Lenis、Custom Cursor、聲音 lifecycle、樣式與媒體未移除。
 - Web Audio 已補 9 階段 signal flow、`可操作原型／尚待驗證` 與「可證明／申請者與 AI 分工／不能證明」邊界。Pure Data 只記錄 2026/07/24 開始、AI 曾協助現有 Patch、正逆向拆解；REAPER 只記錄已安裝、尚未系統練習。
 - 當時 Repository／history 沒有可核對的《畫本》、MV remix、`.pd`、`.rpp` 或可歸屬聲音輸出，因此該輪採「不新增案例」決策。這項歷史決策已被較新的申請者事實與選件決策取代：目前《畫本》與個人 MV 的文字型案例已存在，但公開成片、逐項 credit／rights 與原始聲音工程檔仍未提供。
-- GitHub Repository 已唯讀確認為 public。Submission alias 只控制 bundle，不能讓 tracked hidden／internal／prompt 原始碼變私密；`docs/admission/*` 目前只在本機 working tree，若未來 commit／push 也會落入 public Git 邊界。
+- GitHub Repository 已唯讀確認為 public。Submission alias 只控制 bundle，不能讓 tracked hidden／internal／prompt 原始碼變私密；`docs/admission/*` 當時只在本機 working tree，後來已由 PR #6 commit／push 並進入 public Git 邊界。
 - Hamlet publication gate 保留；本輪沒有改 visibility、rewrite history、停止 Pages、完成 attestation、commit、push、PR 或 deploy。
 - 當時工作樹的 `pnpm run doctor` exit 0：workspace、media、text、CJK、evidence、5 件 content、18/18 sound、draft build、51/51 scanner fixtures、submission build、54 text／6 inventory rules與 Pages audit 均通過。當時 draft 為 469 modules、initial JS 200294 gzip B、entry 182055 B、CSS 43775 B；submission 為 466 modules、initial JS 194092 gzip B、entry 161193 B、CSS 43775 B；lazy 3D closure 638680 raw／169383 gzip B。
 - 第一個 draft build 曾因 entry 191880 B 超過 184320 B 預算而 exit 1；未提高預算，改把研究構想與 AI／作者性各自拆成 lazy chunk，加入永久 anchor wrapper、deferred fragment settle 與 section error boundary 後，以上 final gate 通過。
@@ -93,11 +105,11 @@
 - 375px 實際 404 模擬：移開 built MP4 後保留 Poster、直接連結、8 幕 Storyboard、8 cue 逐字稿與 0 overflow；移開 Scene 01 六個 responsive files 後卡片仍高 556 px，時間碼與跳轉控制保留。English VTT 的 4180 media cache 未重新觸發 error event，因此 subtitle-error UI 沒有被冒充為已模擬通過；正常兩軌與 transcript fallback 已驗證。
 
 - **Repository：** canonical local workspace 為 `C:\Users\911su\Documents\Codex\如願個人網站`；`origin` 為 `https://github.com/Ruyuang0509/ruyuang-portfolio.git`。
-- **Base branch：** `main`，本機與 `origin/main` 於 2026-07-23 均指向 `695b520`。
-- **Working branch：** `codex/public-copy-rewrite`，本機 HEAD 與同名遠端分支均為 `61ea9d8`。
-- **Last verified commit：** `61ea9d8` 與 `695b520` 的 tree 相同；目前 branch 與 main 的 commit history 各自有 6／1 個獨有 commits，內容差異為 0。這是 PR merge history，不應用一般 ahead／behind 數字誤判為內容落後。
-- **Git／PR status：** PR #1–#5 均已 merged；PR #5 於 2026-07-19 合併為 `695b520`。開始 2026-07-23 文件更新前 `git status --porcelain` 為空；本輪只產生 docs 修改，沒有 stage、commit、push、merge、deploy 或 runtime 變更。
-- **Current site status：** 已知 hidden asset、built construction wording、scanner 假陰性、metadata drift、hidden completeness 假警告與 Three 超大 lazy chunk 均已在本機 closure。`generative-interface-study` 是 AI 文學故事 MV，含 40 秒影片、雙語字幕、八幕實際畫面、事後衍生且未用於成片的 Prompt Template，以及 planned evaluation；維持 `notValidated`。GitHub Pages 已部署新版第一人稱文案且技術上可達；正式使用者研究、權利簽核、輔具／實機、canonical／custom domain 與 production field evidence 仍未完成。
+- **Base branch：** `main`，本機與 `origin/main` 於 2026-07-25 均指向 `e8f35e0`。
+- **Working branch：** `codex/public-copy-rewrite`，本機 HEAD 與同名遠端分支均為 `e0e30b2`。
+- **Last verified tree：** `e0e30b2` 與 `e8f35e0` tree identical；目前 branch 與 main 的 commit history各有 1 個獨有 commit，內容差異為 0。這是 PR #6 squash history，不應以一般 ahead／behind 數字誤判為未合併內容。
+- **Git／PR status：** PR #1–#6 均已 merged；PR #6 於 2026-07-24 合併為 `e8f35e0`。本輪文件更新前 `git status --porcelain` 為空；本輪只產生 docs 修改，沒有 stage、commit、push、merge、deploy 或 runtime 變更。
+- **Current site status：** 已知 hidden asset、built construction wording、scanner 假陰性、metadata drift、hidden completeness 假警告與 Three 超大 lazy chunk 均已 closure。`generative-interface-study` 是 AI 文學故事 MV，含 40 秒影片、雙語字幕、八幕實際畫面、事後衍生且未用於成片的 Prompt Template，以及 planned evaluation；維持 `notValidated`。GitHub Pages 已部署 11 段 IA與 Pure Data evidence；canonical 已指向 Pages。正式使用者研究、權利簽核、輔具／實機、custom domain 與 production field evidence 仍未完成。
 
 # Documentation Package Refresh
 
@@ -109,6 +121,7 @@
 - 2026-07-16 文件包整理本身未修改 runtime；2026-07-17 closure sprint 的實作變更另列於下方。
 - 2026-07-18 再次打包修正 Git／PR／Actions／Pages 舊快照、36 個 scanner tests 的文件漂移，補上完整動效保存分類與公開部署／rights gate 的 P0 差距；仍只修改 Markdown。
 - 2026-07-23 再次同步 PR #5 公開文案、Git／Pages 現況、fresh build budgets 與 publication gate；將較早 Lighthouse 明確降為歷史證據，仍只修改 Markdown。
+- 2026-07-25 再次同步 PR #6、current deployment／production HTTP、fresh build budgets、有限 Browser matrix、admission public boundary與 publication gate；修正 6 個 shared lazy exports、現行 source-of-truth 分工及過期的未部署敘述，仍只修改 Markdown。
 
 # Completed This Round
 
@@ -150,7 +163,9 @@
 
 ## Commands and results
 
-- **2026-07-24 11 段 IA 最終本機驗證：** `pnpm run doctor` exit 0；scanner fixtures 57/57、inventory rules 7；draft build 470 modules、submission build 467 modules；fresh `dist/` 132 files／25 text files、`public/` 118 files，public→dist 0 missing／0 hash mismatch。`pnpm run check:publication` exit 1，列出 11 個 Hamlet rights／attestation blockers。互動式 in-app Browser 雖已嘗試，但受本機連線隔離阻擋；shell 端 localhost HTTP 200 不等於 Browser 可連線。四個要求 viewport 與 anchor／focus、Web Audio、Pure Data video、reduced-motion、horizontal overflow、console 均未執行，沒有本輪 browser pass。
+- **2026-07-25 current 驗證：** `pnpm install --frozen-lockfile` 與 `pnpm run doctor` exit 0；scanner fixtures 57/57、text／inventory rules 54／7；draft／submission 470／467 modules；submission initial JS gzip／entry／CSS 192733／152769／43138 B；fresh `dist` 132 files／25 text files、`public` 118 files，0 missing／mismatch。Current Browser在 1280／375／320 驗證 74 hash links 0 missing、135 IDs 0 duplicate、320／375 0 overflow、menu Escape／還焦、三個 fresh deep links、video metadata與 console 0 issue。`check:publication` exit 1、11 blockers；Web Audio發聲、reduced-motion、Save-Data、失敗媒體、screen reader、實機與完整四 viewport仍未執行。
+
+### 2026-07-23 以前的命令與 Browser lineage（歷史）
 
 - **2026-07-17 全畫面漸變／折疊動畫重驗：** `pnpm run doctor` exit 0；workspace、media、text、CJK、evidence、5 件 content validation、18/18 sound tests、draft/submission builds、36/36 scanner fixtures、48 個 text rules、6 個 inventory rules與 Pages audit 全部通過。Submission 為 463 modules、initial JS 193157 gzip B、entry 157531 B、CSS 43103 B，lazy 3D closure 維持 638232 raw／169223 gzip B。In-app Browser 在 1440×900 與 375×812 驗證 fixed viewport、可停留／可逆 scroll scrub、兩向 details animation、Enter／Space、mobile menu Escape／focus restore、0 horizontal overflow 與 0 console warning／error。`pnpm run audit:lighthouse` exit 0；archive `2026-07-17T10-53-04-160Z`，mobile 94／100、LCP 2632 ms、TBT 56 ms，desktop 100／100、LCP 548 ms、TBT 0 ms，兩者 CLS 0。
 
@@ -180,7 +195,7 @@
 
 ## Browser viewports
 
-- **目前 11 段 IA 並無可用的互動式 Browser 驗證。** In-app Browser 因本機連線隔離無法連線；shell 端 localhost HTTP 200 只證明 shell 可達。四個要求 viewport，以及 anchor／focus、Web Audio、Pure Data video、reduced-motion、horizontal overflow 與 console 均未執行。以下所有 viewport 結果只屬較早 fingerprint 的歷史證據，不得引用為本輪通過。
+- **目前 11 段 IA 已有有限 Browser 驗證。** Current evidence涵蓋 1280／375／320 基本渲染、hash／ID、320／375 overflow、行動 menu Escape／還焦、三個 fresh deep links、Pure Data／Hamlet metadata與 console；完整 768／1024／1440、desktop keyboard、Web Audio發聲、影片實播／fallback、reduced-motion、Save-Data、screen reader與實機仍待補。以下較早 viewport結果只屬各自歷史 fingerprint，不得擴張為 current完整通過。
 
 - AI 文學故事 MV 最終 submission preview 以 320×812、375×812、768×900、1024×900、1440×900 實測；五組實際 `innerWidth` 與要求一致，global horizontal overflow 皆為 0，案例內 broken image 皆為 0。
 - 五組皆渲染 5 個 workflow 階段、4 張 Prompt 決策卡、8 幕 storyboard 與 3 張成果卡；三個 header CTA 目標存在，320 px 最小 CTA 高度實測 44 px。
@@ -247,18 +262,18 @@
 - 補一個可公開的 Pure Data 或 REAPER 最小 artifact。
 - 以 NVDA／VoiceOver、真實 200% zoom、system reduced-motion、iOS／Android 與多瀏覽器 Web Audio 做人工矩陣。
 - 人工核對 YouTube captions／transcript；決定履歷、聯絡資料，以及私人研究計畫 DOCX 的核對、公開審閱版與公開範圍。
-- 決定目前 GitHub Pages 是否繼續作為正式入口；補 canonical／custom domain 與 production URL 的人工驗收。PR #1–#5 已合併；後續實作另開新的 `codex/` branch／PR，不重複使用已合併 PR。
+- 決定目前 GitHub Pages 是否繼續作為正式入口；canonical 已使用 Pages URL，仍需 custom domain 與 production URL 的人工／裝置驗收。PR #1–#6 已合併；後續實作另開新的 `codex/` branch／PR，不重複使用已合併 PR #6。
 
 ## P2
 
 - Fresh build 支持目前 638680 raw／169383 gzip B 的延後 3D closure，且沒有單一 chunk 超過 500000 B；Lighthouse archive 因公開文案 fingerprint 已改變而只作歷史比較。仍需重跑現行 Lighthouse、低階 Android／iOS、Save-Data、耗電／GPU 與目前 Pages URL 的真機／field evidence，才能決定是否進一步簡化。
 - 若未來加入正式 browser test runner，補 React controls、Escape、IntersectionObserver 與 live-region 自動測試；AudioContext controller lifecycle 已有 13 個 Node tests。
 - 評估加入不含部署權限的 PR-only Windows CI，使 `pnpm run doctor` 在 merge 前執行；目前完整 gate 位於合併後的 deploy workflow。
-- 目前 hosting 已是 GitHub Pages；仍需補 canonical URL、1200×630 raster social preview、custom domain／privacy 決策。
+- 目前 hosting 已是 GitHub Pages，canonical 已使用該 project URL；仍需補 1200×630 raster social preview、custom domain／privacy 決策。
 
 ## Risks and blockers
 
-- Git repository、remote branch、PR #1–#5、最新成功 Actions run 與 production Pages 均已確認；主要 blocker 是 publication gate 未串接、權利未簽核及缺少 production field／人工驗收。
+- Git repository、remote branch、PR #1–#6、latest成功 Actions run與 production Pages均已確認；主要 blocker 是 publication gate 未串接、權利未簽核及缺少 production field／完整人工驗收。
 - Scanner 已攔截目前已知 text／inventory regressions，但仍以獨立 `dist/` 搜尋避免循環自證；新 leak 類型需要新增 rule 與 fixture。
 - 2026-07-17 runtime 對應的 Lighthouse archive 已封存；PR #5 已改動 Hero 文案與 source fingerprint，因此目前只能作歷史比較，不能沿用為新版文案的 current-fingerprint 證據。
 - 真實使用者研究、聲音作品與授權資料不在 repository，工程端不能代填。
@@ -292,4 +307,4 @@ git log --oneline --decorate --graph --all -n 15
 
 # Next Codex Starting Instruction
 
-先讀 `AGENTS.md`、`README.md`、`docs/CODEX_HANDOFF.md`、`docs/PORTFOLIO_AUDIT.md`、`docs/CONTENT_MATRIX.md`，重新確認 working branch／`origin`、PR／Actions／Pages 與 publication gate，再執行 `pnpm run doctor` 及預期失敗的 `pnpm run check:publication`。最高優先是處理「Hamlet rights 未核准但 Pages 已公開」；這需要 stakeholder 決定完成 attestation 或暫停／移除公開資產，不可由 AI 代簽。保留 Vite／React 架構、draft/submission 邊界、可見平台 scrollbar、無 autoplay 與完整 motion preservation contract；若進行實作，先由 `main` 建立新的 `codex/` working branch／PR，不直接修改或 push `main`、不 force push、不重複使用已合併 PR #5。
+先讀 `AGENTS.md`、`README.md`、`docs/CODEX_HANDOFF.md`、`docs/PORTFOLIO_AUDIT.md`、`docs/CONTENT_MATRIX.md` 與 5 份 `docs/admission/*` 文件，重新確認 working branch／`origin`、PR／Actions／Pages 與 publication gate，再執行 `pnpm run doctor` 及預期失敗的 `pnpm run check:publication`。最高優先是處理「Hamlet rights 未核准但 Pages 已公開」；這需要 stakeholder 決定完成 attestation 或暫停／移除公開資產，不可由 AI 代簽。保留 Vite／React 架構、draft/submission 邊界、可見平台 scrollbar、無 autoplay 與完整 motion preservation contract；若進行實作，先由 `main` 建立新的 `codex/` working branch／PR，不直接修改或 push `main`、不 force push、不重複使用已合併 PR #6。
