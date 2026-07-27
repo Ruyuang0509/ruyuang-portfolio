@@ -879,6 +879,7 @@ export const projectCaseStudies = [
   {
     id: "learning-dashboard-analysis",
     slug: "learning-dashboard-analysis",
+    layoutVariant: "learning-dashboard-v2",
     title: "線上學習互動行為與學科成績之資料視覺化分析",
     titleLines: [["線上學習", "互動行為與"], ["學科成績之", "資料視覺化"], ["分析"]],
     year: "2026",
@@ -903,13 +904,13 @@ export const projectCaseStudies = [
     indexTags: ["Power BI", "學習分析", "資料倫理"],
     summary:
       "以 Power BI 整理互動紀錄、影片觀看欄位與學科成績，做成供探索資料分布的儀表板。圖表呈現關聯線索，後續仍需透過資料品質檢查與正式分析回答研究問題。",
-    valueProposition: "概念圖旁標出欄位計數方式與閱讀提醒，讓讀者先理解圖表再解讀形狀。",
-    whatThisProves: "完成初步資料整理、Power BI 儀表板、圖表定義與閱讀說明；網站以概念圖呈現，不放原始資料、真實數值或實作檔。",
+    valueProposition: "將欄位計數方式與閱讀提醒放進同一判讀脈絡，讓讀者先理解圖表再解讀形狀。",
+    whatThisProves: "完成初步資料整理、Power BI 儀表板、圖表定義與閱讀說明；網站以文字呈現方法與判讀邊界，不放原始資料、真實數值或實作檔。",
     designGoal: "讓教師或研究者先查看資料分布，再將值得追問的現象交給資料品質檢查與正式分析。",
     designProcess:
       "先盤點欄位與缺漏，再用 Power Query 整理資料，在 Power BI 建立模型、度量、圖表與篩選器，最後記下計算方式與下一步需要確認的欄位定義。",
     technologyAndMedia:
-      "使用 Excel 與 Power Query 整理欄位，在 Power BI Desktop 建立模型、DAX 度量、圖表與篩選器。DAX 是 Power BI 的計算公式語言。公開頁只放概念圖，不含真實數值。",
+      "使用 Excel 與 Power Query 整理欄位，在 Power BI Desktop 建立模型、DAX 度量、圖表與篩選器。DAX 是 Power BI 的計算公式語言。公開頁以文字說明分析方法、互動邏輯與判讀邊界，不載入真實儀表板或分析數值。",
     outcomeShowcase:
       "公開頁只說明儀表板的閱讀順序、資料處理步驟與圖表定義。圓環圖計算 sn 欄位的筆數，不把欄位值相加；觀看相關直條圖只比較不同數學成績分群中的非空紀錄筆數。",
     trackIds: ["edtech-digital-content", "user-research-outcomes-process", "interactive-media-ux"],
@@ -922,50 +923,10 @@ export const projectCaseStudies = [
     problemAwareness:
       "線上學習平台留下互動、影片與成績資料，但欄位名稱、計算方式與缺漏如果沒有說清楚，圖表很容易被誤讀為因果或學習成效結論。",
     audience: "這個儀表板預設供課程教師、數位學習研究者與教學助理探索資料分布；正式研究分析會再加入資料品質檢查、統計方法與研究設計。",
-    diagrams: [
-      {
-        type: "interactionFlow",
-        title: "儀表板版面概念",
-        caption: "這張圖只示意卡片與圖表的位置，不是操作流程圖，也不含真實資料。",
-        description: "實際探索順序由文字說明；這張配圖只呈現卡片與圖表的版面關係。",
-        image: svgAsset("work-02-dashboard-public", 1280, 720, "Power BI 儀表板版面概念圖，以卡片、圓環圖與長條圖區塊呈現。"),
-      },
-      {
-        type: "systemArchitecture",
-        title: "資料使用範圍",
-        caption: "這張版面概念圖聚焦介面結構；資料處理步驟由文字說明，原始資料、Power BI 實作檔與真實數值不會放入網站。",
-        description: "資料整理流程由文字說明，配圖只呈現儀表板的介面結構。",
-        image: svgAsset("work-02-dashboard-public", 1280, 720, "Power BI 儀表板版面概念圖，不含原始資料或資料處理流程。"),
-      },
-      {
-        type: "informationArchitecture",
-        title: "圓環圖計算提醒",
-        caption: "圓環圖計算欄位筆數；公開概念圖不呈現真實比例或分析結果。",
-        description: "現有資料不足以在公開頁解釋 sn 的實際意義，因此只保留計數方式。",
-        image: svgAsset("work-02-donut-public", 900, 900, "圓環圖概念示意，提醒讀者計算欄位筆數；不含真實比例。"),
-      },
-    ],
+    diagrams: [],
     media: {
-      visualDrafts: [
-        svgEvidence(
-          "work-02-dashboard-public",
-          "公開版儀表板概念圖",
-          "只用卡片與圖表區塊說明儀表板結構，不含原始資料、真實數值或分析結果。",
-          "Power BI 儀表板版面示意，以卡片與圖表區塊呈現。",
-          1280,
-          720,
-        ),
-      ],
-      screenshots: [
-        svgEvidence(
-          "work-02-donut-public",
-          "圓環圖計算方式",
-          "圓環圖計算 sn 欄位的筆數，不把欄位值相加；公開圖中的比例只是版面示意。",
-          "圓環圖概念圖，提醒讀者這裡計算的是欄位筆數。",
-          900,
-          900,
-        ),
-      ],
+      visualDrafts: [],
+      screenshots: [],
       videos: [],
       audio: [],
       demos: [],
@@ -973,10 +934,154 @@ export const projectCaseStudies = [
         {
           title: "課堂資料與原始儀表板",
           status: "課程使用範圍",
-          caption: "網站只以概念圖說明結構，不載入或連結原始資料、清洗檔、Power BI 實作檔與真實分析結果。",
-          reason: "教材說明將資料限定於課堂教學與練習，因此網站只呈現方法與介面概念。",
+          caption: "網站只以文字說明分析方法與判讀邊界，不載入或連結原始資料、清洗檔、Power BI 實作檔與真實分析結果。",
+          reason: "教材說明將資料限定於課堂教學與練習，因此網站只呈現方法與介面判讀。",
         },
       ],
+    },
+    learningDashboardCase: {
+      questions: [
+        "線上學習互動行為如何分布？",
+        "互動行為與學科成績之間是否呈現可觀察差異？",
+        "年級篩選如何改變資料判讀？",
+      ],
+      methodBoundary:
+        "本案例為探索性資料視覺化，不將互動次數與學科成績之間的關聯直接解釋為因果關係。",
+      dataSource: {
+        title: "2025 年教育大數據微學程教學用開放資料第二版",
+        description: "分析範圍包含互動、影片觀看與學科成績三類資料；欄位定義以目前專案紀錄可核對的範圍為準。",
+      },
+      fieldGroups: [
+        {
+          label: "互動紀錄",
+          description: "觀察行為與互動指標分布。",
+        },
+        {
+          label: "影片觀看紀錄",
+          description: "比較非空紀錄，不等同觀看時數。",
+        },
+        {
+          label: "學科成績",
+          description: "用於分群與散佈比較。",
+        },
+        {
+          label: "計數基礎",
+          description: "圓環圖以 sn 計數，不是序號加總。",
+        },
+      ],
+      process: {
+        steps: [
+          {
+            title: "原始資料",
+            tool: "Excel",
+          },
+          {
+            title: "欄位檢查",
+            tool: "Excel / Power BI",
+          },
+          {
+            title: "去識別化與公開邊界",
+            tool: "資料治理",
+          },
+          {
+            title: "格式與缺漏處理",
+            tool: "Power Query",
+          },
+          {
+            title: "計算欄位建立",
+            tool: "DAX / 欄位設定",
+          },
+          {
+            title: "Power BI 資料模型",
+            tool: "Power BI Desktop",
+          },
+          {
+            title: "圖表與互動設計",
+            tool: "Power BI Desktop",
+          },
+        ],
+      },
+      overview: {
+        regions: [
+          "篩選狀態",
+          "互動分布",
+          "成績比較",
+          "觀看分群",
+          "限制提示",
+        ],
+      },
+      charts: [
+        {
+          title: "互動指標與學科成績",
+          question: "互動指標與成績的分布是否不同？",
+          rationale: "保留兩個變項的相對位置。",
+          observation: "比較分散、集中與群聚。",
+          limitation: "不能認定互動造成成績差異。",
+        },
+        {
+          title: "互動類型的紀錄分布",
+          question: "不同互動類型占多少紀錄比重？",
+          rationale: "查看部分與整體關係。",
+          observation: "比較 sn 計數與篩選後變化。",
+          limitation: "不是序號加總、唯一人數或成效。",
+        },
+        {
+          title: "不同數學成績分群的學習者／紀錄數",
+          question: "不同成績分群的非空紀錄如何比較？",
+          rationale: "便於比較離散分群。",
+          observation: "觀察相對筆數差異。",
+          limitation: "不是觀看時數，也不證明成績影響。",
+        },
+      ],
+      interaction: {
+        features: [
+          {
+            title: "年級篩選",
+            description: "切換範圍後重新確認圖表。",
+          },
+          {
+            title: "圖表聯動",
+            description: "其他圖表同步回應選取內容。",
+          },
+          {
+            title: "滑鼠提示",
+            description: "補充資料點或類別脈絡。",
+          },
+          {
+            title: "教學呈現",
+            description: "依篩選、圖表與限制帶領閱讀。",
+          },
+        ],
+      },
+      ethics: [
+        {
+          title: "資料限制",
+          description: "清洗規則與部分度量仍需獨立核對，資料品質限制應納入後續驗證。",
+        },
+        {
+          title: "分析限制",
+          description: "非空紀錄不是觀看時數；視覺關聯不等於因果。",
+        },
+        {
+          title: "公開與倫理",
+          description: "資料依教材之課堂教學與練習範圍使用。公開頁僅呈現分析方法、互動邏輯與圖表判讀邊界；原始資料、學習者資訊、完整分析檔與含真實結果的媒體不對外公開。",
+        },
+      ],
+      reflection: {
+        title: "讓視覺化承擔分析，而不是只裝飾圖表",
+        description: "圖表必須讓問題、計算、互動與推論邊界彼此對齊。",
+        principles: [
+          "資料視覺化不等同裝飾圖表。",
+          "相關關係不等於因果關係。",
+          "資料字典、計算定義與測試讓判讀可追溯。",
+        ],
+        nextSteps: [
+          "建立資料字典與清洗紀錄。",
+          "核對計算欄位與度量命名。",
+          "測試篩選、聯動、提示與限制。",
+          "延伸教學決策、聲響化或數位孿生研究。",
+        ],
+      },
     },
     extendedSections: [
       {
@@ -990,7 +1095,7 @@ export const projectCaseStudies = [
       },
       {
         title: "02｜資料使用範圍",
-        summary: "網站用概念圖說明方法與介面，不呈現課堂資料或真實分析結果。",
+        summary: "網站以文字說明方法與判讀邊界，不呈現課堂資料或真實分析結果。",
         paragraphs: [
           "原始資料、清洗檔、Power BI 實作檔與含真實結果的操作紀錄，會依教材的課堂使用範圍保存與檢視。",
         ],
@@ -1014,13 +1119,13 @@ export const projectCaseStudies = [
         { label: "目前成果", value: "探索型儀表板" },
         { label: "閱讀原則", value: "不把關聯當作因果" },
       ],
-      insights: ["概念圖把計算方式與閱讀提醒放在圖像旁，讓讀者先理解資料範圍再看圖形。"],
+      insights: ["案例將計算方式與閱讀提醒放進圖表判讀文字，讓讀者先理解資料範圍再看圖形。"],
       learningOutcomes: [],
       plannedMethods: ["先核對欄位與度量，再設計形成性任務，觀察使用者能否正確讀圖並說明資料範圍。"],
     },
     reflection: {
-      strengths: "已完成初步資料整理、互動儀表板與公開版說明，也將計算方式、資料範圍與閱讀提醒放在圖表旁。",
-      limitations: "下一步會先核對部分度量與清洗規則；網站則持續以不含真實結果的概念圖說明方法。",
+      strengths: "已完成初步資料整理、互動儀表板與公開版說明，也將計算方式、資料範圍與閱讀提醒放進圖表判讀脈絡。",
+      limitations: "下一步會先核對部分度量與清洗規則；網站則持續以不含真實結果的文字敘事說明方法。",
       graduateDirection:
         "若繼續研究，我會先完成資料品質與度量檢查，再測試教師能否正確解讀儀表板。數位孿生、AI 回饋與資料聲響化都尚未實作。",
     },

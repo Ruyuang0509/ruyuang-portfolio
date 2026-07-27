@@ -95,6 +95,9 @@ flowchart LR
   F --> G["portfolio.js public case / homepage data"]
   G -. lazy .-> T["ProjectIndexGrid / ResponsiveImage"]
   G -. lazy .-> U["CaseProcessSection / productionWorkflow"]
+  F --> V["CaseStudyShowcase"]
+  G --> V
+  V -. lazy .-> W["LearningDashboardProjectDetail + case CSS"]
   F --> O["admission-evidence.js / public Pd + works + roadmap"]
   O -. stable IDs .-> S["admission-evidence.audit.js / Draft audit records"]
   F --> P["admission-research.js / research proposal"]
@@ -108,7 +111,7 @@ flowchart LR
   L --> M["Web Audio graph"]
 ```
 
-`main.jsx` 註冊 ScrollTrigger，透過 `RootErrorBoundary` 將 `App` 掛到 `#root`。內容無 server render；案例、首頁敘事、索引欄位與資料案例 `productionWorkflow` 由 `portfolio.js` 提供，Pure Data／代表作品／合作／學習路線／公開連結的 public narrative 由 `admission-evidence.js` 提供。完整 evidence／validation／rights／limitations／requests 由 `admission-evidence.audit.js` 依 stable ID 對齊，且只在 Draft panel mount 後以 dynamic `import()` 載入；submission alias 會把 Draft layer 移出 module graph。研究構想與 AI／作者性分別由 `admission-research.js`、`ai-workflow.js` 提供。沒有 context/store 或 network state。
+`main.jsx` 註冊 ScrollTrigger，透過 `RootErrorBoundary` 將 `App` 掛到 `#root`。內容無 server render；案例、首頁敘事、索引欄位與資料案例 `productionWorkflow` 由 `portfolio.js` 提供，並透過 props 傳給 renderer。一般案例沿用共用 renderer；`learning-dashboard-analysis` 由資料中的 `layoutVariant` 選入 lazy 專屬 renderer。Pure Data／代表作品／合作／學習路線／公開連結的 public narrative 由 `admission-evidence.js` 提供。完整 evidence／validation／rights／limitations／requests 由 `admission-evidence.audit.js` 依 stable ID 對齊，且只在 Draft panel mount 後以 dynamic `import()` 載入；submission alias 會把 Draft layer 移出 module graph。研究構想與 AI／作者性分別由 `admission-research.js`、`ai-workflow.js` 提供。沒有 context/store 或 network state。
 
 ## 頁面與元件責任
 
@@ -121,10 +124,12 @@ flowchart LR
 - [`../../src/components/ResearchPositioning.jsx`](../../src/components/ResearchPositioning.jsx)：預設輸出 `SoundTransitionSection`，具名匯出 `ReviewerPathSection`；前者呈現轉向聲音的三步問題意識，後者提供六條證據閱讀路徑。此檔目前沒有 `ResearchEvidenceContext`。
 - [`../../src/components/ResearchProposalSection.jsx`](../../src/components/ResearchProposalSection.jsx)：呈現問題、初步構想、申請者可帶入能力、入學後需補強四層研究定位，以及五步預定流程、預期貢獻與不可省略的申請階段聲明。
 - [`../../src/components/AdmissionEvidenceSections.jsx`](../../src/components/AdmissionEvidenceSections.jsx)：只依賴 public admission module，輸出 Pure Data 學習紀錄、代表作品、secondary creation、專案與合作、四階段學習路線及研究方向／連結共 6 個 exports；Pure Data `<video>` 具 poster、metadata preload、文字觀看指南與失敗 fallback。
-- [`../../src/components/CaseStudyShowcase.jsx`](../../src/components/CaseStudyShowcase.jsx)：作品索引標頭、長篇案例、16:9／多字幕影片、媒體／字幕錯誤 fallback、具輸入與人工檢查的 workflow、Prompt 決策、storyboard、媒體分層、證據分類、testing、credits 與 lazy flagship demo；將正式索引交給 lazy `ProjectIndexGrid`，將圖解／`productionWorkflow` 交給 lazy `CaseProcessSection`。Prompt Template、圖解長描述與雙語逐字稿使用共用 `AnimatedDetails`，支持作品沿用局部暖紙 tokens，案例本所連結分開 demonstrated 與 research direction。
+- [`../../src/components/CaseStudyShowcase.jsx`](../../src/components/CaseStudyShowcase.jsx)：作品索引標頭、長篇案例、16:9／多字幕影片、媒體／字幕錯誤 fallback、具輸入與人工檢查的 workflow、Prompt 決策、storyboard、媒體分層、證據分類、testing、credits 與 lazy flagship demo；將正式索引交給 lazy `ProjectIndexGrid`，將圖解／`productionWorkflow` 交給 lazy `CaseProcessSection`。Prompt Template、圖解長描述與雙語逐字稿使用共用 `AnimatedDetails`，支持作品沿用局部暖紙 tokens，案例本所連結分開 demonstrated 與 research direction。當 `layoutVariant === "learning-dashboard-v2"` 且專屬資料存在時，以 `Suspense` lazy 分派到 Power BI 案例 renderer；fallback 本身保留案例 id，使初始 hash 在 chunk 載入期間仍有合法目標。
 - [`../../src/components/ProjectIndexGrid.jsx`](../../src/components/ProjectIndexGrid.jsx)：首屏以下 lazy 載入的 2×2／單欄正式作品索引；使用 `index*` 欄位、16:10 media、靜態標籤、真實成果 anchors 與克制 Motion hover。
 - [`../../src/components/ResponsiveImage.jsx`](../../src/components/ResponsiveImage.jsx)：索引 chunk 共用的 `<picture>/<img>`、AVIF/WebP、固定 dimensions、async／lazy 與可讀錯誤 fallback。
 - [`../../src/components/CaseProcessSection.jsx`](../../src/components/CaseProcessSection.jsx)：lazy 載入共用圖解與四階段 `productionWorkflow`；後者以 `ol > li` 保留閱讀順序，圖解長描述仍使用共用 `AnimatedDetails`。
+- [`../../src/components/LearningDashboardProjectDetail.jsx`](../../src/components/LearningDashboardProjectDetail.jsx)：只渲染 `learning-dashboard-analysis` 的九章 IA、3／3／1 欄閱讀路徑、問題／資料／流程／概覽／圖表／互動／倫理／反思與前後案例導覽；Hero、流程、概覽與互動使用正式分析敘事，公開／隱私限制集中第 08 節。Mount 時若現有 hash 指向案例或其子章，會重送 `portfolio:hash-navigation`，完成 lazy fallback 到實際內容的定位接力。
+- [`../../src/components/LearningDashboardProjectDetail.css`](../../src/components/LearningDashboardProjectDetail.css)：case-scoped 1240px shell、1024px 以上 12 欄、以下單欄，以及各區塊的 5/7、7/5、8/4 span；共用 theme tokens、surface 與繁中 classes，不改其他案例 CSS。
 - [`../../src/components/SoundInteractionPrototype.jsx`](../../src/components/SoundInteractionPrototype.jsx)：具圖像語意的 pointer pad、touch／四個 range input、readout、節流 live announcement、聲音生命週期、mapping 說明。
 - [`../../src/hooks/useWebAudioEngine.js`](../../src/hooks/useWebAudioEngine.js)：React state、StrictMode-safe controller lifecycle 與 `visibilitychange` 即時清理。
 - [`../../src/audio/webAudioEngineCore.js`](../../src/audio/webAudioEngineCore.js)：可注入／可測試的 AudioContext controller，負責 resume cancel／timeout、graph、release、context interruption、參數與 destroy。
@@ -176,6 +181,8 @@ Hidden case 使用空 media state；原有 13 個 `ph-after-*`／`mv-soft-*` pla
 
 Tailwind utility 負責局部 grid/spacing；[`../../src/styles.css`](../../src/styles.css) 負責語意 tokens、繁中排版、mobile menu、surface、focus、sound pad、disclosure、fixed viewport field、reduced-motion 與 print。Document root 與 foreground tokens 保持穩定；`.paper-surface` 將暖紙 tokens 用於支持作品 gallery、研究構想、補充研究脈絡、AI／作者性與頁尾快速導覽，`.theme-reading-surface--dark` 則為資料視覺化標題、摘要、媒體與卡片提供完整不透明深色 tokens，避免前景直接疊在 mist／paper 中間幀。`useLenisGsap` 讓 Lenis 與 GSAP 共用 ticker，並在 `portfolio:layout-change` 時以 rAF 合併 Lenis resize 與 ScrollTrigger refresh。`useThemeInversion` 以 central `applyThemeState` 讓 `onUpdate`／`onRefresh`、normal／reduced callbacks 共用 endpoint threshold，同步 fixed field、navigation 與 root endpoint data；ScrollTrigger 仍只動畫固定 field 子層的 opacity／transform，不修改內容 palette。`App` 另以 `ResizeObserver` 監看 `#main-content`，lazy 高度改變時重新排程受限次數的 fragment settle。
 
+Power BI 專屬 CSS 與 lazy JSX 位於同一 case component 邊界。九章 shell 使用 77.5rem（1240px）上限；`min-width: 64rem` 才啟用 12 欄，以下維持單欄。閱讀路徑在預設為 1 欄，640px 與 1024px 以上均為 3 欄，使九項形成完整 9×1 或 3×3；所有 grid child 明確 `min-width: 0`，避免長繁中、英文工具名與 metadata 撐破欄位。
+
 Navbar 改用較不透明的 theme-aware 背景，不再使用固定 `backdrop-blur-2xl`。Hero canvas 與 magnetic targets 都不保留永久 `will-change`；案例圖片／影片只在 fine-pointer hover 或 focus-within 時暫時晉升。Reduced motion 將 fixed field 改為同一邊界的離散 dark／paper endpoint，AnimatedDetails 與行動選單立即開關；print 隱藏 field、展開 disclosure，並把主要 section、`.theme-reading-surface` 與 dark variant 重設為 paper-safe tokens、visible overflow與無 shadow。
 
 動效延續以 [`../../AGENTS.md`](../../AGENTS.md) 的 preservation contract 為架構約束：Hero line-mask、fixed viewport theme field 與深層連結 settle 屬 narrative guidance；menu、disclosure、card、sound feedback 與 active navigation 屬 interaction feedback；R3F、custom cursor 與色場屬 atmosphere／authorship。這三類預設保留。若效能有疑慮，先縮小 paint area、改用 transform／opacity、延後或降低啟用頻率、提供 mobile／low-power／reduced-motion 回退；只有 profiling 證明實質問題時才移除，並在 handoff 記錄證據與替代互動。
@@ -185,7 +192,7 @@ Navbar 改用較不透明的 theme-aware 背景，不再使用固定 `backdrop-b
 - `public/` 靜態資產原樣提供；案例圖使用 AVIF/WebP `srcset` 與固定 dimensions。Web Audio 三張策略圖輸出 561／1122 AVIF/WebP；索引圖由 `prepare-featured-work-media.py` 驗證提供來源 SHA-256、裁成 16:10、去 metadata，輸出 400／640／1200 AVIF/WebP。Hamlet 索引沿用 manifest 已追蹤的實際 poster；兩件資料案例使用只重用既有安全 SVG 的 16:10 wrapper，Power BI 真實結果與含第三方品牌的拼貼不進 public。
 - Hamlet clean MP4 使用外掛英文／繁中 WebVTT，renderer 不自動播放並以同頁逐字稿補足；根目錄 `.gitattributes` 強制 `*.vtt` 使用 LF，讓 Windows checkout 仍維持 manifest 已驗證的 bytes／SHA-256。任何放入 public 的檔案都應視為可公開，即使 submission React tree 沒有引用；技術完整性與 HTTP 可達性都不能取代 rights clearance。
 - Pure Data 操作 MP4 與 PNG poster 也位於 `public/media/portfolio/`；2026-07-26 submission audit 比對當時 118 個 `public/` files 並得到 0 missing／0 SHA-256 mismatch。新增策略圖與索引 derivatives 後必須重跑 inventory；舊結果只證明當時複製完整，也不會清除 Pure Data 畫面中的本機路徑或 `validated` 字樣。
-- R3F 與 Web Audio UI 都以 `React.lazy` 分 chunk；Three 不進 initial modulepreload。Hero section 作為 R3F `eventSource`，pointer 以 section 的 `clientX/Y` 換算；離開 preload window 後改為 `frameloop="demand"`。
+- R3F、Web Audio UI 與 Power BI 專屬案例 renderer 都以 `React.lazy` 分 chunk；專屬 case CSS 隨其 renderer 載入。Three 不進 initial modulepreload。Hero section 作為 R3F `eventSource`，pointer 以 section 的 `clientX/Y` 換算；離開 preload window 後改為 `frameloop="demand"`。
 - Vite manual chunks：`react`、`three-core`、`motion`、`scroll`、`vendor`；R3F 自然留在 lazy `HeroScene`，避免強制打包整個 Three namespace。
 - 2026-07-26 draft build 基線為 471 modules、initial JS gzip 200889 B、entry 180733 B、CSS 44315 B；submission 為 467 modules、initial JS gzip 192936 B、entry 153704 B、CSS 44315 B。Submission output 為 132 files／25 text files。
 - `audit-build-budgets.mjs` 以 attribute-order-independent HTML 解析和 built import closure 計算 initial／lazy 成本，並逐檔限制 500000 raw B。這些舊 build 數字不是 2026-07-27 組合、Lighthouse 或 production field performance。

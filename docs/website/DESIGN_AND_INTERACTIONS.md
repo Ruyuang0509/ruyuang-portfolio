@@ -1,5 +1,14 @@
 # 視覺、互動、響應式與可及性
 
+## 2026-07-28 Power BI 案例專屬版面
+
+- `learning-dashboard-analysis` 保留既有暖紙／墨字、酸綠重點、圓角、surface、繁中 classes、focus 與 motion；新增的是 case-scoped 版面與資訊層級，不是全站 redesign。
+- 專屬 renderer 以 1240px shell 與 12 欄網格處理 Hero 5/7、流程 7/5、概覽 8/4 等大區塊；1024px 以下全部單欄，避免舊版正文偏左、空白欄殘留與卡片錯位。
+- 九章 reading map 在 1024+／640–1023／<640 為 3／3／1 欄，九項完整形成 3×3 或 9×1；章節內含 3 張問題卡、7 個流程步驟、3 張圖表判讀卡、4 項互動功能、3 張倫理卡與 4 項後續改善。
+- Hero 第二欄、流程、儀表板概覽與互動區改為儀表板閱讀、三層分析、五區閱讀與四節點操作敘事。專屬案例維持 text-only，受限 Power BI／Excel、截圖與操作媒體不載入；公開與隱私限制只在第 08 節集中出現。
+- Lazy fallback 保留 case id，專屬 component mount 後重送現有 hash；冷啟動案例根 anchor 與 `-charts` 深層 anchor 均能在 lazy 內容完成後定位。
+- 此重構沒有移除或改寫既有 motion。Submission 1440／1280／1024／768／390px 已驗證 document／article overflow、out-of-bounds、text overflow 均為 0，console error／warning 為 0。
+
 ## 2026-07-27 最新響應式檢查
 
 - 1440×1000：作品索引 4 卡為 2×2，各約 875×611 px；資料視覺化流程為 4 欄，各約 301×209 px。
