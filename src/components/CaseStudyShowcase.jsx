@@ -10,6 +10,7 @@ import PortfolioDraftLayer from "#portfolio-draft";
 import AnimatedDetails from "./AnimatedDetails.jsx";
 
 const SoundInteractionPrototype = lazy(() => import("./SoundInteractionPrototype.jsx"));
+const LazyLearningDashboardProjectDetail = lazy(() => import("./LearningDashboardProjectDetail.jsx"));
 
 const cardSpring = {
   type: "spring",
@@ -1531,6 +1532,28 @@ function ProjectLinksCredits({ project }) {
 }
 
 function ProjectDetail({ project, previousProject, nextProject }) {
+  if (project.layoutVariant === "learning-dashboard-v2" && project.learningDashboardCase) {
+    return (
+      <Suspense
+        fallback={(
+          <article
+            id={project.id}
+            className="case-study-detail scroll-mt-28 px-[clamp(1.25rem,5vw,5rem)] py-24"
+            aria-label={`${project.title} 案例內容載入中`}
+          >
+            <p className="zh-caption text-[color:var(--theme-muted)]">案例內容載入中。</p>
+          </article>
+        )}
+      >
+        <LazyLearningDashboardProjectDetail
+          project={project}
+          previousProject={previousProject}
+          nextProject={nextProject}
+        />
+      </Suspense>
+    );
+  }
+
   return (
     <article
       id={project.id}

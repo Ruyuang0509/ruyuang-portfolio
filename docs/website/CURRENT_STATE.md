@@ -1,5 +1,14 @@
 # 目前產品與資訊架構
 
+## 2026-07-28 Power BI 案例專屬資訊架構
+
+- `learning-dashboard-analysis` 由 `layoutVariant: "learning-dashboard-v2"` 分派到 lazy `LearningDashboardProjectDetail`；其 CSS 與 renderer 都限定於此案例，沒有改寫其他案例、全站 theme 或 motion。
+- 專屬案例依九章閱讀：專案摘要、分析問題、資料來源與欄位、資料處理與分析流程、完整儀表板概覽、各圖表設計與判讀、年級篩選與互動操作、資料倫理與分析限制、反思與後續改善。
+- 版面上限 1240px，1024px 以上使用 12 欄，低於 1024px 單欄；九章導覽在 1024+／640–1023／<640 為 3／3／1 欄，九項完整形成 3×3 或 9×1。內容為 3 問題、7 流程、3 圖表判讀、4 互動功能、3 倫理卡與 4 後續步驟。
+- 專屬內頁以 text-only 正式分析敘事呈現：Hero 是儀表板閱讀框架，流程是三層分析結構，概覽是五區閱讀順序，互動是四節點操作序列。受限 Power BI／Excel、截圖、數值與操作媒體仍不載入 public／dist；公開與隱私限制集中在第 08 節。
+- Lazy fallback 保留案例 id，專屬 component mount 後重送目前 hash；冷啟動 `#learning-dashboard-analysis` 與 `#learning-dashboard-analysis-charts` 均可在內容載入後重新定位。
+- Submission 1440／1280／1024／768／390px 已實測：document／article overflow、out-of-bounds、text overflow 均為 0，console error／warning 為 0。
+
 ## 2026-07-27 Web Audio 視覺策略卡片
 
 - 旗艦 Web Audio 案例的三張概念圖已定稿為 N1 互動原型、N2 聲響主題、N3 介面風格，卡片使用正式「視覺策略」標籤與公開文案，不再把視覺方向誤標為流程圖、系統架構圖或資訊架構圖。
@@ -83,7 +92,7 @@ flowchart TD
 | `#project-index` / `#gallery` | 4 件公開案例總覽 | 入口前無額外空白 bridge；固定 viewport 場域由上一深色區底部 85% scrub 至標題頂部 15%，內容沿用局部暖紙 tokens，nav chrome 依同一 progress 切換 |
 | `#generative-interface-study` | AI 文學故事 MV | 原型中；40 秒／8 幕《Hamlet》成片、雙語字幕、實際 storyboard、具輸入／產出／控制／人工檢查的五階段流程、五層 story-to-video 敘事、派生的 Prompt Template v1、證據邊界與計畫中的形成性測試；尚無使用者結果 |
 | `#data-visualization-cases` | 資料視覺化案例與數位學習應用 | 已完成分析影片；testing 狀態為 exploratory，不宣稱學習成效 |
-| `#learning-dashboard-analysis` | Power BI 學習資料探索 | 原型中；實作日期 2026/06/11–06/12；概念圖公開，實際資料與結果隔離；不作因果宣稱 |
+| `#learning-dashboard-analysis` | Power BI 學習資料探索 | 原型中；實作日期 2026/06/11–06/12；lazy 九章專屬內頁以 text-only 方法／互動／判讀邊界呈現，實際資料、截圖、操作媒體與結果隔離；不作因果宣稱 |
 | `#reviewer-path` | 審查閱讀終點 | 兩個真實站內 CTA；沒有公開聯絡資料 |
 
 `immersive-memory-map` 不在上表。它的完整文字位於 `portfolio.hidden.js`，並標記 `submissionVisibility: hidden`；內部施工備註另在 `portfolio.internal.js`。submission alias 解析到空模組，bundle 與公開 `portfolio.js` dev response 都不含案例 ID／文案。該案例現在使用空 media state；13 個 `ph-after-*`／`mv-soft-*` placeholder 已從 public 與 generator 移除，舊 canonical dev URL 為 404。治理完整度中的 diagrams／media 群組限定為 `submission-visible`，因此此 hidden 案例會標示「不適用」，不再產生假性待補警告。
@@ -98,7 +107,7 @@ flowchart TD
 - **音訊：** `尚未啟用`、`聲音啟用中`、`聲音播放中`、`聲音已停止`、`瀏覽器不支援`、`聲音啟用失敗`，透過 busy 區外的 atomic `role="status"`／polite live region 宣告；啟用中只把按鈕控制群組設為 `aria-busy`，停止／Escape／離屏／cleanup 均可取消 pending start。
 - **錯誤：** Hero 的選配 3D scene 有局部 fallback，不會移除標題／介紹／CTA；旗艦案例、支持案例及聲響 demo 另有區段級 fallback；React 根也有可重新載入的全站 recovery boundary。影片錯誤會保留 Poster、直接 MP4 連結、Storyboard 與逐字稿，字幕錯誤會導向同頁雙語逐字稿。
 - **測試：** 公開狀態分 `尚未驗證`、`探索中`、`已驗證`；目前沒有案例為 `validated`。
-- **Restricted：** Power BI 只顯示不可公開原因；restricted item 不得含公開 href/src/embed URL。
+- **Restricted：** Power BI 專屬內頁只顯示方法、互動邏輯、判讀與不可公開原因；restricted item 不得含公開 href/src/embed URL，也不以概念 SVG 或假播放器代替成果。
 - **Draft：** draft build 有黏性治理 banner、內容完整度、待補資料與風險；完整度會先判斷群組是否適用於 submission-visible 案例。submission 以 Vite alias 將整層替成空元件。
 - **外部影片：** 一件資料視覺化案例使用 `youtube-nocookie.com` iframe；repo 沒有其他第三方 runtime service。
 - **2026-07-18 motion-forensics 效能前後：** 直接修正前 archive `2026-07-17T16-21-04-610Z` 為 mobile Performance 94、LCP 2634 ms、TBT 75 ms、transfer 459090 B；desktop 100、LCP 555 ms、TBT 0 ms、transfer 442761 B。最終原始碼兩次 run 都維持 mobile 94、desktop 100；最新 archive `2026-07-17T17-31-33-225Z` 為 mobile LCP 2651 ms、TBT 90 ms、transfer 460502 B，desktop LCP 560 ms、TBT 0 ms、transfer 444173 B，另一 run 的波動上界為 mobile 2654／98 ms、desktop 602／38 ms。Accessibility 100、CLS 0；目前 submission build 為 initial JS 194195 gzip B、entry 160462 B、CSS 43286 B，lazy 3D closure 638680 raw／169383 gzip B。這是 localhost simulated lab，不是 production field data。

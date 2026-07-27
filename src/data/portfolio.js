@@ -796,6 +796,7 @@ export const projectCaseStudies = [
   {
     id: "learning-dashboard-analysis",
     slug: "learning-dashboard-analysis",
+    layoutVariant: "learning-dashboard-v2",
     title: "線上學習互動行為與學科成績之資料視覺化分析",
     titleLines: [["線上學習", "互動行為與"], ["學科成績之", "資料視覺化"], ["分析"]],
     year: "2026",
@@ -815,128 +816,172 @@ export const projectCaseStudies = [
     designProcess:
       "作品先進行資料欄位理解與清理，再在 Power BI 中建立資料模型、圖表頁面與互動篩選，最後整理圖表解讀限制與未來修正方向。",
     technologyAndMedia:
-      "主要工具包含 Microsoft Power BI Desktop、Microsoft Excel、Power Query 與 DAX；公開頁面只呈現概念化且不含真實資料值的圖像與文字說明。",
+      "主要工具包含 Microsoft Power BI Desktop、Microsoft Excel、Power Query 與 DAX，並以篩選、圖表聯動、滑鼠提示與限制說明組成儀表板的判讀流程。",
     outcomeShowcase:
-      "成果呈現互動儀表板的頁面邏輯、資料欄位關係、圖表定義與限制說明。圓環圖使用 sn 的計數；觀看相關直條圖公開標題採用「不同數學成績分群的學習者／紀錄數」，只描述非空紀錄筆數。",
+      "成果包含互動儀表板的頁面邏輯、資料欄位關係、圖表定義、年級篩選與推論限制，並以一致的計數定義與限制說明維持判讀可追溯性。",
     trackIds: ["edtech-digital-content", "user-research-outcomes-process", "interactive-media-ux"],
     cover: svgAsset(
       "work-02-dashboard-public",
       1280,
       720,
-      "線上學習互動行為與學科成績資料視覺化分析作品封面，以概念化儀表板卡片與圖表呈現。",
+      "線上學習互動行為與學科成績資料視覺化分析的作品索引抽象預覽；不代表實際儀表板畫面。",
     ),
     problemAwareness:
       "線上學習平台可記錄互動、影片與成績等資料，但若缺乏清楚的視覺化與限制說明，容易讓使用者誤把相關分布解讀成因果或學習成效證明。",
     audience: "目標使用者包含課程教師、數位學習研究者、教學助理，以及希望用資料探索學習互動現象的設計者。",
-    diagrams: [
-      {
-        type: "interactionFlow",
-        title: "儀表板探索流程",
-        caption: "描述使用者從選擇欄位、觀察圖表、比較分布到形成後續問題的流程。",
-        description: "此流程用於提醒儀表板只能協助探索與提出問題，不直接證明因果或學習成效。",
-        image: svgAsset("work-02-dashboard-public", 1280, 720, "儀表板探索流程圖，呈現篩選、觀察與解讀限制。"),
-      },
-      {
-        type: "systemArchitecture",
-        title: "資料處理與視覺化架構",
-        caption: "從資料清理、欄位整理、度量定義到 Power BI 視覺化頁面的架構。",
-        description: "公開版本以概念圖表示，不放入原始資料或實際分析值。",
-        image: svgAsset("work-02-dashboard-public", 1280, 720, "資料處理與 Power BI 視覺化架構圖。"),
-      },
-      {
-        type: "informationArchitecture",
-        title: "圖表資訊層級",
-        caption: "整理總覽、分布、篩選與限制說明在儀表板中的閱讀順序。",
-        description: "圖表資訊層級協助使用者知道哪些指標可看、哪些結論不可過度推論。",
-        image: svgAsset("work-02-donut-public", 900, 900, "圖表資訊層級圖，包含圓環圖、長條圖與限制提示。"),
-      },
-    ],
+    diagrams: [],
     media: {
-      visualDrafts: [
-        svgEvidence(
-          "work-02-dashboard-public",
-          "儀表板架構示意",
-          "公開頁以概念圖呈現儀表板架構，不含原始資料或實際分析值。",
-          "Power BI 儀表板架構示意，以卡片與圖表區塊呈現。",
-          1280,
-          720,
-        ),
-      ],
-      screenshots: [
-        svgEvidence(
-          "work-02-donut-public",
-          "圓環圖定義提示",
-          "圓環圖應解讀為 sn 的計數，不是序號加總。",
-          "圓環圖定義提示圖，標示 sn 計數。",
-          900,
-          900,
-        ),
-      ],
+      visualDrafts: [],
+      screenshots: [],
       videos: [],
       audio: [],
       demos: [],
-      restricted: [
+      restricted: [],
+    },
+    learningDashboardCase: {
+      questions: [
+        "線上學習互動行為如何分布？",
+        "互動行為與學科成績之間是否呈現可觀察差異？",
+        "年級篩選如何改變資料判讀？",
+      ],
+      methodBoundary:
+        "本案例為探索性資料視覺化，不將互動次數與學科成績之間的關聯直接解釋為因果關係。",
+      dataSource: {
+        title: "2025 年教育大數據微學程教學用開放資料第二版",
+        description: "分析範圍包含互動、影片觀看與學科成績三類資料；欄位定義以目前專案紀錄可核對的範圍為準。",
+      },
+      fieldGroups: [
         {
-          title: "受限資料與原始儀表板",
-          status: "不公開",
-          caption: "原始資料、清洗檔、儀表板實作檔與任何含真實結果的操作紀錄均不在公開網站載入或連結。",
-          reason: "資料使用說明限定課堂教學與練習，且明載分析結果不適合任何形式的公開發表。",
+          label: "互動紀錄",
+          description: "觀察行為與互動指標分布。",
+        },
+        {
+          label: "影片觀看紀錄",
+          description: "比較非空紀錄，不等同觀看時數。",
+        },
+        {
+          label: "學科成績",
+          description: "用於分群與散佈比較。",
+        },
+        {
+          label: "計數基礎",
+          description: "圓環圖以 sn 計數，不是序號加總。",
         },
       ],
+      process: {
+        steps: [
+          {
+            title: "原始資料",
+            tool: "Excel",
+          },
+          {
+            title: "欄位檢查",
+            tool: "Excel / Power BI",
+          },
+          {
+            title: "去識別化與公開邊界",
+            tool: "資料治理",
+          },
+          {
+            title: "格式與缺漏處理",
+            tool: "Power Query",
+          },
+          {
+            title: "計算欄位建立",
+            tool: "DAX / 欄位設定",
+          },
+          {
+            title: "Power BI 資料模型",
+            tool: "Power BI Desktop",
+          },
+          {
+            title: "圖表與互動設計",
+            tool: "Power BI Desktop",
+          },
+        ],
+      },
+      overview: {
+        regions: [
+          "篩選狀態",
+          "互動分布",
+          "成績比較",
+          "觀看分群",
+          "限制提示",
+        ],
+      },
+      charts: [
+        {
+          title: "互動指標與學科成績",
+          question: "互動指標與成績的分布是否不同？",
+          rationale: "保留兩個變項的相對位置。",
+          observation: "比較分散、集中與群聚。",
+          limitation: "不能認定互動造成成績差異。",
+        },
+        {
+          title: "互動類型的紀錄分布",
+          question: "不同互動類型占多少紀錄比重？",
+          rationale: "查看部分與整體關係。",
+          observation: "比較 sn 計數與篩選後變化。",
+          limitation: "不是序號加總、唯一人數或成效。",
+        },
+        {
+          title: "不同數學成績分群的學習者／紀錄數",
+          question: "不同成績分群的非空紀錄如何比較？",
+          rationale: "便於比較離散分群。",
+          observation: "觀察相對筆數差異。",
+          limitation: "不是觀看時數，也不證明成績影響。",
+        },
+      ],
+      interaction: {
+        features: [
+          {
+            title: "年級篩選",
+            description: "切換範圍後重新確認圖表。",
+          },
+          {
+            title: "圖表聯動",
+            description: "其他圖表同步回應選取內容。",
+          },
+          {
+            title: "滑鼠提示",
+            description: "補充資料點或類別脈絡。",
+          },
+          {
+            title: "教學呈現",
+            description: "依篩選、圖表與限制帶領閱讀。",
+          },
+        ],
+      },
+      ethics: [
+        {
+          title: "資料限制",
+          description: "清洗規則與部分度量仍需獨立核對，資料品質限制應納入後續驗證。",
+        },
+        {
+          title: "分析限制",
+          description: "非空紀錄不是觀看時數；視覺關聯不等於因果。",
+        },
+        {
+          title: "公開與倫理",
+          description: "公開頁僅呈現分析方法、互動邏輯與圖表判讀邊界；原始資料、學習者資訊、完整分析檔與含真實結果的媒體不對外公開。",
+        },
+      ],
+      reflection: {
+        title: "讓視覺化承擔分析，而不是只裝飾圖表",
+        description: "圖表必須讓問題、計算、互動與推論邊界彼此對齊。",
+        principles: [
+          "資料視覺化不等同裝飾圖表。",
+          "相關關係不等於因果關係。",
+          "資料字典、計算定義與測試讓判讀可追溯。",
+        ],
+        nextSteps: [
+          "建立資料字典與清洗紀錄。",
+          "核對計算欄位與度量命名。",
+          "測試篩選、聯動、提示與限制。",
+          "延伸教學決策、聲響化或數位孿生研究。",
+        ],
+      },
     },
-    extendedSections: [
-      {
-        title: "01｜作品定位",
-        summary: "這是一件學習分析視覺化作品，目標是協助探索資料分布，而不是證明成效。",
-        paragraphs: [
-          "作品以 Power BI 建立儀表板，整理線上學習互動紀錄與學科成績欄位，使資料關係能被快速瀏覽與討論。",
-          "公開頁面只呈現概念化示意圖與方法說明，不放入原始資料、清洗檔、儀表板實作檔或實際分析結果。",
-        ],
-      },
-      {
-        title: "02｜資料與圖表定義",
-        summary: "所有圖表都必須先說清楚計算基礎，避免視覺化造成誤讀。",
-        bullets: [
-          "圓環圖是 sn 的計數，不是序號加總。",
-          "觀看相關直條圖公開標題採用「不同數學成績分群的學習者／紀錄數」，只描述非空紀錄筆數，不稱為觀看時數比較。",
-          "任何視覺關聯都只能作為探索線索，不宣稱為因果或學習成效證明。",
-        ],
-      },
-      {
-        title: "03｜目標使用者",
-        summary: "儀表板面向需要理解學習互動分布的教學者與研究者。",
-        paragraphs: [
-          "使用者可透過儀表板快速觀察哪些欄位值得後續分析，並將視覺化結果轉化為更嚴謹的研究問題。",
-        ],
-      },
-      {
-        title: "04｜製作流程",
-        summary: "由資料清理、模型建立、圖表設計到限制說明逐步完成。",
-        bullets: [
-          "理解欄位意義與資料缺漏。",
-          "以 Power Query 整理資料結構。",
-          "以 DAX 或欄位設定建立必要度量。",
-          "建立圖表、篩選器與閱讀順序。",
-          "補上圖表定義與推論限制。",
-        ],
-      },
-      {
-        title: "05｜隱私與公開限制",
-        summary: "公開網站只保留必要方法說明，不放入可回推資料來源的檔案。",
-        paragraphs: [
-          "原始資料、清洗檔、儀表板實作檔與含真實結果的操作紀錄不進入公開 build。若需檢視，必須先取得資料提供方明確許可並採受控流程。",
-        ],
-      },
-      {
-        title: "06｜研究所深化方向",
-        summary: "未來可從探索型儀表板延伸到可驗證的學習分析研究。",
-        bullets: [
-          "修正觀看資料的度量定義後，再進行更精確的行為比較。",
-          "加入資料品質檢查與統計方法，避免誤讀視覺關係。",
-          "延伸為教學者決策支援介面、聲響化學習回饋或數位孿生學習歷程模型。",
-        ],
-      },
-    ],
     tools: ["Microsoft Power BI Desktop", "Microsoft Excel", "Power Query", "DAX"],
     roles: ["資料整理", "資料視覺化", "儀表板設計", "圖表定義", "限制說明", "專案管理"],
     testing: {

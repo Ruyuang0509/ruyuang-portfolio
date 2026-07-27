@@ -1,6 +1,6 @@
 # 作品集內容矩陣
 
-更新日期：2026-07-27。公開內容的 source of truth 是 `src/data/portfolio.js`；hidden case 文字在 `src/data/portfolio.hidden.js`，施工與風險備註只放 `src/data/portfolio.internal.js`。此表不會把待補素材或 AI 推論直接曝光為完成內容。
+更新日期：2026-07-28。公開內容的 source of truth 是 `src/data/portfolio.js`；hidden case 文字在 `src/data/portfolio.hidden.js`，施工與風險備註只放 `src/data/portfolio.internal.js`。此表不會把待補素材或 AI 推論直接曝光為完成內容。
 
 | 模組 | 現有內容 | 真實來源 | 完整度 | 公開站處理 | 待補資料 | 不可由 AI 代填的內容 |
 |---|---|---|---|---|---|---|
@@ -12,7 +12,7 @@
 | AI 文學故事 MV | 《Hamlet》40 秒／8 幕 clean MP4、雙語 WebVTT、實際分鏡、五階段工作流、Prompt 限制與衍生 Prompt Template v1 | 使用者提供 Hamlet delivery、`hamlet-media-manifest.json`、公開案例約束與可重跑 `audit:evidence` | 成片、字幕、衍生畫面與 manifest 關聯可核對；原始 Prompt log、教學成效與發布權利未驗證 | 原型中；`artifactVerified`、`artifactDerived`、`processDerived`、`specificationOnly` 分開標示；Template v1 明載 `usedForExistingVideo: false`；保留 `notValidated` | 原始 Prompt log、旁白版本、學生與教師形成性測試紀錄、申請者權利／來源簽核 | 學生回饋、學習成效、節省時間、Canva 專案連結、原始 Prompt 執行紀錄或素材授權結論 |
 | 資料視覺化系列 | 兩件案例的共同策展入口、能力與聲響延伸 | 既有課程／專題內容與公開資料 | 可公開 | 在 AI 方法之後，作跨域支持證據 | 系列的最終選件與文字精簡決策 | 未做過的分析、聲響化成效 |
 | 資料視覺化實際案例 | Spotify Wrapped 等資料敘事分析、流程圖、YouTube 影片 | 既有影片與案例文案 | `exploratory` | privacy-enhanced iframe、使用者意圖後載入；不宣稱成效 | 人工字幕／transcript 核對、影片 credit | 學習效果、觀看者研究結果、未確認字幕內容 |
-| Power BI 學習資料探索 | 概念 SVG、互動／影片觀看／成績探索、限制說明 | 日期備註、清洗檔、Power BI 實作檔與隔離素材 | 2026/06/11–06/12 實作；公開方法敘事可用 | 只公開不含資料值的概念圖；實際結果維持隔離；不作因果宣稱 | 清洗規則、measure 定義、另行公開許可 | 實際資料值、因果關係、授權狀態、學習成效 |
+| Power BI 學習資料探索 | 九章案例、3 個分析問題、7 個流程步驟、3 組圖表判讀、4 項互動功能、3 張倫理／限制卡與 4 項後續改善 | 日期備註、清洗檔、Power BI 實作檔與隔離素材 | 2026/06/11–06/12 實作；公開方法敘事可用 | 專屬案例內頁採 text-only 分析敘事；公開／隱私限制集中第 08 節，受限截圖、影片、分析檔與實際結果維持隔離；不作因果宣稱 | 清洗規則、measure 定義、另行公開許可 | 實際資料值、因果關係、授權狀態、學習成效 |
 | About／履歷／聯絡 | Reviewer Path 明示沒有公開聯絡資料 | 現行 repository 無真實公開資料 | 未完成 | 不建立假連結或占位 CTA | 簡歷 PDF、Email、GitHub／社群、公開範圍決策 | 私人電話／住址、未授權帳號、虛構履歷或技能 |
 | 媒體與 credit | 本機 AVIF/WebP/MP4、公開 SVG、YouTube privacy-enhanced embed | `public/media`、案例 metadata、既有影片 | 大多可公開；部分授權待核 | lazy、固定尺寸、poster、no autoplay；restricted media 隔離 | 各作品最終作者／團隊 credit、字幕、外部素材授權證明 | 著作權歸屬、授權聲明、未提供的 alt／transcript 事實 |
 | 公開 metadata | index、JSON-LD、`llms.txt`、favicon、social preview 與案例 SEO title 已統一為 RU / YUAN | `index.html`、`public/llms.txt`、`public/favicon.svg`、`public/social-preview.svg`、`portfolio.js` | 本機品牌與 anchors 已一致 | Vite 原樣發布 public metadata；scanner 會攔截舊品牌與失效 anchors | canonical URL、正式 domain、raster social preview | 未確認 URL、hosting domain、公開個資 |
@@ -28,6 +28,7 @@
 - `evaluationPlan.status: "planned"` 只描述未來任務、蒐證與資料治理；沒有執行紀錄前，不加入人數、日期、結果、引言或成效指標。
 - 可公開作品文字只進 `src/data/portfolio.js`；內部待辦與敏感路徑不複製到公開資料。
 - Power BI 資料使用說明明載分析結果不適合公開發表；原始資料、清洗檔、儀表板實作檔、實際截圖與含真實結果的操作紀錄不得搬入 `public/`。只有另取得資料提供方明確許可後，才可重新評估公開範圍。
+- Power BI 專屬案例目前以文字說明方法、互動邏輯與判讀邊界，第 08 節統一承接公開與隱私限制；不得宣稱公開頁已有去識別化截圖、操作影片或完整互動系統，也不得以抽象 SVG 或重製介面補成成果證據。
 - 真實使用者資料只在取得適當同意、匿名化並由申請者確認後加入。
 - `public/` 內所有檔案都視為可發布；React tree 未引用不代表資產不會出現在 `dist/`。
 - 內建 scanner 會檢查「施工模式」、舊品牌、失效 anchors、hidden/restricted filenames 與 raw data extensions；獨立 `dist/` 搜尋仍保留為第二道證據。

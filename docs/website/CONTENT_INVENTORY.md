@@ -52,7 +52,7 @@
 | `interactive-sound-learning` 互動聲響學習原型 | 原型中；`notValidated` | 把視覺位置、動態、量感轉成聲音回饋，支援抽象概念理解 | 原生 Web Audio 可操作 prototype、3 張正式視覺策略概念圖、4 個 mapping、signal flow、listening guide；沒有正式使用者結果 |
 | `generative-interface-study` AI 文學故事 MV | 原型中；`notValidated` | 把文學理解、B1 英文、圖像、配樂與剪輯轉成五階段生成流程 | 40 秒／8 幕 clean MP4、英文與繁中 WebVTT、完整雙語逐字稿、8 張實際畫面；沒有學生／教師測試或學習成效結果 |
 | `data-visualization-cases` 資料視覺化實際案例與數位學習應用探討 | 已完成；`exploratory` | 分析 Spotify Wrapped 等資料敘事，推論數位學習回饋應用 | 1 張流程圖、1 部 YouTube privacy-enhanced 影片、章節化分析；不宣稱已驗證學習成效 |
-| `learning-dashboard-analysis` 線上學習互動行為與學科成績之資料視覺化分析 | 2026/06/11–06/12；原型中；`exploratory` | Power BI 探索互動、影片觀看與成績分布 | 3 張概念圖、公開 SVG；實際資料、儀表板與結果影像隔離；不作因果宣稱 |
+| `learning-dashboard-analysis` 線上學習互動行為與學科成績之資料視覺化分析 | 2026/06/11–06/12；原型中；`exploratory` | Power BI 探索互動、影片觀看與成績分布 | lazy 九章 text-only 案例：3 問題、7 流程、3 圖表判讀、4 互動功能、3 倫理卡、4 後續步驟；實際資料、儀表板、截圖、操作媒體與結果隔離；不作因果宣稱 |
 
 ## Draft-only 隱藏案例
 
@@ -74,11 +74,13 @@ Hidden case 現在使用空 media state。原有 13 個 `ph-after-*`／`mv-soft-
 
 系列名稱為「資料視覺化與數位學習應用」，英文副標 `Data Visualization in Digital Learning`，收錄後兩件資料視覺化案例。系列入口說明資料敘事、學習回饋、Power BI 與聲響化資料提示的連結，但明確保留兩件作品的獨立性。維護規則見 [`../data-visualization-series.md`](../data-visualization-series.md)。
 
+`learning-dashboard-analysis` 使用 `layoutVariant: "learning-dashboard-v2"` 與 `learningDashboardCase` 專屬資料結構，依九章渲染摘要、問題、資料、流程、概覽、圖表、互動、倫理與反思。Hero、流程、概覽與互動依序使用儀表板閱讀、三層分析、五區閱讀與四節點操作敘事；公開與隱私限制集中在第 08 節。專屬案例維持 text-only，受限 Excel／Power BI、結果截圖與操作媒體不載入。版面為 1240px 上限、1024px 以上 12 欄、以下單欄；九章導覽在 1024+／640–1023／<640 為 3／3／1 欄，完整形成 3×3 或 9×1。
+
 ## 案例欄位契約
 
 - **身份：** `id`、`title`、`titleLines`、`year` 或 `metadataOmissions`、`source`、`category`、`status`、`priority`、`submissionVisibility`。
 - **論證：** `summary`、`valueProposition`、`problemAwareness`、`audience`、`whatThisProves`、`designGoal`。
-- **方法：** `designProcess`、`technologyAndMedia`、`outcomeShowcase`、`extendedSections`；可選 `challenge`、五階段 `workflow`（工具／輸入／產出／控制／人工檢查）、`promptDecisions`、`mediaLayers`。
+- **方法：** `designProcess`、`technologyAndMedia`、`outcomeShowcase`、`extendedSections`；可選 `challenge`、五階段 `workflow`（工具／輸入／產出／控制／人工檢查）、`promptDecisions`、`mediaLayers`。Power BI 專屬案例另以 `layoutVariant` 與 `learningDashboardCase` 驅動九章 renderer。
 - **證據：** `diagrams`、`media.*`、可選 `storyboard`（每幕含 bilingual title、`seekSeconds` 與 control）、`featuredExample`、`deliverables`、`outcomes`、`interactivePrototype`／`interactionMappings`／`signalFlow`／`listeningGuide`。
 - **收束：** 可選 `keyInsight`、`nextSteps`、`ctas`；站內 CTA 必須對應實際 renderer anchor，可選 `focusTarget` 也必須指向已渲染控制項。
 - **責任與誠信：** `tools`、`roles`、`testing.statusKey`、`testing.status`、實際 evidence 或 `plannedMethods`、`reflection`、`instituteConnections`、`themeRationales`、`credits`、`links`、`seo`。
@@ -94,8 +96,8 @@ Hidden case 現在使用空 media state。原有 13 個 `ph-after-*`／`mv-soft-
 ## 媒體、替代文字與隱私
 
 - `public/media/portfolio` 使用 420／640／1200 寬 AVIF/WebP 與 3 個本機 MP4；Hamlet 另有兩條 WebVTT。公共 helper 帶固定 dimensions 和 alt。此目錄會被 Vite 全量複製，因此只保留公開案例資產；「未被 React 引用」仍不等於「未公開」。
-- `public/media/data-visualization` 只有公開安全的 SVG 系列圖／流程圖／概念圖。
-- Power BI 原始 PNG/WebP 位於 `restricted-media/data-visualization/`，不在 `public/`，不被 Vite 複製；公開資料只保留 restricted 說明，不含路徑。
+- `public/media/data-visualization` 只有公開安全的 SVG 系列圖／流程圖／概念圖；Power BI 專屬案例內頁不把它們當作成果證據。
+- Power BI 原始 PNG/WebP 位於 `restricted-media/data-visualization/`，不在 `public/`，不被 Vite 複製；公開資料只保留 restricted 說明，不含路徑、截圖、操作影片或分析檔。
 - 資料視覺化影片使用 YouTube ID `NrmK31F2S-M`，renderer 採 `youtube-nocookie.com`。
 - 圖解需 alt、caption 與文字長描述；video/audio 架構支援 transcript／caption；iframe demo 需明確使用者操作後載入。
 - `index.html` 的 title、description、Open Graph、Twitter 與 JSON-LD，以及 `public/llms.txt`、favicon、social preview 與案例 SEO title 已同步為 RU / YUAN／Sound, Interaction & Learning。

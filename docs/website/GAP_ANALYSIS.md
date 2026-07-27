@@ -10,7 +10,7 @@
 
 | 優先級 | 現況 | 風險／目標 | 建議 |
 | --- | --- | --- | --- |
-| P0 | Power BI restricted screenshot 已移出 public；資料使用說明不支持公開分析結果，另行公開許可未取得，部分 measures 仍待核對 | 重新公開原圖或錯誤推論會造成隱私／研究誠信風險 | 維持 quarantine；只有另取得資料提供方明確許可後才重新評估，正式輸出必跑 submission scan |
+| P0 | Power BI restricted screenshot 已移出 public；專屬九章內頁目前為 text-only，公開與隱私限制集中第 08 節；資料使用說明不支持公開分析結果，另行公開許可未取得，部分 measures 仍待核對 | 重新公開原圖、操作媒體、假圖或錯誤推論會造成隱私／研究誠信風險 | 維持 quarantine 與第 08 節的文字證據邊界；只有另取得資料提供方明確許可後才重新評估，正式輸出必跑 submission scan |
 | P1 | Web Audio 有可操作 prototype，但 `notValidated` | 旗艦證據仍無使用者理解／學習效果資料 | 執行 planned formative tasks，保留匿名紀錄、錯誤、口述理解與 limitation |
 | P1 | Pure Data／REAPER 只有學習狀態 | 聲響研究敘事的工具面仍薄弱 | 補可公開 patch/project、signal flow、聲音輸出及反思；未完成前維持現有誠實 wording |
 | P1 | AI 文學故事 MV 已有可播放《Hamlet》成片、雙語字幕、八幕實際畫面、可重跑 evidence manifest 與衍生 Prompt Template v1；形成性評估只完成 planned protocol | Template v1 明確不是原始生成對話，成片證據也不等於教學有效；原始 Prompt log、實測紀錄與素材權利／來源簽核仍缺，`check:publication` 應維持 blocked | 維持 `notValidated` 與 `usedForExistingVideo: false`；以另一文本試跑模板並保留版本紀錄，執行學生／教師任務後才寫結果，由申請者完成權利 checklist／attestation 後才開啟發布閘門 |
@@ -40,7 +40,7 @@
 - submission scanner 已拆成可注入 core／thin CLI，具 48 個 text rules、6 個 inventory rules、redacted diagnostics 與 36 個 Node regression tests；VTT、Web Manifest、source map 也納入文字掃描，並仍保留獨立 `dist/` audit。
 - R3F 已改用 lean canvas 與精準 constructor extend；遞迴 built-import budget 覆蓋 initial／完整 lazy closure 與單一 chunk，851 kB 歷史 warning 已關閉。
 - `llms.txt`、favicon、social preview、index／JSON-LD 與案例 SEO 已統一為 RU / YUAN，dead anchors 已移除；canonical URL／raster preview 仍待 hosting 決策。
-- Power BI 實作日期已確認為 2026/06/11–06/12；實際資料與結果媒體移出 public，公開 conceptual SVG。
+- Power BI 實作日期已確認為 2026/06/11–06/12；實際資料與結果媒體移出 public。專屬案例已改為 lazy 九章 text-only renderer，使用 1240px／12 欄與低於 1024px 單欄，導覽為完整 3×3／9×1，抽象 SVG 不再作案例成果證據；lazy fallback／mount hash 接力已使案例與 charts 冷啟動定位成功，五組 submission viewport 均無 overflow／越界／console issue。
 - draft/submission bundling boundary，而非 CSS 隱藏。
 - mapping pure functions 與 Node tests。
 - DOM-first Hero、R3F lazy/device gating/offscreen pause。

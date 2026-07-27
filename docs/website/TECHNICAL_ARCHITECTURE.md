@@ -33,6 +33,8 @@ flowchart LR
   C --> E["Navbar + CustomCursor + Draft alias"]
   C --> F["HomePage sections"]
   F --> G["portfolio.js public data"]
+  F --> O["CaseStudyShowcase"]
+  O -. lazy .-> P["LearningDashboardProjectDetail + case CSS"]
   F -. lazy .-> H["HeroScene / R3F"]
   F -. lazy .-> I["SoundInteractionPrototype"]
   I --> J["soundMapping pure functions"]
@@ -41,7 +43,7 @@ flowchart LR
   L --> M["Web Audio graph"]
 ```
 
-`main.jsx` 註冊 ScrollTrigger，透過 `RootErrorBoundary` 將 `App` 掛到 `#root`。內容無 server render；元件直接 import `portfolio.js`，透過 props 傳給共用 renderer。沒有 context/store 或 network state。
+`main.jsx` 註冊 ScrollTrigger，透過 `RootErrorBoundary` 將 `App` 掛到 `#root`。內容無 server render；元件直接 import `portfolio.js`，透過 props 傳給 renderer。一般案例沿用共用 renderer；`learning-dashboard-analysis` 由資料中的 `layoutVariant` 選入 lazy 專屬 renderer。沒有 context/store 或 network state。
 
 ## 頁面與元件責任
 
@@ -52,7 +54,9 @@ flowchart LR
 - [`../../src/components/ImmersiveHero.jsx`](../../src/components/ImmersiveHero.jsx)：資料驅動 Hero、首幀可讀標題／介紹、CTA Motion、延後 3D progressive loading。
 - [`../../src/components/LeanR3FCanvas.jsx`](../../src/components/LeanR3FCanvas.jsx)：以 R3F public `createRoot`／`events` 建立 Hero 專用 canvas，只註冊實際使用的 8 個 Three constructors；同步尺寸、DPR 與 frameloop，並以可取消 disposal 避免 StrictMode replay 的舊清理銷毀新 root。
 - [`../../src/components/ResearchPositioning.jsx`](../../src/components/ResearchPositioning.jsx)：定位、軌道、術語轉譯，以及從 `instituteEvidenceGroups` 呈現可回到正確公開案例的 demonstrated 本所證據。
-- [`../../src/components/CaseStudyShowcase.jsx`](../../src/components/CaseStudyShowcase.jsx)：索引、長篇案例、16:9／多字幕影片、媒體／字幕錯誤 fallback、具輸入與人工檢查的 workflow、Prompt 決策、storyboard、媒體分層、證據分類、testing、credits 與 lazy flagship demo；Prompt Template、圖解長描述與雙語逐字稿使用共用 `AnimatedDetails`，支持作品沿用局部暖紙 tokens，案例本所連結分開 demonstrated 與 research direction。
+- [`../../src/components/CaseStudyShowcase.jsx`](../../src/components/CaseStudyShowcase.jsx)：索引、長篇案例、16:9／多字幕影片、媒體／字幕錯誤 fallback、具輸入與人工檢查的 workflow、Prompt 決策、storyboard、媒體分層、證據分類、testing、credits 與 lazy flagship demo；Prompt Template、圖解長描述與雙語逐字稿使用共用 `AnimatedDetails`，支持作品沿用局部暖紙 tokens，案例本所連結分開 demonstrated 與 research direction。當 `layoutVariant === "learning-dashboard-v2"` 且專屬資料存在時，以 `Suspense` lazy 分派到 Power BI 案例 renderer；fallback 本身保留案例 id，使初始 hash 在 chunk 載入期間仍有合法目標。
+- [`../../src/components/LearningDashboardProjectDetail.jsx`](../../src/components/LearningDashboardProjectDetail.jsx)：只渲染 `learning-dashboard-analysis` 的九章 IA、3／3／1 欄閱讀路徑、問題／資料／流程／概覽／圖表／互動／倫理／反思與前後案例導覽；Hero、流程、概覽與互動使用正式分析敘事，公開／隱私限制集中第 08 節。Mount 時若現有 hash 指向案例或其子章，會重送 `portfolio:hash-navigation`，完成 lazy fallback 到實際內容的定位接力。
+- [`../../src/components/LearningDashboardProjectDetail.css`](../../src/components/LearningDashboardProjectDetail.css)：case-scoped 1240px shell、1024px 以上 12 欄、以下單欄，以及各區塊的 5/7、7/5、8/4 span；共用 theme tokens、surface 與繁中 classes，不改其他案例 CSS。
 - [`../../src/components/SoundInteractionPrototype.jsx`](../../src/components/SoundInteractionPrototype.jsx)：具圖像語意的 pointer pad、touch／四個 range input、readout、節流 live announcement、聲音生命週期、mapping 說明。
 - [`../../src/hooks/useWebAudioEngine.js`](../../src/hooks/useWebAudioEngine.js)：React state、StrictMode-safe controller lifecycle 與 `visibilitychange` 即時清理。
 - [`../../src/audio/webAudioEngineCore.js`](../../src/audio/webAudioEngineCore.js)：可注入／可測試的 AudioContext controller，負責 resume cancel／timeout、graph、release、context interruption、參數與 destroy。
@@ -104,12 +108,14 @@ Hidden case 使用空 media state；原有 13 個 `ph-after-*`／`mv-soft-*` pla
 
 Tailwind utility 負責局部 grid/spacing；[`../../src/styles.css`](../../src/styles.css) 負責語意 tokens、繁中排版、mobile menu、surface、focus、sound pad、disclosure、fixed viewport field、reduced-motion 與 print。Document root 與 foreground tokens 保持穩定；`.paper-surface` 將暖紙 tokens 限定在支持作品 gallery 與 Reviewer Path。`useLenisGsap` 讓 Lenis 與 GSAP 共用 ticker，並在 `portfolio:layout-change` 時以 rAF 合併 Lenis resize 與 ScrollTrigger refresh。`useThemeInversion` 由 `#data-visualization-series` bottom 85% 到 `#project-index-title` top 15% 使用 `scrub:true`／`invalidateOnRefresh:true`，只動畫固定 field 子層的 opacity／transform；`.nav-surface--paper` 依同一 progress 切換，不再修改 document root。
 
+Power BI 專屬 CSS 與 lazy JSX 位於同一 case component 邊界。九章 shell 使用 77.5rem（1240px）上限；`min-width: 64rem` 才啟用 12 欄，以下維持單欄。閱讀路徑在預設為 1 欄，640px 與 1024px 以上均為 3 欄，使九項形成完整 9×1 或 3×3；所有 grid child 明確 `min-width: 0`，避免長繁中、英文工具名與 metadata 撐破欄位。
+
 Navbar 改用較不透明的 theme-aware 背景，不再使用固定 `backdrop-blur-2xl`。永久 `will-change` 縮到 Hero canvas 的 transform；案例圖片／影片只在 fine-pointer hover 或 focus-within 時晉升，magnetic targets 不再長駐 compositor layer。Reduced motion 將 fixed field 改為同一邊界的離散 dark／paper endpoint，AnimatedDetails 與行動選單立即開關；print 隱藏 field、展開 disclosure，並將主要 section 強制為 paper-safe 背景。
 
 ## 資產與 build pipeline
 
 - `public/` 靜態資產原樣提供；案例圖使用 AVIF/WebP `srcset` 與固定 dimensions。Hamlet clean MP4 使用外掛英文／繁中 WebVTT，renderer 不自動播放並以同頁逐字稿補足；根目錄 `.gitattributes` 強制 `*.vtt` 使用 LF，讓 Windows checkout 仍維持 manifest 已驗證的 bytes／SHA-256。任何放入 public 的檔案都應視為可公開，即使 submission React tree 沒有引用。
-- R3F 與 Web Audio UI 都以 `React.lazy` 分 chunk；Three 不進 initial modulepreload。Hero section 作為 R3F `eventSource`，pointer 以 section 的 `clientX/Y` 換算；離開 preload window 後改為 `frameloop="demand"`。
+- R3F、Web Audio UI 與 Power BI 專屬案例 renderer 都以 `React.lazy` 分 chunk；專屬 case CSS 隨其 renderer 載入。Three 不進 initial modulepreload。Hero section 作為 R3F `eventSource`，pointer 以 section 的 `clientX/Y` 換算；離開 preload window 後改為 `frameloop="demand"`。
 - Vite manual chunks：`react`、`three-core`、`motion`、`scroll`、`vendor`；R3F 自然留在 lazy `HeroScene`，避免強制打包整個 Three namespace。
 - 2026-07-17 fresh submission build 的 lazy 3D closure 為 `HeroScene` 151272 B、`three-core` 483687 B、`vendor` 3273 B，合計 638232 raw／169223 gzip B；initial JS closure 為 193157 gzip B，entry 157531 B，CSS 43103 B。`audit-build-budgets.mjs` 以 attribute-order-independent HTML 解析和 built import closure 計算 initial／lazy 成本，並逐檔限制 500000 raw B，因此沒有 >500 kB warning。
 - `audit-portfolio-evidence.mjs` 核對 Hamlet direct-copy bytes／SHA-256、衍生 AVIF/WebP inventory SHA-256、實際 dimensions、VTT timing／逐字稿及 public inventory。Publication mode 另外要求頂層核准狀態、逐項 rights checks／evidence refs 與完整 applicant attestation；只改一個 status 不能解除 gate。

@@ -1,5 +1,16 @@
 # Current State
 
+## 2026-07-28 Power BI 案例九章 IA 重構
+
+- `learning-dashboard-analysis` 改由 lazy `LearningDashboardProjectDetail.jsx` 與 case-scoped CSS 專屬渲染；其他案例仍沿用共用 `CaseStudyShowcase`，全站 palette、繁中排版、圓角、surface、focus、既有 motion 與元件規範未重設。
+- 案例依序重建為「專案摘要、分析問題、資料來源與欄位、資料處理與分析流程、完整儀表板概覽、各圖表設計與判讀、年級篩選與互動操作、資料倫理與分析限制、反思與後續改善」九章；reading map 在 1024px 以上／640–1023px／低於 640px 為 3／3／1 欄，九項形成完整 3×3 或 9×1。
+- 內容 shell 上限 77.5rem（1240px）；1024px 以上採 12 欄，Hero 與大型內容使用 5/7、7/5、8/4 等配置，低於 1024px 全部轉單欄，消除長期偏左、右側空白與舊抽象圖過重的版面。
+- 公開案例包含 3 個分析問題、7 個流程步驟、3 組一致格式的圖表判讀、4 項互動功能、3 張倫理／限制卡與 4 項後續改善。圖表只陳述已支持的計數定義與探索邊界，不加入筆數、年級範圍、未核對欄位、假圖、假介面或新分析結論。
+- 專屬案例維持 text-only：Hero、流程、完整儀表板與互動區分別改為儀表板閱讀、分析層級、五區閱讀順序與四節點操作敘事；受限 Power BI／Excel、真實截圖、分析數值與操作媒體仍不進 public／dist，公開與隱私限制集中在第 08 節。
+- Lazy `Suspense` fallback 保留 `learning-dashboard-analysis` id；專屬 component mount 會重送既有 hash，修正冷啟動時目標先落在 fallback、內容載入後失去定位的競爭。
+- Submission 瀏覽器矩陣已核對 1440／1280／1024／768／390px：document／article overflow、out-of-bounds、text overflow 均為 0；九章與上述內容數量完整，console error／warning 為 0；冷啟動 `#learning-dashboard-analysis` 與 `#learning-dashboard-analysis-charts` 均定位成功。
+- 最終 `pnpm run doctor` exit 0：workspace、media、text、CJK、evidence、5 件 content validation、18／18 sound tests、draft／submission builds、36／36 scanner fixtures、123-file submission scan 與 Pages audit 全數通過。`learning-dashboard-analysis` 仍有「流程圖與架構圖、媒體證據」建議群組缺件警告；這對應受限真實素材不公開且不以假圖補位的既定邊界。
+
 ## 2026-07-27 Web Audio 視覺策略卡片定稿
 
 - `interactive-sound-learning` 原本三張模板式流程／架構配圖已改為使用者提供的 N1／N2／N3 正式視覺，固定配對為互動原型、聲響主題、介面風格；公開卡片統一使用「視覺策略」標籤與核准文案，不把概念視覺宣稱為實際介面、技術架構或研究結果。
