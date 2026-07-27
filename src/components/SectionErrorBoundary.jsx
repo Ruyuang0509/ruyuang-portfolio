@@ -34,7 +34,7 @@ export default class SectionErrorBoundary extends Component {
             <button className="cta-button chip-text rounded-full px-5 py-3 text-sm font-extrabold" type="button" onClick={this.reset}>
               {this.props.reloadOnRetry ? "重新載入頁面" : "重新嘗試"}
             </button>
-            <a className="interactive-link chip-text rounded-full border border-[color:var(--theme-line)] px-5 py-3 text-sm font-extrabold" href="#project-index-title">返回作品索引</a>
+            <a className="interactive-link chip-text rounded-full border border-[color:var(--theme-line)] px-5 py-3 text-sm font-extrabold" href="#project-index">返回作品索引</a>
           </div>
         </div>
       </section>

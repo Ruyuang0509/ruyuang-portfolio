@@ -53,6 +53,7 @@ export const projectInternalNotes = {
     replaceableAssets: [
       "INTERNAL_REPLACE：credits 仍需依真實課程與合作狀態確認；不得自行補值。",
       "INTERNAL_REPLACE：若新增操作錄影，必須附字幕或視聽內容摘要。",
+      "INTERNAL_REPLACE：作品索引使用使用者提供的 16:10 Web Audio 原型截圖；來源 SHA-256 為 9C418C7E7CFAA3A17F2F58BD400AE60565CAAB398704B84CF473BA77A0738EE4，公開衍生檔只保留去除 metadata 的 AVIF/WebP。",
     ],
     sampleCopy:
       "INTERNAL_SAMPLE：公開狀態已改為原型中；正式使用者驗證完成前不得改為已完成。",
@@ -96,6 +97,7 @@ export const projectInternalNotes = {
     replaceableAssets: [
       "INTERNAL_REPLACE：2026/07/17 已確認 Canva 短網址可在未登入狀態讀到 40 秒 Hamlet 專案內容，但會導向可編輯介面；完成分享權限與權利來源核對前不加入 submission CTA。",
       "INTERNAL_REPLACE：四個 ChatGPT share URL 只能在未登入頁讀到標題，對話內容顯示登入牆；目前從 submission UI 省略。",
+      "INTERNAL_REPLACE：本輪另提供的 16:10 Hamlet PNG 尚未納入 evidence manifest；作品索引先沿用 manifest 已追蹤的實際成片 poster，等待申請者權利／來源簽核後再評估替換。",
     ],
     sampleCopy:
       "INTERNAL_SAMPLE：實際成片完成不等於教學成效已驗證，testing 必須維持 notValidated 直到有真實資料。",
@@ -163,12 +165,13 @@ export const projectInternalNotes = {
     labels: ["PUBLIC_VIDEO_OK", "NO_CAPTIONS_YET", "PRE_SUBMISSION_CHECK"],
     missingMaterials: [
       "待補：課程名稱或專案來源的正式名稱。",
-      "待補：使用者確認目前無 15–25 秒網站預告、poster、主視覺與製作過程截圖資料。",
+      "待補：使用者已提供四張完成投影片截圖；仍缺案例來源清單、分析表、分鏡、時間軸或字幕安排等原始製作過程畫面。",
       "待補：公開影片目前無字幕；若未來補字幕，需新增 WebVTT 或字幕狀態說明。",
       "待補：若後續有觀眾回饋，才能新增 testing 或 learning outcomes。",
     ],
     replaceableAssets: [
-      "INTERNAL_REPLACE：目前系列圖、作品封面與流程圖為公開安全的本地 SVG 示意素材。",
+      "INTERNAL_REPLACE：系列圖與作品封面仍為公開安全的本地 SVG；製作流程已改為語意化 HTML／CSS，不再依賴替代流程圖。",
+      "INTERNAL_REPLACE：本輪提供的 1600×1000 完成簡報拼貼含 Spotify 與第三方案例畫面，權利範圍確認前不進 public；索引沿用不含第三方介面的公開安全 SVG。",
     ],
     aiCollaborationNotes:
       "AI 協作備註：生成式 AI 僅可描述為案例蒐整輔助，不可寫成自動完成研究判斷。",
@@ -191,7 +194,8 @@ export const projectInternalNotes = {
       "待補：若未來產生含真實結果的操作紀錄，仍需先確認資料提供方許可與受控交付條件。",
     ],
     replaceableAssets: [
-      "INTERNAL_REPLACE：實際結果 PNG/WebP 維持隔離；公開頁僅保留不含資料值的概念化 SVG。"
+      "INTERNAL_REPLACE：實際結果 PNG/WebP 維持隔離；公開頁僅保留不含資料值的概念化 SVG。",
+      "INTERNAL_REPLACE：本輪提供的 Power BI 索引 PNG 含 user_sn 與真實分布，來源 SHA-256 為 FC4201C8ECF45EC1780482E211DC69A83A5D47F53C96F22C4A9F95E1108E719B；未取得資料提供方另行公開許可前不得進 public 或 build。",
     ],
     riskReminders: [
       "最高優先：兩件資料視覺化作品彼此獨立，不可寫成同一研究的前後階段。",

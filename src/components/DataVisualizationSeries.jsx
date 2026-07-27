@@ -64,7 +64,7 @@ const DataVisualizationSeries = memo(function DataVisualizationSeries() {
         <div className="grid min-w-0 gap-6 md:grid-cols-[minmax(0,0.38fr)_minmax(0,0.62fr)]">
           <div className="grid min-w-0 content-start gap-4">
             <p className="meta-label text-[var(--theme-accent)]">
-              我從兩件作品看到的事
+              兩件作品的共同觀察
             </p>
             <p className="zh-copy text-[color:var(--theme-muted)]">
               {dataVisualizationSeries.reflection}

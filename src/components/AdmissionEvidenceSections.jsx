@@ -132,7 +132,7 @@ export function PureDataLearningSection() {
       <div className="grid gap-4 lg:grid-cols-3">
         <PublicList title="目前完成" items={evidence.completed} />
         <section className="paper-panel grid content-start gap-4 rounded-[var(--radius-md)] p-5">
-          <h3 className="zh-heading text-[clamp(1.2rem,2vw,1.65rem)]">AI 協作與我的學習</h3>
+          <h3 className="zh-heading text-[clamp(1.2rem,2vw,1.65rem)]">AI 協作與學習重點</h3>
           <p className="zh-caption text-[var(--theme-inverse-text)] opacity-80">{evidence.authorshipNote}</p>
         </section>
         <section className="soft-panel grid content-start gap-4 rounded-[var(--radius-md)] p-5">
@@ -152,7 +152,7 @@ export function PureDataLearningSection() {
 function WorkEvidenceCard({ work }) {
   const metadata = [
     { label: "創作目的", value: work.purpose },
-    { label: "個人角色", value: work.roles?.join("／") },
+    { label: "負責項目", value: work.roles?.join("／") },
     { label: "使用工具", value: work.tools?.length ? work.tools.join("／") : "" },
   ].filter((item) => item.value);
 
@@ -199,7 +199,7 @@ function WorkEvidenceCard({ work }) {
       ) : null}
 
       <div className="grid gap-4 lg:grid-cols-2">
-        <PublicList title="這件作品呈現的能力" items={work.highlights} />
+        <PublicList title="實作重點" items={work.highlights} />
         <section className="soft-panel grid content-start gap-4 rounded-[var(--radius-md)] p-5">
           <h4 className="zh-heading text-[clamp(1.2rem,2vw,1.65rem)]">回顧與下一步</h4>
           <p className="zh-caption text-[color:var(--theme-muted)]">{work.reflection}</p>
@@ -208,7 +208,7 @@ function WorkEvidenceCard({ work }) {
 
       {work.materialsNote ? (
         <section className="paper-panel grid gap-3 rounded-[var(--radius-md)] p-5" aria-labelledby={`${work.id}-materials-title`}>
-          <h4 id={`${work.id}-materials-title`} className="zh-heading text-[clamp(1.1rem,1.8vw,1.45rem)]">我的角色與素材說明</h4>
+          <h4 id={`${work.id}-materials-title`} className="zh-heading text-[clamp(1.1rem,1.8vw,1.45rem)]">負責項目與素材說明</h4>
           <p className="zh-caption text-[var(--theme-inverse-text)] opacity-80">{work.materialsNote}</p>
         </section>
       ) : null}
@@ -225,8 +225,8 @@ export function RepresentativeWorksSection() {
       <SectionHeader
         eyebrow="代表作品"
         id="selected-work"
-        title="從原創短劇出發，整理我的影音敘事與製作方法。"
-        lines={[["從原創", "短劇出發，"], ["整理我的", "影音敘事與"], ["製作方法。"]]}
+        title="從原創短劇出發，整理影音敘事與製作方法。"
+        lines={[["從原創", "短劇出發，"], ["整理影音", "敘事與"], ["製作方法。"]]}
         description="《畫本》記錄我第一次從故事構思走到拍攝與剪輯的完整流程；後續案例則呈現資料敘事、學習設計與素材剪輯經驗。"
       />
 
@@ -236,7 +236,7 @@ export function RepresentativeWorksSection() {
         <div className="grid gap-3 md:grid-cols-[0.32fr_0.68fr] md:gap-10">
           <h3 id="supporting-work-title" className="meta-label text-[var(--theme-accent)]">延伸案例</h3>
           <p className="zh-copy-wide text-[color:var(--theme-muted)]">
-            從影音、資料敘事到學習介面，這些案例呈現我如何整理素材、安排閱讀順序，並把不同形式的內容轉成可理解的作品。
+            從影音、資料敘事到學習介面，這些案例整理素材選擇、閱讀順序，以及不同內容形式的轉譯方法。
           </p>
         </div>
         <div className="grid gap-4 lg:grid-cols-3">
@@ -321,7 +321,7 @@ export function LearningRoadmapSection() {
         id="learning-roadmap"
         title="從可操作作品出發，逐步補足聲音工具與研究方法。"
         lines={[["從可操作作品", "出發，"], ["逐步補足", "聲音工具與"], ["研究方法。"]]}
-        description="我把已完成的作品、正在練習的工具與研究所階段希望深入的方向分開整理，讓每一步都能接到下一次實作。"
+        description="學習路線將已完成的作品、正在練習的工具與研究所階段希望深入的方向分開整理，讓每一步都能接到下一次實作。"
       />
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {learningRoadmap.map((stage, index) => (

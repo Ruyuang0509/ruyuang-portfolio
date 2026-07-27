@@ -12,6 +12,14 @@
 - Scan 為 132 files／25 text files、67／9 rules；118 個 `public/` files 在 132-file `dist/` 中為 0 missing、0 hash mismatch。Manifest 維持 `verified / approved`。
 - Browser 在 1280×800、768×900、390×844、320×720 為 0 overflow、0 broken hashes、0 duplicate IDs、0 broken images、console 0 warning／error；四個 deep links 位於頂端約 95–112 px，theme endpoints 與 mobile Escape 還焦通過。
 
+## 2026-07-27 作者視角、作品索引與案例視覺整合
+
+- 公開文案依「作者親自做了什麼／可核對 artifact 或方法／仍不能推論什麼」三層重整；這是語氣與閱讀層級整合，不改寫既有學歷、角色、權利、測試或研究結論。
+- 11 個高階 IA 不變；`#project-index` 是 `#selected-work` 內的巢狀快速索引，不得計成第 12 個高階段落。索引順序固定為 Web Audio → Hamlet → Power BI → 資料視覺化，且只提供真實案例 anchor。
+- Web Audio 的 N1／N2／N3 圖改為正式視覺策略卡片；資料視覺化案例改由 `productionWorkflow` 與 lazy `CaseProcessSection` 輸出四階段語意 HTML／CSS，不再依賴內含文字且會被裁切的舊流程 SVG。
+- Hamlet 仍為 `rightsReview.status: verified`、`publicationGate: approved` 的限定非營利用途；private originals 未找到、commercial use 不允許與 `notValidated` 不因此次內容整合而改變。
+- 下方 2026-07-26 命令、bundle、inventory 與 Browser 數字仍是整合前基線。2026-07-27 最新組合已完成完整 `doctor`、獨立 publication gate、dist 定向文字檢查前置 build 與 targeted Browser smoke；精確結果見 PA-051。未執行的 production／人工項目不得預先寫成通過。
+
 ## 2026-07-26 Hamlet rights Phase A（歷史快照）
 
 - Schema v2、public redacted summary、attestation 草稿、純函式 rights validator、13 個 Node fixtures、公開 Suno credit 與 Pages publication gate 已建立。
@@ -20,7 +28,7 @@
 - 公開 copy 已把「原始 instrumental／no lyrics 規格」與「實際含英語歌詞與人聲」分開。Rights verification 不等於形成性測試、研究或學習成效驗證。
 - In-app Browser 四個 viewport 實測：Suno credit／pending attestation 可見，link focus-visible，影片鍵盤播放／暫停有效，8 張 storyboard、2 tracks、11 anchors 保留，duplicate ID／global overflow／console warning or error 均為 0。
 
-更新日期：2026-07-26。這份文件記錄可由原始碼、建置輸出、本機 artifact inventory、submission preview、GitHub／Pages 與公開 HTTP 證明的結果；內容或學術決策不足時，不以推測代替申請者證據。2026-07-17／07-18 Lighthouse、PR #6 production、Phase B base 與 `75b8df7` Browser matrix 都只適用各自 fingerprint；本輪整合工作樹的自動 gate、artifact inventory 與四 viewport Browser smoke 已完成。
+更新日期：2026-07-27。這份文件記錄可由原始碼、建置輸出、本機 artifact inventory、submission preview、GitHub／Pages 與公開 HTTP 證明的結果；內容或學術決策不足時，不以推測代替申請者證據。2026-07-17／07-18 Lighthouse、PR #6 production、Phase B base、`75b8df7` Browser matrix 與 2026-07-26 公開展示版驗證都只適用各自 fingerprint；2026-07-27 作者視角與作品索引整合後的本機自動與 targeted Browser 結果見 PA-051，production／人工限制仍維持未驗證。
 
 ## 2026-07-26 公開展示版稽核結論
 
@@ -32,11 +40,12 @@
 ## 目前 source、部署與驗證
 
 - 目前高階錨點為 `#top`、`#sound-transition`、`#reviewer-path`、`#interactive-sound-learning`、`#pure-data-learning`、`#research-positioning`、`#selected-work`、`#collaboration`、`#learning-roadmap`、`#ai-workflow`、`#contact`；`#research-proposal` 只保留為研究構想的相容 alias。
+- `#project-index` 巢狀位於 `#selected-work`；中寬以上 2 欄、窄版 1 欄，依 Web Audio、Hamlet、Power BI、資料視覺化排序。它不改變 11 段高階 IA，也不建立假篩選、空連結或未存在的 GitHub／Live Demo。
 - `#selected-work` 的內部順序固定為《畫本》→ 其他可驗證作品（AI 文學故事 MV、資料視覺化、Power BI）→《希望有羽毛和翅膀》個人 MV 混剪。兩件文字型新案例已存在；舊「不新增案例」決策已被較新的申請者事實與選件決策取代，但公開成片與逐項 rights／credit 仍未提供。
 - Pure Data v0.2.1 MP4 與 poster 實際存在於 `public/media/portfolio/pd-crossmodal-mapping-v0.2.1-operation-demo.mp4` 與 `public/media/portfolio/pd-crossmodal-mapping-v0.2.1-operation-demo-poster.png`。這只證明本機功能操作有錄影，不證明申請者獨立完成 Patch、完成使用者／學術驗證或建置正式研究系統。
 - 原始 Pure Data 畫面含 `validated` 與本機 D 槽路徑；公開 copy 已把前者限制為「本機功能測試」，但影片畫面仍會暴露路徑。這是本輪 submission/publication 前必須人工接受或重錄的風險。
 - 私人研究工作區內確有研究計畫 DOCX，但尚未核准公開，也沒有公開下載。文獻、設備、樣本、預算、倫理、metadata 與公開範圍仍需核對；不得把它寫成「沒有檔案」，也不得因檔案存在而推論研究已通過審查。
-- Metadata source 已改為「蕭智仁｜聲響、互動與數位學習作品集」，canonical／OG URL 為正式 GitHub Pages，`llms.txt` 列出 11 個錨點。本輪 source、fresh build、scanner、四個 deep links 與 publication gate 已重驗；manifest 為 `verified / approved` 且 `check:publication` exit 0。新 PR 仍是 Draft，production deployment／HTTP、screen reader、真實 zoom、system reduced-motion、實機、多瀏覽器音訊，以及兩個 YouTube 作品的第三方 rights／完整 credit 尚未核對。
+- Metadata source 已改為「蕭智仁｜聲響、互動與數位學習作品集」，canonical／OG URL 為正式 GitHub Pages，`llms.txt` 列出 11 個錨點。2026-07-27 最新組合的 fresh submission build、scanner、targeted anchors 與 publication rights audit 已通過；manifest 為 `verified / approved`。目前沒有建立、推送或部署新的 PR，production deployment／HTTP、screen reader、真實 zoom、system reduced-motion、實機、多瀏覽器音訊，以及兩個 YouTube 作品的第三方 rights／完整 credit 尚未核對。
 
 ## 判讀方式
 
@@ -46,7 +55,7 @@
 
 ## 稽核矩陣
 
-PA-001–PA-037 保留先前驗證 lineage；若與 PA-038–PA-046 的目前 source、部署與驗證狀態衝突，以後者為準。舊 row 的「已完成」與 browser 數字只適用當時 fingerprint。
+PA-001–PA-037 保留先前驗證 lineage；PA-038–PA-046 記錄 2026-07-26 公開展示版基線，PA-047–PA-050 記錄 2026-07-27 整合。舊 row 的「已完成」與 Browser 數字只適用當時 fingerprint；新組合驗證完成後再更新，不得沿用舊數字。
 
 | ID | 類別 | 頁面／元件 | 證據 | 對評審或使用者的影響 | 嚴重度 | 是否確認 | 修正方式 | 本輪狀態 | 驗證 |
 |---|---|---|---|---|---|---|---|---|---|
@@ -93,13 +102,18 @@ PA-001–PA-037 保留先前驗證 lineage；若與 PA-038–PA-046 的目前 so
 | PA-041 | CONTENT_GOVERNANCE | 代表作品、合作與學習路線 | 《畫本》、個人 MV、社團與工作經驗依申請者敘事加入；前兩件無公開成片，社團數字無 repository artifact | 可補足影音與協作脈絡，但精確角色、6→17 與權利主張需避免升格為獨立驗證 | High | Source 與使用者提供事實可確認；外部 artifact 未確認 | 《畫本》不主張得獎；個人 MV 只主張選曲／研究／取材／篩選／剪輯並揭露第三方權利；社團成長不歸因單一措施 | Source 已實作；證據待補 | 不嵌入未核准媒體；需補成片／credit／日期／rights ledger／社團紀錄 |
 | PA-042 | RESEARCH_AI_BOUNDARY | `#research-positioning`、`#ai-workflow` | 研究構想分為問題、初步配置、可帶入能力、入學後補強；AI 區分協助、作者責任與尚需補強，包含 PD 失敗鏈；REAPER 過度敘述已降回實際學習狀態 | 降低把未建置系統、AI Patch、REAPER 安裝或可執行程式誤讀為研究成果／獨立熟練度的風險 | High | Source 與 scanner 已確認；研究可行性與作者熟練度未驗證 | 維持申請階段聲明與不能證明清單；不得宣稱完成多聲道、心理聲學、較低門檻成效、REAPER 作品或指導認可 | Source／本機驗證完成；內容簽核待完成 | 73/73 fixtures、67／9 rules 通過；對正向過度主張保持 fail closed，對明確否定 caveat 保持通過 |
 | PA-043 | PUBLIC_METADATA_CONTACT | Metadata、`llms.txt`、`#contact` | title／OG／Twitter／JSON-LD 已同步申請者名稱與聲響／互動／數位學習；canonical、OG URL、Portfolio 與 public GitHub link 已填入；`llms.txt` 列 11 段；私人研究計畫 DOCX 實際存在但未公開 | 搜尋、分享與頁尾出口可與現行 IA 一致，不再依賴假 contact CTA，也不誤導私人檔案狀態 | High | Source、fresh build、scanner 與本機 Browser anchor 已確認；production HTTP／分享卡未重驗 | 只保留真實 Portfolio／GitHub；私人 DOCX 未形成核准公開審閱版前不提供下載，且不可寫成沒有檔案 | 本機驗證完成；production 待 Draft PR merge 後重驗 | Submission build 467 modules；`#contact` deep link 位於頂端約 95–112 px，0 broken hashes／duplicate IDs。Raster preview與跨平台分享仍待驗 |
-| PA-044 | FINAL_VERIFICATION | 11 段 IA、submission artifact、publication gate、Browser matrix | 本輪 `install`、`doctor`、scanner、draft／submission builds、public→dist inventory、publication gate 與四 viewport Browser smoke 已執行 | Build、artifact、limited-use rights 與 targeted rendered behavior可確認；人工／實機、第三方 rights 與研究成效不得冒充通過 | Critical | 命令輸出、artifact inventory、manifest 與 Browser runtime 已確認 | 保留自動／rendered／applicant／research 證據分層，明列 private-original、YouTube rights／credit 與人工測試缺口 | 本機 final verification 完成 | `install`／`doctor` exit 0；18/18 sound、14/14 rights、73/73 scanner；draft 471／200889 gzip／180733 entry／44315 CSS，submission 467／192936／153704／44315；scan 132／25、67／9，public 118、0 missing／mismatch；publication exit 0。四 viewport integrity、deep links、theme endpoints、Escape 還焦通過 |
-| PA-045 | GIT_DEPLOYMENT | PR #6／#7／#9、Actions、Pages、production | PR #6 與其 Pages run 的 deployment／HTTP 已確認；PR #7 Phase B 已進 current base，publication gate 位於 Configure Pages／upload 前；目前 PR #9 為 Draft 且 mergeable，本機兩個 gate 已通過但尚未 merge／deploy；PR #8 保持衝突狀態 | 將歷史 production、current base、本機驗證與 Draft PR 分層，避免把本機 exit 0 或 Draft PR 誤記為已上線／發布核准 | High | Git、PR、既有 Actions／Pages、workflow source 與本機 gate 可確認；目前組合的 production deployment 未確認 | 後續只更新 Draft PR #9；不直接 push `main`，merge／deploy 後重驗 production | 本機完成；Draft PR／production 待後續 | 先前 HTTP 200 只屬舊 fingerprint；目前需經核准 merge、兩個 deploy gate 與新 production smoke 後才能稱為已發布 |
+| PA-044 | FINAL_VERIFICATION | 11 段 IA、submission artifact、publication gate、Browser matrix | 2026-07-26 `install`、`doctor`、scanner、draft／submission builds、public→dist inventory、publication gate 與四 viewport Browser smoke 已執行 | 該 fingerprint 的 build、artifact、limited-use rights 與 targeted rendered behavior 可確認；不得用來推論 2026-07-27 組合已通過，人工／實機、第三方 rights 與研究成效亦不得冒充通過 | Critical | 2026-07-26 命令輸出、artifact inventory、manifest 與 Browser runtime 已確認 | 保留自動／rendered／applicant／research 證據分層，明列 private-original、YouTube rights／credit 與人工測試缺口；整合後重跑 | 2026-07-26 基線完成；2026-07-27 待重驗 | `install`／`doctor` exit 0；18/18 sound、14/14 rights、73/73 scanner；draft 471／200889 gzip／180733 entry／44315 CSS，submission 467／192936／153704／44315；scan 132／25、67／9，public 118、0 missing／mismatch；publication exit 0。數字只適用 2026-07-26 fingerprint |
+| PA-045 | GIT_DEPLOYMENT | PR #6／#7／#9、Actions、Pages、production | PR #6 與其 Pages run 的 deployment／HTTP 已確認；PR #7 Phase B 已進 2026-07-26 base，publication gate 位於 Configure Pages／upload 前；當時 PR #9 為 Draft 且 mergeable、本機兩個 gate通過但未 merge／deploy，PR #8 保持原狀 | 將歷史 production、base、本機驗證與 Draft PR 分層，避免把舊 exit 0 或 Draft PR 誤記為目前已上線／發布核准 | High | 2026-07-26 Git、PR、既有 Actions／Pages、workflow source 與本機 gate 可確認；2026-07-27 branch／PR 與 production deployment 未確認 | 重新查證目前 branch／PR，不直接 push `main`；核准 merge／deploy 後重驗 production | 2026-07-26 基線完成；目前 branch／PR／production 待重查 | 先前 HTTP 200 只屬舊 fingerprint；目前需經新組合 gates、核准 merge、deploy 與 production smoke 後才能稱為已發布 |
 | PA-046 | PUBLICATION_BOUNDARY | Admission source／docs 與 public Git | `src/data/admission-*`、`src/data/ai-workflow.js`、`docs/admission/*` 與 Pd binaries 已在 public Git；submission alias／dynamic Draft split 只影響 bundle | Source-only 不能被誤當 private；limited-use approval 也不能擴張為完整著作權／商業權利 | Critical | public Repository、source boundary、manifest、attestation、workflow 與本輪 publication audit 已確認；private originals 未找到 | 保持 private workbench、`usedForExistingVideo: false`、`notValidated` 與限定用途；不要加入原始測試、個資或未核 rights 材料 | Limited-use gate 本輪通過；scope 持續治理 | `check:publication` exit 0、`verified / approved`；主要治理缺口是 private originals、Pure Data 路徑揭露、YouTube 第三方 rights／完整 credit 與 public source scope。Draft PR 不等於發布核准 |
+| PA-047 | VISUAL_ACCESSIBILITY | 旗艦 Web Audio 視覺策略卡片 | 舊配圖帶有模板英文字與流程／架構誤標；底部 disclosure 只重複施工式圖像說明 | 評審可能把概念圖誤讀為已完成介面或技術證據，無功能感的箭頭也造成錯誤 affordance | High | N1／N2／N3 素材、目前 source、draft／submission build 與 targeted Browser 可確認 | N1／N2／N3 固定配對；輸出 561／1122 AVIF/WebP；使用正式文案與 alt；移除重複 disclosure、箭頭與互動提示 | 本機組合驗證通過 | Web Audio 案例在桌機與 390 px 行動版均為 section／page overflow 0；draft／submission build 通過。圖片內容與 alt 已核對，完整失敗載入／Save-Data 矩陣仍屬人工項目 |
+| PA-048 | CONTENT_RESPONSIVE_ACCESSIBILITY | `data-visualization-cases` 製作流程與工具標籤 | 1200×900、內含文字的舊 SVG 被共用 4:5 `object-cover` 圖卡裁切，並以大畫布留下空白；同一案例又誤列 Power BI／Excel | 評審無法完整閱讀四階段，也會把另一件資料分析專案的工具誤認為本案例使用 | High | `productionWorkflow`、`CaseProcessSection`、draft／submission build 與目前 rendered behavior 可確認；完成投影片只作內容核對 | 移除舊 SVG；以 lazy HTML／CSS `section > ol > li > article` 呈現四階段；只從本案例移除 Power BI／Excel，保留另一案例標籤；不把完成投影片冒充原始流程證據 | 本機組合驗證通過 | 1440 px 為 4 欄，四卡各約 301×209 px；390 px 為單欄，四卡各約 330×199 px；兩者 section／page overflow 皆為 0。中寬 2 欄由 CSS 與 build 確認，仍需實機矩陣 |
+| PA-049 | INFORMATION_ARCHITECTURE_VISUAL_ACCESSIBILITY | `#project-index` 代表作品／作品索引 | 舊卡片把大量施工資訊、未分級欄位與錯誤工具關聯帶進快速索引；兩張資料案例截圖分別含第三方介面與受限教育資料 | 評審難以快速比較四件代表作，錯誤工具或不適合公開的畫面亦可能造成可信度、隱私與權利風險 | High | Source、公開安全 derivatives、既有 rights evidence、submission artifact 與目前 Browser 可確認 | 固定 Web Audio → Hamlet → Power BI → 資料視覺化順序；使用短題名／摘要、精簡角色工具、真實 anchor 與靜態標籤；Web Audio 用 responsive AVIF/WebP，資料案例用自包含安全 SVG；`#project-index` 巢狀於 `#selected-work`，不增加高階 IA | 本機組合驗證通過；Hamlet 維持 limited-use `verified / approved` | 1440 px 四卡為 2×2、各約 875×611 px；390 px 單欄卡片寬 330 px；順序、四個有效案例入口、0 dead anchors、page／nav overflow 0 均確認 |
+| PA-050 | AUTHOR_VOICE_CONTENT_GOVERNANCE | 全站公開文案、案例摘要與 ARIA／metadata | 同一事實可能在作者自述、可核對 artifact 與限制說明間失去層級，施工式字詞也會削弱第一人稱可信度 | 評審可能把作者選擇、工程可用性、研究驗證與權利核准混為同一種「完成」 | High | 公開 data modules、元件 copy、metadata、文件差異、submission text scan 與目前 Browser 已確認；最終主觀語氣簽核仍需本人完成 | 以作者行動 → artifact／方法 → 限制三層寫法統一；保留具名角色、`notValidated`、private-original 缺口、限定用途與團隊邊界；同步 visible copy、ARIA 與 metadata | Source、文件、本機自動與 targeted Browser 已完成；本人簽核待辦 | 逐句檢視 165 個含「我」的來源行，其中 75 個過量／模板式來源行已改寫；第三人稱代寫感為 10 個來源命中、合併為 7 組不重複字串。沒有新增參與者、成效、節省時間、商業權利、研究結論或官方認可 |
+| PA-051 | FINAL_VERIFICATION_2026_07_27 | 作者視角、作品索引、案例流程與 submission artifact | 最新組合需要以同一 fingerprint 覆蓋文案、build、rights、scanner 與 responsive rendered behavior | 避免把 2026-07-26 基線、source inspection 或 Draft branch 誤寫成目前已驗證／已發布 | Critical | 目前工作樹的命令輸出、submission artifact 與 In-app Browser targeted smoke 可確認；production、輔具與實機不可確認 | 先完成衝突解析，再執行 `doctor`、publication gate、dist 定向文字檢查與 Git 一致性檢查；保留自動／Browser／人工／production 證據層級 | 本機自動與 targeted Browser 通過；production／人工矩陣待辦 | 完整 `doctor` exit 0。Draft：474 modules、entry 181772 B、CSS 46069 B、initial JS gzip 201686 B；submission：470 modules、entry 153688 B、CSS 46069 B、initial JS gzip 193282 B。Sound 18/18、rights 14/14、scanner 73/73；scan 135 files／28 text files、67／9 rules；`public/` evidence 為 3 direct copies、60 derivatives、16 WebVTT cues、63 Hamlet public files。獨立 `check:publication` exit 0／`verified / approved`。Browser：1440×1000 與 390×844 page／section overflow 0、4 個 index cards、4 個 workflow cards、0 dead anchors、console 0 warning／error；mobile menu label／展開／anchor landing 通過 |
 
 ## 仍需人工完成的驗收
 
-- 本輪已在 1280×800、768×900、390×844、320×720 完成 overflow、hash／ID、image、console、Pure Data／Hamlet／selected-work／contact deep links、theme endpoints 與 mobile menu Escape focus smoke。Screen reader、真實 200% zoom、system reduced-motion、實機、多瀏覽器音訊、完整 media fallback／Save-Data 與 production field matrix仍需人工驗收。
+- 2026-07-27 最新組合已在 1440×1000 與 390×844 完成作者視角改寫所影響之代表作品索引、Hamlet、資料視覺化流程，以及 Hero、Web Audio、研究構想、Power BI、AI、contact 的定向 overflow／anchor／console smoke；Screen reader、真實 200% zoom、system reduced-motion、實機、多瀏覽器音訊、完整 media fallback／Save-Data 與 production field matrix仍需人工驗收。
 - NVDA 或 VoiceOver 的 heading、landmark、live region 與 menu 閱讀順序。
 - 瀏覽器真實 200% zoom、reduced-motion 系統偏好、iOS／Android 觸控與不同 Web Audio 實作。
 - YouTube captions／transcript 的內容品質；Power BI 若要展示真實結果，仍需資料提供方另行明確許可。

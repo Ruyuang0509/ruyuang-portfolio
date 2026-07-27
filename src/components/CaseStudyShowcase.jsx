@@ -10,6 +10,8 @@ import PortfolioDraftLayer from "#portfolio-draft";
 import AnimatedDetails from "./AnimatedDetails.jsx";
 
 const SoundInteractionPrototype = lazy(() => import("./SoundInteractionPrototype.jsx"));
+const CaseProcessSection = lazy(() => import("./CaseProcessSection.jsx"));
+const ProjectIndexGrid = lazy(() => import("./ProjectIndexGrid.jsx"));
 
 const cardSpring = {
   type: "spring",
@@ -19,9 +21,9 @@ const cardSpring = {
 // Codex-Fix: Shared spring settings keep overview interactions tactile without layout animation cost.
 
 const diagramLabels = {
-  interactionFlow: "圖像說明",
-  systemArchitecture: "圖像說明",
-  informationArchitecture: "圖像說明",
+  interactionFlow: "互動流程",
+  systemArchitecture: "系統架構",
+  informationArchitecture: "資訊架構",
 };
 
 const hasSupportingMediaEvidence = (media = {}) => Boolean(
@@ -33,8 +35,57 @@ const hasSupportingMediaEvidence = (media = {}) => Boolean(
   || media.restricted?.length,
 );
 
-function ChipList({ items = [], accent = false, label = "標籤" }) {
+const defaultCaseReadingAnchors = [
+  { key: "problem", label: "問題", title: "問題意識" },
+  { key: "process", label: "流程", title: "流程與系統" },
+  { key: "media", label: "媒體", title: "媒體證據" },
+  { key: "tools", label: "工具", title: "工具與負責項目" },
+  { key: "reflection", label: "反思", title: "研究深化" },
+  { key: "themes", label: "連結", title: "本所主題" },
+];
+
+const getCaseReadingAnchors = (project) => project.workflow
+  ? [
+      { key: "problem", label: "背景", title: "專案背景" },
+      { key: "workflow", label: "流程", title: "五階段製作" },
+      { key: "prompt-system", label: "Prompt", title: "Prompt Design" },
+      { key: "storyboard", label: "分鏡", title: "實際八幕分鏡" },
+      { key: "outcomes", label: "價值", title: "成果與價值" },
+      { key: "next-steps", label: "後續", title: "洞察與下一步" },
+    ]
+  : defaultCaseReadingAnchors
+      .filter((anchor) => anchor.key !== "media" || hasSupportingMediaEvidence(project.media))
+      .map((anchor) => {
+        if (anchor.key !== "process") return anchor;
+        if (project.productionWorkflow?.title) {
+          return { ...anchor, title: project.productionWorkflow.title };
+        }
+        return project.diagrams?.[0]?.kind === "visualStrategy"
+          ? { ...anchor, label: "視覺", title: "視覺策略" }
+          : anchor;
+      });
+
+const countMediaEvidence = (media = {}) =>
+  [media.visualDrafts, media.screenshots, media.videos, media.audio, media.demos, media.restricted]
+    .reduce((total, items) => total + (items?.length ?? 0), 0);
+
+function getEvidenceSnapshot(project) {
+  return [
+    project.productionWorkflow?.stages?.length
+      ? { label: "製作階段", value: project.productionWorkflow.stages.length }
+      : project.workflow?.stages?.length
+      ? { label: "流程階段", value: project.workflow.stages.length }
+      : { label: "圖解", value: project.diagrams?.length ?? 0 },
+    { label: "媒體件數", value: countMediaEvidence(project.media) },
+    { label: "工具", value: project.tools?.length ?? 0 },
+    { label: "負責項目", value: project.roles?.length ?? 0 },
+    { label: "成效", value: project.testing?.statusKey === "validated" ? "已驗證" : project.testing?.statusKey === "exploratory" ? "探索中" : "尚未驗證" },
+  ];
+}
+
+function ChipList({ items = [], accent = false, label = "標籤", variant }) {
   if (!items.length) return null;
+  const resolvedVariant = variant ?? (accent ? "accent" : "default");
 
   return (
     <ul className="flex flex-wrap gap-2" aria-label={label}>
@@ -42,7 +93,9 @@ function ChipList({ items = [], accent = false, label = "標籤" }) {
         <li
           key={item}
           className={
-            accent
+            resolvedVariant === "static"
+              ? "chip-text inline-flex items-center rounded-[var(--radius-sm)] border border-[color:var(--theme-line)] bg-[color:var(--theme-surface)] px-3 py-1.5 text-sm font-bold text-[var(--theme-text)]"
+              : resolvedVariant === "accent"
               ? "inverted-pill chip-text rounded-full px-3.5 py-1.5 text-sm font-extrabold"
               : "chip-text rounded-full border border-[color:var(--theme-line)] px-3.5 py-1.5 text-sm font-semibold text-[color:var(--theme-muted)]"
           }
@@ -54,7 +107,7 @@ function ChipList({ items = [], accent = false, label = "標籤" }) {
   );
 }
 
-function ResponsiveImage({ image, className = "", sizes = "100vw", loading = "lazy", fetchPriority = "auto" }) {
+function ResponsiveImage({ image, className = "", sizes = "100vw", loading = "lazy", fetchPriority = "auto", style }) {
   const [hasError, setHasError] = useState(false);
 
   if (hasError) {
@@ -63,8 +116,9 @@ function ResponsiveImage({ image, className = "", sizes = "100vw", loading = "la
         className={`${className} grid place-items-center bg-[color:var(--theme-surface)] p-4 text-center`}
         role="img"
         aria-label={`影像載入失敗：${image.alt}`}
+        style={style}
       >
-        <span className="zh-caption max-w-[24rem] text-[color:var(--theme-muted)]">影像暫時無法顯示；請參考同一卡片的文字、時間碼與操作。</span>
+        <span className="zh-caption max-w-[24rem] text-[color:var(--theme-muted)]">影像暫時無法顯示；請參考同一卡片的標題與說明。</span>
       </div>
     );
   }
@@ -83,6 +137,7 @@ function ResponsiveImage({ image, className = "", sizes = "100vw", loading = "la
         loading={loading}
         decoding="async"
         fetchPriority={fetchPriority}
+        style={style}
         onError={() => setHasError(true)}
       />
     </picture>
@@ -271,12 +326,12 @@ function ProjectOverviewCard({ project, index }) {
           </p>
         ) : null}
         <p className="zh-caption rounded-[var(--radius-sm)] border border-[color:var(--theme-line)] p-4 font-bold text-[var(--theme-text)]">
-          我在這件作品裡做了：{project.whatThisProves}
+          負責項目：{project.whatThisProves}
         </p>
         <div className="grid gap-3 rounded-[var(--radius-sm)] bg-[color:var(--theme-surface)] p-4">
           <div>
             <p className="meta-label text-[var(--theme-accent)]">
-              我的角色
+              負責項目
             </p>
             <p className="zh-caption mt-1 text-[var(--theme-text)]">
               {project.roles.slice(0, 4).join(" / ")}
@@ -294,6 +349,38 @@ function ProjectOverviewCard({ project, index }) {
         <ChipList items={project.instituteConnections.slice(0, 3)} accent label={`${project.title} 的研究連結`} />
       </div>
     </motion.article>
+  );
+}
+
+function ProjectReadingMap({ project }) {
+  const evidence = getEvidenceSnapshot(project);
+  const anchors = getCaseReadingAnchors(project);
+
+  return (
+    <aside className="case-reading-map soft-panel grid gap-6 rounded-[var(--radius-md)] p-5" aria-label={`${project.title} 閱讀路徑與證據快覽`}>
+      <div className="grid gap-3 md:grid-cols-[0.26fr_0.74fr] md:items-center">
+        <p className="meta-label text-[var(--theme-accent)]">Reading map</p>
+        <nav className="flex flex-wrap gap-2" aria-label={`${project.title} case study 章節`}>
+          {anchors.map((anchor) => (
+            <a
+              key={anchor.key}
+              className="case-reading-link interactive-link chip-text inline-flex items-center rounded-full border border-[color:var(--theme-line)] px-3.5 py-1.5 text-xs font-extrabold text-[color:var(--theme-muted)] hover:text-[var(--theme-text)]"
+              href={`#${project.id}-${anchor.key}`}
+            >
+              {anchor.label}
+            </a>
+          ))}
+        </nav>
+      </div>
+      <dl className="grid gap-3 sm:grid-cols-5">
+        {evidence.map((item) => (
+          <div key={item.label} className="rounded-[var(--radius-sm)] bg-[color:var(--theme-surface)] p-3">
+            <dt className="zh-label text-[var(--theme-accent)]">{item.label}</dt>
+            <dd className="zh-caption mt-1 font-extrabold text-[var(--theme-text)]">{item.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </aside>
   );
 }
 
@@ -403,7 +490,7 @@ function WorkflowSection({ id, workflow }) {
                 ["輸入", stage.input],
                 ["產出", stage.output],
                 ["這一步要守住", stage.constraint],
-                ["我會檢查", stage.humanCheck],
+                ["核對重點", stage.humanCheck],
               ].map(([label, value]) => (
                 <div key={label}>
                   <dt className="zh-label text-[var(--theme-accent)]">{label}</dt>
@@ -471,8 +558,8 @@ function PromptDecisionSection({ id, decisions = [], template }) {
       <div className="grid gap-4 md:grid-cols-[0.32fr_0.68fr] md:gap-12">
         <p className="meta-label text-[var(--theme-accent)]">提示詞限制</p>
         <div className="grid gap-3">
-          <h3 id={`${id}-title`} className="zh-heading text-[clamp(1.55rem,3vw,2.8rem)]">我先訂下四個輸出條件</h3>
-          <p className="zh-copy text-[color:var(--theme-muted)]">我先限制情節、語言、畫面與聲音的範圍，再逐項人工核對；提示詞不代替最後判斷。</p>
+          <h3 id={`${id}-title`} className="zh-heading text-[clamp(1.55rem,3vw,2.8rem)]">四項輸出條件</h3>
+          <p className="zh-copy text-[color:var(--theme-muted)]">先界定情節、語言、畫面與聲音的範圍，再逐項人工核對；提示詞不代替最後判斷。</p>
         </div>
       </div>
       <div className="grid gap-4 md:grid-cols-2">
@@ -487,7 +574,7 @@ function PromptDecisionSection({ id, decisions = [], template }) {
                 ["限制條件", decision.constraint],
                 ["為什麼需要", decision.rationale],
                 ["避免的輸出問題", decision.outputProblem],
-                ["我會檢查", decision.humanCheck],
+                ["核對重點", decision.humanCheck],
               ].map(([label, value]) => (
                 <div key={label} className="border-t border-[color:var(--theme-line)] pt-3">
                   <dt className="zh-label text-[var(--theme-accent)]">{label}</dt>
@@ -801,8 +888,8 @@ function CaseClosingPanel({ id, insight, nextSteps = [], ctas = [] }) {
   return (
     <section id={id} className="case-anchor evidence-panel grid gap-8 rounded-[var(--radius-lg)] p-6 md:grid-cols-[0.52fr_0.48fr] md:p-8" aria-labelledby={`${id}-title`}>
       <div className="grid content-start gap-4">
-        <p className="meta-label text-[var(--theme-accent)]">我學到的事</p>
-        <h3 id={`${id}-title`} className="zh-heading text-[clamp(1.55rem,3vw,2.8rem)]">這件作品目前最重要的學習</h3>
+        <p className="meta-label text-[var(--theme-accent)]">製作反思</p>
+        <h3 id={`${id}-title`} className="zh-heading text-[clamp(1.55rem,3vw,2.8rem)]">目前的製作反思</h3>
         <p className="zh-copy-wide text-[var(--theme-text)]">{insight}</p>
       </div>
       <div className="grid content-start gap-6 border-t border-[color:var(--theme-line)] pt-6 md:border-l md:border-t-0 md:pl-8 md:pt-0">
@@ -863,20 +950,22 @@ function StructuredProjectSections({ sections = [] }) {
 }
 // Codex-Fix: Case studies can now carry rich handoff-driven narrative sections without hard-coding bespoke layouts.
 
-function DiagramGallery({ id, diagrams = [] }) {
+function DiagramGallery({ id, diagrams = [], introduction }) {
   if (!diagrams.length) return null;
+
+  const isVisualStrategy = diagrams[0]?.kind === "visualStrategy";
 
   return (
     <section id={id} className="grid gap-8 border-t border-[color:var(--theme-line)] pt-8">
       <div className="grid gap-3 md:grid-cols-[0.32fr_0.68fr] md:gap-12">
         <h3 className="meta-label text-[var(--theme-accent)]">
-          圖像與文字說明
+          {isVisualStrategy ? "視覺方向" : "流程與架構"}
         </h3>
         <p className="zh-copy text-[color:var(--theme-muted)]">
-          每張圖的說明會標明：它是實際圖解，或只供視覺方向參考。
+          {introduction ?? "互動流程圖、系統架構圖與資訊架構圖用來補充作品方法，讓媒體成果背後的流程與系統關係更容易被理解。"}
         </p>
       </div>
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className={isVisualStrategy ? "grid gap-6 md:grid-cols-2 lg:grid-cols-3" : "grid gap-6 md:grid-cols-3"}>
         {diagrams.map((diagram) => (
           <figure key={`${diagram.type}-${diagram.title}`} className="grid gap-4">
             <div className="media-frame overflow-hidden rounded-[var(--radius-md)]">
@@ -886,21 +975,23 @@ function DiagramGallery({ id, diagrams = [] }) {
                 sizes="(min-width: 1024px) 28vw, (min-width: 768px) 42vw, 92vw"
               />
             </div>
-            <figcaption className="grid gap-2">
+            <figcaption className="grid content-start gap-2">
               <p className="zh-label text-[var(--theme-accent)]">
-                {diagramLabels[diagram.type] ?? "圖像說明"}
+                {diagram.kind === "visualStrategy" ? "視覺策略" : diagramLabels[diagram.type] ?? "案例圖示"}
               </p>
               <h4 className="zh-heading text-[clamp(1.15rem,1.7vw,1.55rem)]">{diagram.title}</h4>
               <p className="zh-caption text-[color:var(--theme-muted)]">
                 {diagram.caption}
               </p>
-              <AnimatedDetails
-                className="zh-caption text-[color:var(--theme-muted)]"
-                summary="圖像文字說明"
-                summaryClassName="interactive-link cursor-pointer font-extrabold text-[var(--theme-text)]"
-              >
-                <p className="mt-2">{diagram.description}</p>
-              </AnimatedDetails>
+              {diagram.description ? (
+                <AnimatedDetails
+                  className="zh-caption text-[color:var(--theme-muted)]"
+                  summary={diagram.detailsLabel ?? "閱讀圖解說明"}
+                  summaryClassName="interactive-link cursor-pointer font-extrabold text-[var(--theme-text)]"
+                >
+                  <p className="mt-2">{diagram.description}</p>
+                </AnimatedDetails>
+              ) : null}
             </figcaption>
           </figure>
         ))}
@@ -1213,7 +1304,7 @@ function DemoEmbedCard({ demo }) {
         </a>
       ) : (
         <span className="chip-text mt-5 inline-flex rounded-full border border-[color:var(--theme-line)] px-5 py-3 text-sm font-extrabold text-[color:var(--theme-muted)]">
-          目前提供案例與操作說明
+          此案例未提供可開啟的 demo
         </span>
       )}
     </div>
@@ -1269,7 +1360,7 @@ function MediaEvidence({ id, media }) {
           公開媒體
         </h3>
         <p className="zh-copy text-[color:var(--theme-muted)]">
-          這裡列出可公開的視覺稿、截圖、影片、聲音與互動展示。
+          以下為可公開的視覺稿、截圖、影片、聲音與互動展示；非首屏媒體延後載入，互動 demo 只在明確點擊後啟動。
         </p>
       </div>
       <ImageEvidenceGrid title="視覺稿" items={media.visualDrafts} />
@@ -1290,8 +1381,8 @@ function ToolsRoles({ id, project }) {
         <ChipList items={project.tools} label={`${project.title} 使用工具`} />
       </div>
       <div className="grid gap-4">
-        <h3 className="meta-label text-[var(--theme-accent)]">我的角色</h3>
-        <ChipList items={project.roles} label={`${project.title} 個人角色`} />
+        <h3 className="meta-label text-[var(--theme-accent)]">負責項目</h3>
+        <ChipList items={project.roles} label={`${project.title} 負責項目`} />
       </div>
     </section>
   );
@@ -1358,8 +1449,8 @@ function ReflectionPanel({ id, reflection }) {
 
   const items = [
     ["做得好的地方", reflection.strengths],
-    ["我會調整的地方", reflection.limitations],
-    ["接下來想做的事", reflection.graduateDirection],
+    ["製作限制", reflection.limitations],
+    ["後續方向", reflection.graduateDirection],
   ];
 
   return (
@@ -1457,7 +1548,7 @@ function ProjectLinksCredits({ project }) {
       ) : null}
       <div className="grid gap-4">
         <h3 className="meta-label text-[var(--theme-accent)]">
-          我的角色與素材說明
+          負責項目與素材說明
         </h3>
         <p className="zh-caption text-[color:var(--theme-muted)]">
           {project.credits}
@@ -1503,11 +1594,12 @@ function ProjectDetail({ project, previousProject, nextProject }) {
         </header>
 
         <FeaturedMedia id={`${project.id}-featured-media`} project={project} />
+        <ProjectReadingMap project={project} />
         <PortfolioDraftLayer projectId={project.id} />
         <NarrativeBlock id={`${project.id}-problem`} title={project.challenge ? "專案背景" : "問題意識"}>{project.problemAwareness}</NarrativeBlock>
         <ChallengePanel id={`${project.id}-challenge`} challenge={project.challenge} />
         <NarrativeBlock id={`${project.id}-audience`} title={project.challenge ? "使用情境" : "目標使用者與觀眾"}>{project.audience}</NarrativeBlock>
-        <NarrativeBlock id={`${project.id}-proof`} title="我實際做了什麼">{project.whatThisProves}</NarrativeBlock>
+        <NarrativeBlock id={`${project.id}-proof`} title="負責項目">{project.whatThisProves}</NarrativeBlock>
         <NarrativeBlock id={`${project.id}-goal`} title={project.workflow ? "製作方式" : "設計目標"}>{project.designGoal}</NarrativeBlock>
         {project.interactivePrototype?.type === "webAudioSpatialMapper" ? (
           <SectionErrorBoundary sectionName="互動聲響原型">
@@ -1523,7 +1615,7 @@ function ProjectDetail({ project, previousProject, nextProject }) {
           </>
         ) : (
           <>
-            <NarrativeBlock id={`${project.id}-process-intent`} title="我怎麼做">{project.designProcess}</NarrativeBlock>
+            <NarrativeBlock id={`${project.id}-process-intent`} title="製作方式">{project.designProcess}</NarrativeBlock>
             <NarrativeBlock id={`${project.id}-technology`} title="工具與媒體">{project.technologyAndMedia}</NarrativeBlock>
             <NarrativeBlock id={`${project.id}-outcome`} title="目前成果">{project.outcomeShowcase}</NarrativeBlock>
           </>
@@ -1535,7 +1627,17 @@ function ProjectDetail({ project, previousProject, nextProject }) {
         <DeliverablesSection id={`${project.id}-deliverables`} deliverables={project.deliverables} />
         <OutcomesSection id={`${project.id}-outcomes`} outcomes={project.outcomes} />
         <EvaluationPlanSection id={`${project.id}-evaluation-plan`} plan={project.evaluationPlan} />
-        <DiagramGallery id={`${project.id}-process`} diagrams={project.diagrams} />
+        {project.productionWorkflow || project.diagrams?.length ? (
+          <Suspense fallback={null}>
+            <CaseProcessSection
+              id={`${project.id}-process`}
+              productionWorkflow={project.productionWorkflow}
+              diagrams={project.diagrams}
+              introduction={project.diagramIntro}
+              ImageComponent={ResponsiveImage}
+            />
+          </Suspense>
+        ) : null}
         <MediaEvidence id={`${project.id}-media`} media={project.media} />
         <ToolsRoles id={`${project.id}-tools`} project={project} />
         <TestingResults id={`${project.id}-testing`} testing={project.testing} />
@@ -1551,7 +1653,7 @@ function ProjectDetail({ project, previousProject, nextProject }) {
               <span className="zh-heading mt-2 block text-xl">{previousProject.title}</span>
             </a>
           ) : (
-            <a className="evidence-panel interactive-link rounded-[var(--radius-md)] p-5" href="#project-index-title">
+            <a className="evidence-panel interactive-link rounded-[var(--radius-md)] p-5" href="#project-index">
               <span className="meta-label block text-[var(--theme-accent)]">返回</span>
               <span className="zh-heading mt-2 block text-xl">作品索引</span>
             </a>
@@ -1591,23 +1693,23 @@ export default function CaseStudyShowcase({ scope = "all", showIndex = true }) {
             <div className="mx-auto grid max-w-7xl gap-16">
               <div className="grid gap-8 md:grid-cols-[0.42fr_0.58fr] md:items-end">
                 <div className="grid gap-4">
-                  <p className="meta-label text-[var(--theme-accent)]">公開作品</p>
-                  <EditorialHeading as="h2" id="project-index-title" className="gallery-title editorial-heading zh-display" lines={[["作品", "索引"]]}>作品索引</EditorialHeading>
+                  <p className="meta-label text-[var(--theme-accent)]">代表作品</p>
+                  <EditorialHeading as="h2" id="project-index-title" className="gallery-title editorial-heading zh-display" lines={[["作品索引"]]}>作品索引</EditorialHeading>
                 </div>
-                <div className="grid gap-5">
-                  <p className="zh-lead text-[color:var(--theme-muted)]">這裡收錄聲響原型、AI 文學影片與兩件資料作品。每個案例都整理我的角色、使用方法、製作成果與後續方向。</p>
+                <div className="grid gap-5 md:justify-self-end">
+                  <p className="zh-lead max-w-[34em] text-[color:var(--theme-muted)]">四件作品橫跨互動聲響、生成式影像敘事與數位學習資料分析；各案例均標示負責項目、製作方法、可驗證成果與後續方向。</p>
                   <PortfolioDraftLayer placement="overview" />
                 </div>
               </div>
 
               <div id="themes" className="grid gap-4">
-                <p className="meta-label text-[var(--theme-accent)]">研究所主題</p>
-                <ChipList items={instituteThemes} accent label="研究所主題標籤" />
+                <p className="meta-label text-[var(--theme-accent)]">作品關鍵字</p>
+                <ChipList items={instituteThemes} variant="static" label="作品關鍵字" />
               </div>
 
-              <div className="grid gap-16 lg:grid-cols-3">
-                {sortedProjectCaseStudies.map((project, index) => <ProjectOverviewCard key={project.id} project={project} index={index} />)}
-              </div>
+              <Suspense fallback={<div className="min-h-[28rem]" aria-hidden="true" />}>
+                <ProjectIndexGrid projects={sortedProjectCaseStudies} />
+              </Suspense>
             </div>
           </section>
         </>

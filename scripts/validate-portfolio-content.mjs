@@ -43,6 +43,7 @@ const validAttributionSources = new Set(["deliveryPackage", "verifiedArtifact", 
 const validTrackKinds = new Set(["subtitles", "captions", "descriptions", "chapters", "metadata"]);
 const validPromptTemplateOriginStatuses = new Set(["derived", "source-record"]);
 const validPromptEvidenceStatuses = new Set(["artifactVerified", "processDerived", "specificationOnly"]);
+const validProductionWorkflowTones = new Set(["ink", "violet", "accent"]);
 const validAdmissionEvidenceStatuses = new Set(["已完成", "可操作原型", "學習中", "研究構想", "下一步：使用者觀察"]);
 const validProjectStatuses = new Map([
   ["completed", new Set(["已完成"])],
@@ -69,6 +70,56 @@ const expectedReviewerTargets = [
   "#learning-roadmap",
   "#ai-workflow",
 ];
+const expectedFeaturedWorkIds = [
+  "interactive-sound-learning",
+  "generative-interface-study",
+  "learning-dashboard-analysis",
+  "data-visualization-cases",
+];
+const requiredProductionWorkflowIds = new Set(["data-visualization-cases"]);
+const expectedProductionWorkflowNumbers = ["01", "02", "03", "04"];
+const expectedIndexCopy = new Map([
+  [
+    "interactive-sound-learning",
+    {
+      title: "互動聲響學習原型",
+      summary: "以 Web Audio 建立聲音參數與視覺回饋的互動原型，測試使用者能否辨識左右、高低、快慢與大小所造成的聲音變化。",
+    },
+  ],
+  [
+    "generative-interface-study",
+    {
+      title: "《Hamlet》生成式 AI 文學敘事短片",
+      summary: "將《Hamlet》拆解為八個敘事段落，建立影像、字幕與配樂的生成及檢核流程，完成約 40 秒的文學敘事短片。",
+    },
+  ],
+  [
+    "learning-dashboard-analysis",
+    {
+      title: "線上學習互動與學科成績分析",
+      summary: "以 Power BI 整理線上學習互動與學科成績資料，透過篩選與圖表比較，探索不同學習行為與成績表現的關係。",
+    },
+  ],
+  [
+    "data-visualization-cases",
+    {
+      title: "數位學習資料視覺化實務探討",
+      summary: "拆解資料視覺化案例的分析流程與呈現策略，整理其在數位學習情境中的應用方式、限制與後續改善方向。",
+    },
+  ],
+]);
+const validIndexLinkTargets = new Map([
+  ["interactive-sound-learning", new Set(["#interactive-sound-learning-demo"])],
+  [
+    "generative-interface-study",
+    new Set([
+      "#generative-interface-study-featured-media",
+      "#generative-interface-study-workflow",
+    ]),
+  ],
+  ["learning-dashboard-analysis", new Set()],
+  ["data-visualization-cases", new Set(["#data-visualization-cases-media"])],
+]);
 const evidenceManifestPath = path.join(root, "docs", "evidence", "hamlet-media-manifest.json");
 let evidenceManifest = { directCopies: [], derivativeGroups: [], processEvidence: [], rightsEvidence: [] };
 try {
@@ -122,6 +173,29 @@ const assertImage = (project, label, image) => {
   }
 };
 
+const assertIndexImage = (project, image) => {
+  assertImage(project, "index cover", image);
+  if (!image?.src?.trim()) {
+    errors.push(`${project.id}: indexCover needs a fallback src`);
+    return;
+  }
+
+  if (/\.svg(?:$|[?#])/i.test(image.src)) return;
+
+  for (const field of ["avifSrcSet", "webpSrcSet"]) {
+    const candidates = `${image[field] ?? ""}`
+      .split(",")
+      .map((candidate) => candidate.trim())
+      .filter(Boolean);
+    if (
+      candidates.length < 2
+      || candidates.some((candidate) => !/^\S+\s+\d+w$/.test(candidate))
+    ) {
+      errors.push(`${project.id}: raster indexCover needs at least two valid ${field} width candidates`);
+    }
+  }
+};
+
 const hasTextFields = (entry, fields) => fields.every((field) => entry?.[field]?.trim());
 
 const publicConstructionPattern = /待補|可替換|範例|正式送審前|佔位|尚未提供|placeholder|sample|Content Readiness|Internal Build Notes|INTERNAL_|PRE_SUBMISSION_CHECK|HIDE_FROM_SUBMISSION|這裡保留|未來可放入|審查者|評審可以|目前不能延伸的主張|目前不能證明|申請者提供的紀錄支持|目前公開頁沒有成片|參賽不代表得獎|本頁不主張|可核對材料|本頁僅有申請者提供|原始紀錄未列出，不另行推測|未主張競賽結果|未確認公開授權|目前可公開內容限於|不取代|不解除各案自己的驗證或權利限制|未經發布決策確認|正式\s*GitHub Pages\s*專案網址|目前怎麼描述|原始影片限制/i;
@@ -155,7 +229,7 @@ if (mojibakePattern.test(publicAdmissionText)) {
 
 const expectedHomepageHeadline = "從數位學習與視覺敘事出發，走向聲響互動與空間監聽研究。";
 const expectedHomepageIntroduction =
-  "我是蕭智仁，現就讀國立嘉義大學數位學習設計與管理學系，預計 2026 年畢業。我的作品從視覺設計、影音剪輯、互動介面與學習內容整理出發，逐步延伸到 Web Audio 聲響互動；自 2026/07/24 起，我也開始拆解由 AI 協作產生的 Pure Data 初版 Patch，練習理解與重建訊號路徑。";
+  "我是蕭智仁，現就讀國立嘉義大學數位學習設計與管理學系，預計 2026 年畢業。作品從視覺設計、影音剪輯、互動介面與學習內容整理出發，逐步延伸到 Web Audio 聲響互動；自 2026 年 7 月 24 日起，也開始拆解由 AI 協作產生的 Pure Data 初版 Patch，練習理解與重建訊號路徑。";
 if (
   !hasTextFields(homepageNarrative, [
     "eyebrow",
@@ -212,7 +286,7 @@ if (
   errors.push("Admission research proposal needs a complete, explicitly prospective identity");
 }
 const expectedProposalLayerIds = ["problem", "concept", "transferable-skills", "study-needs"];
-const expectedProposalLayerLabels = ["1. 問題", "2. 初步構想", "3. 我帶入的能力", "4. 入學後的學習重點"];
+const expectedProposalLayerLabels = ["1. 問題", "2. 初步構想", "3. 可帶入的能力", "4. 入學後的學習重點"];
 if (
   admissionResearchProposal.layers?.length !== expectedProposalLayerIds.length
   || admissionResearchProposal.layers.some(
@@ -235,8 +309,8 @@ if (
 }
 
 const expectedDataVisualizationCapabilities = [
-  "我先決定讀者需要看見的重點，再安排圖表、文字與動畫的閱讀順序。",
-  "在 Power BI 專案中，我整理互動紀錄、影片觀看與成績欄位，建立可篩選的資料探索介面。",
+  "先決定讀者需要看見的重點，再安排圖表、文字與動畫的閱讀順序。",
+  "Power BI 專案整理互動紀錄、影片觀看與成績欄位，建立可篩選的資料探索介面。",
   "公開展示聚焦方法、介面與分析流程；涉及個人學習資料的內容不直接公開。",
   "後續希望進一步探索以聲音輔助資料閱讀與互動回饋。",
 ];
@@ -501,7 +575,7 @@ if (learningTrailById.get("reaper")?.status !== "學習中") {
   errors.push("REAPER learning trail must remain a learning state");
 }
 
-const expectedResponsibilityGroups = ["AI 協助的部分", "我負責的決策", "我正在補強的能力"];
+const expectedResponsibilityGroups = ["AI 協助的部分", "決策與驗收", "正在補強的能力"];
 const responsibilityGroups = Array.isArray(aiWorkflow.responsibilityGroups)
   ? aiWorkflow.responsibilityGroups
   : [];
@@ -616,6 +690,54 @@ for (const project of projectCaseStudies) {
 
   if (!validProjectStatuses.get(project.statusKey)?.has(project.status)) {
     errors.push(`${project.id}: status does not match statusKey ${project.statusKey}`);
+  }
+
+  if (project.submissionVisibility === "public") {
+    const expectedCopy = expectedIndexCopy.get(project.id);
+    if (!expectedCopy) {
+      errors.push(`${project.id}: public project is missing from the featured-work index contract`);
+    } else {
+      if (project.indexTitle !== expectedCopy.title) {
+        errors.push(`${project.id}: indexTitle differs from the approved short title`);
+      }
+      if (project.indexSummary !== expectedCopy.summary) {
+        errors.push(`${project.id}: indexSummary differs from the approved short summary`);
+      }
+    }
+
+    assertIndexImage(project, project.indexCover);
+
+    if (
+      project.indexCoverPosition != null
+      && (typeof project.indexCoverPosition !== "string" || !project.indexCoverPosition.trim())
+    ) {
+      errors.push(`${project.id}: indexCoverPosition must be a non-empty CSS object-position string when provided`);
+    }
+
+    const indexTags = project.indexTags ?? [];
+    if (indexTags.length !== 3 || new Set(indexTags).size !== indexTags.length || indexTags.some((tag) => !tag?.trim())) {
+      errors.push(`${project.id}: indexTags needs exactly three unique non-empty static keywords`);
+    }
+
+    if (!Array.isArray(project.indexLinks)) {
+      errors.push(`${project.id}: indexLinks must be an array, including an empty array when no public result endpoint exists`);
+    } else {
+      const allowedTargets = validIndexLinkTargets.get(project.id) ?? new Set();
+      const seenIndexTargets = new Set();
+      for (const link of project.indexLinks) {
+        if (!hasTextFields(link, ["label", "href"]) || link.href === "#" || /^javascript:/i.test(link.href)) {
+          errors.push(`${project.id}: indexLinks entries need a non-empty label and safe href`);
+        } else if (!allowedTargets.has(link.href)) {
+          errors.push(`${project.id}: indexLinks target is not an approved rendered result endpoint ${link.href}`);
+        }
+        if (typeof link?.href === "string" && link.href) {
+          if (seenIndexTargets.has(link.href)) {
+            errors.push(`${project.id}: indexLinks contains duplicate target ${link.href}`);
+          }
+          seenIndexTargets.add(link.href);
+        }
+      }
+    }
   }
 
   if (!project.trackIds?.length) {
@@ -1002,11 +1124,36 @@ for (const project of projectCaseStudies) {
     assertImage(project, "cover", project.cover);
   }
 
+  if (requiredProductionWorkflowIds.has(project.id) && !project.productionWorkflow) {
+    errors.push(`${project.id}: productionWorkflow is required for the rendered CaseProcessSection`);
+  }
+
+  if (project.productionWorkflow) {
+    const flow = project.productionWorkflow;
+    if (!hasTextFields(flow, ["eyebrow", "title", "introduction"]) || flow.stages?.length !== 4) {
+      errors.push(`${project.id}: productionWorkflow needs eyebrow, title, introduction, and exactly four stages`);
+    }
+    for (const [index, stage] of (flow.stages ?? []).entries()) {
+      if (!hasTextFields(stage, ["number", "title", "description", "tone"])) {
+        errors.push(`${project.id}: productionWorkflow stage ${index + 1} needs number, title, description, and tone`);
+      }
+      if (stage.number !== expectedProductionWorkflowNumbers[index]) {
+        errors.push(`${project.id}: productionWorkflow stage ${index + 1} must use ordered number ${expectedProductionWorkflowNumbers[index]}`);
+      }
+      if (!validProductionWorkflowTones.has(stage.tone)) {
+        errors.push(`${project.id}: productionWorkflow stage ${index + 1} uses unsupported tone ${stage.tone}`);
+      }
+    }
+    if (project.diagrams?.length) {
+      errors.push(`${project.id}: productionWorkflow and diagrams cannot both populate the same CaseProcessSection`);
+    }
+  }
+
   for (const diagram of project.diagrams ?? []) {
     if (!validDiagramTypes.has(diagram.type)) {
       errors.push(`${project.id}: unknown diagram type ${diagram.type}`);
     }
-    if (!diagram.caption?.trim() || !diagram.description?.trim()) {
+    if (!diagram.caption?.trim() || (diagram.kind !== "visualStrategy" && !diagram.description?.trim())) {
       errors.push(`${project.id}: diagram ${diagram.title} needs caption and long description`);
     }
     assertImage(project, `diagram ${diagram.title}`, diagram.image);
@@ -1084,8 +1231,9 @@ for (const project of projectCaseStudies) {
   }
 
   if (project.id === "generative-interface-study" && !hasTextFields(project, ["overviewFacts"])) {
-    errors.push(`${project.id}: overviewFacts must expose duration, scenes, subtitle languages, and validation boundary in the index card`);
+    errors.push(`${project.id}: overviewFacts must preserve duration, scenes, subtitle languages, and validation boundary`);
   }
+
 }
 
 const expectedPublicProjects = [...projectCaseStudies]
@@ -1096,6 +1244,10 @@ const sortedPublicProjectIds = sortedProjectCaseStudies.map((project) => project
 
 if (JSON.stringify(sortedPublicProjectIds) !== JSON.stringify(expectedPublicProjectIds)) {
   errors.push("sortedProjectCaseStudies must contain only public projects in priority order");
+}
+
+if (JSON.stringify(sortedPublicProjectIds) !== JSON.stringify(expectedFeaturedWorkIds)) {
+  errors.push(`featured-work index order must be ${expectedFeaturedWorkIds.join(", ")}`);
 }
 
 const expectedInstituteEvidenceGroups = instituteThemes

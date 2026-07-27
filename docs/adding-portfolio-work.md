@@ -54,6 +54,17 @@ Required identity fields:
 - `valueProposition`: one-sentence reason the work matters
 - `whatThisProves`: one sentence explaining what ability this work proves
 
+Required featured-index fields for every public project:
+
+- `indexTitle`: concise public title for the index card
+- `indexSummary`: approximately 60–80 Traditional Chinese characters, with no unsupported outcome claim
+- `indexCover`: public-safe image metadata; the card renders it through `<picture>/<img>` at 16:10
+- `indexCoverPosition`: optional CSS object position
+- `indexTags`: exactly three static keywords
+- `indexLinks`: an array of real, already-rendered result anchors; use `[]` rather than a fake link
+
+Index order is controlled by `priority`. The approved four-work order is Web Audio, Hamlet, Power BI learning analysis, then the data-visualization method case. `validate-portfolio-content.mjs` locks this order, approved index copy, image metadata, tag count, and allowed result anchors.
+
 Required narrative fields:
 
 - `problemAwareness`: why this work exists
@@ -91,6 +102,7 @@ Optional fields:
 - `englishTitle`, `tags`, `projectInfo`: richer case header and metadata
 - `challenge`: a titled core challenge
 - `workflow.stages`: exactly five stages with `title`, `description`, `tool`, `input`, `output`, `constraint`, and `humanCheck`
+- `productionWorkflow`: a four-stage editorial production flow with `eyebrow`, `title`, `introduction`, and ordered `number`／`title`／`description`／`tone` stages
 - `promptDecisions`: decision cards with concrete constraint, rationale, avoided output problem, human check, and provenance status
 - `promptTemplate`: reusable Prompt artifact with explicit original/derived provenance
 - `storyboard.frames`: real scene evidence with image metadata, bilingual titles, time, numeric `seekSeconds`, subtitle, description, and a human-check control condition
@@ -242,6 +254,7 @@ Images:
 - Keep `width` and `height` in the media metadata to prevent layout shift.
 - Informative images need meaningful `alt`.
 - Complex diagrams should include `caption` and `description`.
+- Featured-index images render at 16:10. A supplied real work screenshot can be converted with `scripts/prepare-featured-work-media.py`, which verifies the caller-provided SHA-256, center-crops to 16:10, strips metadata, and writes 400／640／1200 AVIF/WebP derivatives. Do not run it on restricted data, uncleared third-party interfaces, or a source that has not passed the case-specific publication gate.
 
 Videos:
 

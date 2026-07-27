@@ -1,5 +1,12 @@
 # 技術架構
 
+## 2026-07-27 最新組合驗證
+
+- 完整 `pnpm run doctor` exit 0。Draft build：474 modules、entry 181772 B、CSS 46069 B、initial JS gzip 201686 B；lazy 3D closure 638680 raw／169383 gzip B。
+- Submission build：470 modules、entry 153688 B、CSS 46069 B、initial JS gzip 193282 B；sound 18/18、rights 14/14、scanner 73/73，scan 135 files／28 text files、67 text rules／9 inventory rules。
+- Submission evidence audit 找到 3 個 direct copies、60 個 derivatives、16 個 WebVTT cues 與 63 個 Hamlet public files；manifest 保持 `verified / approved`。這支持目前限定非營利 publication boundary，不擴張成 commercial rights、private originals 或研究成效。
+- Browser targeted smoke 在 1440×1000 與 390×844 為 page／section overflow 0、dead anchors 0、console warning／error 0。獨立 `pnpm run check:publication` exit 0，manifest 維持 `verified / approved`。
+
 ## 2026-07-26 rights 與公開展示版架構
 
 - `hamlet-media-manifest.json` schema v2 將 artifact evidence 與 `rightsEvidence` registry 分開；四個 rights items 只驗證列入常數表的具名 `requiredChecks`，conditions 中合法的 false 不會被 generic boolean heuristic 誤判。
@@ -7,13 +14,21 @@
 - Node tests 覆蓋 valid manifest、attestation false、unknown ref、Suno hash、commercial true、missing attribution、scene check、Canva check、literary check、tracked／built EML、指定確認人、evidence lifecycle、disclosure renderer 接線，以及 attestation Markdown 缺失／內容漂移。
 - Submission scanner 新增 `.eml` 與 private-rights-evidence inventory rules；`.gitignore` 另阻擋 private directories、EML 與 original authorization／support reply filenames。Ignore 規則不被解讀為 history cleanup。
 - Pages build 順序固定為 install → `check:submission` → `check:publication` → configure → upload；workspace check 驗證順序並拒絕 `continue-on-error: true`。
-- 蕭智仁於 2026-07-26 完成 limited-use applicant attestation；最新整合 manifest 為 `verified / approved`，完整 `doctor`、14/14 rights tests、content check、submission／Pages audit 與 publication audit 均 exit 0。這個權利狀態不影響 11 段 IA、motion、Web Audio 或 `notValidated` 的研究邊界，也不代表 private originals 已獨立查驗。
+- 蕭智仁於 2026-07-26 完成 limited-use applicant attestation；目前 manifest 主幹為 `verified / approved`。2026-07-26 完整 `doctor`、14/14 rights tests、content check、submission／Pages audit 與 publication audit 均 exit 0；這些命令結果只適用當時 fingerprint。權利狀態不影響 11 段 IA、motion、Web Audio 或 `notValidated` 的研究邊界，也不代表 private originals 已獨立查驗。
 - `src/data/admission-evidence.js` 現為 public-only schema；`src/data/admission-evidence.audit.js` 依 stable ID 保存 evidence status、validation、supported／unsupported claims、authorship／AI、rights、limitations 與 requests。`AdmissionEvidenceSections` 只依賴 public module；Draft layer 才 import audit module。Validator 同時核對 ID／schema，submission alias 讓 Draft import 不進公開 module graph。
 - `DataVisualizationSeries` 保留為 ScrollTrigger source，但 foreground 改由 `.theme-reading-surface--dark` 提供完整、不透明語意 tokens。`ViewportThemeTransition` 只負責閱讀面外的 fixed field；`useThemeInversion` 的 central `applyThemeState` 以同一 threshold 更新 navigation、root endpoint data 與 normal／reduced callbacks。
 - `App` 的 fragment settle 現以 `ResizeObserver` 觀察 `#main-content`。Lazy section 或 media height 改變時會重新排程受限次數的定位；wheel／touch／pointer／scroll keys 仍可取消 pending settle，避免程式與使用者爭奪捲動。
-- 最新整合已完成 install／`doctor` exit 0、sound 18/18、rights 14/14、scanner 73/73；submission scan 為 132 files／25 text files、67 text rules／9 inventory rules，118 public files 0 missing／0 SHA-256 mismatch，`check:publication` exit 0／`verified / approved`。
-- Browser 在 1280×800、768×900、390×844、320×720 為 0 overflow、0 broken hashes、0 duplicate IDs、0 broken images與console 0 warning／0 error；Pure Data、Hamlet、`#selected-work`、`#contact` deep links約95–112 px，dark／paper endpoints及行動 menu Escape／還焦通過。
+- 2026-07-26 整合基線完成 install／`doctor` exit 0、sound 18/18、rights 14/14、scanner 73/73；submission scan 為 132 files／25 text files、67 text rules／9 inventory rules，118 public files 0 missing／0 SHA-256 mismatch，`check:publication` exit 0／`verified / approved`。
+- 同一基線的 Browser 在 1280×800、768×900、390×844、320×720 為 0 overflow、0 broken hashes、0 duplicate IDs、0 broken images與console 0 warning／0 error；Pure Data、Hamlet、`#selected-work`、`#contact` deep links約95–112 px，dark／paper endpoints及行動 menu Escape／還焦通過。
 - Screen reader、真實 200% zoom、system reduced-motion、實機與多瀏覽器音訊仍未驗；Draft PR 不能當成 merge、deploy 或 production publication approval。
+
+## 2026-07-27 作者視角、作品索引與案例元件整合
+
+- `portfolio.js` 的公開案例新增／使用 `indexTitle`、`indexSummary`、`indexCover`、`indexLinks`、`indexTags` 與資料案例 `productionWorkflow`；作者敘事仍由 public data 驅動，audit-only 內容不進 submission copy。
+- `#project-index` 是 `#selected-work` 內的巢狀 anchor，不改變 11 個高階 IA。`ProjectIndexGrid` 以 lazy chunk 呈現 2 欄／1 欄索引，`ResponsiveImage` 提供 AVIF／WebP、固定尺寸、lazy／async 與可讀錯誤 fallback。
+- `CaseProcessSection` 由 `CaseStudyShowcase` lazy 載入，依 `productionWorkflow` 輸出 `section > ol > li > article` 四階段流程；不再以舊的內含文字 SVG 當流程主體。
+- Web Audio 三張正式視覺策略圖使用 `web-audio-{interaction,sound,interface}-visual-{561,1122}.{avif,webp}`；作品索引另使用 `featured-work-01-web-audio-{400,640,1200}.{avif,webp}`。Power BI 真實結果與第三方拼貼不進 `public/`，資料案例索引使用自包含公開安全 SVG。
+- 2026-07-27 組合 fingerprint 已完成完整 `doctor`、獨立 publication gate 與 targeted Browser smoke；未另執行全 `public/` SHA-256 inventory。兩個命令均為 exit 0，不得沿用 2026-07-26 數字。
 
 ## 整合後 source 架構
 
@@ -23,11 +38,11 @@
 - 研究構想由 `admission-research.js` 的 `layers` 陣列驅動，四層固定為問題、初步構想、申請者可帶入的能力、入學後需補強；`ResearchProposalSection` 另渲染五步預定流程、預期貢獻與 disclaimer。`#research-positioning` 是永久 wrapper，內含相容舊連結的 `#research-proposal` alias。
 - REAPER 在 public roadmap 中已修正為「下一階段」，不再宣稱正在學習或以安裝狀態暗示操作證據；目前仍沒有公開工程、routing、混音成果或聲音輸出。
 - 公開邊界依檔案位置而非渲染狀態判定：Pd 影片／poster 在 `public/`，會被 Vite 原樣複製；畫面中的本機 D 槽路徑與 `validated` 字樣因此仍屬公開 binary 內容。`.pd`、完整研究計畫、REAPER 工程與 private originals 不在公開 repository；兩件代表作品以經確認的 canonical YouTube URL 連出，不把第三方影片複製進 `public/`。Admission public／audit source 與 `docs/admission/*` 都可由 public GitHub Repository 讀取。
-- 最新整合沒有新增 dependency，也沒有移除 R3F、Motion、GSAP／Lenis、Custom Cursor、Web Audio lifecycle、reduced-motion 或既有 submission alias。
-- Draft build：471 modules、entry 180733 B、CSS 44315 B、initial JS gzip 200889 B。Submission build：467 modules、entry 153704 B、CSS 44315 B、initial JS gzip 192936 B。
-- Fresh `dist`／scanner／public inventory 與 publication gate均已通過；Draft-only audit data 由 `DraftModeEnabled` 的 dynamic `import()` 延後載入，submission alias 仍把整個 Draft layer 移出 module graph。
+- 2026-07-27 整合沒有新增 dependency，也沒有移除 R3F、Motion、GSAP／Lenis、Custom Cursor、Web Audio lifecycle、reduced-motion 或既有 submission alias。
+- 2026-07-26 Draft build 基線：471 modules、entry 180733 B、CSS 44315 B、initial JS gzip 200889 B。Submission build：467 modules、entry 153704 B、CSS 44315 B、initial JS gzip 192936 B；這組舊數字只保留為歷史比較，目前數字見文件首節。
+- 2026-07-26 fresh `dist`／scanner／public inventory 與 publication gate 已通過；Draft-only audit data 由 `DraftModeEnabled` 的 dynamic `import()` 延後載入，submission alias 仍把整個 Draft layer 移出 module graph。2026-07-27 source 合併後的 artifact 已由本文件首節所列 build／scanner／Browser 結果重新確認。
 - Print stylesheet 會把 `.theme-reading-surface` 與 dark variant 重設為 paper tokens、visible overflow、無 shadow；這是 source contract，真實印表機／PDF 輸出仍待人工驗收。
-- Pages run `30087568225` 只代表 PR #6 歷史部署；最新整合仍是 Draft PR，production fingerprint／HTTP 狀態須實際 merge／deploy 後另行核對。
+- Pages run `30087568225` 只代表 PR #6 歷史部署；目前整合仍是 Draft 工作，production fingerprint／HTTP 狀態須實際 merge／deploy 後另行核對。
 
 ## 2026-07-24 Admission Evidence Pass（整合前歷史快照）
 
@@ -35,13 +50,13 @@
 - 公開資料 validator 新增申請狀態、Web Audio 9 階段 signal flow、研究構想、Pure Data／REAPER 邊界、AI 三組責任與完整失敗鏈契約；submission scanner 新增內部送審詞與成效／系統完成過度主張 fixtures。
 - 這些變更沒有新增 dependency，也沒有移除 R3F、Motion、GSAP／Lenis、Custom Cursor、Web Audio lifecycle 或 reduced-motion fallback。
 - Submission alias 只隔離 bundle。Public Git Repository 中已 tracked 的 hidden／internal／prompt 文件仍可讀；本輪新增 `docs/admission/*` 目前只在本機，若日後 commit／push 到 public Repository 也會公開。
-- 當時 `pnpm run doctor` exit 0；舊 module、bundle 與 chunk 數字已被上方 470／467 modules 的最新結果取代。
+- 當時 `pnpm run doctor` exit 0；舊 module、bundle 與 chunk 數字已先由 2026-07-26 基線、再由文件首節的 2026-07-27 最新組合結果取代。
 
 ## 2026-07-23 技術快照
 
 - PR #5 已 merged；目前工作分支 `codex/public-copy-rewrite` 的 `61ea9d8` 與 `main`／`origin/main` 的 `695b520` 雖有不同歷史，tree 內容相同。
 - 這一輪公開文案調整只改寫繁體中文敘事、導覽／介面標籤與 metadata，沒有改動 runtime 行為、元件架構、動效、樣式、資產管線或 dependencies。
-- 最新 Pages run `29680534295` 已成功部署 `695b520`。公開首頁可讀到新版文案，首頁、Hamlet MP4、英文與繁中 VTT、poster 於 2026-07-23 實測皆為 HTTP 200；可達性不代表素材權利已獲核准。
+- 最新 Pages run `29680534295` 已成功部署 `695b520`。公開首頁可讀到新版文案，首頁、Hamlet MP4、英文與繁體中文 VTT、poster 於 2026-07-23 實測皆為 HTTP 200；可達性不代表素材權利已獲核准。
 - 2026-07-23 `pnpm run doctor` exit 0。Fresh draft build 為 initial JS 199833 gzip B、entry 181592 B、CSS 43688 B；fresh submission build 為 initial JS 193737 gzip B、entry 160908 B、CSS 43688 B；lazy 3D closure 仍為 638680 raw／169383 gzip B。
 - 當時 `pnpm run check:publication` 為預期的 exit 1，共 11 個權利／attestation blockers；部署 workflow 也尚未執行這個 gate，因此技術部署成功不能解讀為 publication clearance。此 blocker／workflow 狀態已由 2026-07-26 PR #7 基線取代。
 
@@ -63,7 +78,7 @@
 | Node test runner | `soundMapping.js` 純函式與 `webAudioEngineCore.js` lifecycle 測試 | 已使用；18 tests，不需 DOM 或真實聲卡 |
 | Submission scanner core | 67 個 text rules、9 個 binary／path inventory rules、private evidence 與 public audit／施工語句規則，搭配 redacted diagnostics 與 73/73 isolated CLI fixtures | 已使用；不需網路，可對 fresh `dist/` fail closed |
 | Lighthouse 13.4 | submission mobile／desktop lab audit、freshness 與 lineage summary | 開發工具；非 runtime |
-| Python | 本機媒體產生腳本 | 開發工具 |
+| Python + Pillow | 本機媒體產生與真實來源圖的 SHA-256 驗證／16:10 AVIF、WebP 衍生 | 開發工具 |
 
 沒有 router、state library、form library、data-fetching layer、CMS、backend、database、auth、analytics、formatter 或正式 lint/type-check。自訂 audit／validator 是主要靜態品質門檻。
 
@@ -78,6 +93,8 @@ flowchart LR
   C --> E["Navbar + CustomCursor + Draft alias"]
   C --> F["HomePage sections"]
   F --> G["portfolio.js public case / homepage data"]
+  G -. lazy .-> T["ProjectIndexGrid / ResponsiveImage"]
+  G -. lazy .-> U["CaseProcessSection / productionWorkflow"]
   F --> O["admission-evidence.js / public Pd + works + roadmap"]
   O -. stable IDs .-> S["admission-evidence.audit.js / Draft audit records"]
   F --> P["admission-research.js / research proposal"]
@@ -91,7 +108,7 @@ flowchart LR
   L --> M["Web Audio graph"]
 ```
 
-`main.jsx` 註冊 ScrollTrigger，透過 `RootErrorBoundary` 將 `App` 掛到 `#root`。內容無 server render；案例與首頁敘事由 `portfolio.js` 提供，Pure Data／代表作品／合作／學習路線／公開連結的 public narrative 由 `admission-evidence.js` 提供。完整 evidence／validation／rights／limitations／requests 由 `admission-evidence.audit.js` 依 stable ID 對齊，且只在 Draft panel mount 後以 dynamic `import()` 載入；submission alias 會把 Draft layer 移出 module graph。研究構想與 AI／作者性分別由 `admission-research.js`、`ai-workflow.js` 提供。沒有 context/store 或 network state。
+`main.jsx` 註冊 ScrollTrigger，透過 `RootErrorBoundary` 將 `App` 掛到 `#root`。內容無 server render；案例、首頁敘事、索引欄位與資料案例 `productionWorkflow` 由 `portfolio.js` 提供，Pure Data／代表作品／合作／學習路線／公開連結的 public narrative 由 `admission-evidence.js` 提供。完整 evidence／validation／rights／limitations／requests 由 `admission-evidence.audit.js` 依 stable ID 對齊，且只在 Draft panel mount 後以 dynamic `import()` 載入；submission alias 會把 Draft layer 移出 module graph。研究構想與 AI／作者性分別由 `admission-research.js`、`ai-workflow.js` 提供。沒有 context/store 或 network state。
 
 ## 頁面與元件責任
 
@@ -104,7 +121,10 @@ flowchart LR
 - [`../../src/components/ResearchPositioning.jsx`](../../src/components/ResearchPositioning.jsx)：預設輸出 `SoundTransitionSection`，具名匯出 `ReviewerPathSection`；前者呈現轉向聲音的三步問題意識，後者提供六條證據閱讀路徑。此檔目前沒有 `ResearchEvidenceContext`。
 - [`../../src/components/ResearchProposalSection.jsx`](../../src/components/ResearchProposalSection.jsx)：呈現問題、初步構想、申請者可帶入能力、入學後需補強四層研究定位，以及五步預定流程、預期貢獻與不可省略的申請階段聲明。
 - [`../../src/components/AdmissionEvidenceSections.jsx`](../../src/components/AdmissionEvidenceSections.jsx)：只依賴 public admission module，輸出 Pure Data 學習紀錄、代表作品、secondary creation、專案與合作、四階段學習路線及研究方向／連結共 6 個 exports；Pure Data `<video>` 具 poster、metadata preload、文字觀看指南與失敗 fallback。
-- [`../../src/components/CaseStudyShowcase.jsx`](../../src/components/CaseStudyShowcase.jsx)：索引、長篇案例、16:9／多字幕影片、媒體／字幕錯誤 fallback、具輸入與人工檢查的 workflow、Prompt 決策、storyboard、媒體分層、證據分類、testing、credits 與 lazy flagship demo；Prompt Template、圖解長描述與雙語逐字稿使用共用 `AnimatedDetails`，支持作品沿用局部暖紙 tokens，案例本所連結分開 demonstrated 與 research direction。
+- [`../../src/components/CaseStudyShowcase.jsx`](../../src/components/CaseStudyShowcase.jsx)：作品索引標頭、長篇案例、16:9／多字幕影片、媒體／字幕錯誤 fallback、具輸入與人工檢查的 workflow、Prompt 決策、storyboard、媒體分層、證據分類、testing、credits 與 lazy flagship demo；將正式索引交給 lazy `ProjectIndexGrid`，將圖解／`productionWorkflow` 交給 lazy `CaseProcessSection`。Prompt Template、圖解長描述與雙語逐字稿使用共用 `AnimatedDetails`，支持作品沿用局部暖紙 tokens，案例本所連結分開 demonstrated 與 research direction。
+- [`../../src/components/ProjectIndexGrid.jsx`](../../src/components/ProjectIndexGrid.jsx)：首屏以下 lazy 載入的 2×2／單欄正式作品索引；使用 `index*` 欄位、16:10 media、靜態標籤、真實成果 anchors 與克制 Motion hover。
+- [`../../src/components/ResponsiveImage.jsx`](../../src/components/ResponsiveImage.jsx)：索引 chunk 共用的 `<picture>/<img>`、AVIF/WebP、固定 dimensions、async／lazy 與可讀錯誤 fallback。
+- [`../../src/components/CaseProcessSection.jsx`](../../src/components/CaseProcessSection.jsx)：lazy 載入共用圖解與四階段 `productionWorkflow`；後者以 `ol > li` 保留閱讀順序，圖解長描述仍使用共用 `AnimatedDetails`。
 - [`../../src/components/SoundInteractionPrototype.jsx`](../../src/components/SoundInteractionPrototype.jsx)：具圖像語意的 pointer pad、touch／四個 range input、readout、節流 live announcement、聲音生命週期、mapping 說明。
 - [`../../src/hooks/useWebAudioEngine.js`](../../src/hooks/useWebAudioEngine.js)：React state、StrictMode-safe controller lifecycle 與 `visibilitychange` 即時清理。
 - [`../../src/audio/webAudioEngineCore.js`](../../src/audio/webAudioEngineCore.js)：可注入／可測試的 AudioContext controller，負責 resume cancel／timeout、graph、release、context interruption、參數與 destroy。
@@ -162,12 +182,13 @@ Navbar 改用較不透明的 theme-aware 背景，不再使用固定 `backdrop-b
 
 ## 資產與 build pipeline
 
-- `public/` 靜態資產原樣提供；案例圖使用 AVIF/WebP `srcset` 與固定 dimensions。Hamlet 交付版 MP4 使用外掛英文／繁中 WebVTT，renderer 不自動播放並以同頁逐字稿補足；根目錄 `.gitattributes` 強制 `*.vtt` 使用 LF，讓 Windows checkout 仍維持 manifest 已驗證的 bytes／SHA-256。任何放入 public 的檔案都應視為可公開，即使 submission React tree 沒有引用；技術完整性與 HTTP 可達性都不能取代 rights clearance。
-- Pure Data 操作 MP4 與 PNG poster 也位於 `public/media/portfolio/`；最新 submission audit 比對全部 118 個 `public/` files並得到 0 missing／0 SHA-256 mismatch。這只證明複製完整，不會清除媒體畫面中的本機路徑或 `validated` 字樣。
+- `public/` 靜態資產原樣提供；案例圖使用 AVIF/WebP `srcset` 與固定 dimensions。Web Audio 三張策略圖輸出 561／1122 AVIF/WebP；索引圖由 `prepare-featured-work-media.py` 驗證提供來源 SHA-256、裁成 16:10、去 metadata，輸出 400／640／1200 AVIF/WebP。Hamlet 索引沿用 manifest 已追蹤的實際 poster；兩件資料案例使用只重用既有安全 SVG 的 16:10 wrapper，Power BI 真實結果與含第三方品牌的拼貼不進 public。
+- Hamlet clean MP4 使用外掛英文／繁中 WebVTT，renderer 不自動播放並以同頁逐字稿補足；根目錄 `.gitattributes` 強制 `*.vtt` 使用 LF，讓 Windows checkout 仍維持 manifest 已驗證的 bytes／SHA-256。任何放入 public 的檔案都應視為可公開，即使 submission React tree 沒有引用；技術完整性與 HTTP 可達性都不能取代 rights clearance。
+- Pure Data 操作 MP4 與 PNG poster 也位於 `public/media/portfolio/`；2026-07-26 submission audit 比對當時 118 個 `public/` files 並得到 0 missing／0 SHA-256 mismatch。新增策略圖與索引 derivatives 後必須重跑 inventory；舊結果只證明當時複製完整，也不會清除 Pure Data 畫面中的本機路徑或 `validated` 字樣。
 - R3F 與 Web Audio UI 都以 `React.lazy` 分 chunk；Three 不進 initial modulepreload。Hero section 作為 R3F `eventSource`，pointer 以 section 的 `clientX/Y` 換算；離開 preload window 後改為 `frameloop="demand"`。
 - Vite manual chunks：`react`、`three-core`、`motion`、`scroll`、`vendor`；R3F 自然留在 lazy `HeroScene`，避免強制打包整個 Three namespace。
-- 最新 draft build 為 471 modules、initial JS gzip 200889 B、entry 180733 B、CSS 44315 B；submission 為 467 modules、initial JS gzip 192936 B、entry 153704 B、CSS 44315 B。Submission output 為 132 files／25 text files。
-- `audit-build-budgets.mjs` 以 attribute-order-independent HTML 解析和 built import closure 計算 initial／lazy 成本，並逐檔限制 500000 raw B。這些 current build 數字不是 Lighthouse 或 production field performance。
+- 2026-07-26 draft build 基線為 471 modules、initial JS gzip 200889 B、entry 180733 B、CSS 44315 B；submission 為 467 modules、initial JS gzip 192936 B、entry 153704 B、CSS 44315 B。Submission output 為 132 files／25 text files。
+- `audit-build-budgets.mjs` 以 attribute-order-independent HTML 解析和 built import closure 計算 initial／lazy 成本，並逐檔限制 500000 raw B。這些舊 build 數字不是 2026-07-27 組合、Lighthouse 或 production field performance。
 - `audit-portfolio-evidence.mjs` 核對 Hamlet direct-copy bytes／SHA-256、衍生 AVIF/WebP inventory SHA-256、實際 dimensions、VTT timing／逐字稿及 public inventory。Publication mode 另外要求頂層核准狀態、逐項 rights checks／evidence refs 與完整 applicant attestation；只改一個 status 不能解除 gate。
 - `run-lighthouse.mjs` 明確建置 submission／相對 base並先跑 submission／Pages scan；以完整 path／size／SHA-256 manifest 複製 immutable artifact，再由動態 port preview。它動態納入根目錄 Vite `.env*`，在 audit 前後核對 build-input path set／manifest，並驗證 mtime、fetchTime、URL、完整 resolved mobile／desktop config、runtime、categories、metrics 與 diagnostics；profile fingerprint 保存完整設定，environment／comparability fingerprint 另納入 benchmark、OS 與穩定 CPU identity，繼承環境只保存名稱與值雜湊。
 - 每次 Lighthouse run 從 build 前至發布完成持有跨程序獨占鎖，只有 metadata 完整且 PID 回報 `ESRCH` 的 stale lock 可用 token quarantine 回收。唯一 archive 先寫入 raw reports、conditions、CLI stdout／stderr transcript、artifact／source manifests 與完整受測 `dist`，重驗所有雜湊後最後原子建立 `archive-complete.json`；沒有 marker 的孤兒目錄不算成功。canonical reports／history 以 sibling temp＋rename 更新並可整組 rollback，latest summary 最後 atomic replace 作權威指標；失敗 run 保留上一份成功 summary。最近 20 次索引在 `reports/lighthouse-history.json`。只有 fresh report 通過全部驗證，且非零輸出精確指向該 run Chrome temp 的已知 cleanup `EPERM` 簽章時才降為具名 warning並封存原始輸出。
@@ -183,7 +204,7 @@ Navbar 改用較不透明的 theme-aware 背景，不再使用固定 `backdrop-b
 - Vite 預設使用相對 `base`，也可由 `VITE_BASE_PATH` 覆寫；public assets 以 `BASE_URL` 組路徑。應用沒有 client routes，因此不需要獨立 application 404 頁；submission dev 仍針對媒體／`dist` 邊界阻止 Vite 的通用 SPA fallback。
 - `check:submission` 先跑 scanner regression suite，再 build、掃描 text／inventory，最後執行 `audit:pages` 拒絕 GitHub Pages-breaking root-relative assets。
 - `.github/workflows/deploy-pages.yml` 會在 push 到 `main` 或 `workflow_dispatch` 時執行：Windows build job 使用 Node 22／pnpm 11.7 驗證 submission，再交給 Pages deploy job。PR #6 merge commit `e8f35e0` 的 run `30087568225`、build job `89463242126` 與 deploy job `89463660241` 均成功；這是較早 fingerprint，repository 沒有 `CNAME`。
-- 部署 job 依序執行 `check:submission` 與 `check:publication`，兩者通過後才 Configure Pages 與 upload；workspace check 會拒絕調換順序或加入 `continue-on-error: true`。最新整合本機 publication gate exit 0／`verified / approved`；Draft PR／工作樹存在仍不等於已部署或已取得 production publication approval。
+- 部署 job 依序執行 `check:submission` 與 `check:publication`，兩者通過後才 Configure Pages 與 upload；workspace check 會拒絕調換順序或加入 `continue-on-error: true`。2026-07-26 本機 publication gate exit 0／`verified / approved`；2026-07-27 組合需重跑，且 Draft PR／工作樹存在仍不等於已部署或已取得 production publication approval。
 - Hero、旗艦、支持案例及聲音 demo 有 section error boundaries；React 根另有共同 recovery boundary。
 
 ## 開發與驗證命令
@@ -203,7 +224,7 @@ pnpm run check:submission
 pnpm run doctor
 ```
 
-開發：`pnpm run dev:draft`；正式內容預覽：`pnpm run dev:submission`。需要效能證據時才執行 `pnpm run audit:lighthouse`；它產生 fresh mobile／desktop JSON 與 `reports/lighthouse-summary.json`，仍應把 localhost lab 與 production field evidence 分開解讀。現存 2026-07-17 Lighthouse archive 已因後續內容／metadata 改動成為歷史樣本。最新整合的 install、`doctor`、`check:submission` 與 `check:publication` 均 exit 0。
+開發：`pnpm run dev:draft`；正式內容預覽：`pnpm run dev:submission`。需要效能證據時才執行 `pnpm run audit:lighthouse`；它產生 fresh mobile／desktop JSON 與 `reports/lighthouse-summary.json`，仍應把 localhost lab 與 production field evidence 分開解讀。現存 2026-07-17 Lighthouse archive 已因後續內容／metadata 改動成為歷史樣本。2026-07-26 的 install、`doctor`、`check:submission` 與 `check:publication` 均 exit 0；2026-07-27 組合需重跑。
 
 正式提交驗證需在 `check:submission` 之後再做獨立檢查：
 
@@ -218,7 +239,7 @@ pnpm run doctor
 ### 每輪開始
 
 1. 確認 `git rev-parse --show-toplevel` 指向 canonical root。
-2. 檢查 branch／remote／dirty state；PR #1–#7 已 merged，本輪 Draft PR #9 已從最新 `main` 整合公開展示版與 PR #7 rights 基線，GitHub 回報 mergeable，且通過本機 gates／Browser QA；PR #8 維持原衝突狀態。Draft PR 仍不是 merge 或 deploy。
+2. 檢查 branch／remote／dirty state；PR #1–#7 已 merged，PR #8 維持原狀，2026-07-26 Draft PR #9 紀錄只代表當時 delivery lineage。2026-07-27 作者視角整合所在 branch／PR 與 remote 狀態必須在交付前重新查證，不能沿用舊 mergeable、gate 或 Browser 結論。
 3. 先讀本索引、`CODEX_HANDOFF.md`、`PORTFOLIO_AUDIT.md`、`CONTENT_MATRIX.md` 與本次要改動領域的 guardrail 文件。
 4. 執行 `pnpm run workspace:check`，再依改動範圍選擇 content、sound、build、submission 或 Lighthouse 驗證。
 
@@ -226,7 +247,7 @@ pnpm run doctor
 
 | 位置 | 責任／延伸規則 |
 | --- | --- |
-| `src/data/portfolio.js` | 公開敘事、案例順序、測試狀態、`themeEvidenceStatus` 與公開 media metadata；不可放施工待辦或編輯選件規則 |
+| `src/data/portfolio.js` | 公開敘事、案例順序、`indexTitle`／`indexSummary`／`indexCover`／`indexLinks`／`indexTags`、資料案例 `productionWorkflow`、測試狀態、`themeEvidenceStatus` 與公開 media metadata；不可放施工待辦或編輯選件規則 |
 | `src/data/admission-evidence.js` | Pure Data、兩件代表作品、合作、Roadmap 與 final links 的 public narrative；只放公開作品、方法、角色、重點、反思與下一步 |
 | `src/data/admission-evidence.audit.js` | 依 stable ID 保存 evidence status、validation、supported／unsupported claims、authorship／AI、rights、limitations 與 requests；Draft／Audit layer 專用，但 tracked source 仍是 public Repository 可讀 |
 | `src/data/admission-research.js` | 四層申請階段研究構想、五步預定流程與不可省略 disclaimer；不得填成已執行研究 |
@@ -251,4 +272,4 @@ pnpm run doctor
 
 ### 建議續作順序
 
-Submission hygiene、metadata、canonical、limited-use Hamlet rights／attestation、fail-closed production gate、public／audit split、Draft-only audit dynamic import、reading surface、central theme endpoint、ResizeObserver deep-link settle、REAPER copy 與 print reset 已整合；`doctor`、scanner／inventory、submission／publication gates 與四 viewport Browser QA 均通過。下一步是補 Pure Data 獨立重建、REAPER 實作、形成性測試與人工 accessibility／device matrix。Screen reader、真實 200% zoom、system reduced-motion、實機、多瀏覽器音訊與 production field evidence仍不得標為已驗證。
+Submission hygiene、metadata、canonical、limited-use Hamlet rights／attestation、fail-closed production gate、public／audit split、Draft-only audit dynamic import、reading surface、central theme endpoint、ResizeObserver deep-link settle、REAPER copy 與 print reset已整合；2026-07-27 另加入作者視角、巢狀作品索引、Web Audio 正式視覺策略與資料案例 `productionWorkflow`。2026-07-26 的 `doctor`、scanner／inventory、submission／publication gates 與四 viewport Browser QA 只作基線；目前組合需重跑。內容後續仍包括 Pure Data 獨立重建、REAPER 實作、形成性測試與人工 accessibility／device matrix。Screen reader、真實 200% zoom、system reduced-motion、實機、多瀏覽器音訊與 production field evidence仍不得標為已驗證。

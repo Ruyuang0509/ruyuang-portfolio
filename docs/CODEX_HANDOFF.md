@@ -1,8 +1,38 @@
 # Current State
 
-## 2026-07-26 公開展示版與 Hamlet Rights Phase B 整合（本輪已驗證）
+## 2026-07-27 作者視角與公開案例敘事整合
 
-- 本節描述目前整合 fingerprint 與實際驗證；2026-07-25、Phase B base 與 `75b8df7` 的紀錄仍保留為歷史證據，不取代本節結果。目前變更位於 Draft PR #9，尚未 merge 或 deploy，不能當成發布核准；衝突中的 PR #8 保持原狀。
+- 公開文案依功能分為三種敘事模式：個人動機、反思與研究方向可保留節制的第一人稱；案例方法、流程、工具與成果優先以作品、原型、資料或製作階段為主詞；權利、來源、credit 與 applicant attestation 則保留可追溯的個人責任。正式姓名仍保留於 Hero、metadata、credit、JSON-LD 與簽署紀錄，不以全域取代處理。
+- 本輪只調整敘事視角、標題與句法，不改動作品數量、個人／團隊分工、Hamlet 八幕／40 秒／雙語字幕、實際英語歌詞與人聲、Suno 限定非營利條件、2026 年 7 月 26 日 applicant attestation、`notValidated`、`usedForExistingVideo: false` 或 private-original limitations。
+- `#project-index` 保留在 11 段高階 IA 的 `#selected-work` 之內，作為四件詳細案例的巢狀快速索引；它不是第 12 個高階段落，也不取代《畫本》、Pure Data、研究構想、合作、學習路線或 AI／作者性區段。
+- 最新組合已完成本機驗證：完整 `pnpm run doctor` 與獨立 `pnpm run check:publication` 均 exit 0；`doctor` 含 18/18 sound tests、14/14 Hamlet rights tests、73/73 scanner tests、135-file submission inventory 與 Pages audit。Draft 為 474 modules、entry 181772 B、CSS 46069 B、initial JS gzip 201686 B；submission 為 470 modules、entry 153688 B、CSS 46069 B、initial JS gzip 193282 B。Publication gate 維持 `verified / approved`。
+- In-app Browser 以 1440×1000 與 390×844 檢查：全頁水平 overflow 0、dead anchors 0、console warning／error 0；桌機四張索引卡均為 875×611，手機卡寬 330 px；資料案例流程在桌機為四欄 301×209、手機為單欄 330×199。Hamlet 指定權利文字與五階段標題可見，舊「我如何／我的角色／繁中／蕭智仁於」案例字串未出現；手機 menu、ARIA 名稱與 `#selected-work` 跳轉通過。
+- 這些結果只證明本機 submission artifact 與本輪 targeted Browser smoke；未執行 production deploy／HTTP、screen reader、真實 200% zoom、system reduced-motion、實機觸控、多瀏覽器音訊或完整 WCAG 人工稽核。
+
+## 2026-07-27 代表作品／作品索引定稿
+
+- `#project-index` 已由偏施工資訊的卡片改為正式審查索引，固定順序為：01 互動聲響學習原型、02《Hamlet》生成式 AI 文學敘事短片、03 線上學習互動與學科成績分析、04 數位學習資料視覺化實務探討。區段只保留必要年份／類型／狀態、短標題、短摘要、角色、工具、真實成果入口、三個靜態標籤與「查看案例」CTA。
+- 「作品關鍵字」與卡片標籤均為具名稱的 `ul > li`，不是 button、filter 或可聚焦控制；四卡所有成果入口與主 CTA 都指向現存 ID。資料視覺化實務案例只列 Canva、Gemini、ChatGPT，沒有誤帶 Power BI／Excel；Power BI、Excel、Power Query、DAX 只保留在實際使用它們的學習分析案例。
+- 版面以 lazy `ProjectIndexGrid.jsx` 呈現，768 px 以上 2×2、較窄 viewport 單欄；圖片框統一約 16:10、`object-fit: cover`，標題最多兩行，卡片只做 `y:-3`／`scale:1.005` 的低幅度 hover，不縮放圖片。所有索引圖片 `loading="lazy"`、`decoding="async"` 且具 intrinsic width／height；Hamlet 預覽影片維持 `preload="none"`、未獲意圖前沒有 `src`。
+- Web Audio 使用申請者提供的索引畫面，經 SHA-256 鎖定後輸出 400／640／1200 px AVIF、WebP。Hamlet 使用既有 manifest 追蹤 poster，並維持 `verified / approved` 的限定非營利範圍；這不代表 private originals、完整著作權或商業用途已清除。兩件資料案例使用自包含的公開安全 SVG；含 Spotify 第三方介面的拼貼與含真實 `user_sn`／教育資料分布的 Power BI 截圖都未匯入 `public/`。
+- 舊分支 browser 視覺稽核曾抓到兩張 SVG 雖解碼但內嵌圖像實際空白、索引主 CTA 文字對比錯誤，以及 `#project-index-title` 錨點遮住「代表作品」眉題；目前已分別改為自包含 SVG、共用高對比 `cta-button`，並把返回索引導覽指向完整 `#project-index`。最新 submission smoke 已確認四卡可見、索引 dead anchors 0、桌機等高且桌機／手機皆無全頁水平溢位。
+
+## 2026-07-27 資料視覺化製作流程重構
+
+- `data-visualization-cases` 原本以 1200×900、內含文字的 `work-01-process.svg` 放進共用 `aspect-[4/5]`／`object-cover` 圖卡，造成左右步驟裁切與上下空白。本輪移除該 SVG，改以 `productionWorkflow` 資料與 lazy `CaseProcessSection.jsx` 渲染可重排的 HTML/CSS 四階段：案例蒐整、資訊拆解、動態腳本、影片輸出。
+- 流程使用 `section`、具名稱的 `ol`、四個 `li > article` 與各自 `h3`；01–04 同時提供螢幕閱讀器「步驟」前綴。流程沒有圖片、假按鈕、假箭頭、連結、裝飾連接線或必要動效；手機單欄、`md` 兩欄、`lg` 四欄。本輪未另外驗證 print 欄數。
+- 使用者提供的四張畫面是完成簡報／輸出截圖，不是案例來源清單、資訊拆解表或分鏡時間軸，因此沒有把它們冒充流程證據或匯入 public assets。公開輸出仍由既有 privacy-enhanced YouTube iframe 呈現；原始來源表、分析表、分鏡／字幕時序與第三方畫面權利仍待補。
+- 此案例的工具標籤只保留 Canva、Gemini、ChatGPT；另一件 `learning-dashboard-analysis` 才保留 Microsoft Power BI Desktop、Microsoft Excel、Power Query 與 DAX。
+
+## 2026-07-27 Web Audio 視覺策略卡片定稿
+
+- `interactive-sound-learning` 原本三張模板式流程／架構配圖已改為使用者提供的 N1／N2／N3 正式視覺，固定配對為互動原型、聲響主題、介面風格；公開卡片統一使用「視覺策略」標籤，不把概念視覺宣稱為實際介面、技術架構或研究結果。
+- 每張原始 PNG 為 1122×1402；正式資產以不裁切、不放大的 561／1122 px AVIF、WebP 輸出。三組舊 `gd-kinetic`／`gd-analog`／`ph-geometry` 變體及 generator entries 已移除。
+- Web Audio 視覺策略卡不再渲染 `AnimatedDetails`、箭頭、連結或 hover 操作提示；其他真實圖解仍保留可展開的長描述。圖片維持 `loading="lazy"`、`decoding="async"`、1122×1402 intrinsic metadata、AVIF→WebP fallback 與相對 `BASE_URL`。
+
+## 2026-07-26 公開展示版與 Hamlet Rights Phase B 整合（歷史驗證基線）
+
+- 本節描述 2026-07-26 整合 fingerprint 與當時實際驗證；2026-07-25、Phase B base 與 `75b8df7` 的紀錄只保留為更早歷史證據。該次變更位於 Draft PR #9，當時尚未 merge 或 deploy；這些 PR、build 與 Browser 狀態都不能取代 2026-07-27 組合的重新查證，也不能當成目前發布核准。
 - `src/data/admission-evidence.js` 已收斂為公開作品敘事；完整證據狀態、驗證限制、作者性、AI 協作、權利、limitations 與 evidence requests 以 stable ID 移到 `src/data/admission-evidence.audit.js`。公開元件只 import public data，Draft layer 才以動態拆分讀取 audit records，以守住 entry budget；validator 同時核對兩層 ID／schema，但公開施工字串規則不套到 audit records。這是 submission bundle 邊界，不代表 public Repository 內的 audit source 是私密資料。
 - `DataVisualizationSeries` 的背景轉場來源仍保留，但所有標題、摘要、卡片與說明現在位於不透明 `theme-reading-surface--dark`；mist／paper fixed field 只在閱讀面周圍可見，避免任何中間進度出現淺底淺字。`useThemeInversion` 以單一 theme endpoint threshold 同步 ScrollTrigger `onUpdate`／`onRefresh`、reduced endpoint 與 navigation surface。
 - `App.jsx` 對 `#main-content` 加入 `ResizeObserver`，lazy admission sections 或媒體尺寸改變時會重新執行受控 hash settle；`portfolio:deferred-ready` 與使用者中斷保護仍保留。這修正直接 deep link 在延後內容展開後落點漂移的問題。
@@ -200,7 +230,7 @@
 
 - **2026-07-26 Phase B base smoke（歷史 fingerprint）：** In-app Browser 以 submission preview 驗證 1280×720、768×1024、375×812、320×568。Confirmed attestation 與修正後作品卡皆可見；待本人確認與舊權利卡片為 0。Suno link 取得 `:focus-visible`；Hamlet 影片為 40 秒、controls true、autoplay false、2 tracks，Space 可播放／暫停；8 幕分鏡保留。四 viewport global horizontal overflow 為 0；case targets 無 broken target、duplicate ID 0；clean tab console logs 0。
 - **`75b8df7` 公開展示版 smoke（整合前 fingerprint）：** 曾涵蓋 1440／1280／768／390／320、7 個 hash、theme forward／reverse、Web Audio 與 Pure Data 影片；這些結果尚未在 Phase B 組合上重跑。
-- **本輪整合 smoke：** 1280×800、768×900、390×844、320×720 均為 horizontal overflow 0、broken hash 0、duplicate ID 0、broken image 0、console warning／error 0；Pure Data、Hamlet、`#selected-work`、`#contact` fresh deep links 落在 fixed nav 下約 95–112 px，dark／paper theme endpoints 與 mobile menu Escape focus restore 通過。Screen reader、真實 200% zoom、system reduced-motion、實機觸控與多瀏覽器音訊仍未可靠涵蓋。
+- **2026-07-26 公開展示版整合 smoke（歷史基線）：** 1280×800、768×900、390×844、320×720 均為 horizontal overflow 0、broken hash 0、duplicate ID 0、broken image 0、console warning／error 0；Pure Data、Hamlet、`#selected-work`、`#contact` fresh deep links 落在 fixed nav 下約 95–112 px，dark／paper theme endpoints 與 mobile menu Escape focus restore 通過。2026-07-27 最新組合的 targeted 結果已另記於文件頂端；screen reader、真實 200% zoom、system reduced-motion、實機觸控與多瀏覽器音訊仍未可靠涵蓋。
 
 - AI 文學故事 MV 最終 submission preview 以 320×812、375×812、768×900、1024×900、1440×900 實測；五組實際 `innerWidth` 與要求一致，global horizontal overflow 皆為 0，案例內 broken image 皆為 0。
 - 五組皆渲染 5 個 workflow 階段、4 張 Prompt 決策卡、8 幕 storyboard 與 3 張成果卡；三個 header CTA 目標存在，320 px 最小 CTA 高度實測 44 px。
@@ -278,7 +308,7 @@
 
 ## Risks and blockers
 
-- Git repository、PR #1–#7 所在的 current base、舊成功 Actions run 與 production Pages 均可由既有紀錄確認；本輪整合已通過完整 `doctor` 與 `check:publication`，但目前新 PR 仍是 Draft，尚未 merge／deploy。現存主要限制是 private originals 未找到、兩個 YouTube 作品的第三方 rights／完整 credit 待核對，以及缺少 production field、screen reader、真實 200% zoom、system reduced-motion、實機與多瀏覽器音訊驗收。
+- Git repository、PR #1–#7 所在的 2026-07-26 base、舊成功 Actions run 與 production Pages 均可由既有紀錄確認；目前工作位於本機 `codex/author-voice-audit`，2026-07-27 本機 submission／publication gates 與 Browser smoke 已通過，但沒有建立、推送或部署新的 PR。未 merge／deploy 前不能視為 production 發布核准。現存主要限制是 private originals 未找到、兩個 YouTube 作品的第三方 rights／完整 credit 待核對，以及缺少 production field、screen reader、真實 200% zoom、system reduced-motion、實機與多瀏覽器音訊驗收。
 - Scanner 已攔截目前已知 text／inventory regressions，但仍以獨立 `dist/` 搜尋避免循環自證；新 leak 類型需要新增 rule 與 fixture。
 - 2026-07-17 runtime 對應的 Lighthouse archive 已封存；PR #5 已改動 Hero 文案與 source fingerprint，因此目前只能作歷史比較，不能沿用為新版文案的 current-fingerprint 證據。
 - 真實使用者研究、聲音作品與授權資料不在 repository，工程端不能代填。

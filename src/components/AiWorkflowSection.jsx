@@ -56,10 +56,10 @@ export default function AiWorkflowSection() {
             {aiWorkflow.failureCases.map((item) => (
               <article key={item.problem} className="evidence-panel grid gap-3 rounded-[var(--radius-md)] p-5">
                 <h3 className="zh-heading text-xl">{item.problem}</h3>
-                <p className="zh-caption text-[color:var(--theme-muted)]">我怎麼發現：{item.discovery}</p>
+                <p className="zh-caption text-[color:var(--theme-muted)]">發現方式：{item.discovery}</p>
                 <p className="zh-caption text-[color:var(--theme-muted)]">原因：{item.diagnosis}</p>
-                <p className="zh-caption text-[color:var(--theme-muted)]">我怎麼檢查：{item.check}</p>
-                <p className="zh-caption text-[color:var(--theme-muted)]">我怎麼修正：{item.correction}</p>
+                <p className="zh-caption text-[color:var(--theme-muted)]">檢查方式：{item.check}</p>
+                <p className="zh-caption text-[color:var(--theme-muted)]">修正方式：{item.correction}</p>
                 <p className="zh-caption rounded-[var(--radius-sm)] border border-[color:var(--theme-line)] p-3 text-[color:var(--theme-muted)]">學到什麼：{item.learning}</p>
               </article>
             ))}

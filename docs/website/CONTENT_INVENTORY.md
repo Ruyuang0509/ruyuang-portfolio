@@ -1,5 +1,13 @@
 # 公開內容清單
 
+## 2026-07-27 最新作者視角組合
+
+- 公開來源已逐句檢視 165 個含「我」的來源行；其中 75 個過量／模板式來源行改寫為作品、方法或流程作主詞。第三人稱代寫感為 10 個來源命中、合併為 7 組不重複字串，已從公開文案移除或改為中性敘述。
+- 保留必要第一人稱的範圍是作者的選擇、反思、具名責任、AI 最終判斷與 rights／attestation；團隊角色、`notValidated`、private-original 缺口與 limited-use 邊界未被改寫成較強成果。
+- 完整 `pnpm run doctor` exit 0。Draft build：474 modules、entry 181772 B、CSS 46069 B、initial JS gzip 201686 B。Submission build：470 modules、entry 153688 B、CSS 46069 B、initial JS gzip 193282 B；sound 18/18、rights 14/14、scanner 73/73、scan 135 files／28 text files、67／9 rules。
+- Browser 定向檢查已覆蓋 1440×1000 與 390×844：4 張作品索引卡、4 階段資料視覺化流程、Hamlet 指定文案、真實 anchor、行動選單與主要段落均為 page／section overflow 0、0 dead anchors、console 0 warning／error。
+- 下方 2026-07-26 數字保留為歷史 fingerprint，不取代本節。Production、screen reader、真實 200% zoom、system reduced-motion、實機與多瀏覽器音訊仍未驗。
+
 ## 2026-07-26 Hamlet rights inventory delta
 
 - 新增公開文件：`docs/evidence/hamlet-rights-evidence-public.md`、`docs/evidence/hamlet-applicant-attestation.md`；前者只含刪節摘要，後者是蕭智仁於 2026-07-26 完成的正式聲明。
@@ -7,16 +15,23 @@
 - 私人 inventory：原始 EML 0 份找到、原始八幕生成紀錄 0 份找到；沒有把需求附件或 MP4 抽幀誤列成原始證據。
 - `.eml`、private evidence directories 與 original authorization／support reply filenames 已由 Git ignore、publication audit 與 submission inventory scanner 三層阻擋。
 - Suno 使用限目前非營利範圍；rights review 不改變 Hamlet `notValidated` 的學習成效狀態。
-- 最新整合驗證：install、`pnpm run doctor` 均 exit 0；sound 18/18、rights 14/14、scanner 73/73。Draft build 為 471 modules、entry 180733 B、CSS 44315 B、initial JS gzip 200889 B；submission 為 467 modules、entry 153704 B、CSS 44315 B、initial JS gzip 192936 B。
+- 2026-07-26 整合驗證基線：install、`pnpm run doctor` 均 exit 0；sound 18/18、rights 14/14、scanner 73/73。Draft build 為 471 modules、entry 180733 B、CSS 44315 B、initial JS gzip 200889 B；submission 為 467 modules、entry 153704 B、CSS 44315 B、initial JS gzip 192936 B。
 - Submission scan 為 132 files／25 text files、67 個 text rules／9 個 inventory rules；118 個 `public/` files 為 0 missing／0 SHA-256 mismatch。`pnpm run check:publication` exit 0，manifest 為 `verified / approved`。
 - Browser 在 1280×800、768×900、390×844、320×720 驗證 0 horizontal overflow、0 broken hashes、0 duplicate IDs、0 broken images，console 0 warning／0 error；Pure Data、Hamlet、`#selected-work`、`#contact` deep links 落在 fixed nav 下約 95–112 px，dark／paper endpoints 與行動 menu Escape／還焦通過。
 - 本輪同時完成 public narrative／audit 分層、Draft-only audit data 動態載入、REAPER 公開文字改為「下一階段」、深色 reading surface、theme endpoint、deep-link settle 與 print reading-surface reset。
 
-更新日期：2026-07-26。下列內容描述已完成驗證的整合 source 與 public 資產邊界；PR #6 Pages run 只作歷史部署基線，目前仍是 Draft PR，不能視為已部署或發布核准。公開可達、limited-use 權利核准、private originals 可得性與研究／學習成效驗證是四個不同證據層。
+更新日期：2026-07-27。下列內容描述目前整合 source 與 public 資產邊界；2026-07-26 自動／Browser 結果與 PR #6 Pages run 都只作歷史基線，2026-07-27 最新本機自動與 targeted Browser 結果以上節為準。公開可達、limited-use 權利核准、private originals 可得性與研究／學習成效驗證是四個不同證據層。
 
 ## 內容治理
 
 公開案例、首頁敘事、媒體 metadata 與測試狀態的來源是 [`../../src/data/portfolio.js`](../../src/data/portfolio.js)。Pure Data／代表作品／合作／學習路線／連結的公開敘事位於 [`../../src/data/admission-evidence.js`](../../src/data/admission-evidence.js)，完整 evidence／validation／rights／limitations／requests 依 stable ID 位於 [`../../src/data/admission-evidence.audit.js`](../../src/data/admission-evidence.audit.js)；submission components 只讀 public module，Draft／Audit layer 才讀 audit module。研究構想與 AI／作者性分別在 [`../../src/data/admission-research.js`](../../src/data/admission-research.js)、[`../../src/data/ai-workflow.js`](../../src/data/ai-workflow.js)。[`../../src/components/AdmissionEvidenceSections.jsx`](../../src/components/AdmissionEvidenceSections.jsx) 負責呈現 public admission evidence。Hidden case 文字位於 [`../../src/data/portfolio.hidden.js`](../../src/data/portfolio.hidden.js)，施工／風險文字位於 [`../../src/data/portfolio.internal.js`](../../src/data/portfolio.internal.js)；submission mode 會把 hidden case 與 Draft layer alias 到空模組，正式內容不得複製 internal／audit wording。欄位契約見 [`../content-authoring.md`](../content-authoring.md)、[`../adding-portfolio-work.md`](../adding-portfolio-work.md) 與 [`../content-governance.md`](../content-governance.md)。
+
+### 作者視角與公開敘事層級
+
+- 第一層寫作者親自做的選擇、操作與判斷；第二層連到可核對的 artifact、程式或方法；第三層明說尚未驗證、尚未取得或不可由現有證據推論的部分。
+- 內容整合只調整敘事順序、欄位與元件呈現，不補寫參與者、成效、節省時間、研究結論、商業權利或官方認可。
+- Hamlet 的 `verified / approved` 只適用已記錄的限定非營利用途；private originals 未找到與 `notValidated` 必須同時保留。
+- 可見文案、ARIA label、metadata 與 `llms.txt` 應使用一致事實，但不得把施工／audit-only 文字直接搬進 submission。
 
 ## 首頁與固定內容
 
@@ -111,14 +126,22 @@ Reviewer Path 不是 Navbar 的重複清單，而是六張依證據目的分流�
 
 公開版本摘要固定為三版：v1「作品集主提示詞」、v2「續作提示詞」、v3「送審證據補強」。三個 failure chain 分別是 GitHub Pages 子路徑、無 Web Audio 時的錯誤狀態、以及 AI 產生的 Pure Data 結構超出當下理解能力；每案都保留 discovery → diagnosis → check → correction → learning，而不是只呈現成功結果。
 
+## 代表作品／作品索引
+
+- 索引標頭固定為「代表作品／作品索引」，六個主題在此只作「作品關鍵字」靜態 `<ul><li>`，沒有篩選、button、`aria-pressed`、點擊狀態或假互動。
+- 公開順序固定為 `interactive-sound-learning`、`generative-interface-study`、`learning-dashboard-analysis`、`data-visualization-cases`；索引使用 `indexTitle`、`indexSummary`、`indexCover`、`indexLinks`、`indexTags`，完整研究題名與長敘事仍留在案例頁。
+- 每卡只顯示 16:10 圖、真實 metadata、編號、短題名／摘要、角色、工具、可到達的成果 anchor、三個靜態標籤與「查看案例」；不再顯示 `overviewFacts`、`whatThisProves` 或大型角色／工具說明框。
+- `indexLinks` 只包含已渲染的站內成果：Web Audio 原型、Hamlet 完整影片／製作流程、資料視覺化分析影片；Power BI 沒有可公開 dashboard／影片／報告入口，因此只保留同頁案例 CTA。
+- `#project-index` 巢狀位於 `#selected-work`，不計為第 12 個高階 IA；中寬以上 2 欄、窄版 1 欄，圖片使用 lazy／async 載入。
+
 ## 公開案例矩陣（submission：4 件）
 
 | ID／標題 | 狀態 | 核心內容 | 公開證據與限制 |
 | --- | --- | --- | --- |
-| `interactive-sound-learning` 互動聲響學習原型 | 可操作原型；`notValidated` | 作者把水平／垂直位置、移動速度與物件大小連到聲像、音高、濾波亮度與音量，使用者拖動時可直接聽見參數改變 | 原生 Web Audio 可操作 prototype、3 張視覺方向圖、4 個 mapping、9 階段 signal flow、listening guide 與「可證明／申請者與 AI 分工／不能證明」邊界；不能證明已幫助使用者理解概念 |
+| `interactive-sound-learning` 互動聲響學習原型 | 可操作原型；`notValidated` | 作者把水平／垂直位置、移動速度與物件大小連到聲像、音高、濾波亮度與音量，使用者拖動時可直接聽見參數改變 | 原生 Web Audio 可操作 prototype、N1／N2／N3 三張正式視覺策略圖、4 個 mapping、9 階段 signal flow、listening guide 與「可證明／申請者與 AI 分工／不能證明」邊界；三張圖只說明感知／材質／介面語彙，不能證明已幫助使用者理解概念 |
 | `generative-interface-study` AI 文學故事 MV | 原型中；`notValidated` | 作者把《Hamlet》拆成八幕，依文本理解、分鏡、圖像與字幕、配樂、剪輯五階段完成 40 秒影片 | 交付版 MP4、英文與繁中 WebVTT、完整雙語逐字稿、8 張實際畫面、Suno canonical credit、素材來源／公開範圍面板、具名 applicant attestation，以及 2026/07/17 事後整理且未用於成片的提示詞模板 v1；目前核准限非營利用途。原始提示詞紀錄、原始場景生成紀錄、原始 EML、可編輯 Canva 與學生／教師測試仍未找到或未完成，不能由 rights approval 推論為已獨立查驗或已具學習成效 |
-| `data-visualization-cases` 資料視覺化實際案例與數位學習應用探討 | 已完成；`exploratory` | 作者以 Spotify Wrapped 等案例拆解資料層級、畫面節奏與個人化回饋，再把觀察帶回數位學習情境 | 1 張流程圖、1 部 YouTube privacy-enhanced 分析影片與章節化分析；尚未做成可操作介面，沒有使用者測試或學習成效資料 |
 | `learning-dashboard-analysis` 線上學習互動行為與學科成績之資料視覺化分析 | 2026/06/11–06/12；原型中；`exploratory` | 作者用 Power BI 整理互動紀錄、影片觀看欄位與學科成績，探索資料分布 | 3 張版面／公開邊界概念圖與圖表定義；配圖不是操作流程、系統架構、IA、真實值或真實比例。原始資料、真實數值、Power BI 儀表板／實作檔與結果影像隔離，關聯線索不能用來判斷因果或學習成效 |
+| `data-visualization-cases` 資料視覺化實際案例與數位學習應用探討 | 已完成；`exploratory` | 作者以 Spotify Wrapped 等案例拆解資料層級、畫面節奏與個人化回饋，再把觀察帶回數位學習情境 | `productionWorkflow` 由 lazy `CaseProcessSection` 以四階段語意 HTML／CSS 呈現，另有 1 部 YouTube privacy-enhanced 分析影片與章節化分析；工具只列本案實際使用的 Canva／Gemini／ChatGPT，不誤列 Power BI／Excel。完成投影片只供內容核對，不冒充原始製作紀錄；尚未做成可操作介面，沒有使用者測試或學習成效資料 |
 
 ## Admission evidence 代表作品（文字型）
 
@@ -177,9 +200,10 @@ Hidden case 現在使用空 media state。原有 13 個 `ph-after-*`／`mv-soft-
 ## 案例欄位契約
 
 - **身份：** `id`、`title`、`titleLines`、`year` 或 `metadataOmissions`、`source`、`category`、`status`、`priority`、`submissionVisibility`。
+- **索引：** 公開案例需有 `indexTitle`、`indexSummary`、`indexCover`、三個 `indexTags` 與 `indexLinks` 陣列；沒有可公開成果 endpoint 時陣列保持空，不建立假連結。
 - **論證：** `summary`、`valueProposition`、`problemAwareness`、`audience`、`whatThisProves`、`designGoal`。
 - **方法：** `designProcess`、`technologyAndMedia`、`outcomeShowcase`、`extendedSections`；可選 `challenge`、五階段 `workflow`（工具／輸入／產出／控制／人工檢查）、`promptDecisions`、`mediaLayers`。
-- **證據：** `diagrams`、`media.*`、可選 `storyboard`（每幕含 bilingual title、`seekSeconds` 與 control）、`featuredExample`、`deliverables`、`outcomes`、`interactivePrototype`／`interactionMappings`／`signalFlow`／`listeningGuide`。
+- **證據：** `diagrams`、`productionWorkflow`、`media.*`、可選 `storyboard`（每幕含 bilingual title、`seekSeconds` 與 control）、`featuredExample`、`deliverables`、`outcomes`、`interactivePrototype`／`interactionMappings`／`signalFlow`／`listeningGuide`。
 - **收束：** 可選 `keyInsight`、`nextSteps`、`ctas`；站內 CTA 必須對應實際 renderer anchor，可選 `focusTarget` 也必須指向已渲染控制項。
 - **責任與誠信：** `tools`、`roles`、`testing.statusKey`、`testing.status`、實際 evidence 或 `plannedMethods`、`reflection`、`instituteConnections`、`themeRationales`、`credits`、`links`、`seo`。
 
@@ -193,9 +217,9 @@ Hidden case 現在使用空 media state。原有 13 個 `ph-after-*`／`mv-soft-
 
 ## 媒體、替代文字與隱私
 
-- `public/media/portfolio` 使用 420／640／1200 寬 AVIF/WebP、本機 MP4、Hamlet WebVTT，以及新增的 Pure Data PNG poster。Pure Data `pd-crossmodal-mapping-v0.2.1-operation-demo.mp4` 與同名 poster 皆由 `AdmissionEvidenceSections` 引用；影片 metadata 為 1276×720、約 63 秒、H.264／AAC。此目錄會被 Vite 全量複製，因此「未被 React 引用」仍不等於「未公開」。
+- `public/media/portfolio` 主要使用 420／640／1200 寬 AVIF/WebP；Web Audio 索引圖另以精確 16:10 的 400／640／1200 變體提供。目錄也包含本機 MP4、Hamlet WebVTT 與 Pure Data PNG poster。Pure Data `pd-crossmodal-mapping-v0.2.1-operation-demo.mp4` 與同名 poster 皆由 `AdmissionEvidenceSections` 引用；影片 metadata 為 1276×720、約 63 秒、H.264／AAC。公共 image helper 帶固定 dimensions、alt 與 lazy／async 行為。此目錄會被 Vite 全量複製，因此「未被 React 引用」仍不等於「未公開」。
 - Pure Data 影片與 poster 的畫面都仍可讀到本機 D 槽專案路徑與 `v0.2.1-validated`；頁面文案已將其限定為本機功能測試，但 binary 本身尚未去識別或重錄。這是已知公開風險，不是私有工作檔。
-- `public/media/data-visualization` 只有公開安全的 SVG 系列圖／流程圖／概念圖。
+- `public/media/data-visualization` 只有公開安全的 SVG 系列圖／封面／概念圖；兩張 16:10 索引 wrapper 只重用既有安全 SVG，不含 Power BI 真實資料或第三方品牌介面。作品一的製作流程由 HTML／CSS 呈現，不再使用流程 SVG。
 - Power BI 原始 PNG/WebP 位於 `restricted-media/data-visualization/`，不在 `public/`，不被 Vite 複製；公開資料只保留 restricted 說明，不含路徑。
 - 資料視覺化影片使用 YouTube ID `NrmK31F2S-M`，renderer 採 `youtube-nocookie.com`。
 - 圖解需 alt、caption 與文字長描述；video/audio 架構支援 transcript／caption；iframe demo 需明確使用者操作後載入。
@@ -203,13 +227,14 @@ Hidden case 現在使用空 media state。原有 13 個 `ph-after-*`／`mv-soft-
 - `index.html` description、Open Graph／Twitter description 與 JSON-LD 使用同一原文：`蕭智仁的研究所申請作品集，呈現Web Audio聲響互動原型、Pure Data學習紀錄、影音作品，以及精簡揚聲器與開放式耳機混合監聽的研究構想。`
 - Canonical URL、`public/llms.txt`、social preview 與 image alt 使用同一產品方向與有效 anchors；`llms.txt` 另明載 116 學年度與證據邊界，favicon 維持 RU / YUAN 品牌。Metadata／canonical 已完成，不再列為待補。
 
-## 最新整合驗證與發布狀態
+## 2026-07-26 整合驗證基線與目前發布狀態
 
-- `pnpm install`、`pnpm run doctor` 均 exit 0；sound 18/18、rights 14/14、scanner 73/73。
+- 2026-07-26 `pnpm install`、`pnpm run doctor` 均 exit 0；sound 18/18、rights 14/14、scanner 73/73。這些結果早於 2026-07-27 作者視角、作品索引與案例視覺整合，不能當成目前組合 fingerprint 的驗證。
 - Draft build：471 modules、entry 180733 B、CSS 44315 B、initial JS gzip 200889 B。Submission build：467 modules、entry 153704 B、CSS 44315 B、initial JS gzip 192936 B。
 - Fresh submission scan：132 files／25 text files、67 個 text rules／9 個 inventory rules；118 個 `public/` files為 0 missing／0 SHA-256 mismatch。
 - `pnpm run check:publication` exit 0；manifest 為 `verified / approved`。這只核准目前 limited-use／非營利邊界，不把 Hamlet `notValidated`、private originals 或第三方 YouTube 素材的完整 credit／rights 升格為已驗證。
 - Browser 在 1280×800、768×900、390×844、320×720 為 0 overflow、0 broken hashes、0 duplicate IDs、0 broken images、console 0 warning／0 error；Pure Data、Hamlet、`#selected-work`、`#contact` fresh deep links 約 95–112 px，dark／paper endpoints 與行動 menu Escape／focus restore 通過。
+- 2026-07-27 組合已完成完整 `doctor`、獨立 publication gate 與 `#project-index`／`productionWorkflow`／Web Audio targeted Browser smoke；兩個命令均 exit 0，publication gate 為 `verified / approved`。本輪 scanner 已驗證實際 submission artifact，但未另做全 `public/` SHA-256 inventory。
 - 尚未涵蓋 screen reader、真實 200% zoom、system reduced-motion、實機與多瀏覽器音訊。Pages run `30087568225` 仍只代表 PR #6 歷史部署；Draft PR 與本機 gate 通過不等於已部署或 production publication approval。
 
 ## 仍缺少的內容
@@ -219,5 +244,6 @@ Hidden case 現在使用空 media state。原有 13 個 `ph-after-*`／`mv-soft-
 - 《畫本》與 MV 混剪已加入申請者提供的文字型作品紀錄，但 repository 與可讀 Git history 仍沒有可逐鏡核對的成片、活動紀錄、完整 credit、來源或授權 artifact。
 - AI 文學故事 MV 已有影片、字幕、實際分鏡、逐項 rights registry、具名 applicant attestation 與 `verified / approved` manifest。原始 Prompt log、原始場景生成紀錄、原始 EML、可編輯 Canva 與課堂測試仍缺；成片本來就設計為無旁白，不把「旁白版本」列成已承諾交付物。現況是「目前限定非營利用途已取得申請者確認與 publication gate 核准，但 private originals 與學習成效未獨立驗證」。
 - Power BI 實作日期已確認為 2026/06/11–06/12；資料使用說明不支持公開分析結果，清洗規則與部分 measure 定義仍需核對。
-- 原有 portfolio case `links` 皆空；`#contact` 只新增已知 Pages 與 GitHub Repository。仍沒有公開 email、履歷、研究計畫下載或其他個人聯絡資料。
+- 原有 portfolio case `links` 皆空；索引 `indexLinks` 只連到已渲染的站內成果／流程 anchor。`#contact` 只新增已知 Pages 與 GitHub Repository；仍沒有公開 email、履歷、研究計畫下載或其他個人聯絡資料。
 - GitHub Pages run `30087568225` 已部署 PR #6 的 11 段 IA、AdmissionEvidence 與 Pd 媒體整合；它早於 PR #7 limited-use rights／attestation 與本次公開展示版整合，不提供目前新組合的部署、使用者研究、輔具／實機或 field performance 證據。2026-07-17／07-18 Lighthouse 也只是舊 source fingerprint 的 localhost 歷史快照。
+- Production canonical 與 GitHub Pages hosting 已由目前 source／既有部署 lineage 確認；目前組合的 production HTTP、analytics／隱私文件需求與最終社群分享圖跨平台相容性仍待發布後核對。

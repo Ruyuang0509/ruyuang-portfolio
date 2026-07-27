@@ -752,6 +752,7 @@ html.theme-transition-ready .theme-transition-source {
     scroll-behavior: auto !important;
     transition-duration: 0.001ms !important;
   }
+
 }
 
 .case-reading-map {
@@ -799,6 +800,28 @@ html.theme-transition-ready .theme-transition-source {
 
 .case-workflow-grid > li {
   min-width: 0;
+}
+
+.production-workflow__step {
+  --workflow-stage-accent: var(--theme-text);
+  min-width: 0;
+}
+
+.production-workflow__step--violet {
+  --workflow-stage-accent: color-mix(in srgb, var(--theme-text) 72%, #76517d 28%);
+}
+
+.production-workflow__step--accent {
+  --workflow-stage-accent: var(--theme-accent);
+}
+
+.production-workflow__card {
+  border-top: 0.25rem solid var(--workflow-stage-accent);
+}
+
+.production-workflow__number {
+  border-color: color-mix(in srgb, var(--workflow-stage-accent) 58%, transparent);
+  color: var(--workflow-stage-accent);
 }
 /* Codex-Fix: Keep case-study reading-map anchors comfortable under the fixed navigation. */
 
@@ -876,5 +899,6 @@ html.theme-transition-ready .theme-transition-source {
   .case-storyboard__item {
     flex-basis: auto;
   }
+
 }
 /* Codex-Fix: Add admissions-review print safeguards so case studies can be exported without nav/cursor noise. */

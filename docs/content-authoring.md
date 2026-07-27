@@ -103,6 +103,17 @@ Each work should include:
 - `themeRationales`: one non-empty rationale for every declared institute theme
 - `themeEvidenceStatus`: classify every declared theme as `demonstrated` or `researchDirection`
 
+Every `submissionVisibility: "public"` work also needs a concise featured-index contract:
+
+- `indexTitle`: the approved short title; keep the complete research title in `title`
+- `indexSummary`: evidence-safe summary without invented findings or metrics
+- `indexCover`: public-safe image metadata rendered at 16:10
+- `indexCoverPosition`: optional focal position for `object-fit: cover`
+- `indexTags`: exactly three static, non-interactive keywords
+- `indexLinks`: only rendered result endpoints; use an empty array when none can be published
+
+The index renderer always supplies a real `#project-id` case link. Never add `href="#"`, an empty modal, a restricted dashboard URL, or a result button whose destination does not exist.
+
 ## Optional Evidence Fields
 
 These can be empty without breaking the page:
@@ -124,6 +135,7 @@ Structured long-form modules can also be omitted without breaking other cases:
 - `titleLines`: 只控制視覺片語與換行；攤平並正規化空白後必須與完整 `title` 完全相同，不能為了排版省略作品名稱
 - `challenge`
 - `workflow.stages`
+- `productionWorkflow`: 四階段、以 `ol` 呈現的案例分析到影片輸出流程
 - `promptDecisions`
 - `storyboard.frames`
 - `featuredExample`, `mediaLayers`

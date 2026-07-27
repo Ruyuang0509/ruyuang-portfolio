@@ -1,16 +1,34 @@
 # 目前產品與資訊架構
 
+## 2026-07-27 最新驗證狀態
+
+- 作者視角、作品索引與案例流程已完成同一組合的 draft／submission build 與 targeted Browser 檢查；不是沿用 2026-07-26 fingerprint。
+- 完整 `pnpm run doctor` exit 0。Draft：474 modules、entry 181772 B、CSS 46069 B、initial JS gzip 201686 B。Submission：470 modules、entry 153688 B、CSS 46069 B、initial JS gzip 193282 B；sound 18/18、rights 14/14、scanner 73/73，scan 135 files／28 text files、67／9 rules。
+- Browser 在 1440×1000 與 390×844 核對作品索引順序、四階段流程、Hamlet 指定聲明、真實 anchor、行動選單與主要段落；page／section overflow 0、dead anchors 0、console warning／error 0。
+- Production、screen reader、真實 200% zoom、system reduced-motion、實機、多瀏覽器音訊與完整 media fallback 仍未驗，Draft branch 也不等於 merge、deploy 或發布核准。
+
+## 2026-07-27 作者視角與案例閱讀整合
+
+- 公開文案依「我做了什麼／可核對的 artifact 或方法／目前不能推論什麼」三層整理；不改寫既有學歷、角色、研究結果、測試狀態或權利結論，visible copy、ARIA 與 metadata 使用一致事實。
+- `CaseStudyShowcase` 保留唯一索引標頭，卡片抽成首屏以下 lazy `ProjectIndexGrid`；標頭改為「代表作品／作品索引」，介紹使用核准短文，六個主題在此只作「作品關鍵字」靜態列表。
+- 公開順序固定為 Web Audio、Hamlet、Power BI 學習分析、資料視覺化方法。四件案例各自新增索引短題名、短摘要、16:10 cover、三個靜態標籤與真實 `indexLinks`；完整研究題名與長敘事仍留在案例頁。
+- 索引不再顯示 `overviewFacts`、`whatThisProves` 與大型角色／工具框，只保留 metadata、摘要、精簡 `<dl>`、真實成果 anchor、標籤與「查看案例」。768px 起兩欄，較窄單欄；hover 限制為 y -3／scale 1.005，圖片不另行 zoom，reduced motion 停用位移／縮放。
+- Web Audio 使用提供的真實原型畫面所產生之 400／640／1200 AVIF、WebP；Hamlet 沿用 manifest 已追蹤的實際影片 poster。Power BI 真實結果與含 Spotify／第三方案例介面的拼貼未進 public，兩件資料案例改用不含資料值或第三方介面的既有公開安全 SVG 之 16:10 wrapper。
+- Web Audio 的 N1／N2／N3 三張圖固定為感知、材質與介面語彙的正式視覺策略卡片；561／1122 AVIF/WebP 取代舊 `gd-*`／`ph-*` 配圖，不加流程箭頭、details 或假互動提示。
+- 資料視覺化案例以 `productionWorkflow` 驅動 lazy `CaseProcessSection`，使用 `section > ol > li > article` 的四階段 HTML／CSS 流程；窄版 1 欄、中版 2 欄、寬版 4 欄。完成投影片只作內容核對，不冒充原始製作紀錄，工具只列 Canva／Gemini／ChatGPT。
+- 11 個高階 IA 不變；`#project-index` 巢狀於 `#selected-work`。2026-07-26 自動與 Browser 數字只作整合前基線，2026-07-27 組合已依上節重新驗證。
+
 ## 2026-07-26 rights 與公開展示版整合
 
 - Hamlet 播放器後方新增 compact「素材來源與公開範圍」面板，使用既有 `evidence-panel`／`soft-panel`；沒有新增 Navbar、主 IA anchor 或大型 section。
 - 面板列出 ChatGPT／OpenAI 場景圖、William Shakespeare 文學基礎、申請者與 ChatGPT 的改寫核對分工、Suno 音樂／歌詞／人聲、Canva editing/export-only 角色、非營利公開範圍及 confirmed attestation。
 - 公開 copy 保留原始 instrumental／no lyrics 提示方向，同時明確更正實際聲軌含英語歌詞與人聲；WebVTT 是故事字幕，不是歌曲逐字歌詞字幕。
-- Rights schema 與 Pages gate 已接入；蕭智仁於 2026-07-26 完成 applicant attestation。最新整合 manifest 為 `verified / approved`，targeted publication audit exit 0；核准範圍維持 limited-use／非營利，且不改變 Hamlet `notValidated`。
+- Rights schema 與 Pages gate 已接入；蕭智仁於 2026-07-26 完成 applicant attestation。Manifest 主幹維持 `verified / approved`，2026-07-27 submission gate 的 rights audit 與 14/14 tests 已通過；獨立 `check:publication` 亦為 exit 0。核准範圍維持 limited-use／非營利，且不改變 Hamlet `notValidated`。
 - Admission data 現分為 public narrative 與 `admission-evidence.audit.js`。公開區段只渲染作品、方法、角色與下一步；Draft／Audit 以 stable ID 保存完整 evidence／validation／rights／limitations／requests。Submission module graph 不讀 audit records，但 public Repository 內的 source 仍應視為公開。
 - 《畫本》與指定 MV 已有經確認的 canonical YouTube 作品入口，公開卡片改為作品摘要、角色、工具、重點、反思及一段必要素材說明；Pure Data 公開頁保留功能測試、觀看指南、AI 協作學習與簡短版本說明，詳細限制留在 audit。
 - `DataVisualizationSeries` 使用不透明深色閱讀面，mist／paper 動畫留在周圍背景；`useThemeInversion` 以 central endpoint 同步 navigation 與 field。`App` 的 `ResizeObserver` 在 lazy 內容改變高度時重新校正 deep links。
-- 最新整合已完成 install／`doctor` exit 0、sound 18/18、rights 14/14、scanner 73/73；submission scan 為 132 files／25 text files、67 text rules／9 inventory rules，118 個 public files 為 0 missing／0 SHA-256 mismatch，`check:publication` exit 0／`verified / approved`。
-- Browser 在 1280×800、768×900、390×844、320×720 為 0 overflow、0 broken hashes、0 duplicate IDs、0 broken images與console 0 warning／0 error；四個代表性 deep links 約 95–112 px，dark／paper endpoints與行動 menu Escape／還焦通過。
+- 2026-07-26 整合基線完成 install／`doctor` exit 0、sound 18/18、rights 14/14、scanner 73/73；submission scan 為 132 files／25 text files、67 text rules／9 inventory rules，118 個 public files 為 0 missing／0 SHA-256 mismatch，`check:publication` exit 0／`verified / approved`。
+- 同一基線的 Browser 在 1280×800、768×900、390×844、320×720 為 0 overflow、0 broken hashes、0 duplicate IDs、0 broken images與console 0 warning／0 error；四個代表性 deep links 約 95–112 px，dark／paper endpoints與行動 menu Escape／還焦通過。
 - 原始生成紀錄、原始 EML 與可編輯 Canva 專案仍未找到；screen reader、真實 200% zoom、system reduced-motion、實機與多瀏覽器音訊未驗。Rights approval 不等於 private originals、第三方 YouTube 完整 rights／credit 或學習成效已獨立查驗，Draft PR 也不等於發布核准。
 
 ## 整合後 source 模型
@@ -24,10 +42,10 @@
 - 混合監聽研究構想由四層資料驅動：`1. 問題`、`2. 初步構想`、`3. 申請者可帶入的能力`、`4. 入學後需補強`；另列五步預定流程、預期貢獻與申請階段聲明。完整研究計畫仍在非公開工作區，頁面沒有下載連結。
 - 公開／私有界線以實際檔案位置判斷：`public/` 的 Pd 影片／poster、admission public／audit source 與 `docs/admission/*` 都屬 public Repository 可讀範圍；`.pd` 原檔、完整研究計畫、REAPER 工程與 private originals 未放入公開 repository。兩件代表作品以外部 canonical URL 連出，不把第三方影片複製進 `public/`。Submission alias 只能隔離 bundle，不能保護 public repository 中的 tracked source 或文件。
 - `index.html` metadata、canonical URL、JSON-LD、`llms.txt`、favicon 與 social preview 已完成同步，不再列為本輪未決缺口。
-- 最新 draft build 為 471 modules、entry 180733 B、CSS 44315 B、initial JS gzip 200889 B；submission build 為 467 modules、entry 153704 B、CSS 44315 B、initial JS gzip 192936 B。
-- `check:publication` 已對整合後 source exit 0 並回報 `verified / approved`；production workflow 仍會在 configure／upload 前重新執行 submission 與 publication gates。
+- 2026-07-26 draft build 基線為 471 modules、entry 180733 B、CSS 44315 B、initial JS gzip 200889 B；submission build 為 467 modules、entry 153704 B、CSS 44315 B、initial JS gzip 192936 B。2026-07-27 組合需重跑，不能沿用這組 fingerprint。
+- 2026-07-26 `check:publication` exit 0 並回報 `verified / approved`；權利 registry 仍是目前 limited-use 主幹，但 production workflow 與 2026-07-27 組合均需在 configure／upload 前重新執行 submission 與 publication gates。
 - Print 現在會把 `.theme-reading-surface`／dark variant 重設為可讀紙色 tokens、移除 overflow 與 shadow；這是 print reading contract，不代表真實印表機／PDF 輸出已人工驗收。
-- Pages run `30087568225` 是 PR #6 的歷史部署證據；目前 Draft PR 尚未部署，不能由本機 gates 推論 production HTTP、field 狀態或發布核准。
+- Pages run `30087568225` 是 PR #6 的歷史部署證據；2026-07-27 整合的 branch／PR 尚待重查，且在實際 merge／deploy 前不能由任何舊本機 gates 推論 production HTTP、field 狀態或發布核准。
 
 ## 2026-07-24 Admission Evidence Pass（整合前歷史快照）
 
@@ -81,11 +99,11 @@
 ## Repository 與交付狀態
 
 - Canonical root 是 `C:\Users\911su\Documents\Codex\如願個人網站`。
-- PR #1 至 #7 均已 merged；本輪 Draft PR #9 從最新 `main` 整合公開展示版與 PR #7 limited-use rights／attestation 基線，GitHub 回報 mergeable，且自動與 Browser 驗證均通過。PR #8 保持原衝突狀態；Draft PR 仍不是 merge、deploy 或 production publication approval。
+- PR #1 至 #7 的 merged lineage 可由既有紀錄確認；2026-07-26 Draft PR #9 曾從當時 `main` 整合公開展示版與 PR #7 limited-use rights／attestation 基線。2026-07-27 作者視角整合目前位於本機 `codex/author-voice-audit`，`doctor`、publication gate 與 targeted Browser smoke 已通過；沒有建立新 PR，也未 push、merge 或 deploy，不得沿用舊 PR 結論。
 - `.github/workflows/deploy-pages.yml` 會在 push 到 `main` 或 `workflow_dispatch` 時執行，並在 configure／upload 前依序要求 `check:submission` 與 `check:publication`。PR #6 的 run `30087568225`、build job `89463242126`、deploy job `89463660241` 是較早成功部署；它不包含 PR #7 rights 更新或本次公開展示版組合。
 - Repository 沒有 `CNAME`，也沒有 production field-performance、輔具或實機證據。本輪不把未重新核對的 Pages API／HTTP 狀態寫成 current production。
 - 應用、內容與文件已形成完整本機 review flow；hidden-only assets、built construction wording、stale metadata、hidden 完整度假警告與 Three 超大 lazy chunk 的既有缺口已關閉。2026-07-17／07-18 Lighthouse 只能視為歷史效能快照。真實使用者研究、Hamlet private originals、輔具／實機與 current production field evidence 仍未完成。
-- **Rights gate 與研究狀態分開：** Hamlet manifest 對最新整合 source 為 `verified / approved`，蕭智仁已於 2026-07-26 完成具名 limited-use attestation，`check:publication` exit 0。這不會把 `notValidated`、private-original 缺口、第三方 YouTube 完整 rights／credit 或形成性研究升格為成功。
+- **Rights gate 與研究狀態分開：** Hamlet manifest／具名 attestation 主幹為 limited-use `verified / approved`；2026-07-27 `check:publication` exit 0。這不會把 `notValidated`、private-original 缺口、第三方 YouTube 完整 rights／credit 或形成性研究升格為成功。
 
 ## 路由與導覽模型
 
@@ -121,10 +139,10 @@ flowchart TD
 | `#top` | Hero：申請語境、背景、目前最強證據與研究方向 | 完整語意與編輯式片語換行；R3F 在 DOM paint window 後漸進載入；CTA 指向 Web Audio demo 與 `#learning-roadmap` |
 | `#sound-transition` | 轉向聲音的問題意識 | 以「開始注意／遇到門檻／帶入方法」三步把聆聽經驗連到數位學習、視覺敘事與資訊架構方法 |
 | `#reviewer-path` | 證據導覽 | 六張站內卡依證據目的分流；Web Audio 是最強可操作證據，Pure Data 是學習紀錄，代表作品、研究、學習路線與 AI 各自閱讀 |
-| `#interactive-sound-learning` | Web Audio 旗艦長篇案例 | `可操作原型／尚待驗證`；包含 lazy demo、9 階段 signal flow、四組 mapping、證據／作者與 AI 分工／不能證明邊界及計畫中的形成性測試 |
+| `#interactive-sound-learning` | Web Audio 旗艦長篇案例 | `可操作原型／尚待驗證`；包含 lazy demo、9 階段 signal flow、四組 mapping、N1／N2／N3 正式視覺策略、證據／作者與 AI 分工／不能證明邊界及計畫中的形成性測試 |
 | `#pure-data-learning` | Pure Data v0.2.1 學習紀錄 | 公開 62.983 秒 H.264／AAC 本機功能測試與 1276×720 poster、五點觀看指南、可證明／不能證明／AI 協作／下一步；原始畫面仍暴露本機路徑與 `validated` |
 | `#research-positioning`（alias `#research-proposal`） | 申請階段混合監聽研究構想 | 依問題、初步構想、可帶入能力、入學後需補強四層呈現；五步流程是預定方法，不是已執行實驗；完整研究計畫不公開 |
-| `#selected-work` | 代表作品與其他公開案例 | 先以文字呈現《畫本》，再連到可核對的 Hamlet／資料案例，最後呈現《希望有羽毛和翅膀》MV 混剪的二次創作與權利邊界；`#data-visualization-series`、`#project-index`／`#gallery` 及三件支持案例是此段延伸 |
+| `#selected-work` | 代表作品與其他公開案例 | 先以文字呈現《畫本》，再以巢狀 `#project-index` 依 Web Audio、Hamlet、Power BI、資料視覺化排序可核對案例，最後呈現《希望有羽毛和翅膀》MV 混剪的二次創作與權利邊界；`#data-visualization-series`、`#gallery` 與支持案例均是此段延伸 |
 | `#collaboration` | 專案與合作 | 用社團重整、工作調整與畢業專題角色協調支持系統化、韌性與溝通，不取代聲音技術證據 |
 | `#learning-roadmap` | 四階段學習路線 | 分成「已有可核對證據／正在學習／尚未形成作品／研究所階段」；REAPER、空間聲音與量測不冒充成果 |
 | `#ai-workflow` | AI／作者性 | 三組責任、Prompt 版本與三個失敗鏈；不宣稱訓練或部署自研 LLM，也不把 AI 產生的 Patch 完整度當成獨立能力 |
@@ -132,15 +150,23 @@ flowchart TD
 
 整合前文件列出的 `#learning-trail`、`#research-tracks`、`#translation-map` 與 `#institute-alignment` 已不在目前 `App.jsx` 的渲染順序；其資料或未掛載元件仍可能保留於 source，不能把舊 anchor 當成目前可達 IA。
 
+### `#selected-work` 內的巢狀案例 anchors
+
+- `#project-index`／`#gallery`：四件公開案例快速索引；2 欄／1 欄 responsive grid、16:10 cover、靜態 tags 與真實站內 anchor，沒有篩選或假控制。
+- `#generative-interface-study`：Hamlet 40 秒／8 幕成片、雙語字幕、storyboard、五階段流程、衍生 Prompt Template v1、證據邊界與 limited-use rights disclosure；仍是 `notValidated`。
+- `#learning-dashboard-analysis`：Power BI 學習資料探索；只公開不含真實數值的概念圖，原始資料、PBIX 與結果隔離，不作因果宣稱。
+- `#data-visualization-cases`：資料視覺化分析影片與四階段 `productionWorkflow`；由 lazy `CaseProcessSection` 以語意 HTML／CSS 呈現，testing 為 `exploratory`，不宣稱學習成效。
+- `#interactive-sound-learning-demo`：Web Audio 案例內的可操作 endpoint；需手勢啟用，pointer、touch 與四個 range 支援實際操作，停止／Escape／離屏／cleanup 可取消 pending start。
+
 `immersive-memory-map` 不在上表。它的完整文字位於 `portfolio.hidden.js`，並標記 `submissionVisibility: hidden`；內部施工備註另在 `portfolio.internal.js`。submission alias 解析到空模組，bundle 與公開 `portfolio.js` dev response 都不含案例 ID／文案。該案例現在使用空 media state；13 個 `ph-after-*`／`mv-soft-*` placeholder 已從 public 與 generator 移除，舊 canonical dev URL 為 404。治理完整度中的 diagrams／media 群組限定為 `submission-visible`，因此此 hidden 案例會標示「不適用」，不再產生假性待補警告。
 
 ## 案例共同結構
 
-每件公開案例依序可包含：header／metadata、reading map 與證據快覽、draft notes（僅 draft）、問題、對象、證明、目標、可選互動原型、設計流程、技術、成果、擴充章節、圖解、媒體、工具／角色、testing、反思、研究所主題、credits、前後案例導覽。研究所主題會把已有作品證據與未來研究方向分組顯示，不把延伸想法偽裝成現有證據。結構化長頁案例可選用 workflow、Prompt decisions、可展開的 Prompt template、storyboard、media layers、deliverables、evidence boundary、outcomes、planned evaluation、next steps 與 CTA；Prompt template、圖解等價文字與雙語逐字稿共用 `AnimatedDetails` 的實際高度動畫與 native disclosure 語意，並支援 `defaultOpen`、快速反轉、ResizeObserver retarget、live reduced-motion 與 WAAPI cleanup。空資料區塊不渲染。旗艦 Web Audio 原型和部分大區段另有 error boundary；目前沒有 `tablist`／`tab`／`tabpanel` widget。
+每件公開案例依序可包含：header／metadata、reading map 與證據快覽、draft notes（僅 draft）、問題、對象、證明、目標、可選互動原型、設計流程、技術、成果、擴充章節、圖解或 `productionWorkflow`、媒體、工具／角色、testing、反思、研究所主題、credits、前後案例導覽。研究所主題會把已有作品證據與未來研究方向分組顯示，不把延伸想法偽裝成現有證據。結構化長頁案例可選用 workflow、Prompt decisions、可展開的 Prompt template、storyboard、media layers、deliverables、evidence boundary、outcomes、planned evaluation、next steps 與 CTA；Prompt template、圖解等價文字與雙語逐字稿共用 `AnimatedDetails` 的實際高度動畫與 native disclosure 語意，並支援 `defaultOpen`、快速反轉、ResizeObserver retarget、live reduced-motion 與 WAAPI cleanup。空資料區塊不渲染。旗艦 Web Audio 原型和部分大區段另有 error boundary；目前沒有 `tablist`／`tab`／`tabpanel` widget。
 
 ## 使用者可見狀態
 
-- **載入：** Hero 3D 有純色 Suspense fallback；Web Audio prototype 有「互動聲響原型載入中。」；Pure Data、研究構想、代表作品、合作、學習路線、AI 與聯絡段落各有永久 wrapper、Suspense fallback 及區段錯誤隔離。圖片使用 lazy loading，首張索引 cover eager；本機影片不自動播放並預載 metadata。
+- **載入：** Hero 3D 有純色 Suspense fallback；Web Audio prototype 有「互動聲響原型載入中。」；Pure Data、研究構想、代表作品、合作、學習路線、AI 與聯絡段落各有永久 wrapper、Suspense fallback 及區段錯誤隔離。首屏以下的作品索引卡拆成 `ProjectIndexGrid` lazy chunk，四張索引圖全部使用 lazy loading／async decoding；資料案例的 `CaseProcessSection` 亦 lazy 載入。共用 `ResponsiveImage` 在檔案錯誤時保留固定媒體比例與可讀 fallback；本機影片不自動播放、預載 metadata，並有 loading／ready／error 狀態。
 - **音訊：** `尚未啟用`、`聲音啟用中`、`聲音播放中`、`聲音已停止`、`瀏覽器不支援`、`聲音啟用失敗`，透過 busy 區外的 atomic `role="status"`／polite live region 宣告；啟用中只把按鈕控制群組設為 `aria-busy`，停止／Escape／離屏／cleanup 均可取消 pending start。
 - **錯誤：** Hero 的選配 3D scene 有局部 fallback，不會移除標題／介紹／CTA；旗艦案例、支持案例及 deferred admission sections 另有區段級 fallback；React 根也有可重新載入的全站 recovery boundary。Hamlet 影片錯誤會保留 poster、直接 MP4 連結、storyboard 與逐字稿；Pure Data 播放錯誤會顯示文字 fallback，觀看指南與證據邊界仍可閱讀。
 - **測試：** 公開狀態分 `尚待驗證`、`探索中`、`已驗證`；目前沒有案例為 `validated`。
@@ -153,9 +179,9 @@ flowchart TD
 
 ## 已確認的 submission 邊界
 
-- Scanner core 可注入任意 output directory，CLI fail closed；最新整合使用 67 個 text rules、9 個 inventory rules與 73/73 fixtures。Diagnostics 不回印敏感內容，VTT、Web Manifest 與 source map 仍納入文字掃描。
-- Fresh submission `dist/` 為 132 files／25 text files；118 個 `public/` files 全數存在，0 missing／0 SHA-256 mismatch。
-- `audit:evidence` 核對 Hamlet 三份直接交付檔的 bytes／SHA-256、60 份衍生圖像的 inventory SHA-256／實際 dimensions、16 個 WebVTT cues 與 63 個 public Hamlet files；`check:publication` 同時要求頂層核准、完整 applicant attestation、逐項 rights checks 與 evidence refs，最新整合 exit 0／`verified / approved`。
+- Scanner core 可注入任意 output directory，CLI fail closed；2026-07-27 最新組合使用 67 個 text rules、9 個 inventory rules與 73/73 fixtures。Diagnostics 不回印敏感內容，VTT、Web Manifest 與 source map 仍納入文字掃描。
+- 2026-07-26 fresh submission `dist/` 為 132 files／25 text files；118 個 `public/` files 全數存在，0 missing／0 SHA-256 mismatch。新增媒體後不得沿用這份 inventory。
+- `audit:evidence` 核對 Hamlet 三份直接交付檔的 bytes／SHA-256、60 份衍生圖像的 inventory SHA-256／實際 dimensions、16 個 WebVTT cues 與 63 個 public Hamlet files；`check:publication` 同時要求頂層核准、完整 applicant attestation、逐項 rights checks 與 evidence refs。2026-07-27 最新組合 exit 0／`verified / approved`。
 - Submission dev middleware 對 13 個舊 hidden media URL 與 `/dist/*` 回傳 404，避免 Vite SPA fallback 偽裝成 200；有效 public media 仍為 200。Filesystem deny 對 restricted media、internal／hidden modules 與歷史 report copy 回傳 403。
 - Scanner 的文字規則不能移除 binary 影片／poster 畫面中的本機路徑與 `validated` 字樣；兩項 Pd 媒體既已放入 `public/`，就必須按「公開可達但仍有揭露風險」處理，不能以 React 是否引用或頁面否定句取代 binary 內容審查。
 - `index.html` title／OG／Twitter／JSON-LD 與 `llms.txt` 主標使用「蕭智仁｜聲響、互動與數位學習作品集」；RU / YUAN 保留於 Navbar、`og:site_name`、favicon 與部分案例品牌。`llms.txt` 列實際存在的 11 個高階 App anchors，不只 6 個 Navbar anchors。
@@ -163,4 +189,4 @@ flowchart TD
 
 ## 外部系統與缺席功能
 
-沒有 CMS、API request、backend、database、authentication、storage、analytics、contact form、search、filter、modal 或獨立 404 route。Hamlet 八幕 storyboard 是可鍵盤操作的水平 scroll-snap rail，不是 modal carousel。`#contact` 只是 GitHub Pages 與 GitHub Repository 的外部連結集合，不是聯絡表單。已配置 push-to-`main`／手動兩種觸發的 GitHub Pages workflow與相對 base path；run `30087568225` 只證明 PR #6 的 AdmissionEvidence／Pd 媒體整合曾部署。最新整合已通過本機 submission／publication gates，但 Draft PR 尚未部署；公開可達性、limited-use 權利核准與 production-ready 驗收仍須分開。
+沒有 CMS、API request、backend、database、authentication、storage、analytics、contact form、search、filter、modal 或獨立 404 route。Hamlet 八幕 storyboard 是可鍵盤操作的水平 scroll-snap rail，不是 modal carousel。`#contact` 只是 GitHub Pages 與 GitHub Repository 的外部連結集合，不是聯絡表單。已配置 push-to-`main`／手動兩種觸發的 GitHub Pages workflow與相對 base path；run `30087568225` 只證明 PR #6 的 AdmissionEvidence／Pd 媒體整合曾部署。2026-07-27 本機 `doctor` 與 publication gate 均已通過；公開可達性、limited-use 權利核准與 production-ready 驗收仍須分開。

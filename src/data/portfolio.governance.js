@@ -28,7 +28,7 @@ export const portfolioContentChecklist = [
     level: "recommended",
     appliesTo: "submission-visible",
     mode: "any",
-    paths: ["diagrams", "workflow"],
+    paths: ["diagrams", "workflow", "productionWorkflow"],
   },
   {
     group: "媒體證據",
@@ -38,7 +38,7 @@ export const portfolioContentChecklist = [
     paths: ["media.visualDrafts", "media.screenshots", "media.videos", "media.audio", "media.demos", "interactivePrototype"],
   },
   {
-    group: "工具與角色",
+    group: "工具與負責項目",
     level: "required",
     paths: ["tools", "roles"],
   },
@@ -106,7 +106,12 @@ export const getProjectCompleteness = (project) => {
 };
 
 export const getEvidenceAvailability = (project) => [
-  { label: "流程圖 / 工作流", available: project.diagrams?.length > 0 || project.workflow?.stages?.length > 0 },
+  {
+    label: "流程圖 / 工作流",
+    available: project.diagrams?.length > 0
+      || project.workflow?.stages?.length > 0
+      || project.productionWorkflow?.stages?.length > 0,
+  },
   { label: "分鏡", available: project.storyboard?.frames?.length > 0 },
   { label: "視覺稿", available: project.media?.visualDrafts?.length > 0 },
   { label: "截圖", available: project.media?.screenshots?.length > 0 },

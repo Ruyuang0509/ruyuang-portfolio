@@ -2,11 +2,15 @@ import { hiddenProjectCaseStudies } from "#portfolio-hidden";
 
 const publicAssetBase = import.meta.env?.BASE_URL ?? "/";
 const publicAssetUrl = (assetPath) => `${publicAssetBase}${assetPath.replace(/^\/+/, "")}`;
+const portfolioVariantUrl = (slug, width, format) =>
+  publicAssetUrl(`media/portfolio/${slug}-${width}.${format}`);
+const portfolioSrcSet = (slug, widths, format) =>
+  widths.map((width) => `${portfolioVariantUrl(slug, width, format)} ${width}w`).join(", ");
 
 const responsivePortfolioImage = (slug, width, height, alt) => ({
-  src: publicAssetUrl(`media/portfolio/${slug}-1200.webp`),
-  avifSrcSet: `${publicAssetUrl(`media/portfolio/${slug}-420.avif`)} 420w, ${publicAssetUrl(`media/portfolio/${slug}-640.avif`)} 640w, ${publicAssetUrl(`media/portfolio/${slug}-1200.avif`)} 1200w`,
-  webpSrcSet: `${publicAssetUrl(`media/portfolio/${slug}-420.webp`)} 420w, ${publicAssetUrl(`media/portfolio/${slug}-640.webp`)} 640w, ${publicAssetUrl(`media/portfolio/${slug}-1200.webp`)} 1200w`,
+  src: portfolioVariantUrl(slug, 1200, "webp"),
+  avifSrcSet: portfolioSrcSet(slug, [420, 640, 1200], "avif"),
+  webpSrcSet: portfolioSrcSet(slug, [420, 640, 1200], "webp"),
   width,
   height,
   alt,
@@ -14,6 +18,25 @@ const responsivePortfolioImage = (slug, width, height, alt) => ({
 
 const mediaAsset = (slug, alt) => responsivePortfolioImage(slug, 1200, 1500, alt);
 // Codex-Fix: Keep public media metadata local, responsive, and free from remote demo CDNs.
+
+const featuredWorkImage = (slug, alt) => ({
+  src: portfolioVariantUrl(slug, 1200, "webp"),
+  avifSrcSet: portfolioSrcSet(slug, [400, 640, 1200], "avif"),
+  webpSrcSet: portfolioSrcSet(slug, [400, 640, 1200], "webp"),
+  width: 1200,
+  height: 750,
+  alt,
+});
+// Codex-Fix: Featured-work media uses a dedicated 16:10 responsive set without changing long-form case imagery.
+
+const webAudioVisualStrategyImage = (slug, alt) => ({
+  src: portfolioVariantUrl(slug, 1122, "webp"),
+  avifSrcSet: portfolioSrcSet(slug, [561, 1122], "avif"),
+  webpSrcSet: portfolioSrcSet(slug, [561, 1122], "webp"),
+  width: 1122,
+  height: 1402,
+  alt,
+});
 
 const svgAsset = (slug, width, height, alt) => ({
   src: publicAssetUrl(`media/data-visualization/${slug}.svg`),
@@ -38,12 +61,12 @@ const svgEvidence = (slug, title, caption, alt, width = 1200, height = 900) => (
 });
 // Codex-Fix: Let case studies reference lightweight local SVG diagrams through the same public media shape.
 
-const diagramEvidence = (slug, diagramType, title, caption, alt) => ({
+const visualStrategyEvidence = (slug, diagramType, title, caption, alt) => ({
+  kind: "visualStrategy",
   type: diagramType,
   title,
   caption,
-  description: caption,
-  image: mediaAsset(slug, alt),
+  image: webAudioVisualStrategyImage(slug, alt),
 });
 
 export const instituteThemes = ["AI", "互動媒體", "聲響", "沉浸式體驗", "數位孿生", "跨域創生"];
@@ -66,9 +89,9 @@ export const homepageNarrative = {
   supportingLine:
     "讓視覺成為聲音的入口，也讓抽象的聽覺差異成為可以理解、操作與討論的經驗。",
   introduction:
-    "我是蕭智仁，現就讀國立嘉義大學數位學習設計與管理學系，預計 2026 年畢業。我的作品從視覺設計、影音剪輯、互動介面與學習內容整理出發，逐步延伸到 Web Audio 聲響互動；自 2026/07/24 起，我也開始拆解由 AI 協作產生的 Pure Data 初版 Patch，練習理解與重建訊號路徑。",
+    "我是蕭智仁，現就讀國立嘉義大學數位學習設計與管理學系，預計 2026 年畢業。作品從視覺設計、影音剪輯、互動介面與學習內容整理出發，逐步延伸到 Web Audio 聲響互動；自 2026 年 7 月 24 日起，也開始拆解由 AI 協作產生的 Pure Data 初版 Patch，練習理解與重建訊號路徑。",
   currentEvidence:
-    "現在可以直接體驗的是 Web Audio 跨模態映射原型；Pure Data 則記錄我如何從 AI 協作的初版 Patch 出發，逐步拆解、理解與重建訊號流程。",
+    "目前可直接體驗 Web Audio 跨模態映射原型；Pure Data 則記錄 AI 協作初版 Patch 的拆解、理解與重建過程。",
   researchStatement:
     "我希望將視覺化、資訊架構與使用者理解方法帶入聲響研究，探討精簡揚聲器與開放式耳機能否組成較低門檻的混合多聲道監聽方式。",
   primaryCta: { label: "體驗聲響互動原型", target: "#interactive-sound-learning-demo" },
@@ -80,7 +103,7 @@ export const homepageNarrative = {
   credibility:
     "作品集以可操作的 Web Audio 原型為核心，也呈現 Pure Data 學習紀錄、影音與資料作品；混合多聲道監聽仍是我準備在研究所階段深入探索的方向。",
   argument:
-    "網站依序整理我轉向聲音的問題意識、Web Audio 原型、Pure Data 學習紀錄、代表作品與申請階段研究構想，讓每一段經驗都能回到我實際做過的選擇與方法。",
+    "網站依序整理轉向聲音的問題意識、Web Audio 原型、Pure Data 學習紀錄、代表作品與申請階段研究構想，讓每一段經驗回到實際選擇、方法與目前限制。",
   soundTransition: {
     turningPoint:
       "2020 年的一次聆聽經驗，讓我開始注意同一段聲音在不同播放方式下會呈現不同的距離、位置與細節，也讓我想追問這些差異如何被理解。",
@@ -100,19 +123,19 @@ export const homepageNarrative = {
     {
       label: "聲音工具學習",
       title: "Pure Data v0.2.1",
-      description: "觀看功能測試，了解我如何從 AI 協作的初版 Patch 開始拆解與重建。",
+      description: "觀看功能測試，了解 AI 協作初版 Patch 的拆解與重建過程。",
       target: "#pure-data-learning",
     },
     {
       label: "影音敘事",
       title: "《畫本》與代表作品",
-      description: "從原創短劇的故事、攝影與剪輯出發，認識我的影音製作方法。",
+      description: "從原創短劇的故事、攝影與剪輯出發，閱讀影音製作方法。",
       target: "#selected-work",
     },
     {
       label: "研究方向",
       title: "混合監聽研究構想",
-      description: "閱讀我關注的問題、初步構想，以及準備帶入研究所的能力與學習重點。",
+      description: "閱讀研究問題、初步構想，以及可帶入研究所的能力與學習重點。",
       target: "#research-positioning",
     },
     {
@@ -124,7 +147,7 @@ export const homepageNarrative = {
     {
       label: "AI 協作方式",
       title: "AI 如何參與網站製作",
-      description: "了解 AI 協助了哪些工作、我做了哪些決定，以及我如何從錯誤中修正做法。",
+      description: "了解 AI 協助範圍、人工決策與錯誤修正方式。",
       target: "#ai-workflow",
     },
   ],
@@ -148,8 +171,8 @@ export const dataVisualizationSeries = {
   ),
   works: ["data-visualization-cases", "learning-dashboard-analysis"],
   capabilities: [
-    "我先決定讀者需要看見的重點，再安排圖表、文字與動畫的閱讀順序。",
-    "在 Power BI 專案中，我整理互動紀錄、影片觀看與成績欄位，建立可篩選的資料探索介面。",
+    "先決定讀者需要看見的重點，再安排圖表、文字與動畫的閱讀順序。",
+    "Power BI 專案整理互動紀錄、影片觀看與成績欄位，建立可篩選的資料探索介面。",
     "公開展示聚焦方法、介面與分析流程；涉及個人學習資料的內容不直接公開。",
     "後續希望進一步探索以聲音輔助資料閱讀與互動回饋。",
   ],
@@ -164,35 +187,35 @@ export const researchTracks = [
   {
     id: "ai-interactive-learning-creation",
     title: "AI 與互動式創作",
-    purpose: "我用生成式 AI 整理內容與製作草稿；作品取捨、事實核對與最後驗收由我負責。",
+    purpose: "生成式 AI 用於整理內容與製作草稿；作品取捨、事實核對與最後驗收仍由我負責。",
     includes: ["生成式 AI 工具", "提示詞設計流程", "AI 輔助介面", "人機協作"],
     instituteAlignment: ["AI", "互動媒體", "跨域創生"],
   },
   {
     id: "interactive-media-ux",
     title: "互動媒體與使用者經驗",
-    purpose: "我從使用者要做的動作、收到的回饋與可能卡住的地方，安排介面和互動流程。",
+    purpose: "依使用者動作、回饋與可能受阻的位置，安排介面與互動流程。",
     includes: ["互動流程", "UX／UI", "原型測試", "感測或回饋機制"],
     instituteAlignment: ["互動媒體", "沉浸式體驗"],
   },
   {
     id: "multimedia-video-sound",
     title: "影音聲響敘事",
-    purpose: "我用剪輯、聲音與畫面節奏說明故事，也想測試它們是否會影響互動時的注意力。",
+    purpose: "透過剪輯、聲音與畫面節奏說明故事，並規劃測試這些元素是否影響互動時的注意力。",
     includes: ["影片剪輯", "聲音設計", "動態影像", "情緒節奏"],
     instituteAlignment: ["聲響", "沉浸式體驗", "跨域創生"],
   },
   {
     id: "edtech-digital-content",
     title: "數位內容與學習設計",
-    purpose: "我把學習目標與內容順序寫成資訊架構、互動腳本和清楚的操作提示。",
+    purpose: "將學習目標與內容順序轉為資訊架構、互動腳本與清楚的操作提示。",
     includes: ["內容架構", "學習流程", "互動腳本", "成效評估"],
     instituteAlignment: ["互動媒體", "跨域創生"],
   },
   {
     id: "user-research-outcomes-process",
     title: "使用者研究與成效資料",
-    purpose: "我想用任務觀察、訪談與學習成效資料，了解使用者如何理解設計，再把觀察帶回下一輪調整。",
+    purpose: "後續以任務觀察、訪談與學習成效資料了解使用者如何理解設計，再把觀察帶回下一輪調整。",
     includes: ["使用者測試", "學習成效", "質性觀察", "迭代紀錄"],
     instituteAlignment: ["AI", "數位孿生", "跨域創生"],
   },
@@ -204,7 +227,7 @@ export const learningTrail = [
     title: "Web Audio",
     status: "可操作原型",
     validationStatus: "下一步：使用者觀察",
-    evidence: "我已用瀏覽器原生 Web Audio API，把位置、速度與大小連到聲像、音高、濾波亮度與音量，做成可直接操作的四組映射。",
+    evidence: "瀏覽器原生 Web Audio API 已將位置、速度與大小連到聲像、音高、濾波亮度與音量，形成可直接操作的四組映射。",
   },
   {
     id: "pure-data",
@@ -212,23 +235,23 @@ export const learningTrail = [
     status: "學習中",
     startedAt: "2026/07/24",
     evidence: "v0.2.1 功能測試影片記錄四組參數映射、Preset、Reset、Panic 與輸出監看。",
-    aiAssistance: "初版 Patch 曾使用生成式 AI 協作；我正透過訊號路徑拆解與局部重建，逐步練習解釋與修改每個模組。",
+    aiAssistance: "初版 Patch 曾使用生成式 AI 協作；目前透過訊號路徑拆解與局部重建，逐步練習解釋與修改每個模組。",
   },
   {
     id: "reaper",
     title: "REAPER",
     status: "學習中",
-    evidence: "我已完成軟體安裝，下一步會從路由、效果鏈與基礎混音練習開始累積作品。",
+    evidence: "軟體安裝已完成；下一步從路由、效果鏈與基礎混音練習開始累積作品。",
   },
 ];
 
 export const terminologyMap = [
-  ["教學設計", "互動體驗設計", "我先寫清楚學習目標與任務，再決定使用者要做什麼、會收到什麼回饋。"],
-  ["教材架構", "資訊架構／IA", "我整理內容層級、導覽節點與閱讀順序，讓使用者知道下一步在哪裡。"],
-  ["學習活動", "互動腳本／User Flow", "我把活動拆成觸發、選擇、回饋與完成條件，再做成可操作流程。"],
-  ["學習成效", "學習成效評估", "我先定義要觀察的學習表現，再用任務結果、問卷或訪談檢查。"],
-  ["影片教材", "影音敘事／Motion & Sound", "我用剪輯、聲音、節奏與構圖安排觀看順序和情緒。"],
-  ["跨域專題", "跨域創生／Creative Technology", "一件跨域作品會同時用到設計、程式、影音與研究方法；我會交代各部分做了什麼，以及目前的限制。"],
+  ["教學設計", "互動體驗設計", "先寫清楚學習目標與任務，再決定使用者動作與對應回饋。"],
+  ["教材架構", "資訊架構／IA", "整理內容層級、導覽節點與閱讀順序，讓下一步保持清楚。"],
+  ["學習活動", "互動腳本／User Flow", "將活動拆成觸發、選擇、回饋與完成條件，再轉為可操作流程。"],
+  ["學習成效", "學習成效評估", "先定義要觀察的學習表現，再以任務結果、問卷或訪談核對。"],
+  ["影片教材", "影音敘事／Motion & Sound", "透過剪輯、聲音、節奏與構圖安排觀看順序和情緒。"],
+  ["跨域專題", "跨域創生／Creative Technology", "跨域作品同時涉及設計、程式、影音與研究方法；各部分的工作與目前限制需分開說明。"],
 ];
 
 export const projectCaseStudies = [
@@ -245,20 +268,26 @@ export const projectCaseStudies = [
     submissionVisibility: "public",
     featured: true,
     priority: 1,
+    indexTitle: "互動聲響學習原型",
+    indexSummary: "以 Web Audio 建立聲音參數與視覺回饋的互動原型，測試使用者能否辨識左右、高低、快慢與大小所造成的聲音變化。",
+    indexCover: featuredWorkImage("featured-work-01-web-audio", "深色介面中的亮綠控制點與聲波，呈現 Web Audio 互動聲響原型。"),
+    indexCoverPosition: "50% 50%",
+    indexLinks: [{ label: "體驗互動原型", href: "#interactive-sound-learning-demo" }],
+    indexTags: ["Web Audio", "互動聲響", "學習原型"],
     summary:
-      "我把畫面中的水平位置、垂直位置、移動速度和物件大小，分別連到聲像、音高、濾波亮度與音量。使用者拖動控制點時，可以直接聽見參數改變。",
+      "畫面中的水平位置、垂直位置、移動速度和物件大小，分別對應聲像、音高、濾波亮度與音量；拖動控制點時，可以直接聽見參數改變。",
     valueProposition: "下一輪要測的是：使用者能否辨認左右、高低、快慢與大小所造成的聲音變化。",
-    whatThisProves: "我用 React 與 Web Audio 完成可操作原型，設計四組視聽映射，並加入鍵盤控制、停止功能與不支援時的替代提示。",
+    whatThisProves: "以 React 與 Web Audio 完成可操作原型，包含四組視聽映射、鍵盤控制、停止功能與不支援時的替代提示。",
     designGoal: "讓使用者拖動控制點時，立即聽見左右聲像、音高、音色與音量的改變。",
     designProcess:
-      "我先拆解學習任務，再決定四組視聽對應，最後用 React 和 Web Audio API 做成原型。使用者觀察尚未開始。",
+      "先拆解學習任務與四組視聽對應，再以 React 和 Web Audio API 製作原型。使用者觀察尚未開始。",
     technologyAndMedia:
-      "我用 React、HTML／CSS／JavaScript 與瀏覽器原生 Web Audio API 合成聲音，控制聲像、音高、濾波亮度與音量；原型不載入遠端音訊。",
+      "原型以 React、HTML／CSS／JavaScript 與瀏覽器原生 Web Audio API 合成聲音，控制聲像、音高、濾波亮度與音量；不載入遠端音訊。",
     outcomeShowcase:
       "目前版本先確認互動、聲音映射與操作流程是否能穩定運作；映射是否容易理解，仍需要後續使用者觀察。",
     researchQuestion: "使用者是否能從聲像、音高、濾波亮度與音量的變化，聽懂畫面中的位置、速度與大小？",
     interactionMappings: [
-      { id: "horizontal-pan", input: "水平位置", parameter: "左右聲像", rationale: "我把控制點的水平位置連到左右聲像，畫面往哪邊移，聲音就往哪邊移。", inputRange: [0, 1], outputRange: [-0.85, 0.85] },
+      { id: "horizontal-pan", input: "水平位置", parameter: "左右聲像", rationale: "控制點的水平位置連到左右聲像；畫面往哪邊移，聲音就往哪邊移。", inputRange: [0, 1], outputRange: [-0.85, 0.85] },
       { id: "vertical-pitch", input: "垂直位置", parameter: "音高", rationale: "控制點越高，音高越高；控制點越低，音高越低。", inputRange: [0, 1], outputRange: [660, 110] },
       { id: "speed-brightness", input: "移動速度／亮度滑桿", parameter: "濾波亮度", rationale: "拖動越快，音色越亮；使用滑桿時，也可以直接調整亮度。節奏密度不在這一版的範圍內。", inputRange: [0, 1], outputRange: [700, 5000] },
       { id: "size-loudness", input: "物件大小", parameter: "音量", rationale: "物件變大時，音量會在受控範圍內提高。這是設計映射，不是正式響度測量。", inputRange: [0, 1], outputRange: [0.04, 0.12] },
@@ -291,29 +320,30 @@ export const projectCaseStudies = [
     trackIds: ["interactive-media-ux", "multimedia-video-sound", "edtech-digital-content", "user-research-outcomes-process"],
     cover: mediaAsset("mv-urban", "深綠、亮綠與米白幾何圖形組成的直式封面，可見「URBAN RHYTHM」字樣。"),
     problemAwareness:
-      "只靠文字說明時，位置、速度與大小的變化不一定容易被注意。我想試著用聲音補上即時回饋。",
-    audience: "這個原型預設給需要透過操作理解抽象關係的學習者，也可供想把影音內容做成互動教材的創作者參考。",
+      "抽象的聲音映射若只靠文字說明，不易在操作當下辨認。原型以聲音補上即時回饋，讓位置、速度與大小的變化可透過聆聽比較。",
+    audience: "以需要透過操作理解抽象關係的學習者為主要對象，也供嘗試把影音內容轉為互動教材的創作者參考。",
+    diagramIntro: "以下概念圖聚焦互動節奏、聲音特性與介面資訊層級，作為原型的視覺策略參照。",
     diagrams: [
-      diagramEvidence(
-        "gd-kinetic",
+      visualStrategyEvidence(
+        "web-audio-interaction-visual",
         "interactionFlow",
         "互動原型的視覺方向",
-        "流程由文字與站內原型說明；配圖只呈現深綠、亮綠與米白的視覺方向，不是流程圖。",
-        "深綠、亮綠與米白抽象圖形，可見「KINETIC CAMPAIGN」字樣；僅供視覺方向參考。",
+        "以操作軌跡、節點變化與即時回饋呈現互動節奏，讓使用者的輸入不只被執行，也能被看見與理解。",
+        "綠色光點與游標軌跡串聯互動節點，呈現使用者輸入與即時回饋的視覺概念。",
       ),
-      diagramEvidence(
-        "ph-geometry",
+      visualStrategyEvidence(
+        "web-audio-sound-visual",
         "systemArchitecture",
         "聲響主題的視覺方向",
-        "聲音處理順序列在下方；配圖只是綠、亮綠與灰色的視覺參考，不是技術架構圖。",
-        "綠、亮綠與灰色抽象圖形，可見「QUIET GEOMETRY」字樣；僅供視覺方向參考。",
+        "將波形、頻率密度與空間層次轉譯為幾何秩序，建立聲音特性與視覺節奏之間的連續關係。",
+        "亮綠色聲波橫跨空間網格與環形波紋，呈現頻率密度及聲音空間層次的視覺轉譯。",
       ),
-      diagramEvidence(
-        "gd-analog",
+      visualStrategyEvidence(
+        "web-audio-interface-visual",
         "informationArchitecture",
         "介面風格的視覺方向",
-        "任務、操作與回饋的層級由站內介面呈現；配圖只表示淡紫、米白與藍綠的視覺方向。",
-        "淡紫、米白與藍綠抽象圖形，可見「ANALOG TYPE」字樣；僅供視覺方向參考。",
+        "透過清楚的資訊層級、低干擾配色與即時狀態回饋，支撐聲音操作與互動結果的快速判讀。",
+        "藍紫色模組化控制面板、聲波與節點系統，呈現互動聲音介面的資訊層級。",
       ),
     ],
     media: { visualDrafts: [], screenshots: [], videos: [], audio: [], demos: [] },
@@ -326,7 +356,7 @@ export const projectCaseStudies = [
       plannedMethods: ["先不提供說明，觀察使用者能否辨識左右聲像與高低音的對應。", "安排短任務，記錄完成情形、操作錯誤與口述理解。", "比較減少動態效果模式與不同輸入方式下的操作理解情形。"],
     },
     reflection: {
-      strengths: "我已把位置、速度與大小連到四個可操作的聲音參數，並完成瀏覽器原型。",
+      strengths: "位置、速度與大小已連到四個可操作的聲音參數，並完成瀏覽器原型。",
       limitations: "下一輪會補上操作觀察與口述紀錄，了解使用者如何理解四組映射。",
       graduateDirection: "進入研究所後，我想先測試四組映射是否容易理解，再評估加入空間聲音、感測器或 AI 回饋。",
     },
@@ -341,10 +371,10 @@ export const projectCaseStudies = [
       互動媒體: "使用者可以拖動控制點或操作滑桿，立即看到並聽到參數改變。",
       聲響: "位置、速度與大小都會改變聲音；聲音不是背景素材。",
       沉浸式體驗: "空間聲音、感測器與場域應用仍是未來研究方向。",
-      跨域創生: "這個原型需要我安排學習任務、寫互動程式、設計聲音映射，也處理視覺介面。",
+      跨域創生: "原型整合學習任務、互動程式、聲音映射與視覺介面。",
     },
     links: [],
-    credits: "我規劃問題、四組映射、UX、介面方向與公開內容，並逐項驗收原型功能。生成式 AI 曾協助程式草稿與除錯；我負責決定映射邏輯、互動流程與最後呈現。",
+    credits: "負責項目包括問題規劃、四組映射、UX、介面方向、公開內容與功能驗收。生成式 AI 曾協助程式草稿與除錯；映射邏輯、互動流程與最終呈現由我決定並驗收。",
     seo: {
       title: "互動聲響學習原型 | RU / YUAN",
       description: "用 Web Audio 把位置、速度與大小連到聲像、音高、濾波亮度與音量的互動原型。",
@@ -365,28 +395,37 @@ export const projectCaseStudies = [
     submissionVisibility: "public",
     featured: true,
     priority: 2,
+    indexTitle: "《Hamlet》生成式 AI 文學敘事短片",
+    indexSummary: "將《Hamlet》拆解為八個敘事段落，建立影像、字幕與配樂的生成及檢核流程，完成約 40 秒的文學敘事短片。",
+    indexCover: responsivePortfolioImage("hamlet-story-mv-poster", 1200, 675, "《Hamlet》故事 MV 首圖，哈姆雷特在月夜城牆上面對父親的鬼魂。"),
+    indexCoverPosition: "50% 48%",
+    indexLinks: [
+      { label: "播放案例影片", href: "#generative-interface-study-featured-media" },
+      { label: "查看製作方式", href: "#generative-interface-study-workflow" },
+    ],
+    indexTags: ["生成式 AI", "文學敘事", "影音流程"],
     summary:
-      "我先拆解《Hamlet》的情節，再用生成式 AI 製作八幕場景圖與故事字幕，最後整合 Suno 歌曲並在 Canva 完成 40 秒影片。歌曲實際包含英語歌詞與人聲。",
+      "《Hamlet》的情節先拆解為八幕，再以生成式 AI 製作場景圖與故事字幕，最後整合 Suno 歌曲並在 Canva 完成 40 秒影片。歌曲實際包含英語歌詞與人聲。",
     tags: ["文學教育", "生成式 AI", "提示詞設計", "視覺敘事", "聲音情緒設計"],
-    valueProposition: "我把《Hamlet》拆成八幕，為字幕、圖像和配樂各自訂下檢查條件，再整合成 40 秒影片。",
-    overviewFacts: "40 秒、8 幕；英文與繁中字幕；下一階段將進行課堂觀看觀察",
-    whatThisProves: "我完成情節拆解、提示詞設計、八幕視覺與字幕規格、配樂方向和影片整合。",
+    valueProposition: "將《Hamlet》拆成八幕，為字幕、圖像和配樂各自訂下檢查條件，再整合成 40 秒影片。",
+    overviewFacts: "40 秒、8 幕；英文與繁體中文字幕；下一階段將進行課堂觀看觀察",
+    whatThisProves: "完成情節拆解、提示詞設計、八幕視覺與字幕規格、配樂方向，以及最終影片整合。",
     designGoal:
-      "我把製作分成文本理解、分鏡、圖像與字幕、配樂、剪輯五個階段，讓每次輸出都能先核對再往下做。",
+      "流程分為文本理解、分鏡、圖像與字幕、配樂、剪輯五個階段；每一階段先完成輸出核對，再進入下一步。",
     designProcess:
-      "我先核對故事情節，再用 ChatGPT 整理八幕分鏡與 B1 字幕規格。八幕圖像由 ChatGPT／OpenAI 生成；原始配樂方向要求 instrumental / no lyrics，但最後採用的 Suno 輸出包含英語歌詞與人聲。我在 Canva 對齊畫面與歌曲，WebVTT 故事字幕則由網站播放器另外載入。",
+      "先核對故事情節，再用 ChatGPT 整理八幕分鏡與 B1 字幕規格。八幕圖像由 ChatGPT／OpenAI 生成；原始配樂方向要求 instrumental / no lyrics，但最後採用的 Suno 輸出包含英語歌詞與人聲。Canva 用於對齊畫面與歌曲，WebVTT 故事字幕則由網站播放器另外載入。",
     technologyAndMedia:
-      "我用 ChatGPT 整理故事、分鏡、字幕與圖像提示，場景圖由 ChatGPT／OpenAI 生成；Suno 提供包含音樂、英語歌詞與人聲的完整歌曲輸出，Canva 只用於時間編排、剪輯、字幕、轉場、音量與 MP4 匯出。",
+      "ChatGPT 用於整理故事、分鏡、字幕與圖像提示，場景圖由 ChatGPT／OpenAI 生成；Suno 提供包含音樂、英語歌詞與人聲的完整歌曲輸出，Canva 只用於時間編排、剪輯、字幕、轉場、音量與 MP4 匯出。",
     outcomeShowcase:
-      "我完成 40 秒、8 幕《Hamlet》故事 MV、雙語 WebVTT 與逐字稿，並在製作後整理提示詞模板 v1。場景圖、Suno 歌曲與 Canva 的工具分工已公開說明；目前非營利作品集使用範圍也已由蕭智仁於 2026-07-26 完成 applicant attestation，並通過 publication gate。八幕原始生成紀錄、Suno 原始 EML 與可編輯 Canva 專案仍未在本輪找到，學生與教師的學習成效也尚未驗證。",
+      "已完成 40 秒、8 幕《Hamlet》故事 MV、雙語 WebVTT 與逐字稿，並在製作後整理提示詞模板 v1。場景圖、Suno 歌曲與 Canva 的工具分工已公開說明；我於 2026 年 7 月 26 日完成 applicant attestation（申請人聲明），目前非營利作品集使用範圍也已通過 publication gate。八幕原始生成紀錄、Suno 原始 EML 與可編輯 Canva 專案仍未在本輪找到，學生與教師的學習成效也尚未驗證。",
     trackIds: ["ai-interactive-learning-creation", "multimedia-video-sound", "edtech-digital-content"],
     cover: mediaAsset("hamlet-story-mv-cover", "《Hamlet》故事 MV 封面裁切，哈姆雷特在月夜城牆上面對父親的鬼魂。"),
     problemAwareness:
-      "我要把《Hamlet》的閱讀理解轉成一支英文故事影片。情節、字幕、圖像和配樂由不同工具處理，如果沒有先訂規格，很容易前後不一致。",
-    audience: "我把使用情境設定為大學通識英語課的文學故事影音任務，下一步會從字幕可讀性與故事理解開始進行課堂觀察。",
+      "這項任務要將《Hamlet》的閱讀理解轉成一支英文故事影片。情節、字幕、圖像和配樂由不同工具處理，若未先訂規格，容易出現前後不一致。",
+    audience: "以大學通識英語課的文學故事影音任務為使用情境；下一階段將從字幕可讀性與故事理解兩個面向進行課堂觀察。",
     projectInfo: [
       { label: "專案類型", value: "生成式 AI 內容設計／數位學習案例" },
-      { label: "我的角色", value: "內容拆解、提示詞限制與跨工具流程安排" },
+      { label: "負責項目", value: "內容拆解、提示詞限制與跨工具流程安排" },
       { label: "核心工具", value: "ChatGPT、生成式圖像工具、Suno、Canva" },
       { label: "主要產出", value: "40 秒、8 幕故事 MV 與雙語字幕" },
       { label: "使用情境", value: "大學通識英語課文學故事影音任務" },
@@ -395,15 +434,15 @@ export const projectCaseStudies = [
     challenge: {
       title: "在 40 秒內說清楚故事，並讓八幕保持一致",
       description:
-        "我需要在 40 秒內保留主要情節，讓以 B1 為目標的英文字幕來得及閱讀，也要維持角色、光線與配樂方向。這支成片沒有旁白，因此畫面與字幕必須獨立把故事說清楚。",
+        "40 秒內必須保留主要情節，讓以 B1 為目標的英文字幕來得及閱讀，同時維持角色、光線與配樂方向。成片沒有旁白，因此畫面與字幕必須獨立把故事說清楚。",
     },
     workflow: {
-      title: "我如何完成 40 秒、8 幕影片",
-      summary: "我依現有成片與專案規格，把製作方法整理成五個階段，方便下一次實作時保留更完整的版本紀錄。",
+      title: "40 秒、8 幕影片的五階段製作",
+      summary: "依據現有成片與專案規格，將方法整理為五個可重複執行的階段，作為後續實作與版本紀錄的基礎。",
       stages: [
         {
           title: "文本理解",
-          description: "我先核對故事背景、主要衝突與結局，避免後面的分鏡偏離原作。",
+          description: "先核對故事背景、主要衝突與結局，避免後續分鏡偏離原作。",
           tool: "人工判讀／原作文本",
           input: "《Hamlet》原作情節與這次 40 秒任務的範圍",
           output: "背景、人物關係、核心衝突與結局的敘事骨架",
@@ -412,7 +451,7 @@ export const projectCaseStudies = [
         },
         {
           title: "分鏡拆解",
-          description: "我用 ChatGPT 把長篇情節切成八個場景，再逐幕檢查事件順序。",
+          description: "使用 ChatGPT 將長篇情節切成八個場景，再逐幕檢查事件順序。",
           tool: "ChatGPT",
           input: "已核對的敘事骨架與 40 秒時長",
           output: "八個五秒場景節點、每幕事件與字幕草稿",
@@ -421,16 +460,16 @@ export const projectCaseStudies = [
         },
         {
           title: "圖像與字幕",
-          description: "我為每幕寫場景圖規格與英文字幕，確認畫面和文字說的是同一件事。",
+          description: "為每幕撰寫場景圖規格與英文字幕，確認畫面和文字指向同一事件。",
           tool: "ChatGPT／生成式圖像工具",
           input: "八幕節點、B1 語言目標與 Gothic 視覺方向",
-          output: "16:9 場景圖、英文畫面文字與繁中對照",
+          output: "16:9 場景圖、英文畫面文字與繁體中文對照",
           constraint: "以 B1 為目標；每句 12–18 個英文單字；一至兩行；圖內無文字",
           humanCheck: "核對字幕字數、換行、情節正確性與跨幕角色／光線一致性。",
         },
         {
           title: "情緒配樂",
-          description: "我用 Suno 產生歌曲並逐段確認神祕、悲傷與緊張的變化；實際採用版本包含英語歌詞與人聲。",
+          description: "使用 Suno 產生歌曲，並逐段確認神祕、悲傷與緊張的變化；實際採用版本包含英語歌詞與人聲。",
           tool: "Suno",
           input: "八幕情緒弧線與 40 秒節奏",
           output: "〈Blinds-Soft Lament〉00:00–00:40；音樂、歌詞與人聲均由 Suno 生成",
@@ -439,7 +478,7 @@ export const projectCaseStudies = [
         },
         {
           title: "剪輯輸出",
-          description: "我在 Canva 對齊圖像與音樂並輸出影片；WebVTT 由網站播放器另外載入。",
+          description: "在 Canva 對齊圖像與音樂並輸出影片；WebVTT 由網站播放器另外載入。",
           tool: "Canva",
           input: "八幕場景圖、40 秒節奏規格與包含英語歌詞及人聲的 Suno 歌曲",
           output: "40 秒、16:9 MP4",
@@ -465,7 +504,7 @@ export const projectCaseStudies = [
         evidenceSource: "approvedBrief",
         artifactRefs: [],
         constraint: "以 B1 為目標；每句 12–18 個英文單字；字幕不超過兩行。",
-        rationale: "我用較清楚的現代英文保留情節重點，避免播放時來不及理解。",
+        rationale: "以較清楚的現代英文保留情節重點，避免播放時來不及理解。",
         outputProblem: "避免字幕過長、詞彙難度失控與播放時來不及讀完。",
         humanCheck: "核對字數、句意、情節正確性與換行位置。",
       },
@@ -496,7 +535,7 @@ export const projectCaseStudies = [
       usedForExistingVideo: false,
       eyebrow: "事後整理的模板",
       title: "文學故事 MV 提示詞模板 v1",
-      provenance: "這份模板在 2026/07/17 依案例的四項決策整理，供下一次製作沿用與調整。",
+      provenance: "這份模板在 2026 年 7 月 17 日依案例的四項決策整理，供下一次製作沿用與調整。",
       summary: "使用時要先替換五個變數，再要求模型分開輸出故事事實、逐幕規格與檢查欄。使用這份模板的人仍須核對原作、語言與媒體是否一致。",
       variables: [
         { token: "{{literary_work}}", label: "文學作品", guidance: "作品名稱與採用版本；作者需另行確認原作事實。" },
@@ -508,7 +547,7 @@ export const projectCaseStudies = [
       prompt: [
         "你是文學教學內容設計與跨媒體敘事助手。請以 {{literary_work}} 為基礎，為 {{learner_level}} 學習者規劃 {{scene_count}} 幕、16:9 的故事 MV。",
         "先列出可由原作核對的背景、人物、核心衝突與結局；不確定的情節必須標示，不能自行補成事實。",
-        "每幕只處理一個關鍵事件，輸出：敘事功能、人物與動作、英文字幕、繁中對照、圖像生成規格與人工核對點。",
+        "每幕只處理一個關鍵事件，輸出：敘事功能、人物與動作、英文字幕、繁體中文對照、圖像生成規格與人工核對點。",
         "英文字幕使用 {{learner_level}} 程度，每句 12–18 個英文單字、最多兩行；保留完整因果，不大量引用原文。",
         "所有圖像規格沿用 {{visual_direction}}，角色、光源與構圖需前後一致，圖片內不生成文字。",
         "配樂沿用 {{music_direction}}；若加入旁白或對話，語音清晰度優先於背景音樂。",
@@ -545,17 +584,17 @@ export const projectCaseStudies = [
       focusDescription: "第一幕同時交代父子關係、秘密與復仇動機，也建立後續八幕的陰鬱視覺方向。",
     },
     mediaLayers: [
-      { label: "故事節點", status: "已實作", role: "我先用八個事件排出開頭、衝突、轉折與悲劇結局。", check: "人物、事件因果與前後順序是否能由原作支持。" },
+      { label: "故事節點", status: "已實作", role: "以八個事件排出開頭、衝突、轉折與悲劇結局。", check: "人物、事件因果與前後順序是否能由原作支持。" },
       { label: "場景圖像", status: "已實作", role: "每幕只畫一個事件，並盡量維持相同的角色與場景方向。", check: "人物、光源、構圖與前後情緒是否連續。" },
-      { label: "英文字幕／情節文字", status: "已實作", role: "我把每幕事件改寫成以 B1 為目標的英文，每句維持 12–18 個英文單字與一至兩行。", check: "字數、換行、可讀時間與情節正確性。" },
+      { label: "英文字幕／情節文字", status: "已實作", role: "將每幕事件改寫成以 B1 為目標的英文，每句維持 12–18 個英文單字與一至兩行。", check: "字數、換行、可讀時間與情節正確性。" },
       { label: "情緒配樂", status: "已實作", role: "實際歌曲包含 Suno 生成的音樂、英語歌詞與人聲，00:00–00:40 配合八幕的神祕、悲傷與緊張。", check: "情緒轉折、歌曲人聲與故事字幕的資訊層級是否清楚。" },
-      { label: "Canva 剪輯與最終影片", status: "已實作", role: "我把八幕畫面與音樂剪成 40 秒、16:9 的影片；網站播放器另外載入 WebVTT 字幕。", check: "每幕節奏與結尾是否完整；WebVTT 時間碼則在播放器中另行檢查。" },
+      { label: "Canva 剪輯與最終影片", status: "已實作", role: "將八幕畫面與音樂剪成 40 秒、16:9 的影片；網站播放器另外載入 WebVTT 字幕。", check: "每幕節奏與結尾是否完整；WebVTT 時間碼則在播放器中另行檢查。" },
     ],
     deliverables: [
       { id: "clean-video", title: "40 秒、8 幕故事 MV", statusKey: "artifactVerified", status: "實際成果", evidenceRefs: ["hamlet-clean-video"], attributionSource: "deliveryPackage", description: "MP4 已核對為 H.264 影像、AAC 音訊與 16:9 畫幅。" },
-      { id: "bilingual-captions", title: "雙語字幕與逐字稿", statusKey: "artifactVerified", status: "實際成果", evidenceRefs: ["hamlet-en-vtt", "hamlet-zh-vtt"], attributionSource: "deliveryPackage", description: "英文與繁中 WebVTT 各有八段連續時間碼，並附中英畫面文字紀錄。" },
-      { id: "scene-breakdown", title: "場景拆解", statusKey: "artifactDerived", status: "流程產出", evidenceRefs: ["hamlet-storyboard-responsive"], attributionSource: "verifiedArtifact", description: "我從成片整理出八個關鍵情節與每幕功能，用來檢查故事是否連續。" },
-      { id: "prompt-template-v1", title: "跨工具提示詞模板 v1", statusKey: "processDerived", status: "流程產出", evidenceRefs: ["hamlet-prompt-template-v1"], attributionSource: "publishedCaseConstraints", description: "這份模板於 2026/07/17 事後整理，沒有用於現有影片，也不是原始提示詞紀錄。" },
+      { id: "bilingual-captions", title: "雙語字幕與逐字稿", statusKey: "artifactVerified", status: "實際成果", evidenceRefs: ["hamlet-en-vtt", "hamlet-zh-vtt"], attributionSource: "deliveryPackage", description: "英文與繁體中文 WebVTT 各有八段連續時間碼，並附中英畫面文字紀錄。" },
+      { id: "scene-breakdown", title: "場景拆解", statusKey: "artifactDerived", status: "流程產出", evidenceRefs: ["hamlet-storyboard-responsive"], attributionSource: "verifiedArtifact", description: "從成片整理出八個關鍵情節與每幕功能，用來檢查故事是否連續。" },
+      { id: "prompt-template-v1", title: "跨工具提示詞模板 v1", statusKey: "processDerived", status: "流程產出", evidenceRefs: ["hamlet-prompt-template-v1"], attributionSource: "publishedCaseConstraints", description: "這份模板於 2026 年 7 月 17 日事後整理，沒有用於現有影片，也不是原始提示詞紀錄。" },
       { id: "caption-specification", title: "英文字幕目標規格", statusKey: "specificationOnly", status: "製作規格", evidenceRefs: [], attributionSource: "approvedBrief", description: "以 B1 為目標，搭配每句 12–18 個英文單字、一至兩行控制語言難度與播放可讀性。" },
       { id: "music-specification", title: "Suno 配樂提示詞", statusKey: "specificationOnly", status: "製作規格", evidenceRefs: [], attributionSource: "approvedBrief", description: "原始提示方向以 instrumental、mysterious、sad、slow build、no lyrics 定義情緒；實際成片採用的輸出則包含英語歌詞與人聲。" },
       { id: "integrated-video-output", title: "整合影片輸出", statusKey: "artifactVerified", status: "實際成果", evidenceRefs: ["hamlet-clean-video"], attributionSource: "approvedBrief", description: "目前只有輸出的 MP4 可以核對；尚未取得可編輯 Canva 專案或工具執行紀錄。" },
@@ -578,7 +617,7 @@ export const projectCaseStudies = [
       dataPolicy: "測試前先取得同意，只記錄必要內容，並把個人資料與公開作品材料分開保存。",
     },
     keyInsight:
-      "這次我學到，工具越多，越需要先決定每一步要交付什麼、誰來檢查。把故事拆成八幕後，我才能逐項修正字幕、圖像與配樂，而不是在最後才發現它們彼此不合。",
+      "這次製作讓我確認，工具越多，越需要先決定每一步要交付什麼、誰來檢查。故事拆成八幕後，字幕、圖像與配樂便能逐項修正，不必等到最後才發現彼此不合。",
     nextSteps: [
       "維持 applicant attestation、Suno 非營利限制與公開 credit；若網站用途、營利模式或素材組成改變，重新執行權利核對與 publication gate。",
       "用另一部文學作品首次實際使用提示詞模板 v1，保留提示詞紀錄、失敗輸出與人工修改。",
@@ -591,7 +630,7 @@ export const projectCaseStudies = [
     ],
     diagrams: [],
     featuredMediaIntro:
-      "影片共八幕，每幕 5 秒，故事字幕可切換英文與繁中。場景圖與音樂由生成式工具協作完成，背景歌曲含英語歌詞與人聲；Suno 特定非營利使用條件、公開 credit 與蕭智仁於 2026-07-26 完成的 applicant attestation 均已揭露。",
+      "影片共八幕，每幕 5 秒，字幕可切換英文與繁體中文。場景圖與音樂透過生成式工具協作完成，背景歌曲包含英文歌詞與人聲。相關頁面已揭露 Suno 的特定非營利使用條件、公開 credit（署名資訊），以及我於 2026 年 7 月 26 日完成的 applicant attestation（申請人聲明）。",
     featuredMediaDisclosure: {
       title: "素材來源與公開範圍",
       musicCredit: {
@@ -602,10 +641,10 @@ export const projectCaseStudies = [
         scope: "Suno 官方客服書面摘要確認此片段可用於目前無廣告、無付費牆、無聯盟收益的非營利研究所申請作品集；不得作商業廣告或音樂發行。",
       },
       sources: [
-        { label: "場景圖像", value: "ChatGPT／OpenAI 生成（完全使用文字提示）；蕭智仁於 2026-07-26 確認未使用第三方 reference image 或要求重製特定電影／演員畫面" },
+        { label: "場景圖像", value: "ChatGPT／OpenAI 生成（完全使用文字提示）；我於 2026 年 7 月 26 日確認未使用第三方 reference image，也未要求重製特定電影／演員畫面" },
         { label: "文學基礎", value: "Literary basis: William Shakespeare, Hamlet" },
         { label: "故事改寫與字幕核對", value: "Story adaptation and subtitle review: 蕭智仁 with ChatGPT assistance" },
-        { label: "音樂、歌詞與人聲", value: "Suno；申請者不主張歌曲創作、演唱或完整著作權" },
+        { label: "音樂、歌詞與人聲", value: "Suno；我不主張歌曲創作、演唱或完整著作權" },
         { label: "剪輯與輸出", value: "Canva；只用於時間編排、剪輯、字幕、轉場、音量與 MP4 匯出" },
         { label: "公開範圍", value: "限目前無廣告、無付費牆、無相關聯盟收益的非營利研究所作品集" },
       ],
@@ -623,9 +662,9 @@ export const projectCaseStudies = [
           title: "《Hamlet》AI 文學故事 MV",
           src: publicAssetUrl("media/portfolio/hamlet-story-mv-clean-web-1080p.mp4"),
           poster: responsivePortfolioImage("hamlet-story-mv-poster", 1200, 675, "《Hamlet》故事 MV 首圖，哈姆雷特在月夜城牆上面對父親的鬼魂。"),
-          caption: "40 秒、8 幕的成片；每幕 5 秒，提供英文與繁中 WebVTT 字幕，影片不會自動播放。",
-          technicalSummary: "00:40 · 8 幕 · 16:9 · 英文／繁中故事字幕 · 背景歌曲含英語歌詞與人聲 · 無旁白",
-          accessibilitySummary: "故事字幕：English／繁中（非歌曲逐字歌詞字幕） · 全片無旁白 · 背景歌曲含英語歌詞與人聲",
+          caption: "40 秒、8 幕的成片；每幕 5 秒，提供英文與繁體中文 WebVTT 字幕，影片不會自動播放。",
+          technicalSummary: "00:40 · 8 幕 · 16:9 · 英文／繁體中文故事字幕 · 背景歌曲含英語歌詞與人聲 · 無旁白",
+          accessibilitySummary: "故事字幕：English／繁體中文（非歌曲逐字歌詞字幕） · 全片無旁白 · 背景歌曲含英語歌詞與人聲",
           transcript: "影片由 Ghost 揭密開始，依序經過 Hamlet 的遲疑、戲中戲、Ophelia、墓園、決鬥與悲劇結局；背景歌曲含英語歌詞與人聲，沒有旁白。",
           transcriptNote: "背景歌曲含英語歌詞與人聲；下列 WebVTT 與逐字稿記錄故事敘事，不是歌曲逐字歌詞字幕，也不是語音辨識結果。",
           transcriptCues: [
@@ -663,8 +702,8 @@ export const projectCaseStudies = [
       ],
     },
     reflection: {
-      strengths: "我已完成 40 秒成片、八幕實際畫面與雙語字幕，也寫下每個工具要處理的內容與限制。",
-      limitations: "目前沒有學生測試、教師評閱、原始提示詞紀錄、原始場景檔或可編輯 Canva 專案；Suno 原始 EML 也未在本輪找到，下一次製作會同步保留這些私人原始資料。Applicant attestation 已完成並只涵蓋目前列明的非營利公開範圍，且本人聲明不等於原始證據的獨立查驗。",
+      strengths: "已完成 40 秒成片、八幕實際畫面與雙語字幕，也寫下每個工具要處理的內容與限制。",
+      limitations: "目前沒有學生測試、教師評閱、原始提示詞紀錄、原始場景檔或可編輯 Canva 專案；Suno 原始 EML 也未在本輪找到，下一次製作會同步保留這些私人原始資料。Applicant attestation（申請人聲明）已完成並只涵蓋目前列明的非營利公開範圍，且個人聲明不等於原始證據的獨立查驗。",
       graduateDirection: "下一步會在維持非營利權利邊界的前提下，測試字幕、故事理解與含歌詞／人聲歌曲是否適合課堂任務。",
     },
     instituteConnections: ["AI", "聲響", "跨域創生"],
@@ -674,15 +713,15 @@ export const projectCaseStudies = [
       跨域創生: "demonstrated",
     },
     themeRationales: {
-      AI: "我先限制各工具的輸出，再逐幕核對文學情節、字幕與工具交接。",
+      AI: "先限制各工具的輸出，再逐幕核對文學情節、字幕與工具交接。",
       聲響: "原始配樂方向要求 instrumental / no lyrics，但實際 Suno 輸出包含英語歌詞與人聲；本片沒有旁白，WebVTT 是故事字幕。",
-      跨域創生: "我把《Hamlet》情節、英文字幕、生成圖像、配樂與剪輯整理成 40 秒成片。",
+      跨域創生: "《Hamlet》情節、英文字幕、生成圖像、配樂與剪輯整合為 40 秒成片。",
     },
     links: [],
     credits: "我負責原作情節拆解、場景設定、提示方向、輸出篩選、畫面排序、故事字幕核對與影片整合。場景圖由 ChatGPT／OpenAI 生成；音樂、歌詞與人聲由 Suno 生成；Canva 只用於剪輯與輸出。",
     seo: {
       title: "AI 文學故事 MV | RU / YUAN",
-      description: "《Hamlet》40 秒、8 幕故事 MV，呈現我如何運用 ChatGPT／OpenAI、Suno 與 Canva 安排故事、字幕、畫面與配樂，並揭露生成素材分工、Suno 非營利使用限制與尚未驗證的學習成效。",
+      description: "《Hamlet》40 秒、8 幕故事 MV，整理 ChatGPT／OpenAI、Suno 與 Canva 的故事、字幕、畫面與配樂流程，並揭露生成素材分工、Suno 非營利使用限制與尚未驗證的學習成效。",
     },
   },
   ...hiddenProjectCaseStudies,
@@ -700,15 +739,26 @@ export const projectCaseStudies = [
     submissionVisibility: "public",
     featured: true,
     priority: 4,
+    indexTitle: "數位學習資料視覺化實務探討",
+    indexSummary: "拆解資料視覺化案例的分析流程與呈現策略，整理其在數位學習情境中的應用方式、限制與後續改善方向。",
+    indexCover: svgAsset(
+      "work-01-index-public",
+      1200,
+      750,
+      "資料視覺化案例分析的公開安全主視覺，以卡片、圖形與動態軌跡呈現資料敘事方法。",
+    ),
+    indexCoverPosition: "50% 50%",
+    indexLinks: [{ label: "觀看分析影片", href: "#data-visualization-cases-media" }],
+    indexTags: ["資料敘事", "數位學習", "影片製作"],
     summary:
-      "我以 Spotify Wrapped（年度個人化回顧）等案例為素材，拆解資料層級、畫面節奏與個人化回饋的安排。影片最後把這些觀察帶回數位學習情境，下一步再發展成可操作的學習回顧介面。",
-    valueProposition: "我把案例拆解後的觀察整理成影片，並提出它們在學習歷程摘要與個人化回饋中的可能用法。",
-    whatThisProves: "我自行完成案例篩選、視覺分析、論述編排與影片製作，並整理出下一階段介面原型的設計方向。",
-    designGoal: "我想找出個人化資料如何安排資訊層級、閱讀節奏與視覺提示，再思考這些做法能否用在學習歷程回饋。",
+      "以 Spotify Wrapped（年度個人化回顧）等案例為素材，拆解資料層級、畫面節奏與個人化回饋的安排。影片將觀察帶回數位學習情境，下一步再發展成可操作的學習回顧介面。",
+    valueProposition: "將案例拆解後的觀察整理成影片，並提出其在學習歷程摘要與個人化回饋中的可能用法。",
+    whatThisProves: "完成案例篩選、視覺分析、論述編排與影片製作，並整理出下一階段介面原型的設計方向。",
+    designGoal: "找出個人化資料安排資訊層級、閱讀節奏與視覺提示的方法，再評估這些做法能否用在學習歷程回饋。",
     designProcess:
-      "我先用 Gemini 與 ChatGPT 找案例線索，再自行篩選案例、拆解視覺策略、安排論述順序，最後完成動態簡報與影片。",
+      "先用 Gemini 與 ChatGPT 找案例線索，再自行篩選案例、拆解視覺策略、安排論述順序，最後完成動態簡報與影片。",
     technologyAndMedia:
-      "我使用 Power BI、Excel 與 Canva 完成資料整理、視覺分析與影片製作。Gemini 和 ChatGPT 只協助找案例線索；案例選擇與論述由我完成。",
+      "Canva 用於動態簡報與影片製作，Gemini 和 ChatGPT 只協助找案例線索；案例選擇、視覺分析與論述由我完成。",
     outcomeShowcase:
       "這一階段完成分析影片；下一步會把其中一種回饋任務做成可操作介面，再觀察讀者如何理解內容。",
     trackIds: ["edtech-digital-content", "multimedia-video-sound", "interactive-media-ux", "user-research-outcomes-process"],
@@ -719,17 +769,39 @@ export const projectCaseStudies = [
       "資料視覺化案例分析作品封面，以節點、圖表與動態軌跡呈現。",
     ),
     problemAwareness:
-      "我想處理的問題是：學習平台雖然留下許多行為資料，表格和單一指標卻不一定能說明完整歷程。這件作品因此比較案例如何安排資料層級、閱讀順序與回饋提示。",
+      "學習平台雖然留下許多行為資料，表格和單一指標卻不一定能說明完整歷程。這件作品因此比較案例如何安排資料層級、閱讀順序與回饋提示。",
     audience: "這支影片預設給數位學習設計者、對個人化學習回饋感興趣的學生，以及想理解資料敘事的創作者觀看。",
-    diagrams: [
-      {
-        type: "interactionFlow",
-        title: "案例分析到影片的製作流程",
-        caption: "我先蒐集案例，拆解資料來源與視覺層級，再安排動態腳本並輸出影片。",
-        description: "流程分為案例蒐整、資訊拆解、動態腳本與影片輸出四步。",
-        image: svgAsset("work-01-process", 1200, 900, "四步流程圖：案例蒐整、資訊拆解、動態腳本與影片輸出。"),
-      },
-    ],
+    productionWorkflow: {
+      eyebrow: "製作方法",
+      title: "從案例分析到影片輸出",
+      introduction: "流程先建立案例與資料來源清單，再拆解資訊層級與觀看順序；接著將分析結果轉化為動態腳本，完成畫面編排、剪輯與輸出。",
+      stages: [
+        {
+          number: "01",
+          title: "案例蒐整",
+          description: "蒐集具代表性的案例與資料來源，記錄其使用情境、內容形式與視覺呈現策略。",
+          tone: "ink",
+        },
+        {
+          number: "02",
+          title: "資訊拆解",
+          description: "整理資料結構、內容層級與觀看順序，找出需要被強調、比較或重新組織的資訊。",
+          tone: "violet",
+        },
+        {
+          number: "03",
+          title: "動態腳本",
+          description: "將分析結果轉化為分鏡、畫面節奏與字幕安排，建立影片製作時可依循的時間結構。",
+          tone: "accent",
+        },
+        {
+          number: "04",
+          title: "影片輸出",
+          description: "完成畫面編排、素材整合、剪輯與品質檢查，輸出可供展示與檢視的影片版本。",
+          tone: "ink",
+        },
+      ],
+    },
     media: {
       visualDrafts: [],
       screenshots: [],
@@ -738,9 +810,9 @@ export const projectCaseStudies = [
           title: "公開分析影片",
           youtubeId: "NrmK31F2S-M",
           poster: svgAsset("work-01-cover", 1200, 900, "公開分析影片封面。"),
-          caption: "影片說明我如何拆解資料敘事、個人化回饋與畫面節奏，再把觀察帶回數位學習情境。",
+          caption: "影片拆解資料敘事、個人化回饋與畫面節奏，再將觀察帶回數位學習情境。",
           transcript:
-            "影片摘要：我先比較資料如何被分層、排序與動畫化，再提出學習歷程摘要與個人化回饋的設計方向；影片沒有呈現使用者測試或學習成效。",
+            "影片摘要：先比較資料如何被分層、排序與動畫化，再提出學習歷程摘要與個人化回饋的設計方向；影片沒有呈現使用者測試或學習成效。",
         },
       ],
       audio: [],
@@ -749,7 +821,7 @@ export const projectCaseStudies = [
     },
     extendedSections: [
       {
-        title: "01｜我怎麼分析",
+        title: "01｜分析方法",
         summary: "AI 協助找線索，案例選擇、分析與影片論述由我完成。",
         bullets: [
           "用 Gemini 與 ChatGPT 找到可延伸閱讀的案例線索。",
@@ -761,11 +833,11 @@ export const projectCaseStudies = [
         title: "02｜下一步",
         summary: "下一步是把影片中的觀察做成可操作、可測試的學習回顧介面。",
         paragraphs: [
-          "我會先選一種學習回顧任務做成可操作介面，安排使用者觀察；資料聲響化則留作後續研究方向。",
+          "先選一種學習回顧任務做成可操作介面，再安排使用者觀察；資料聲響化則留作後續研究方向。",
         ],
       },
     ],
-    tools: ["Power BI", "Excel", "Canva", "Gemini", "ChatGPT"],
+    tools: ["Canva", "Gemini", "ChatGPT"],
     roles: ["企劃", "資料蒐整", "案例分析", "學習應用整理", "視覺敘事", "影片製作"],
     testing: {
       statusKey: "exploratory",
@@ -776,10 +848,10 @@ export const projectCaseStudies = [
       ],
       insights: [],
       learningOutcomes: [],
-      plannedMethods: ["原型完成後，我會用實際學習任務觀察讀者能否理解指標並回看自己的歷程。"],
+      plannedMethods: ["原型完成後，使用實際學習任務觀察讀者能否理解指標並回看自己的歷程。"],
     },
     reflection: {
-      strengths: "我完成了案例篩選、視覺分析、論述順序與影片製作，並把學習應用和既有成果分開說明。",
+      strengths: "已完成案例篩選、視覺分析、論述順序與影片製作，並將學習應用和既有成果分開說明。",
       limitations: "這一版聚焦案例分析影片；互動介面與學習者觀察會在下一輪加入。",
       graduateDirection:
         "若繼續發展，我會先做一個學習歷程回顧原型，確認指標定義與閱讀任務，再測試個人化回饋是否容易理解。",
@@ -792,16 +864,16 @@ export const projectCaseStudies = [
       跨域創生: "demonstrated",
     },
     themeRationales: {
-      AI: "我用 Gemini 與 ChatGPT 找案例線索，案例篩選、分析與論述由我完成。",
+      AI: "Gemini 與 ChatGPT 用於尋找案例線索；案例篩選、分析與論述由我完成。",
       互動媒體: "案例分析先以影片呈現，下一步會延伸成可操作的學習回顧介面。",
       聲響: "資料聲響化是後續希望探索的研究方向。",
-      跨域創生: "我先分析資料案例，再把觀察寫成學習應用論述並製作影片。",
+      跨域創生: "先分析資料案例，再將觀察寫成學習應用論述並製作影片。",
     },
     links: [],
-    credits: "我負責案例蒐整與篩選、視覺分析、學習應用整理、論述編排與影片製作。",
+    credits: "負責項目包括案例蒐整與篩選、視覺分析、學習應用整理、論述編排與影片製作。",
     seo: {
       title: "資料視覺化實際案例與數位學習應用探討 | RU / YUAN",
-      description: "我以 Spotify Wrapped 等案例拆解資料敘事、個人化回饋與畫面節奏，再提出數位學習回顧介面的設計方向。",
+      description: "以 Spotify Wrapped 等案例拆解資料敘事、個人化回饋與畫面節奏，再提出數位學習回顧介面的設計方向。",
     },
   },
   {
@@ -817,16 +889,27 @@ export const projectCaseStudies = [
     status: publicStatusLabels.prototype,
     submissionVisibility: "public",
     featured: true,
-    priority: 5,
+    priority: 3,
+    indexTitle: "線上學習互動與學科成績分析",
+    indexSummary: "以 Power BI 整理線上學習互動與學科成績資料，透過篩選與圖表比較，探索不同學習行為與成績表現的關係。",
+    indexCover: svgAsset(
+      "work-02-index-public",
+      1200,
+      750,
+      "公開安全的學習分析儀表板架構示意，呈現圖表區塊與閱讀順序，不含真實學習者資料或分析數值。",
+    ),
+    indexCoverPosition: "50% 50%",
+    indexLinks: [],
+    indexTags: ["Power BI", "學習分析", "資料倫理"],
     summary:
-      "我用 Power BI 整理互動紀錄、影片觀看欄位與學科成績，做成供探索資料分布的儀表板。圖表呈現關聯線索，後續仍需透過資料品質檢查與正式分析回答研究問題。",
-    valueProposition: "我在概念圖旁標出欄位計數方式與閱讀提醒，讓讀者先理解圖表再解讀形狀。",
-    whatThisProves: "我完成初步資料整理、Power BI 儀表板、圖表定義與閱讀說明；網站以概念圖呈現，不放原始資料、真實數值或實作檔。",
-    designGoal: "我希望教師或研究者先查看資料分布，再把值得追問的現象交給資料品質檢查與正式分析。",
+      "以 Power BI 整理互動紀錄、影片觀看欄位與學科成績，做成供探索資料分布的儀表板。圖表呈現關聯線索，後續仍需透過資料品質檢查與正式分析回答研究問題。",
+    valueProposition: "概念圖旁標出欄位計數方式與閱讀提醒，讓讀者先理解圖表再解讀形狀。",
+    whatThisProves: "完成初步資料整理、Power BI 儀表板、圖表定義與閱讀說明；網站以概念圖呈現，不放原始資料、真實數值或實作檔。",
+    designGoal: "讓教師或研究者先查看資料分布，再將值得追問的現象交給資料品質檢查與正式分析。",
     designProcess:
-      "我先盤點欄位與缺漏，再用 Power Query 整理資料，在 Power BI 建立模型、度量、圖表與篩選器，最後記下計算方式與下一步需要確認的欄位定義。",
+      "先盤點欄位與缺漏，再用 Power Query 整理資料，在 Power BI 建立模型、度量、圖表與篩選器，最後記下計算方式與下一步需要確認的欄位定義。",
     technologyAndMedia:
-      "我用 Excel 與 Power Query 整理欄位，在 Power BI Desktop 建立模型、DAX 度量、圖表與篩選器。DAX 是 Power BI 的計算公式語言。公開頁只放概念圖，不含真實數值。",
+      "使用 Excel 與 Power Query 整理欄位，在 Power BI Desktop 建立模型、DAX 度量、圖表與篩選器。DAX 是 Power BI 的計算公式語言。公開頁只放概念圖，不含真實數值。",
     outcomeShowcase:
       "公開頁只說明儀表板的閱讀順序、資料處理步驟與圖表定義。圓環圖計算 sn 欄位的筆數，不把欄位值相加；觀看相關直條圖只比較不同數學成績分群中的非空紀錄筆數。",
     trackIds: ["edtech-digital-content", "user-research-outcomes-process", "interactive-media-ux"],
@@ -936,7 +1019,7 @@ export const projectCaseStudies = [
       plannedMethods: ["先核對欄位與度量，再設計形成性任務，觀察使用者能否正確讀圖並說明資料範圍。"],
     },
     reflection: {
-      strengths: "我完成初步資料整理、互動儀表板與公開版說明，也把計算方式、資料範圍與閱讀提醒放在圖表旁。",
+      strengths: "已完成初步資料整理、互動儀表板與公開版說明，也將計算方式、資料範圍與閱讀提醒放在圖表旁。",
       limitations: "下一步會先核對部分度量與清洗規則；網站則持續以不含真實結果的概念圖說明方法。",
       graduateDirection:
         "若繼續研究，我會先完成資料品質與度量檢查，再測試教師能否正確解讀儀表板。數位孿生、AI 回饋與資料聲響化都尚未實作。",
@@ -949,16 +1032,16 @@ export const projectCaseStudies = [
       跨域創生: "demonstrated",
     },
     themeRationales: {
-      互動媒體: "我在 Power BI 中建立篩選器與圖表，讓使用者探索資料分布。",
+      互動媒體: "Power BI 篩選器與圖表讓使用者探索資料分布。",
       數位孿生: "完成資料品質檢查後，我想再規劃可持續更新的學習者模型。",
       聲響: "資料聲響提示是後續希望探索的方向。",
-      跨域創生: "我同時整理教育資料、設計儀表板互動，也把資料範圍與推論條件寫清楚。",
+      跨域創生: "作品同時整理教育資料、設計儀表板互動，也將資料範圍與推論條件寫清楚。",
     },
     links: [],
     credits: "資料來源為教育大數據分析計畫辦公室提供的「2025 年教育大數據微學程教學用開放資料第二版」。我負責資料整理、Power BI 視覺化、圖表定義、閱讀說明與網站版本整理。",
     seo: {
       title: "線上學習互動行為與學科成績之資料視覺化分析 | RU / YUAN",
-      description: "我用 Power BI 整理線上學習互動、影片觀看與學科成績欄位，並呈現計算方式、資料範圍與閱讀方法。",
+      description: "以 Power BI 整理線上學習互動、影片觀看與學科成績欄位，並呈現計算方式、資料範圍與閱讀方法。",
     },
   },
 ];
