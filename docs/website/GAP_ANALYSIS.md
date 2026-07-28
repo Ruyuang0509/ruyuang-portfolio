@@ -39,7 +39,7 @@
 | --- | --- | --- | --- |
 | P0 | Hamlet 已由蕭智仁於 2026-07-26 完成 limited-use attestation；最新整合 `check:publication` exit 0／`verified / approved`。Commercial use、ads、paywall、affiliate revenue、商業廣告與音樂發行仍不允許 | 未來若改變網站營利模式或影片用途，沿用本次核准會超出現有 Suno 條件與申請者聲明；Draft PR 的本機通過也不是 production publication approval | 保留 production workflow 的 pre-upload publication gate；任何營利／商業用途變更都先取得新授權、更新 manifest／attestation，再重新驗證 |
 | P0 | GitHub Repository 為 public；tracked public／audit source、hidden／internal data、prompts、evidence docs、`docs/admission/*` 與 Git history可讀。Submission alias 只讓部分內容不進 bundle | 「不渲染／不進 `dist/`」可能被誤認為保密，後續加入原始測試、音訊工程或研究草稿會擴大暴露 | 由申請者決定 public repository scope；個資、原始測試、未核權利文件、AI transcripts、`.pd`／`.rpp`、原始錄音與研究草稿先放 private workbench。Public／audit split 是 bundle／敘事責任分層，不是 repository 保密層 |
-| P0 | Power BI restricted screenshot 已移出 public；資料使用說明不支持公開分析結果，另行公開許可未取得，部分 measures 仍待核對 | 重新公開原圖或錯誤推論會造成隱私／研究誠信風險 | 維持 quarantine；只有另取得資料提供方明確許可後才重新評估，正式輸出必跑 submission scan |
+| P0 | Power BI restricted screenshot 已移出 public；專屬九章內頁目前為 text-only，公開與隱私限制集中第 08 節；資料使用說明不支持公開分析結果，另行公開許可未取得，部分 measures 仍待核對 | 重新公開原圖、操作媒體、假圖或錯誤推論會造成隱私／研究誠信風險 | 維持 quarantine 與第 08 節的文字證據邊界；只有另取得資料提供方明確許可後才重新評估，正式輸出必跑 submission scan |
 | P1 | Web Audio 有可操作 prototype，但 `notValidated` | 旗艦證據仍無使用者理解／學習效果資料 | 執行 planned formative tasks，保留匿名紀錄、錯誤、口述理解與 limitation |
 | P1 | Pure Data v0.2.1 MP4／poster 已進 public，可核對本機功能操作；但原始畫面含本機路徑、`validated` 與裁切區，初版有 AI 協作，Repository 沒有可公開 `.pd`、版本差異或獨立重建證據。REAPER 只有已安裝狀態 | 影片能證明功能紀錄，不足以證明獨立作者性、熟練度、使用者驗證或研究系統；現有影片亦有送審觀感與路徑揭露風險 | 優先重錄不含本機路徑／過強 validation 用語且完整框取的作品集版；同步補最小可獨立重建 Patch、signal flow、版本差異、錯誤／修正與反思。REAPER 完成最小 routing 與原創輸出前維持未形成作品 |
 | P1 | 《畫本》與指定 MV 已有精簡公開卡片與經確認的 canonical YouTube 入口；前者仍缺完整活動／credit／權利 artifact，後者仍缺課程紀錄、cue sheet／完整公開授權 | 公開連結與申請者提供的作品事實可支持有限角色敘述，但不能視為競賽結果、觀看成效或第三方媒體所有權 | 維持摘要、角色、必要素材說明與限制；只有補齊可核對的 credit、來源、公開範圍與支持文件後才提高證據強度 |
@@ -71,7 +71,7 @@
 - submission scanner 已拆成可注入 core／thin CLI，加入送審內部詞、成效／系統完成過度主張、unsupported proficiency、private evidence 與公開 audit／施工語句規則；最新整合為 67 text rules／9 inventory rules／73/73 fixtures。`#contact`、VTT、Web Manifest、source map 與獨立 `dist/` audit 仍在檢查範圍。
 - R3F 已改用 lean canvas 與精準 constructor extend；遞迴 built-import budget 覆蓋 initial／完整 lazy closure 與單一 chunk，2026-07-23 closure 為 638680 raw／169383 gzip B，851 kB 歷史 warning 已關閉。
 - `llms.txt`、favicon、social preview、index／Open Graph／Twitter／JSON-LD 與頁面 anchors 已改成蕭智仁聲響、互動與數位學習申請敘事；canonical／`og:url`／JSON-LD URL 使用已確認的 GitHub Pages project URL。Raster preview 與 custom domain 仍待後續決策。
-- Power BI 實作日期已確認為 2026/06/11–06/12；實際資料與結果媒體移出 public，公開 conceptual SVG。
+- Power BI 實作日期已確認為 2026/06/11–06/12；實際資料與結果媒體移出 public。專屬案例已改為 lazy 九章 text-only renderer，使用 1240px／12 欄與低於 1024px 單欄，導覽為完整 3×3／9×1，抽象 SVG 不再作案例成果證據；lazy fallback／mount hash 接力已使案例與 charts 冷啟動定位成功，五組 submission viewport 均無 overflow／越界／console issue。
 - draft/submission bundling boundary，而非 CSS 隱藏。
 - mapping pure functions 與 Node tests。
 - DOM-first Hero、R3F lazy/device gating/offscreen pause。

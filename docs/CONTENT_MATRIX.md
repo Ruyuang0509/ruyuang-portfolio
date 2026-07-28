@@ -1,5 +1,12 @@
 # 作品集內容矩陣
 
+## 2026-07-28 Power BI 案例九章 IA 驗證
+
+- `learning-dashboard-analysis` 現由 lazy 專屬 renderer 與 case-scoped CSS 呈現九章案例，不改動其他案例的共用版型與既有全站視覺／動效規範。
+- 公開內容採 text-only 分析敘事，集中說明資料倫理與公開限制；受限 Power BI／Excel、真實截圖、操作媒體、分析檔與結果仍維持隔離，不以抽象 SVG 或重製圖表冒充成果。
+- Submission 已以 1440／1280／1024／768／390px 核對 0 document／article overflow、0 out-of-bounds、0 text overflow 與 0 console error／warning；九章、3 個分析問題、7 個流程步驟、3 組圖表判讀、4 項互動功能、3 張倫理／限制卡與 4 項後續改善均完整。
+- 該次完整 `pnpm run doctor` exit 0；建議型「流程圖與架構圖、媒體證據」缺件警告保留，反映真實素材受限而未以假圖補位。
+
 ## 2026-07-27 作者視角與案例索引整合驗證
 
 - 完整 `pnpm run doctor` exit 0：workspace、media、text、CJK、evidence、content、sound、draft build 與 submission gate 全數通過；content validator 核對 5 件 project entries，sound tests 18/18。Draft build 為 474 modules、entry 181772 B、CSS 46069 B、initial JS gzip 201686 B。
@@ -21,7 +28,7 @@
 - 同一基線的 submission scan 為 132 files／25 text files、67／9 rules；118 個 `public/` files 對 132-file `dist/` 為 0 missing、0 hash mismatch。Browser 在 1280×800、768×900、390×844、320×720 為 0 overflow／broken hashes／duplicate IDs／broken images／console issue，四個 deep links、theme endpoints 與 mobile Escape 還焦通過。2026-07-27 最新 targeted 結果見上方獨立章節。
 - `usedForExistingVideo: false`、`notValidated`、private originals 未找到與 limited-use restriction 必須保留。Screen reader、真實 200% zoom、system reduced-motion、實機、多瀏覽器音訊，以及兩個 YouTube 作品的第三方 rights／完整 credit 仍未驗；目前 PR 是 Draft，不等於發布核准。
 
-更新日期：2026-07-27。首頁與 case-study 敘事的 source of truth 是 `src/data/portfolio.js`；Pure Data、代表作品、合作、學習路線與最終連結在 `src/data/admission-evidence.js`，完整 Draft／Audit 紀錄在動態拆分的 `src/data/admission-evidence.audit.js`，研究構想與 AI／作者性分別在 `src/data/admission-research.js`、`src/data/ai-workflow.js`。Hidden case 文字在 `src/data/portfolio.hidden.js`，施工與風險備註只放 `src/data/portfolio.internal.js`。目前 source 已接上 11 個高階申請錨點，`#project-index` 巢狀位於 `#selected-work`，`#research-proposal` 只作 `#research-positioning` 的相容 alias；既有詳細案例、樣式、動效、R3F 與 Web Audio lifecycle 保留。REAPER 過度敘述與 print reading-surface reset 已修正。此表把「檔案存在／功能可操作」、「形成性或學術驗證」與「限定用途的發布權利」分開；2026-07-26 的數字是整合前基線，2026-07-27 最新組合的本機與 targeted Browser 驗證見本文件首節。
+更新日期：2026-07-28。首頁與 case-study 敘事的 source of truth 是 `src/data/portfolio.js`；Pure Data、代表作品、合作、學習路線與最終連結在 `src/data/admission-evidence.js`，完整 Draft／Audit 紀錄在動態拆分的 `src/data/admission-evidence.audit.js`，研究構想與 AI／作者性分別在 `src/data/admission-research.js`、`src/data/ai-workflow.js`。Hidden case 文字在 `src/data/portfolio.hidden.js`，施工與風險備註只放 `src/data/portfolio.internal.js`。目前 source 已接上 11 個高階申請錨點，`#project-index` 巢狀位於 `#selected-work`，`#research-proposal` 只作 `#research-positioning` 的相容 alias；既有詳細案例、樣式、動效、R3F 與 Web Audio lifecycle 保留。REAPER 過度敘述與 print reading-surface reset 已修正。此表把「檔案存在／功能可操作」、「形成性或學術驗證」與「限定用途的發布權利」分開；2026-07-26 的數字是整合前基線，2026-07-27 作者視角組合與 2026-07-28 Power BI 案例重構的本機／targeted Browser 驗證分列於本文件首節。
 
 | 模組 | 現有內容 | 真實來源 | 完整度 | 公開站處理 | 待補資料 | 不可由 AI 代填的內容 |
 |---|---|---|---|---|---|---|
@@ -37,7 +44,7 @@
 | 詳細案例作品索引（`#project-index`） | 4 件案例依 Web Audio、Hamlet、Power BI、資料視覺化排序；每卡使用 `indexTitle`、`indexSummary`、`indexCover`、`indexLinks`、`indexTags` | `portfolio.js`、既有案例 anchors、Web Audio responsive derivatives 與可公開安全媒體 | 巢狀索引、build 與 Browser 已核對；桌機四卡 875×611 等高，手機寬 330 px，0 dead anchors／0 page overflow | 位於 `#selected-work` 內，不計為第 12 個高階 IA；中寬以上 2 欄、窄版 1 欄、16:10、圖片 lazy／async；僅真實內部 anchor，無假篩選或空 CTA | Power BI 真實畫面公開許可、第三方案例畫面權利、各案例最終人工檢閱 | 假 dashboard、假研究報告、未存在 GitHub／Live Demo、把受限畫面搬入 `public/` |
 | 資料視覺化系列 | 「資料視覺化與數位學習應用」入口；兩件作品彼此獨立，聲響化只列下一步 | 既有課程／專題內容與公開資料 | 可公開 | 作為 `#selected-work` 內、《畫本》之後的跨域支持證據，不另充當高階 IA | 系列的最終選件與文字精簡決策 | 未做過的分析、聲響化成效 |
 | 資料視覺化實際案例 | Spotify Wrapped 等資料敘事分析、四階段製作流程與 YouTube 影片；流程由 lazy `CaseProcessSection` 讀取 `productionWorkflow` | 既有影片、案例文案與使用者提供的完成投影片；完成投影片僅供內容核對，不冒充原始製作紀錄 | `exploratory`；語意化 HTML／CSS 流程已實作並通過 desktop／mobile targeted smoke | `section`＋`ol/li/article`；窄版 1 欄、中版 2 欄、寬版 4 欄；本輪未另驗證 print 欄數；privacy-enhanced iframe 於使用者意圖後載入；Canva／Gemini／ChatGPT 分工據實呈現，不誤列 Power BI／Excel | 原始案例清單、分析表、分鏡／時間軸、人工字幕／transcript 核對、第三方案例畫面權利確認 | 學習效果、觀看者研究結果、未確認字幕內容、把完成投影片冒充原始製作紀錄 |
-| Power BI 學習資料探索 | 3 張版面概念／公開邊界 SVG、欄位筆數提醒，以及「資料與圖表定義／公開限制／下一步」三節 | 日期備註、清洗檔、Power BI 實作檔與隔離素材 | 2026/06/11–06/12 實作；公開方法敘事可用 | 圖像不冒充流程、架構、IA 或真實比例；原始資料、PBIX 與結果維持隔離；不作因果宣稱 | 清洗規則、measure 定義、另行公開許可 | 實際資料值、因果關係、授權狀態、學習成效 |
+| Power BI 學習資料探索 | 九章案例、3 個分析問題、7 個流程步驟、3 組圖表判讀、4 項互動功能、3 張倫理／限制卡與 4 項後續改善 | 日期備註、清洗檔、Power BI 實作檔與隔離素材 | 2026/06/11–06/12 實作；公開方法敘事可用；2026-07-28 responsive／hash targeted smoke 通過 | 專屬案例內頁採 text-only 分析敘事；公開／隱私限制集中第 08 節，受限截圖、影片、分析檔與實際結果維持隔離；不作因果宣稱，也不把抽象 SVG 當作品成果 | 清洗規則、measure 定義、另行公開許可、資料字典與使用者測試 | 實際資料值、因果關係、授權狀態、學習成效 |
 | 專案與合作 | 兩度社長、規章／Discord／雲端／帳號交接、第一任期 6→17、畢專角色調整與工作經驗 | 使用者提供的任期與經驗敘事 | 可作能力脈絡；repository 無獨立 artifact 驗證 | 位於 `#collaboration`；數字描述為申請者提供的任期紀錄，不把成長原因歸於單一措施，也不取代聲音證據 | 社團紀錄、交接文件、團隊角色與工作證明的可公開範圍 | 因果成效、團隊共同成果全歸個人、未提供職稱／評語 |
 | 研究方向與連結 | 正式作品集 URL 與 public GitHub Repository；私人研究工作區另有實際研究計畫 DOCX | `finalPortfolioLinks`、canonical metadata、Git remote 與私人檔案 inventory | 兩個 URL 可由 source 核對；2026-07-26 `#contact` deep link 約 95–112 px 是基線；私人 DOCX 存在但未核准公開 | 位於 `#contact`；不放私人電話／住址，且在產生核准的公開審閱版前不提供研究計畫下載 | Email／履歷／研究計畫若需公開，須先核對文獻、設備、樣本、預算、倫理、metadata 與公開範圍；merge 後重驗 production | 把私人 DOCX 寫成不存在、已公開、已通過審查，或提供未核准下載；未授權帳號、虛構履歷或技能 |
 | 媒體與 credit | 本機 AVIF/WebP/MP4、公開安全 SVG wrapper、YouTube privacy-enhanced embed；Web Audio 索引圖有 400／640／1200 AVIF/WebP | `public/media`、案例 metadata、既有影片與 tracked derivatives | 技術邊界可發布；Hamlet rights 為 `verified / approved` 的限定非營利用途 | lazy、固定尺寸、poster、no autoplay；restricted media 隔離；索引 wrapper 不含真實資料值或第三方介面。Hamlet 公開頁含 Suno credit、非營利限制與具名 attestation | 其他作品最終作者／團隊 credit、字幕、外部素材授權證明；Hamlet private originals 仍需自行留存 | 著作權歸屬、未提供的 alt／transcript 事實，或把 limited-use approval 寫成完整著作權／商業授權 |
@@ -55,6 +62,7 @@
 - `evaluationPlan.status: "planned"` 只描述未來任務、蒐證與資料治理；沒有執行紀錄前，不加入人數、日期、結果、引言或成效指標。
 - 首頁／case-study narrative 進 `src/data/portfolio.js`；研究構想進 `src/data/admission-research.js`；Pure Data／代表作品／合作／Roadmap／links進 `src/data/admission-evidence.js`；AI／作者性進 `src/data/ai-workflow.js`。內部待辦與敏感路徑不複製到這些公開資料模組。
 - Power BI 資料使用說明明載分析結果不適合公開發表；原始資料、清洗檔、儀表板實作檔、實際截圖與含真實結果的操作紀錄不得搬入 `public/`。只有另取得資料提供方明確許可後，才可重新評估公開範圍。
+- Power BI 專屬案例目前以文字說明方法、互動邏輯與判讀邊界，第 08 節統一承接公開與隱私限制；不得宣稱公開頁已有去識別化截圖、操作影片或完整互動系統，也不得以抽象 SVG 或重製介面補成成果證據。
 - 真實使用者資料只在取得適當同意、匿名化並由申請者確認後加入。
 - `public/` 內所有檔案都視為可發布；React tree 未引用不代表資產不會出現在 `dist/`。
 - 私人研究計畫 DOCX 實際存在，但不在公開站且沒有核准的公開下載；完成文獻、設備、樣本、預算、倫理、metadata 與公開範圍核對前，不得複製到 `public/` 或產生下載連結。

@@ -1,5 +1,14 @@
 # 目前產品與資訊架構
 
+## 2026-07-28 Power BI 案例專屬資訊架構
+
+- `learning-dashboard-analysis` 由 `layoutVariant: "learning-dashboard-v2"` 分派到 lazy `LearningDashboardProjectDetail`；其 CSS 與 renderer 都限定於此案例，沒有改寫其他案例、全站 theme 或 motion。
+- 專屬案例依九章閱讀：專案摘要、分析問題、資料來源與欄位、資料處理與分析流程、完整儀表板概覽、各圖表設計與判讀、年級篩選與互動操作、資料倫理與分析限制、反思與後續改善。
+- 版面上限 1240px，1024px 以上使用 12 欄，低於 1024px 單欄；九章導覽在 1024+／640–1023／<640 為 3／3／1 欄，九項完整形成 3×3 或 9×1。內容為 3 問題、7 流程、3 圖表判讀、4 互動功能、3 倫理卡與 4 後續步驟。
+- 專屬內頁以 text-only 正式分析敘事呈現：Hero 是儀表板閱讀框架，流程是三層分析結構，概覽是五區閱讀順序，互動是四節點操作序列。受限 Power BI／Excel、截圖、數值與操作媒體仍不載入 public／dist；公開與隱私限制集中在第 08 節。
+- Lazy fallback 保留案例 id，專屬 component mount 後重送目前 hash；冷啟動 `#learning-dashboard-analysis` 與 `#learning-dashboard-analysis-charts` 均可在內容載入後重新定位。
+- Submission 1440／1280／1024／768／390px 已實測：document／article overflow、out-of-bounds、text overflow 均為 0，console error／warning 為 0。
+
 ## 2026-07-27 最新驗證狀態
 
 - 作者視角、作品索引與案例流程已完成同一組合的 draft／submission build 與 targeted Browser 檢查；不是沿用 2026-07-26 fingerprint。
@@ -154,7 +163,7 @@ flowchart TD
 
 - `#project-index`／`#gallery`：四件公開案例快速索引；2 欄／1 欄 responsive grid、16:10 cover、靜態 tags 與真實站內 anchor，沒有篩選或假控制。
 - `#generative-interface-study`：Hamlet 40 秒／8 幕成片、雙語字幕、storyboard、五階段流程、衍生 Prompt Template v1、證據邊界與 limited-use rights disclosure；仍是 `notValidated`。
-- `#learning-dashboard-analysis`：Power BI 學習資料探索；只公開不含真實數值的概念圖，原始資料、PBIX 與結果隔離，不作因果宣稱。
+- `#learning-dashboard-analysis`：Power BI 學習資料探索；lazy 九章專屬內頁以 text-only 方法、互動與判讀邊界呈現，原始資料、真實數值、Excel／Power BI 檔案、儀表板截圖、操作媒體與結果隔離，不以抽象 SVG 代替成果，也不作因果宣稱。
 - `#data-visualization-cases`：資料視覺化分析影片與四階段 `productionWorkflow`；由 lazy `CaseProcessSection` 以語意 HTML／CSS 呈現，testing 為 `exploratory`，不宣稱學習成效。
 - `#interactive-sound-learning-demo`：Web Audio 案例內的可操作 endpoint；需手勢啟用，pointer、touch 與四個 range 支援實際操作，停止／Escape／離屏／cleanup 可取消 pending start。
 
@@ -166,11 +175,11 @@ flowchart TD
 
 ## 使用者可見狀態
 
-- **載入：** Hero 3D 有純色 Suspense fallback；Web Audio prototype 有「互動聲響原型載入中。」；Pure Data、研究構想、代表作品、合作、學習路線、AI 與聯絡段落各有永久 wrapper、Suspense fallback 及區段錯誤隔離。首屏以下的作品索引卡拆成 `ProjectIndexGrid` lazy chunk，四張索引圖全部使用 lazy loading／async decoding；資料案例的 `CaseProcessSection` 亦 lazy 載入。共用 `ResponsiveImage` 在檔案錯誤時保留固定媒體比例與可讀 fallback；本機影片不自動播放、預載 metadata，並有 loading／ready／error 狀態。
+- **載入：** Hero 3D 有純色 Suspense fallback；Web Audio prototype 有「互動聲響原型載入中。」；Pure Data、研究構想、代表作品、合作、學習路線、AI 與聯絡段落各有永久 wrapper、Suspense fallback 及區段錯誤隔離。首屏以下的作品索引卡拆成 `ProjectIndexGrid` lazy chunk，四張索引圖全部使用 lazy loading／async decoding；資料案例的 `CaseProcessSection` 與 Power BI 專屬 `LearningDashboardProjectDetail` 亦 lazy 載入，後者 fallback 保留案例 id。共用 `ResponsiveImage` 在檔案錯誤時保留固定媒體比例與可讀 fallback；本機影片不自動播放、預載 metadata，並有 loading／ready／error 狀態。
 - **音訊：** `尚未啟用`、`聲音啟用中`、`聲音播放中`、`聲音已停止`、`瀏覽器不支援`、`聲音啟用失敗`，透過 busy 區外的 atomic `role="status"`／polite live region 宣告；啟用中只把按鈕控制群組設為 `aria-busy`，停止／Escape／離屏／cleanup 均可取消 pending start。
 - **錯誤：** Hero 的選配 3D scene 有局部 fallback，不會移除標題／介紹／CTA；旗艦案例、支持案例及 deferred admission sections 另有區段級 fallback；React 根也有可重新載入的全站 recovery boundary。Hamlet 影片錯誤會保留 poster、直接 MP4 連結、storyboard 與逐字稿；Pure Data 播放錯誤會顯示文字 fallback，觀看指南與證據邊界仍可閱讀。
 - **測試：** 公開狀態分 `尚待驗證`、`探索中`、`已驗證`；目前沒有案例為 `validated`。
-- **Restricted：** Power BI 只顯示不可公開原因；restricted item 不得含公開 href/src/embed URL。
+- **Restricted：** Power BI 專屬內頁只顯示方法、互動邏輯、判讀與不可公開原因；restricted item 不得含公開 href/src/embed URL，也不以概念 SVG 或假播放器代替成果。
 - **Draft：** draft build 有黏性治理 banner、內容完整度、待補資料與風險；完整度會先判斷群組是否適用於 submission-visible 案例。submission 以 Vite alias 將整層替成空元件。
 - **外部內容：** 一件資料視覺化案例使用 `youtube-nocookie.com` iframe；頁尾另有 GitHub Pages 與 GitHub Repository 一般連結。Pure Data 與 Hamlet 影片都是本機 public assets，不是第三方 runtime service。
 - **2026-07-17／07-18 Lighthouse 歷史快照：** 直接修正前 archive `2026-07-17T16-21-04-610Z` 為 mobile Performance 94、LCP 2634 ms、TBT 75 ms、transfer 459090 B；desktop 100、LCP 555 ms、TBT 0 ms、transfer 442761 B。當時最終原始碼兩次 run 都維持 mobile 94、desktop 100；archive `2026-07-17T17-31-33-225Z` 為 mobile LCP 2651 ms、TBT 90 ms、transfer 460502 B，desktop LCP 560 ms、TBT 0 ms、transfer 444173 B，另一 run 的波動上界為 mobile 2654／98 ms、desktop 602／38 ms。Accessibility 100、CLS 0。這些都是 localhost simulated lab，且 source 已在 PR #5 後變更，不是 production field data 或 2026-07-23 當前 fingerprint。
