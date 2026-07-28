@@ -1,5 +1,15 @@
 # 視覺、互動、響應式與可及性
 
+## 2026-07-28 品質稽核後互動與 responsive
+
+- 全域 focus 不再強迫同一 border radius；outline 持續可見，按鈕、slider、media link保留自身形狀。共用 control minimum 為 `--control-hit-size: 2.75rem`。
+- `--page-gutter` 統一首頁、案例、research、draft與 error surface的水平外距；`--theme-inverse-line` 提供 inverse panel／print-safe border，不再以一般 light-line token硬套深色內容。
+- Viewport field 用局部 `--viewport-field-inset` 取代兩個 `!important`；固定 mist／radial 可超出視窗作背景 paint，但 document scrollWidth 在四個 viewport 都等於 clientWidth。
+- Project Index 在 768px 起兩欄；實測 768×900為兩欄／desktop nav、390／320為單欄／44px mobile trigger。Power BI reading map 分別為 3／1欄。
+- Storyboard `End` 的 live region現與最後一幕同步；1440px實測 `End → Home → Right → Left` 為 `08 → 01 → 02 → 01`，快速第08／04幕 seek最後停在15秒且影片保持 paused。
+- Web Audio production preview以 user gesture成功進入播放中，Escape後回到已停止；18/18單元測試仍負責 mapping與graph lifecycle。
+- R3F Hero、GSAP／Lenis、fixed field、card feedback、custom cursor、sound feedback、section reveal與reduced-motion fallback均保留，沒有因清理 CSS／程式而移除。
+
 ## 2026-07-28 Power BI 案例專屬版面
 
 - `learning-dashboard-analysis` 保留既有暖紙／墨字、酸綠重點、圓角、surface、繁中 classes、focus 與 motion；新增的是 case-scoped 版面與資訊層級，不是全站 redesign。
@@ -30,7 +40,7 @@
 
 - 本輪改的是文案層級、11 段 IA、AdmissionEvidence 區段與研究構想呈現；既有 palette、字體、spacing、R3F Hero、GSAP／Lenis、fixed viewport transition、Custom Cursor、卡片回饋、聲音操作與 reduced-motion 行為均保留。
 - Hero 兩個 CTA 現在直達 Web Audio demo 與學習／研究路線；paper surface 承接支持案例 gallery、專案與合作、學習路線、AI／作者性及研究方向／連結。研究構想本身位於深色 `#research-positioning` wrapper。
-- `ResearchPositioning.jsx` 現只負責 `SoundTransitionSection` 與 `ReviewerPathSection`；四層研究構想由獨立 `ResearchProposalSection` 呈現。舊 `LearningTrail` 不在 `App.jsx` 主 IA，現行四階段學習路線由 `AdmissionEvidenceSections` 提供。
+- `ResearchPositioning.jsx` 現只負責 `SoundTransitionSection` 與 `ReviewerPathSection`；四層研究構想由獨立 `ResearchProposalSection` 呈現。現行四階段學習路線由 `AdmissionEvidenceSections` 提供，未掛載的舊 `LearningTrail` 已移除。
 - 2026-07-26 draft build 基線為 471 modules、entry 180733 B、CSS 44315 B、initial JS gzip 200889 B；submission build 為 467 modules、entry 153704 B、CSS 44315 B、initial JS gzip 192936 B。Fresh `dist` 為 132 files／25 text files，118 個 public files 為 0 missing／0 SHA-256 mismatch。
 - 同一基線的四個 viewport 已完成 target／ID、overflow、broken images、行動 menu、fresh deep links、dark／paper endpoints與console 回歸；sound 18/18 是 mapping／lifecycle 自動測試，不等於多瀏覽器可聽輸出實測。2026-07-27 組合另依本文件首節完成 targeted Browser smoke。
 - System reduced-motion、screen reader、真實 200% zoom、實機與多瀏覽器音訊仍不得由 source fallback 或單一 Browser 矩陣推論通過。
@@ -74,7 +84,7 @@
 | accent | `#cbe86b` |
 | 暖紙／墨字 | `#d8cfbd` / `#1a1711` |
 | radius | `.75rem`, `1.25rem`, `2rem`, pill |
-| spacing | 5 個 fluid `clamp()` tokens |
+| spacing | 5 個 fluid rhythm `clamp()` tokens，加上語意 `--page-gutter` 與 `--control-hit-size` |
 | 字體 | PingFang TC、Noto Sans TC、Microsoft JhengHei、Heiti TC、Source Han Sans TC、system fallback；沒有 remote webfont |
 | body | 約 1–1.125rem，行高 1.76 |
 | display | 約 3–6rem；案例約 2.45–6.35rem；Hero mobile `clamp(2.8rem, 14vw, 4.6rem)`、desktop `clamp(4.5rem, 7.25vw, 8.5rem)` |
@@ -120,7 +130,7 @@
 | Lenis smooth scroll／anchor 定位 | narrative guidance；performance risk | [`../../src/hooks/useLenisGsap.js`](../../src/hooks/useLenisGsap.js) 與 Navbar 維持長頁閱讀節奏；deep-link double-rAF settle 避免案例落點錯位 | reduced motion 即時銷毀；使用者 wheel／touch／pointer／scroll-key 取消未完成校正；不允許無界 rAF loop |
 | Navbar active state／行動選單 | interaction feedback | [`../../src/components/Navbar.jsx`](../../src/components/Navbar.jsx) 以 Motion 呈現選單高度、opacity、位移，並同步 `aria-current`、Escape、outside click、focus restore | reduced motion 立即完成；closed state 保持 `inert`／`aria-hidden`；不改成視覺-only drawer |
 | `AnimatedDetails` disclosures | interaction feedback；performance risk | Prompt Template、7 個長描述與雙語逐字稿以 WAAPI 同步實際高度、箭頭、opacity、位移與 native details state | 快速反轉取消前序列、ResizeObserver retarget、完成後清 effect；reduced motion 立即切換並刷新 Lenis／ScrollTrigger |
-| 作品卡 hover／focus-within | interaction feedback；decorative | [`../../src/components/CaseStudyShowcase.jsx`](../../src/components/CaseStudyShowcase.jsx) 與 CSS 提供小幅 y／scale／媒體放大，focus-within 保留同等回饋 | 只在 active hover／focus 暫時 compositor promotion；coarse pointer／reduced motion 不依賴此效果 |
+| 作品卡 hover／focus-within | interaction feedback；decorative | [`../../src/components/ProjectIndexGrid.jsx`](../../src/components/ProjectIndexGrid.jsx) 提供小幅 y／scale，並以 intent-gated poster-first 影片預覽回應 hover／focus；索引圖本身不放大 | 只在 active hover／focus 暫時 compositor promotion；coarse pointer／reduced motion 不依賴此效果，影片離屏／分頁隱藏時停止 |
 | Custom Cursor／magnetic targets | interaction feedback；atmosphere／authorship；performance risk | [`../../src/components/CustomCursor.jsx`](../../src/components/CustomCursor.jsx) 以 label variant 與吸附強化個人風格及可點狀態 | 只在 ≥768px fine pointer 且非 reduced motion 啟用；MotionValue／spring／rAF batching，原生焦點與游標以外的操作仍完整 |
 | Sound pad 位置點 breathing／live readout | interaction feedback；decorative | [`../../src/components/SoundInteractionPrototype.jsx`](../../src/components/SoundInteractionPrototype.jsx) 與 CSS 讓映射位置、狀態及聲音參數可見 | breathing 在 reduced motion 停用；真正操作仍由 pointer／touch／四個 range 與文字狀態提供 |
 | Storyboard scroll-snap／seek feedback | interaction feedback | 水平 scene cards、前後／每幕按鈕、影片 seek 與 polite status 讓八幕選擇結果可確認 | 不攔截垂直捲動；鍵盤使用立即 snap；print 改靜態網格 |

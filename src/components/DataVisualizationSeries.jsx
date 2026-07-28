@@ -15,12 +15,12 @@ function SeriesImage({ image, className = "" }) {
     />
   );
 }
-// Codex-Fix: The series cover is a lightweight local SVG, so a semantic img is enough without adding runtime image logic.
+// The series cover is a lightweight local SVG, so a semantic img is enough without adding runtime image logic.
 
 const seriesWorks = dataVisualizationSeries.works
   .map((id) => sortedProjectCaseStudies.find((project) => project.id === id))
   .filter(Boolean);
-// Codex-Fix: Resolve series entries from the canonical project data so cards and detail pages cannot drift apart.
+// Resolve series entries from the canonical project data so cards and detail pages cannot drift apart.
 
 const DataVisualizationSeries = memo(function DataVisualizationSeries() {
   return (
@@ -111,6 +111,6 @@ const DataVisualizationSeries = memo(function DataVisualizationSeries() {
     </section>
   );
 });
-// Codex-Fix: Add a dedicated data-visualization series gateway before the full case-study index.
+// Keep a dedicated data-visualization series gateway before the full case-study index.
 
 export default DataVisualizationSeries;

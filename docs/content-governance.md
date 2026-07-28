@@ -94,9 +94,12 @@ correction.
 
 Navbar, the evidence-path cards, `public/llms.txt`, canonical/Open Graph
 metadata, and the rendered DOM must continue to describe the same information
-architecture. The canonical URL is currently the verified GitHub Pages
-project URL; a future custom-domain change must update canonical, `og:url`,
-JSON-LD, `llms.txt`, final links, and the deployment decision together.
+architecture. `src/config/site.js` is the source of truth for site identity,
+canonical and repository URLs, the eleven top-level sections, compatibility
+aliases, and primary navigation. `pnpm run audit:site` verifies its static
+metadata derivatives and contact links. The canonical URL is currently the
+verified GitHub Pages project URL; a future custom-domain change must update
+the config, its checked derivatives, and the deployment decision together.
 
 ## Internal Build Notes
 

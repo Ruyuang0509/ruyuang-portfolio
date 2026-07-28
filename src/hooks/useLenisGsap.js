@@ -85,8 +85,8 @@ export function useLenisGsap() {
     const layoutRoot = document.querySelector("#main-content");
     if (layoutRoot) layoutObserver?.observe(layoutRoot);
     refreshLayout();
-    // Codex-Fix: Refresh Lenis and ScrollTrigger together after deferred sections, hash settling, media, fonts, and responsive layout changes.
-    // Codex-Fix: Rebuild the single Lenis/ticker runtime when reduced-motion changes at run time.
+    // Refresh Lenis and ScrollTrigger together after deferred sections, hash settling, media, fonts, and responsive layout changes.
+    // Rebuild the single Lenis/ticker runtime when reduced-motion changes at run time.
 
     return () => {
       disposed = true;

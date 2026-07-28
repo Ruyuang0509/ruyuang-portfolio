@@ -137,7 +137,7 @@ function ProjectOverviewMedia({ project, reduceMotion }) {
       <ResponsiveImage
         image={image}
         className="aspect-[16/10] h-full w-full object-cover"
-        sizes="(min-width: 800px) 44vw, 92vw"
+        sizes="(min-width: 768px) 44vw, 92vw"
         loading="lazy"
         fetchPriority="auto"
         style={{ objectPosition: project.indexCoverPosition ?? "50% 50%" }}
@@ -252,4 +252,4 @@ export default function ProjectIndexGrid({ projects }) {
     </div>
   );
 }
-// Codex-Fix: Keep the below-fold featured-work cards in their own lazy chunk while preserving real anchors and media previews.
+// Keep the below-fold featured-work cards in their own lazy chunk while preserving real anchors and media previews.

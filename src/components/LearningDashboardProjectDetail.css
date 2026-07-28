@@ -302,10 +302,6 @@
     align-items: center;
   }
 
-  .learning-dashboard-case__nav-list {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
   .learning-dashboard-case__nav-link {
     min-height: 4.2rem;
     padding-inline: 0.65rem;

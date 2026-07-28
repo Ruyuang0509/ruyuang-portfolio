@@ -20,6 +20,8 @@
     "preview": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-node.ps1 node_modules/vite/bin/vite.js preview --host 127.0.0.1 --port 4180 --strictPort",
     "preview:submission": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-node.ps1 node_modules/vite/bin/vite.js preview --host 127.0.0.1 --port 4180 --strictPort",
     "workspace:check": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-node.ps1 scripts/check-workspace.mjs",
+    "audit:quality": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-node.ps1 scripts/audit-code-quality.mjs",
+    "audit:site": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-node.ps1 scripts/audit-site-contract.mjs",
     "audit:media": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-node.ps1 scripts/audit-media.mjs",
     "audit:text": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-node.ps1 scripts/audit-source-text.mjs",
     "content:check": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-node.ps1 scripts/validate-portfolio-content.mjs",
@@ -27,8 +29,8 @@
     "test:submission-scanner": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-node.ps1 --test tests/submission-scanner.test.mjs",
     "scan:submission": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-node.ps1 scripts/scan-submission-output.mjs",
     "audit:pages": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-node.ps1 scripts/audit-pages-build.mjs",
-    "check:submission": "pnpm run audit:evidence && pnpm run test:hamlet-rights && pnpm run test:submission-scanner && pnpm run build:submission && pnpm run scan:submission && pnpm run audit:pages",
-    "verify": "pnpm run workspace:check && pnpm run audit:media && pnpm run audit:text && pnpm run audit:cjk && pnpm run audit:evidence && pnpm run content:check && pnpm run test:sound && pnpm run build:draft",
+    "check:submission": "pnpm run audit:quality && pnpm run audit:site && pnpm run audit:evidence && pnpm run test:hamlet-rights && pnpm run test:submission-scanner && pnpm run build:submission && pnpm run scan:submission && pnpm run audit:pages",
+    "verify": "pnpm run workspace:check && pnpm run audit:quality && pnpm run audit:site && pnpm run audit:media && pnpm run audit:text && pnpm run audit:cjk && pnpm run audit:evidence && pnpm run content:check && pnpm run test:sound && pnpm run build:draft",
     "doctor": "pnpm run verify && pnpm run check:submission",
     "audit:lighthouse": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-node.ps1 scripts/run-lighthouse.mjs",
     "audit:cjk": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-node.ps1 scripts/audit-cjk-typography.mjs",
@@ -48,7 +50,7 @@
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.0",
-    "@vitejs/plugin-react": "latest",
+    "@vitejs/plugin-react": "^6.0.3",
     "lighthouse": "^13.4.0",
     "tailwindcss": "^4.3.0",
     "vite": "^8.1.2"

@@ -1,5 +1,14 @@
 # 作品集稽核紀錄
 
+## 2026-07-28 全域程式碼品質稽核
+
+- 稽核先由 clean `main`／`3cab18c` 建立 production build 基線，再逐項檢查 component、copy、naming、CSS、effect、Web Audio、motion、media、dependency、Pages 與 artifact；完整證據見 [`CODE_QUALITY_AUDIT.md`](CODE_QUALITY_AUDIT.md)。
+- Site identity／11 段 IA、Power BI 九章內容、testing metric key 與共用圖片 renderer 已收斂；不可達 component／data／selector／export與21個 media孤兒移除。
+- 新增 `audit:quality`／`audit:site`，`audit:media` 改為 exact path＋missing file gate。`doctor`／publication均exit 0；sound 18/18、rights 15/15、scanner 73/73。
+- Fresh submission 為473 modules、entry 100968 B、CSS 45757 B、initial JS gzip 183291 B、119 files／32 text files；98個public files全數0 missing／0 hash mismatch。
+- Browser 1440／768／390／320 為global overflow、dead anchors、duplicate IDs、broken images、console issue全0；menu、lazy deep link、storyboard keyboard／seek與Web Audio start／stop通過。
+- 未 commit／push／deploy；人工 accessibility、production field與第三方 rights限制保持未驗證。
+
 ## 2026-07-28 Power BI 案例九章 IA 與 responsive 驗證
 
 - `learning-dashboard-analysis` 改以 lazy `LearningDashboardProjectDetail.jsx` 與 case-scoped CSS 呈現九章；其他案例仍使用共用 renderer，既有全站色彩、繁中排版、圓角、surface、focus 與 motion 規範未重設。

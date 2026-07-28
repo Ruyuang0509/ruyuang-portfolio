@@ -1,5 +1,14 @@
 # 公開內容清單
 
+## 2026-07-28 單一來源與媒體 inventory
+
+- `src/config/site.js` 是 site identity、11 段 IA、主要 navigation 與 compatibility anchor 的 canonical source；`audit:site` 同步驗證 HTML／JSON-LD／Open Graph／Twitter／`llms.txt`／social preview／final links。
+- 公開案例 narrative 仍在 `portfolio.js`。Power BI 的九章 sections、Hero、reading frame、data provider、三層七步、overview、chart eyebrow 與 interaction summary 已全部進入 `learningDashboardCase`；renderer 不再平行寫一份專案文案。
+- Power BI 的不可達 `extendedSections` 已移除，但 generic schema 仍供其他案例使用；published `#learning-dashboard-analysis-*` 九個 suffix 維持不變並由 validator 鎖定。
+- Public inventory 為 98 files，其中 94 media；21 個已確認孤兒共 488845 Windows working-tree bytes 已移除。Fresh submission `dist` 119 files，public→dist 0 missing／0 hash mismatch。
+- Hamlet manifest 使用 `boundedSearchCompleted` 表達有界搜尋已完成，同時保留 0 筆生成紀錄與 records-not-located 限制；limited-use、Suno credit、applicant attestation 與 `notValidated` 未變。
+- 最新完整 `doctor`／publication gate exit 0；rights 15/15、sound 18/18、scanner 73/73。Browser 1440／768／390／320 確認 anchors、內容 count、overflow、images、menu、storyboard 與 Web Audio。
+
 ## 2026-07-27 最新作者視角組合
 
 - 公開來源已逐句檢視 165 個含「我」的來源行；其中 75 個過量／模板式來源行改寫為作品、方法或流程作主詞。第三人稱代寫感為 10 個來源命中、合併為 7 組不重複字串，已從公開文案移除或改為中性敘述。
@@ -20,7 +29,7 @@
 - Browser 在 1280×800、768×900、390×844、320×720 驗證 0 horizontal overflow、0 broken hashes、0 duplicate IDs、0 broken images，console 0 warning／0 error；Pure Data、Hamlet、`#selected-work`、`#contact` deep links 落在 fixed nav 下約 95–112 px，dark／paper endpoints 與行動 menu Escape／還焦通過。
 - 本輪同時完成 public narrative／audit 分層、Draft-only audit data 動態載入、REAPER 公開文字改為「下一階段」、深色 reading surface、theme endpoint、deep-link settle 與 print reading-surface reset。
 
-更新日期：2026-07-27。下列內容描述目前整合 source 與 public 資產邊界；2026-07-26 自動／Browser 結果與 PR #6 Pages run 都只作歷史基線，2026-07-27 最新本機自動與 targeted Browser 結果以上節為準。公開可達、limited-use 權利核准、private originals 可得性與研究／學習成效驗證是四個不同證據層。
+更新日期：2026-07-28。下列內容描述目前整合 source 與 public 資產邊界；2026-07-26／27 自動與 Browser 結果及 PR #6 Pages run 都只作歷史基線，2026-07-28 最新結果以文件首節為準。公開可達、limited-use 權利核准、private originals 可得性與研究／學習成效驗證是四個不同證據層。
 
 ## 內容治理
 

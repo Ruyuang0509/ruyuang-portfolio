@@ -48,46 +48,19 @@ export default function LearningDashboardProjectDetail({ project, previousProjec
     }
   }, [project.id]);
 
-  const navigation = [
-    { number: "01", label: "專案摘要", id: "summary" },
-    { number: "02", label: "分析問題", id: "problem" },
-    { number: "03", label: "資料來源與欄位", id: "data" },
-    { number: "04", label: "分析流程", id: "process" },
-    { number: "05", label: "儀表板概覽", id: "overview" },
-    { number: "06", label: "圖表判讀", id: "charts" },
-    { number: "07", label: "互動操作", id: "media" },
-    { number: "08", label: "倫理與限制", id: "ethics" },
-    { number: "09", label: "反思與改善", id: "reflection" },
-  ];
+  const sectionById = Object.fromEntries(content.sections.map((section) => [section.id, section]));
+  const metricByKey = Object.fromEntries(project.testing.metrics.map((metric) => [metric.key, metric]));
+  const processSteps = content.process.layers.flatMap((layer) => layer.steps);
   const metadata = [
     { label: "製作期間", value: project.productionDate },
     { label: "專案形式", value: project.source },
-    { label: "作品狀態", value: project.testing.metrics[0].value },
-    { label: "推論界線", value: project.testing.metrics[1].value },
-  ];
-  const chartEyebrows = ["Scatter / 散佈圖組", "Donut chart / 圓環圖", "Bar chart / 直條圖"];
-  const processLayers = [
-    {
-      label: "資料理解",
-      steps: content.process.steps.slice(0, 3),
-      description: "先確認資料來源、欄位用途與公開邊界，再進入清理與建模。",
-    },
-    {
-      label: "分析建模",
-      steps: content.process.steps.slice(3, 6),
-      description: "把格式、缺漏、度量與模型關係整理成可供圖表使用的分析層。",
-    },
-    {
-      label: "視覺化呈現",
-      steps: content.process.steps.slice(6),
-      description: "以圖表、篩選與限制說明組成可被逐步閱讀的儀表板。",
-    },
+    { label: "作品狀態", value: metricByKey.currentOutcome.value },
+    { label: "推論界線", value: metricByKey.readingPrinciple.value },
   ];
   const heroFacts = [
     { label: "個人角色", value: project.roles.join(" / ") },
     { label: "工具", value: project.tools.join(" / ") },
-    { label: "資料類型", value: "教學用線上學習互動、影片觀看與學科成績資料" },
-    { label: "公開範圍", value: "分析方法、互動邏輯與圖表判讀邊界" },
+    ...content.hero.facts,
   ];
 
   return (
@@ -103,7 +76,9 @@ export default function LearningDashboardProjectDetail({ project, previousProjec
           className="case-anchor learning-dashboard-case__grid learning-dashboard-case__hero"
         >
           <div className="learning-dashboard-case__span-5 grid content-start gap-6">
-            <p className="meta-label text-[var(--theme-accent)]">01｜專案摘要</p>
+            <p className="meta-label text-[var(--theme-accent)]">
+              {sectionById.summary.number}｜{sectionById.summary.navLabel}
+            </p>
             <EditorialHeading
               as="h2"
               id={`${project.id}-title`}
@@ -134,18 +109,14 @@ export default function LearningDashboardProjectDetail({ project, previousProjec
                   Reading frame
                 </span>
               </div>
-              <h3 className="zh-heading learning-dashboard-case__hero-evidence-title">從互動分布走向可檢驗的資料問題</h3>
+              <h3 className="zh-heading learning-dashboard-case__hero-evidence-title">{content.hero.readingFrame.title}</h3>
               <p className="zh-copy-wide text-[color:var(--theme-muted)]">{project.technologyAndMedia}</p>
             </div>
             <dl className="learning-dashboard-case__scope-list">
-              {[
-                ["分析焦點", "互動分布與成績比較"],
-                ["互動方式", "年級篩選、圖表聯動與滑鼠提示"],
-                ["判讀原則", "探索關聯，不作因果宣稱"],
-              ].map(([label, value]) => (
-                <div key={label}>
-                  <dt className="zh-label text-[var(--theme-accent)]">{label}</dt>
-                  <dd className="zh-caption mt-2 font-bold text-[var(--theme-text)]">{value}</dd>
+              {content.hero.readingFrame.points.map((point) => (
+                <div key={point.label}>
+                  <dt className="zh-label text-[var(--theme-accent)]">{point.label}</dt>
+                  <dd className="zh-caption mt-2 font-bold text-[var(--theme-text)]">{point.value}</dd>
                 </div>
               ))}
             </dl>
@@ -164,15 +135,15 @@ export default function LearningDashboardProjectDetail({ project, previousProjec
         <aside className="case-reading-map learning-dashboard-case__reading-map soft-panel rounded-[var(--radius-md)] p-5" aria-label={`${project.title} 九章閱讀路徑`}>
           <div className="learning-dashboard-case__reading-map-heading">
             <p className="meta-label text-[var(--theme-accent)]">Case map / 九章閱讀路徑</p>
-            <p className="zh-caption text-[color:var(--theme-muted)]">依專案、問題、資料、流程、成果、互動、限制與反思逐段閱讀。</p>
+            <p className="zh-caption text-[color:var(--theme-muted)]">{content.readingMapDescription}</p>
           </div>
           <nav aria-label={`${project.title} 案例章節`}>
             <ol className="learning-dashboard-case__nav-list">
-              {navigation.map((item) => (
+              {content.sections.map((item) => (
                 <li key={item.id}>
                   <a className="learning-dashboard-case__nav-link interactive-link" href={`#${project.id}-${item.id}`}>
                     <span className="meta-label text-[var(--theme-accent)]">{item.number}</span>
-                    <span className="chip-text text-sm font-extrabold text-[var(--theme-text)]">{item.label}</span>
+                    <span className="chip-text text-sm font-extrabold text-[var(--theme-text)]">{item.navLabel}</span>
                   </a>
                 </li>
               ))}
@@ -188,10 +159,8 @@ export default function LearningDashboardProjectDetail({ project, previousProjec
           aria-labelledby={`${project.id}-problem-title`}
         >
           <SectionHeading
+            {...sectionById.problem}
             id={`${project.id}-problem`}
-            number="02"
-            title="分析問題"
-            introduction="先把儀表板要回答的問題縮減為三項，再決定需要的圖表、篩選與判讀順序。"
           />
           <ol className="learning-dashboard-case__grid">
             {content.questions.map((question, index) => (
@@ -213,18 +182,16 @@ export default function LearningDashboardProjectDetail({ project, previousProjec
           aria-labelledby={`${project.id}-data-title`}
         >
           <SectionHeading
+            {...sectionById.data}
             id={`${project.id}-data`}
-            number="03"
-            title="資料來源與欄位"
-            introduction="只列出目前專案紀錄能支持的資料範圍與計數定義，不補寫未核對的欄位名稱、筆數或分析值。"
           />
           <div className="learning-dashboard-case__grid">
             <article className="learning-dashboard-case__span-5 paper-panel grid content-start gap-5 rounded-[var(--radius-lg)] p-6 md:p-8">
               <p className="meta-label opacity-70">Data source / 資料來源</p>
               <h4 className="zh-heading learning-dashboard-case__data-source-title">{content.dataSource.title}</h4>
               <p className="zh-copy-wide text-[var(--theme-inverse-text)]">{content.dataSource.description}</p>
-              <p className="zh-caption border-t border-[color:rgba(255,255,255,0.22)] pt-4 text-[var(--theme-inverse-text)]">
-                資料提供：教育大數據分析計畫辦公室
+              <p className="zh-caption border-t border-[color:var(--theme-inverse-line)] pt-4 text-[var(--theme-inverse-text)]">
+                {content.dataSource.provider}
               </p>
             </article>
             <div className="learning-dashboard-case__span-7 learning-dashboard-case__field-grid">
@@ -244,14 +211,12 @@ export default function LearningDashboardProjectDetail({ project, previousProjec
           aria-labelledby={`${project.id}-process-title`}
         >
           <SectionHeading
+            {...sectionById.process}
             id={`${project.id}-process`}
-            number="04"
-            title="資料處理與分析流程"
-            introduction="從資料理解開始，依序處理公開邊界、格式與缺漏、度量、模型及圖表互動。"
           />
           <div className="learning-dashboard-case__grid">
             <ol className="learning-dashboard-case__span-7 learning-dashboard-case__process-list">
-              {content.process.steps.map((step, index) => (
+              {processSteps.map((step, index) => (
                 <li key={step.title} className="soft-panel learning-dashboard-case__process-step rounded-[var(--radius-md)] p-5">
                   <p className="meta-label text-[var(--theme-accent)]">{String(index + 1).padStart(2, "0")}</p>
                   <div className="grid gap-2">
@@ -266,11 +231,11 @@ export default function LearningDashboardProjectDetail({ project, previousProjec
             <aside className="learning-dashboard-case__span-5 evidence-panel grid content-start gap-6 rounded-[var(--radius-lg)] p-6 md:p-8" aria-label="分析流程層級">
               <div className="grid gap-3">
                 <p className="meta-label text-[var(--theme-accent)]">Process layers / 流程層級</p>
-                <h4 className="zh-heading learning-dashboard-case__process-summary-title">由資料理解走到可判讀的互動儀表板</h4>
-                <p className="zh-copy text-[color:var(--theme-muted)]">流程以資料理解、分析建模與視覺化呈現三層組織，對應七個實作步驟。</p>
+                <h4 className="zh-heading learning-dashboard-case__process-summary-title">{content.process.summary.title}</h4>
+                <p className="zh-copy text-[color:var(--theme-muted)]">{content.process.summary.description}</p>
               </div>
               <ol className="grid gap-4">
-                {processLayers.map((layer, index) => (
+                {content.process.layers.map((layer, index) => (
                   <li key={layer.label} className="rounded-[var(--radius-sm)] bg-[color:var(--theme-surface)] p-4">
                     <div className="flex items-baseline justify-between gap-3">
                       <h5 className="zh-heading learning-dashboard-case__layer-title">{layer.label}</h5>
@@ -293,10 +258,8 @@ export default function LearningDashboardProjectDetail({ project, previousProjec
           aria-labelledby={`${project.id}-overview-title`}
         >
           <SectionHeading
+            {...sectionById.overview}
             id={`${project.id}-overview`}
-            number="05"
-            title="完整儀表板概覽"
-            introduction="先確認範圍、再比較分布、最後回到限制，建立完整儀表板的閱讀順序。"
           />
           <div className="learning-dashboard-case__grid">
             <ol className="learning-dashboard-case__span-8 learning-dashboard-case__overview-list">
@@ -311,12 +274,10 @@ export default function LearningDashboardProjectDetail({ project, previousProjec
             </ol>
             <aside className="learning-dashboard-case__span-4 evidence-panel grid content-start gap-5 rounded-[var(--radius-lg)] p-6" aria-label="完整儀表板閱讀結構">
               <p className="meta-label text-[var(--theme-accent)]">Dashboard structure / 儀表板結構</p>
-              <h4 className="zh-heading learning-dashboard-case__overview-title">以五個區域建立判讀順序</h4>
-              <p className="zh-copy text-[color:var(--theme-muted)]">
-                篩選狀態、互動分布、成績比較、觀看分群與限制提示，共同構成從操作到解讀的完整路徑。
-              </p>
+              <h4 className="zh-heading learning-dashboard-case__overview-title">{content.overview.summary.title}</h4>
+              <p className="zh-copy text-[color:var(--theme-muted)]">{content.overview.summary.description}</p>
               <a className="interactive-link chip-text w-fit font-extrabold underline decoration-[var(--theme-accent)] decoration-2 underline-offset-4" href={`#${project.id}-ethics`}>
-                前往第 08 節查看資料倫理與分析限制
+                {content.overview.summary.ethicsLinkLabel}
               </a>
             </aside>
           </div>
@@ -328,17 +289,15 @@ export default function LearningDashboardProjectDetail({ project, previousProjec
           aria-labelledby={`${project.id}-charts-title`}
         >
           <SectionHeading
+            {...sectionById.charts}
             id={`${project.id}-charts`}
-            number="06"
-            title="各圖表設計與判讀"
-            introduction="每張圖表以同一組問題整理：回答什麼、為何使用、可以觀察什麼，以及不能據此推論什麼。"
           />
           <div className="learning-dashboard-case__grid">
             {content.charts.map((chart, index) => (
               <article key={chart.title} className="learning-dashboard-case__span-4 evidence-panel learning-dashboard-case__chart-card rounded-[var(--radius-lg)] p-5 md:p-6">
                 <div className="grid gap-3">
                   <div className="flex items-baseline justify-between gap-4">
-                    <p className="meta-label text-[var(--theme-accent)]">{chartEyebrows[index]}</p>
+                    <p className="meta-label text-[var(--theme-accent)]">{chart.eyebrow}</p>
                     <span className="meta-label text-[color:var(--theme-muted)]">0{index + 1}</span>
                   </div>
                   <h4 className="zh-heading learning-dashboard-case__chart-title">{chart.title}</h4>
@@ -367,17 +326,15 @@ export default function LearningDashboardProjectDetail({ project, previousProjec
           aria-labelledby={`${project.id}-media-title`}
         >
           <SectionHeading
+            {...sectionById.media}
             id={`${project.id}-media`}
-            number="07"
-            title="年級篩選與互動操作"
-            introduction="把年級篩選、圖表聯動、滑鼠提示與教學呈現整合在同一閱讀序列。"
           />
           <div className="learning-dashboard-case__grid">
             <div className="learning-dashboard-case__span-7 media-frame learning-dashboard-case__interaction-media rounded-[var(--radius-lg)] p-6 md:p-8">
               <div className="grid gap-4">
                 <p className="meta-label text-[var(--theme-accent)]">Interaction sequence / 操作序列</p>
-                <h4 className="zh-heading learning-dashboard-case__interaction-title">四個節點組成互動判讀流程</h4>
-                <p className="zh-copy-wide text-[color:var(--theme-muted)]">依序理解篩選、聯動、提示與教學呈現如何共同支援資訊判讀。</p>
+                <h4 className="zh-heading learning-dashboard-case__interaction-title">{content.interaction.summary.title}</h4>
+                <p className="zh-copy-wide text-[color:var(--theme-muted)]">{content.interaction.summary.description}</p>
               </div>
               <ol className="learning-dashboard-case__interaction-sequence">
                 {content.interaction.features.map((feature, index) => (
@@ -405,10 +362,8 @@ export default function LearningDashboardProjectDetail({ project, previousProjec
           aria-labelledby={`${project.id}-ethics-title`}
         >
           <SectionHeading
+            {...sectionById.ethics}
             id={`${project.id}-ethics`}
-            number="08"
-            title="資料倫理與分析限制"
-            introduction="將資料、分析與公開範圍集中說明，避免在每張圖表或媒體下重複相同聲明。"
           />
           <div className="learning-dashboard-case__grid">
             {content.ethics.map((item, index) => (
@@ -438,16 +393,14 @@ export default function LearningDashboardProjectDetail({ project, previousProjec
           aria-labelledby={`${project.id}-reflection-title`}
         >
           <SectionHeading
+            {...sectionById.reflection}
             id={`${project.id}-reflection`}
-            number="09"
-            title="反思與後續改善"
-            introduction="把圖表設計、研究誠信與後續驗證放在同一個收束段落，讓案例從成果展示回到可改進的方法。"
           />
           <div className="learning-dashboard-case__grid">
             <article className="learning-dashboard-case__span-7 paper-panel grid content-start gap-6 rounded-[var(--radius-lg)] p-6 md:p-8">
               <h4 className="zh-heading learning-dashboard-case__reflection-title">{content.reflection.title}</h4>
               <p className="zh-copy-wide text-[var(--theme-inverse-text)]">{content.reflection.description}</p>
-              <ul className="grid gap-3 border-t border-[color:rgba(255,255,255,0.22)] pt-5">
+              <ul className="grid gap-3 border-t border-[color:var(--theme-inverse-line)] pt-5">
                 {content.reflection.principles.map((principle) => (
                   <li key={principle} className="zh-copy text-[var(--theme-inverse-text)]">
                     <span className="mr-2 opacity-70">•</span>{principle}

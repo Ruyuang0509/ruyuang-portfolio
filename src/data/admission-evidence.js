@@ -1,3 +1,5 @@
+import { siteIdentity } from "../config/site.js";
+
 const publicAssetBase = import.meta.env?.BASE_URL ?? "/";
 const publicAssetUrl = (assetPath) => `${publicAssetBase}${assetPath.replace(/^\/+/, "")}`;
 
@@ -177,12 +179,12 @@ export const learningRoadmap = [
 export const finalPortfolioLinks = [
   {
     label: "線上作品集",
-    href: "https://ruyuang0509.github.io/ruyuang-portfolio/",
+    href: siteIdentity.canonicalUrl,
     description: "查看聲響互動、Pure Data、影音與資料視覺化作品。",
   },
   {
     label: "GitHub Repository",
-    href: "https://github.com/Ruyuang0509/ruyuang-portfolio",
+    href: siteIdentity.repositoryUrl,
     description: "查看網站原始碼、公開文件與版本紀錄。",
   },
 ];

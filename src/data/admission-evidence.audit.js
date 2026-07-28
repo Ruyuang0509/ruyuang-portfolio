@@ -99,7 +99,3 @@ export const admissionAuditRecords = {
 };
 
 export const admissionAuditRecordList = Object.values(admissionAuditRecords);
-
-export function getAdmissionAuditRecord(recordId) {
-  return admissionAuditRecords[recordId] ?? null;
-}

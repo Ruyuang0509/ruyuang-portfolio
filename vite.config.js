@@ -86,14 +86,14 @@ const submissionDevBoundary = {
     });
   },
 };
-// Codex-Fix: Resolve the draft UI to an empty module for submission builds so internal notes are not bundled.
+// Resolve the draft UI to an empty module for submission builds so internal notes are not bundled.
 
 export default defineConfig({
   base: deploymentBase,
   // Keep the static build portable across root domains and GitHub Pages project subpaths.
   plugins: [
     submissionDevBoundary,
-    // Codex-Fix: Official Tailwind Vite plugin keeps utility styling zero-runtime.
+    // The official Tailwind Vite plugin keeps utility styling zero-runtime.
     tailwindcss(),
     react(),
   ],
@@ -146,5 +146,5 @@ export default defineConfig({
       },
     },
   },
-  // Codex-Fix: Split React, 3D, motion, and scroll runtimes into cacheable vendor chunks.
+  // Split React, 3D, motion, and scroll runtimes into cacheable vendor chunks.
 });

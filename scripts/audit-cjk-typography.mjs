@@ -81,4 +81,4 @@ if (errors.length) {
 }
 
 console.log("CJK typography audit passed: language metadata, wrapping rules, phrase headings, and unsafe tracking checks are valid.");
-// Codex-Fix: Guard the Traditional Chinese visual system against regressions such as break-all wrapping, excessive tracking, and inaccessible phrase headings.
+// Guard the Traditional Chinese visual system against regressions such as break-all wrapping, excessive tracking, and inaccessible phrase headings.

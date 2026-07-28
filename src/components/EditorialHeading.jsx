@@ -49,5 +49,5 @@ export default function EditorialHeading({
     </Tag>
   );
 }
-// Codex-Fix: Centralize phrase-aware Traditional Chinese heading composition with an aria-label so manual visual breaks do not damage screen-reader text.
+// Centralize phrase-aware Traditional Chinese heading composition with an aria-label so manual visual breaks do not damage screen-reader text.
 

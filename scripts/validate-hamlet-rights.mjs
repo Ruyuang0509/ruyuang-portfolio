@@ -10,7 +10,7 @@ const EXPECTED_ATTESTATION_VERSION = "1.0";
 
 export const HAMLET_RIGHTS_REQUIRED_CHECKS = {
   "scene-images": [
-    "generationRecordsReviewed",
+    "boundedSearchCompleted",
     "applicantDirectedGenerationConfirmed",
     "textPromptGenerationConfirmed",
     "thirdPartyReferenceImagesAbsent",
@@ -396,11 +396,15 @@ export function validateHamletRights({
   checkExactConditions(errors, "music.conditions", items.get("music")?.conditions, REQUIRED_MUSIC_CONDITIONS);
 
   const sceneEvidence = evidenceById.get("hamlet-scene-generation-records");
+  const sceneItem = items.get("scene-images");
   if (sceneEvidence?.localVerificationStatus !== "recordsNotLocated") {
     errors.push("scene generation evidence localVerificationStatus must remain recordsNotLocated until records are reviewed");
   }
   if (sceneEvidence?.generationRecordCountReviewed !== 0) {
     errors.push("scene generation evidence generationRecordCountReviewed must match the bounded review count of 0");
+  }
+  if (Object.hasOwn(sceneItem?.requiredChecks ?? {}, "generationRecordsReviewed")) {
+    errors.push("scene-images.requiredChecks.generationRecordsReviewed is misleading when zero records were located; use boundedSearchCompleted");
   }
 
   const supportEvidence = evidenceById.get("hamlet-suno-support-confirmation");

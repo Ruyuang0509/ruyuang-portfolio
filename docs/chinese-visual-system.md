@@ -1,6 +1,6 @@
 # Traditional Chinese Visual System
 
-Updated: 2026-07-12
+Updated: 2026-07-28
 
 This portfolio is written primarily in Traditional Chinese, so typography cannot be treated as an English template with translated text. The visual system should support Chinese reading rhythm, mixed Chinese/English tool names, evidence-heavy captions, and long case-study paragraphs.
 
@@ -126,4 +126,4 @@ pnpm run audit:cjk
 
 The script checks the project for unsafe Traditional Chinese typography regressions: broad `word-break: break-all`, shared `overflow-wrap:anywhere`, missing `zh-Hant-TW` language metadata, missing phrase-aware heading primitives, excessive negative tracking, and inaccessible phrase-line rendering. Treat warnings about long phrase units as editorial review prompts rather than automatic failures.
 
-<!-- Codex-Fix: Document the automated CJK typography audit so future edits preserve Traditional Chinese readability. -->
+<!-- Document the automated CJK typography audit so future edits preserve Traditional Chinese readability. -->

@@ -203,7 +203,7 @@ This document records the research-backed presentation decisions used for the gr
 
 8. Translate digital-learning vocabulary into art/intelligent-application vocabulary.
    - Reason: the applicant's undergraduate foundation should read as transferable methodology, not as unrelated education coursework.
-   - Code: `terminologyMap`.
+   - Authoring guidance: `docs/content-authoring.md` and `docs/content-governance.md`.
 
 ## Deferred Decisions
 

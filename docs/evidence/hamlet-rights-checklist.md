@@ -3,7 +3,7 @@
 ## 目前狀態
 
 - 更新日期：2026-07-26。
-- `schemaVersion = 2`；四類素材使用具名 `requiredChecks`，不再把所有 boolean 一律要求為 true。
+- `schemaVersion = 2`；四類素材使用具名 `requiredChecks`，不再把所有 boolean 一律要求為 true。八幕場景的紀錄檢查只標示 `boundedSearchCompleted = true`；找到與實際檢閱的原始生成紀錄仍為 0，不能寫成已檢閱紀錄。
 - `rightsReview.status = verified`。
 - `publicationGate = approved`。
 - `applicantAttestation.confirmed = true`；確認人為蕭智仁，確認日期為 2026-07-26。
@@ -39,7 +39,7 @@
 - 需要顯示的 credit 或限制。
 - 不能公開的原始檔與保存方式。
 
-Manifest 內每個 rights item 的具名 `requiredChecks` 都已明確為 `true`，`evidenceRefs` 必須持續解析至 `rightsEvidence[].id`；只把頂層 `status` 手動改成 `verified` 仍不會解除門檻。Suno 的 `commercialUsePermitted`、ads、paywall 與 affiliate revenue 條件維持 `false`。Applicant confirmation 完成後，`publicationGate` 已改為 `approved`，但仍須由自動檢查證明整體狀態一致。
+Manifest 內每個 rights item 的具名 `requiredChecks` 都已明確為 `true`，`evidenceRefs` 必須持續解析至 `rightsEvidence[].id`；其中 `scene-images.boundedSearchCompleted` 只證明有限範圍搜尋已完成，不代表找到或檢閱過原始生成紀錄。只把頂層 `status` 手動改成 `verified` 仍不會解除門檻。Suno 的 `commercialUsePermitted`、ads、paywall 與 affiliate revenue 條件維持 `false`。Applicant confirmation 完成後，`publicationGate` 已改為 `approved`，但仍須由自動檢查證明整體狀態一致。
 
 ## 自動門檻
 

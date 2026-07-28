@@ -1,14 +1,6 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
-
-const navItems = [
-  { label: "問題意識", target: "#sound-transition" },
-  { label: "Web Audio", target: "#interactive-sound-learning" },
-  { label: "Pure Data", target: "#pure-data-learning" },
-  { label: "研究構想", target: "#research-positioning" },
-  { label: "代表作品", target: "#selected-work" },
-  { label: "學習路線", target: "#learning-roadmap" },
-];
+import { primaryNavigationItems as navItems } from "../config/site.js";
 
 const scrollToSection = (targetId, reduceMotion) => {
   const target = document.querySelector(targetId);

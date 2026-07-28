@@ -223,4 +223,4 @@ export const aiWorkflowInternalAudit = {
     "docs/ai-workflow/failure-cases.md",
   ],
 };
-// Codex-Fix: Move construction-stage terms into a draft-only module so submission builds can exclude them from runtime bundles.
+// Keep construction-stage terms in a draft-only module so submission builds can exclude them from runtime bundles.

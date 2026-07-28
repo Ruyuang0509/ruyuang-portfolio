@@ -64,7 +64,7 @@ export const portfolioContentChecklist = [
     paths: ["links", "credits"],
   },
 ];
-// Codex-Fix: Keep readiness requirements in a governance module used by draft tools and validators, not public rendering.
+// Keep readiness requirements in a governance module used by draft tools and validators, not public rendering.
 
 export const getProjectCompleteness = (project) => {
   const groups = portfolioContentChecklist.map((item) => {
@@ -120,4 +120,4 @@ export const getEvidenceAvailability = (project) => [
   { label: "Demo", available: project.media?.demos?.length > 0 },
   { label: "測試", available: Boolean(project.testing) },
 ];
-// Codex-Fix: Evidence availability is now a draft/readiness concern and can be excluded from submission builds.
+// Evidence availability is a draft/readiness concern and can be excluded from submission builds.

@@ -1,9 +1,6 @@
 from __future__ import annotations
 
 import math
-import shutil
-import subprocess
-import tempfile
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
@@ -13,17 +10,8 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "public" / "media" / "portfolio"
 SIZES = (420, 640, 1200)
 ASPECT = (4, 5)
-FFMPEG_CANDIDATES = (
-    Path(r"C:\Program Files\ffmpeg-8.1.2-full_build\bin\ffmpeg.exe"),
-    Path(r"C:\Program Files\ffmpeg-8.1.2\bin\ffmpeg.exe"),
-)
-
-
 ITEMS = [
-    ("gd-editorial", "EDITORIAL", "IDENTITY", ("#171511", "#b64f73", "#efe9dc", "#cbe86b"), 11),
     ("mv-urban", "URBAN", "RHYTHM", ("#11100d", "#596b25", "#cbe86b", "#efe9dc"), 59),
-    ("mv-fashion", "FASHION", "LOOP", ("#1a1115", "#b64f73", "#88b8bf", "#efe9dc"), 67),
-    ("ph-blue", "BLUE", "HOUR", ("#121b21", "#6f9db9", "#cbe86b", "#efe9dc"), 97),
 ]
 
 
@@ -109,64 +97,6 @@ def save_variants() -> None:
             image.save(OUT / f"{slug}-{width}.avif", "AVIF", quality=54, speed=6)
 
 
-def find_ffmpeg() -> str | None:
-    for candidate in FFMPEG_CANDIDATES:
-        if candidate.exists():
-            return str(candidate)
-    return shutil.which("ffmpeg")
-
-
-def make_video_previews() -> None:
-    ffmpeg = find_ffmpeg()
-    if not ffmpeg:
-        print("ffmpeg not found; image assets were generated, video previews skipped.")
-        return
-
-    video_items = [item for item in ITEMS if item[0].startswith("mv-")]
-    for slug, title_a, title_b, palette, seed in video_items:
-        with tempfile.TemporaryDirectory() as tmp:
-            frame_dir = Path(tmp)
-            base = make_artwork(slug, title_a, title_b, palette, seed, 640)
-            for frame in range(48):
-                t = frame / 47
-                zoom = 1 + 0.06 * math.sin(t * math.pi)
-                crop_w = int(base.width / zoom)
-                crop_h = int(base.height / zoom)
-                offset_x = int((base.width - crop_w) * (0.5 + 0.28 * math.sin(t * math.tau + seed)))
-                offset_y = int((base.height - crop_h) * (0.5 + 0.18 * math.cos(t * math.tau + seed)))
-                current = base.crop((offset_x, offset_y, offset_x + crop_w, offset_y + crop_h)).resize(base.size, Image.Resampling.LANCZOS)
-                overlay = Image.new("RGBA", base.size, (0, 0, 0, 0))
-                draw = ImageDraw.Draw(overlay, "RGBA")
-                draw.rectangle((0, int(base.height * (0.84 + 0.02 * math.sin(t * math.tau))), base.width, base.height), fill=(5, 5, 5, 92))
-                current = Image.alpha_composite(current.convert("RGBA"), overlay).convert("RGB")
-                current.save(frame_dir / f"frame-{frame:04d}.png", "PNG")
-
-            subprocess.run(
-                [
-                    ffmpeg,
-                    "-y",
-                    "-framerate",
-                    "24",
-                    "-i",
-                    str(frame_dir / "frame-%04d.png"),
-                    "-an",
-                    "-c:v",
-                    "libx264",
-                    "-pix_fmt",
-                    "yuv420p",
-                    "-crf",
-                    "30",
-                    "-movflags",
-                    "+faststart",
-                    str(OUT / f"{slug}-preview.mp4"),
-                ],
-                check=True,
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
-            )
-
-
 if __name__ == "__main__":
     save_variants()
-    make_video_previews()
     print(f"Generated local portfolio media in {OUT}")

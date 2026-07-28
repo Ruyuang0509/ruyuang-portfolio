@@ -5,6 +5,7 @@ import {
   aiWorkflowInternalAudit,
   authoringNotes,
   getProjectInternalNotes,
+  portfolioPriorityRules,
 } from "../data/portfolio.internal.js";
 import { PORTFOLIO_MODE } from "../config/portfolioMode.js";
 
@@ -100,7 +101,7 @@ function InternalEvidenceBoundary({ boundary }) {
 
 function DraftBanner() {
   return (
-    <aside className="draft-banner px-[clamp(1.25rem,6vw,10vw)] py-4 text-[var(--theme-text)]" aria-label="Draft mode banner">
+    <aside className="draft-banner px-[var(--page-gutter)] py-4 text-[var(--theme-text)]" aria-label="Draft mode banner">
       <div className="mx-auto flex max-w-7xl flex-col gap-3 rounded-[var(--radius-md)] border border-[color:var(--theme-line)] bg-[color:var(--theme-panel)] p-4 md:flex-row md:items-center md:justify-between">
         <p className="zh-caption">
           <span className="meta-label mr-3 text-[var(--theme-accent)]">Draft Mode</span>
@@ -184,6 +185,7 @@ function OverviewDraftPanel() {
       <p className="zh-caption text-[color:var(--theme-muted)]">
         {authoringNotes.warning}
       </p>
+      <NoteList title="Editorial selection rules / 選件規則" items={portfolioPriorityRules} />
       <div className="grid gap-3 md:grid-cols-3">
         <div className="rounded-[var(--radius-sm)] bg-[color:var(--theme-surface)] p-4">
           <p className="zh-label text-[var(--theme-accent)]">Public Content</p>
@@ -268,4 +270,4 @@ export default function PortfolioDraftLayer({ placement = "project", projectId }
   if (projectId) return <ProjectDraftPanel projectId={projectId} />;
   return null;
 }
-// Codex-Fix: Draft mode renders internal governance data as tool panels; submission builds alias this file away.
+// Draft mode renders internal governance data as tool panels; submission builds alias this file away.

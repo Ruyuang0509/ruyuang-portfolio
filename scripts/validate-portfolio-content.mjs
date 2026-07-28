@@ -6,7 +6,6 @@ import {
   dataVisualizationSeries,
   homepageNarrative,
   instituteEvidenceGroups,
-  learningTrail,
   projectCaseStudies,
   researchTracks,
   instituteThemes,
@@ -78,6 +77,17 @@ const expectedFeaturedWorkIds = [
 ];
 const requiredProductionWorkflowIds = new Set(["data-visualization-cases"]);
 const expectedProductionWorkflowNumbers = ["01", "02", "03", "04"];
+const expectedLearningDashboardSectionIds = [
+  "summary",
+  "problem",
+  "data",
+  "process",
+  "overview",
+  "charts",
+  "media",
+  "ethics",
+  "reflection",
+];
 const expectedIndexCopy = new Map([
   [
     "interactive-sound-learning",
@@ -201,7 +211,7 @@ const hasTextFields = (entry, fields) => fields.every((field) => entry?.[field]?
 const publicConstructionPattern = /待補|可替換|範例|正式送審前|佔位|尚未提供|placeholder|sample|Content Readiness|Internal Build Notes|INTERNAL_|PRE_SUBMISSION_CHECK|HIDE_FROM_SUBMISSION|這裡保留|未來可放入|審查者|評審可以|目前不能延伸的主張|目前不能證明|申請者提供的紀錄支持|目前公開頁沒有成片|參賽不代表得獎|本頁不主張|可核對材料|本頁僅有申請者提供|原始紀錄未列出，不另行推測|未主張競賽結果|未確認公開授權|目前可公開內容限於|不取代|不解除各案自己的驗證或權利限制|未經發布決策確認|正式\s*GitHub Pages\s*專案網址|目前怎麼描述|原始影片限制/i;
 const sensitivePublicPattern = /\.pbix|\.xlsx|\.xls|\.csv|C:\\|\/Users\/|youtu\.be\//i;
 const mojibakePattern = /[�]|[-]|(?:敺|蝛|雿|銝|嚗|霅|瘚|鞈|憭|摨|餌|蝟|暸|踴|甇|鋆|瞍|蝝|靘|撟|銵|閬|蔣|慦|隞|賊|乓|繚|憟|唳|孵)/u;
-// Codex-Fix: Fail fast on common mojibake sequences so corrupted Traditional Chinese copy cannot quietly ship again.
+// Fail fast on common mojibake sequences so corrupted Traditional Chinese copy cannot quietly ship again.
 
 const publicAdmissionData = {
   dataVisualizationSeries,
@@ -214,7 +224,6 @@ const publicAdmissionData = {
   learningRoadmap,
   finalPortfolioLinks,
   aiWorkflow,
-  learningTrail,
 };
 const publicAdmissionText = JSON.stringify(publicAdmissionData);
 if (publicConstructionPattern.test(publicAdmissionText)) {
@@ -549,32 +558,6 @@ if (
   errors.push("Final portfolio links need the real portfolio and GitHub HTTPS URLs");
 }
 
-const learningTrailById = new Map(learningTrail.map((item) => [item.id, item]));
-for (const item of learningTrail) {
-  if (!hasTextFields(item, ["id", "title", "status", "evidence"]) || !validAdmissionEvidenceStatuses.has(item.status)) {
-    errors.push(`Learning trail item ${item.id ?? "unknown"} needs a valid evidence status and complete copy`);
-  }
-  if (item.validationStatus && !validAdmissionEvidenceStatuses.has(item.validationStatus)) {
-    errors.push(`Learning trail item ${item.id} has an invalid validation status`);
-  }
-}
-if (
-  learningTrailById.get("web-audio")?.status !== "可操作原型"
-  || learningTrailById.get("web-audio")?.validationStatus !== "下一步：使用者觀察"
-) {
-  errors.push("Web Audio learning trail must distinguish operable prototype from pending validation");
-}
-if (
-  learningTrailById.get("pure-data")?.status !== "學習中"
-  || learningTrailById.get("pure-data")?.startedAt !== "2026/07/24"
-  || !learningTrailById.get("pure-data")?.aiAssistance?.trim()
-) {
-  errors.push("Pure Data learning trail must retain the 2026/07/24 start date and AI collaboration boundary");
-}
-if (learningTrailById.get("reaper")?.status !== "學習中") {
-  errors.push("REAPER learning trail must remain a learning state");
-}
-
 const expectedResponsibilityGroups = ["AI 協助的部分", "決策與驗收", "正在補強的能力"];
 const responsibilityGroups = Array.isArray(aiWorkflow.responsibilityGroups)
   ? aiWorkflow.responsibilityGroups
@@ -632,10 +615,89 @@ for (const project of projectCaseStudies) {
   if (sensitivePublicPattern.test(searchableText)) {
     errors.push(`${project.id}: public content contains sensitive local/export/media reference`);
   }
-  // Codex-Fix: Block private data-file and local-path references from the public portfolio data model.
+  // Block private data-file and local-path references from the public portfolio data model.
 
   if (!validSubmissionVisibilities.has(project.submissionVisibility)) {
     errors.push(`${project.id}: missing or invalid submissionVisibility`);
+  }
+
+  if (project.layoutVariant === "learning-dashboard-v2") {
+    const dashboard = project.learningDashboardCase;
+    const sectionIds = dashboard?.sections?.map((section) => section.id) ?? [];
+    const processSteps = dashboard?.process?.layers?.flatMap((layer) => layer.steps ?? []) ?? [];
+    const metricKeys = new Set(project.testing?.metrics?.map((metric) => metric.key).filter(Boolean));
+
+    if (!dashboard) {
+      errors.push(`${project.id}: learning-dashboard-v2 needs learningDashboardCase content`);
+    } else {
+      if (project.extendedSections) {
+        errors.push(`${project.id}: dedicated dashboard renderer must not carry unreachable extendedSections`);
+      }
+      if (sectionIds.join(",") !== expectedLearningDashboardSectionIds.join(",")) {
+        errors.push(`${project.id}: dashboard sections must preserve the nine published anchor suffixes in order`);
+      }
+      if (
+        new Set(sectionIds).size !== expectedLearningDashboardSectionIds.length
+        || dashboard.sections?.some((section, index) => (
+          !hasTextFields(section, ["id", "number", "navLabel", "title"])
+          || section.number !== String(index + 1).padStart(2, "0")
+          || (section.id !== "summary" && !section.introduction?.trim())
+        ))
+      ) {
+        errors.push(`${project.id}: dashboard sections need unique ids, ordered numbers, navigation labels, titles, and introductions`);
+      }
+      if (
+        !dashboard.readingMapDescription?.trim()
+        || dashboard.hero?.facts?.length !== 2
+        || dashboard.hero.facts.some((fact) => !hasTextFields(fact, ["label", "value"]))
+        || !dashboard.hero?.readingFrame?.title?.trim()
+        || dashboard.hero.readingFrame.points?.length !== 3
+        || dashboard.hero.readingFrame.points.some((point) => !hasTextFields(point, ["label", "value"]))
+      ) {
+        errors.push(`${project.id}: dashboard hero and reading map need complete data-backed copy`);
+      }
+      if (!hasTextFields(dashboard.dataSource, ["title", "description", "provider"])) {
+        errors.push(`${project.id}: dashboard data source needs title, description, and provider`);
+      }
+      if (
+        !hasTextFields(dashboard.process?.summary, ["title", "description"])
+        || dashboard.process?.layers?.length !== 3
+        || dashboard.process.layers.some((layer) => (
+          !hasTextFields(layer, ["label", "description"])
+          || !layer.steps?.length
+          || layer.steps.some((step) => !hasTextFields(step, ["title", "tool"]))
+        ))
+        || processSteps.length !== 7
+      ) {
+        errors.push(`${project.id}: dashboard process needs three complete layers and exactly seven steps`);
+      }
+      if (
+        dashboard.overview?.regions?.length !== 5
+        || dashboard.overview.regions.some((region) => !region?.trim())
+        || !hasTextFields(dashboard.overview?.summary, ["title", "description", "ethicsLinkLabel"])
+      ) {
+        errors.push(`${project.id}: dashboard overview needs five regions and complete summary copy`);
+      }
+      if (
+        dashboard.charts?.length !== 3
+        || dashboard.charts.some((chart) => !hasTextFields(
+          chart,
+          ["eyebrow", "title", "question", "rationale", "observation", "limitation"],
+        ))
+      ) {
+        errors.push(`${project.id}: dashboard charts need three complete data-backed reading cards`);
+      }
+      if (
+        !hasTextFields(dashboard.interaction?.summary, ["title", "description"])
+        || dashboard.interaction?.features?.length !== 4
+        || dashboard.interaction.features.some((feature) => !hasTextFields(feature, ["title", "description"]))
+      ) {
+        errors.push(`${project.id}: dashboard interaction needs complete summary copy and four features`);
+      }
+      if (!metricKeys.has("currentOutcome") || !metricKeys.has("readingPrinciple")) {
+        errors.push(`${project.id}: dashboard metrics need stable currentOutcome and readingPrinciple keys`);
+      }
+    }
   }
 
   const completeness = getProjectCompleteness(project);

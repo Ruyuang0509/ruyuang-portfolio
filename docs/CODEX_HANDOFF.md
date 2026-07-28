@@ -1,5 +1,16 @@
 # Current State
 
+## 2026-07-28 程式碼品質與生成式協作痕跡稽核
+
+- 完整稽核、刪除證據、命令與限制已整理於 [`CODE_QUALITY_AUDIT.md`](CODE_QUALITY_AUDIT.md)；後續命名、component、effect、CSS、內容、媒體、motion 與 gate 契約位於 [`CODE_STYLE_AND_REFACTORING.md`](CODE_STYLE_AND_REFACTORING.md)。
+- 新增 `audit:quality`／`audit:site`，強化 `audit:media` 為 exact-path 加 missing-reference gate；43 個 source modules 全部可達，site identity／11 段 IA／navigation／aliases 同步。
+- Power BI 九章專屬敘事已收斂到 `portfolio.js`，renderer 只保留結構；舊 `extendedSections` 不可達內容、LearningTrail、重複 ResponsiveImage／Project Overview／Diagram Gallery 與未使用 exports 已移除。
+- 21 個已證實 public media 孤兒移除，共 488845 Windows working-tree bytes；public 現為 98 files，其中 94 media。Fresh submission `dist` 119 files，public→dist 0 missing／0 SHA-256 mismatch，刪除 asset／stale ref／Draft audit chunk 均為 0。
+- Storyboard listener、cursor rAF、hash active marker 與 desktop `End` state 已修正；CaseStudy renderer 改為 lazy boundary守住 entry budget，冷啟動 demo／storyboard／Power BI deep link仍落在 fixed nav 下。
+- `pnpm install --frozen-lockfile`、完整 `pnpm run doctor` 與 `pnpm run check:publication` 均 exit 0。Draft：477 modules、entry 129578 B、CSS 45757 B、initial JS gzip 192963 B；Submission：473 modules、entry 100968 B、CSS 45757 B、initial JS gzip 183291 B；sound 18/18、rights 15/15、scanner 73/73。
+- Browser 1440×1000、768×900、390×844、320×720 為 overflow／dead anchors／duplicate IDs／broken images／console warning／error 全 0；menu Escape／focus restore、storyboard `08→01→02→01`、快速 seek 與 Web Audio gesture start／Escape stop通過。
+- Branch 仍為 `main`，`HEAD`／`origin/main` 均是 `3cab18c`；本輪未 commit、push、merge 或 deploy。Production、screen reader、真實 zoom、system reduced-motion、實機與多瀏覽器音訊仍不得標為已驗證。
+
 ## 2026-07-28 Power BI 案例九章 IA 重構
 
 - `learning-dashboard-analysis` 改由 lazy `LearningDashboardProjectDetail.jsx` 與 case-scoped CSS 專屬渲染；其他案例仍沿用共用 `CaseStudyShowcase`，全站 palette、繁中排版、圓角、surface、focus、既有 motion 與元件規範未重設。
@@ -9,7 +20,7 @@
 - 專屬案例維持 text-only：Hero、流程、完整儀表板與互動區分別改為儀表板閱讀、分析層級、五區閱讀順序與四節點操作敘事；受限 Power BI／Excel、真實截圖、分析數值與操作媒體仍不進 public／dist，公開與隱私限制集中在第 08 節。
 - Lazy `Suspense` fallback 保留 `learning-dashboard-analysis` id；專屬 component mount 會重送既有 hash，修正冷啟動時目標先落在 fallback、內容載入後失去定位的競爭。
 - Submission 瀏覽器矩陣已核對 1440／1280／1024／768／390px：document／article overflow、out-of-bounds、text overflow 均為 0；九章與上述內容數量完整，console error／warning 為 0；冷啟動 `#learning-dashboard-analysis` 與 `#learning-dashboard-analysis-charts` 均定位成功。
-- 最終 `pnpm run doctor` exit 0：workspace、media、text、CJK、evidence、5 件 content validation、18／18 sound tests、draft／submission builds、36／36 scanner fixtures、123-file submission scan 與 Pages audit 全數通過。`learning-dashboard-analysis` 仍有「流程圖與架構圖、媒體證據」建議群組缺件警告；這對應受限真實素材不公開且不以假圖補位的既定邊界。
+- 該次 Power BI 專屬版面完成時 `pnpm run doctor` exit 0；其舊 artifact 數字已由本文件頂端的全域品質稽核 fingerprint 取代。`learning-dashboard-analysis` 仍有「流程圖與架構圖、媒體證據」建議群組缺件警告；這對應受限真實素材不公開且不以假圖補位的既定邊界。
 
 ## 2026-07-27 作者視角與公開案例敘事整合
 

@@ -17,7 +17,7 @@ const responsivePortfolioImage = (slug, width, height, alt) => ({
 });
 
 const mediaAsset = (slug, alt) => responsivePortfolioImage(slug, 1200, 1500, alt);
-// Codex-Fix: Keep public media metadata local, responsive, and free from remote demo CDNs.
+// Keep public media metadata local, responsive, and free from remote demo CDNs.
 
 const featuredWorkImage = (slug, alt) => ({
   src: portfolioVariantUrl(slug, 1200, "webp"),
@@ -27,7 +27,7 @@ const featuredWorkImage = (slug, alt) => ({
   height: 750,
   alt,
 });
-// Codex-Fix: Featured-work media uses a dedicated 16:10 responsive set without changing long-form case imagery.
+// Featured-work media uses a dedicated 16:10 responsive set without changing long-form case imagery.
 
 const webAudioVisualStrategyImage = (slug, alt) => ({
   src: portfolioVariantUrl(slug, 1122, "webp"),
@@ -44,7 +44,7 @@ const svgAsset = (slug, width, height, alt) => ({
   height,
   alt,
 });
-// Codex-Fix: Use public-safe local SVG evidence placeholders for data-visualization works without exposing private datasets.
+// Use public-safe local SVG evidence placeholders for data-visualization works without exposing private datasets.
 
 const evidenceImage = (slug, title, caption, alt) => ({
   type: "image",
@@ -59,7 +59,7 @@ const svgEvidence = (slug, title, caption, alt, width = 1200, height = 900) => (
   caption,
   image: svgAsset(slug, width, height, alt),
 });
-// Codex-Fix: Let case studies reference lightweight local SVG diagrams through the same public media shape.
+// Let case studies reference lightweight local SVG diagrams through the same public media shape.
 
 const visualStrategyEvidence = (slug, diagramType, title, caption, alt) => ({
   kind: "visualStrategy",
@@ -77,7 +77,7 @@ export const publicStatusLabels = {
   inProgress: "整理中",
   researchProposal: "研究構想",
 };
-// Codex-Fix: Public-safe statuses are separated from internal readiness labels.
+// Public-safe statuses are separated from internal readiness labels.
 
 export const homepageNarrative = {
   eyebrow: "116學年度研究所申請作品集｜聲響、互動與數位學習",
@@ -152,7 +152,7 @@ export const homepageNarrative = {
     },
   ],
 };
-// Codex-Fix: Public homepage copy now describes the portfolio strategy without construction-stage reminders.
+// Public homepage copy describes the portfolio strategy without construction-stage reminders.
 
 export const dataVisualizationSeries = {
   id: "data-visualization-series",
@@ -181,7 +181,7 @@ export const dataVisualizationSeries = {
   soundExtension:
     "下一步，我希望嘗試把互動節奏與資料變化轉成可聆聽的提示，作為聲響化研究的起點。",
 };
-// Codex-Fix: Add a public-safe data-visualization series model while explicitly preserving work independence.
+// Keep the public-safe data-visualization series model separate while preserving work independence.
 
 export const researchTracks = [
   {
@@ -219,39 +219,6 @@ export const researchTracks = [
     includes: ["使用者測試", "學習成效", "質性觀察", "迭代紀錄"],
     instituteAlignment: ["AI", "數位孿生", "跨域創生"],
   },
-];
-
-export const learningTrail = [
-  {
-    id: "web-audio",
-    title: "Web Audio",
-    status: "可操作原型",
-    validationStatus: "下一步：使用者觀察",
-    evidence: "瀏覽器原生 Web Audio API 已將位置、速度與大小連到聲像、音高、濾波亮度與音量，形成可直接操作的四組映射。",
-  },
-  {
-    id: "pure-data",
-    title: "Pure Data",
-    status: "學習中",
-    startedAt: "2026/07/24",
-    evidence: "v0.2.1 功能測試影片記錄四組參數映射、Preset、Reset、Panic 與輸出監看。",
-    aiAssistance: "初版 Patch 曾使用生成式 AI 協作；目前透過訊號路徑拆解與局部重建，逐步練習解釋與修改每個模組。",
-  },
-  {
-    id: "reaper",
-    title: "REAPER",
-    status: "學習中",
-    evidence: "軟體安裝已完成；下一步從路由、效果鏈與基礎混音練習開始累積作品。",
-  },
-];
-
-export const terminologyMap = [
-  ["教學設計", "互動體驗設計", "先寫清楚學習目標與任務，再決定使用者動作與對應回饋。"],
-  ["教材架構", "資訊架構／IA", "整理內容層級、導覽節點與閱讀順序，讓下一步保持清楚。"],
-  ["學習活動", "互動腳本／User Flow", "將活動拆成觸發、選擇、回饋與完成條件，再轉為可操作流程。"],
-  ["學習成效", "學習成效評估", "先定義要觀察的學習表現，再以任務結果、問卷或訪談核對。"],
-  ["影片教材", "影音敘事／Motion & Sound", "透過剪輯、聲音、節奏與構圖安排觀看順序和情緒。"],
-  ["跨域專題", "跨域創生／Creative Technology", "跨域作品同時涉及設計、程式、影音與研究方法；各部分的工作與目前限制需分開說明。"],
 ];
 
 export const projectCaseStudies = [
@@ -397,7 +364,7 @@ export const projectCaseStudies = [
     priority: 2,
     indexTitle: "《Hamlet》生成式 AI 文學敘事短片",
     indexSummary: "將《Hamlet》拆解為八個敘事段落，建立影像、字幕與配樂的生成及檢核流程，完成約 40 秒的文學敘事短片。",
-    indexCover: responsivePortfolioImage("hamlet-story-mv-poster", 1200, 675, "《Hamlet》故事 MV 首圖，哈姆雷特在月夜城牆上面對父親的鬼魂。"),
+    indexCover: responsivePortfolioImage("hamlet-story-mv-poster", 1200, 676, "《Hamlet》故事 MV 首圖，哈姆雷特在月夜城牆上面對父親的鬼魂。"),
     indexCoverPosition: "50% 48%",
     indexLinks: [
       { label: "播放案例影片", href: "#generative-interface-study-featured-media" },
@@ -564,14 +531,14 @@ export const projectCaseStudies = [
       title: "《Hamlet》八幕分鏡",
       summary: "這八張圖都擷取自 40 秒成片。每張對應 5 秒片段，並保留影片實際使用的英文字幕；不是另外製作的展示圖。",
       frames: [
-        { title: "幽靈揭露真相", titleEn: "The Ghost Reveals the Truth", time: "00:00–00:05", seekSeconds: 0, subtitle: "On a cold night, Hamlet sees his father's ghost and learns a terrible secret.", description: "父親的幽靈揭露秘密，故事衝突從這裡開始。", control: "這幕只處理秘密揭露；人物關係與復仇動機必須能由原作核對。", image: responsivePortfolioImage("hamlet-story-mv-scene-01", 1200, 675, "月夜城牆上，哈姆雷特與父親的幽靈相對而立。") },
-        { title: "悲傷與遲疑", titleEn: "Grief and Doubt", time: "00:05–00:10", seekSeconds: 5, subtitle: "Hamlet feels deep grief and doubt, and he cannot decide how to act.", description: "哈姆雷特因悲傷與懷疑而遲遲無法行動。", control: "用一個決策困境推進故事；字幕維持 12–18 個英文單字。", image: responsivePortfolioImage("hamlet-story-mv-scene-02", 1200, 675, "哈姆雷特獨自低頭，神情悲傷而猶豫。") },
-        { title: "假裝瘋狂並暗中觀察", titleEn: "Feigned Madness", time: "00:10–00:15", seekSeconds: 10, subtitle: "Hamlet pretends to be mad while he watches the king for signs of guilt.", description: "哈姆雷特假裝瘋癲，暗中觀察國王的反應。", control: "畫面只呈現觀察行動，不把尚未證實的罪行寫成已確認事實。", image: responsivePortfolioImage("hamlet-story-mv-scene-03", 1200, 675, "哈姆雷特假裝瘋癲，暗中觀察國王的反應。") },
-        { title: "戲中戲暴露罪惡", titleEn: "The Play Exposes Guilt", time: "00:15–00:20", seekSeconds: 15, subtitle: "A play at court mirrors the murder, and Claudius reacts with sudden fear.", description: "戲中戲重現謀殺，克勞狄斯的恐懼讓真相浮現。", control: "以克勞狄斯的反應作為畫面重點，保留前後事件因果。", image: responsivePortfolioImage("hamlet-story-mv-scene-04", 1200, 675, "宮廷上演重現謀殺的戲劇，克勞狄斯露出恐懼。") },
-        { title: "奧菲莉亞的絕望", titleEn: "Ophelia's Despair", time: "00:20–00:25", seekSeconds: 20, subtitle: "Rejected and heartbroken, Ophelia loses her peace and slowly falls into despair.", description: "故事在這一幕轉向奧菲莉亞的心碎與絕望。", control: "不把複雜因果簡化為單一責任；字幕只描述這幕的情節。", image: responsivePortfolioImage("hamlet-story-mv-scene-05", 1200, 675, "奧菲莉亞獨自站在昏暗場景中，逐漸陷入絕望。") },
-        { title: "墓園中的生死反思", titleEn: "Graveyard Reflection", time: "00:25–00:30", seekSeconds: 25, subtitle: "In the graveyard, Hamlet holds a skull and thinks about death and time.", description: "墓園與頭骨把焦點帶到死亡與時間。", control: "用頭骨與墓園集中呈現死亡反思，不在圖內生成文字。", image: responsivePortfolioImage("hamlet-story-mv-scene-06", 1200, 675, "哈姆雷特在墓園手持頭骨，思索死亡與時間。") },
-        { title: "決鬥與復仇", titleEn: "The Final Duel", time: "00:30–00:35", seekSeconds: 30, subtitle: "The final duel begins, but poison and revenge soon destroy the royal court.", description: "決鬥、毒藥與復仇把故事推到高潮。", control: "讓三項事件在同一高潮節點匯合，並維持 16:9 構圖。", image: responsivePortfolioImage("hamlet-story-mv-scene-07", 1200, 675, "王室決鬥中，毒藥與復仇把衝突推向高潮。") },
-        { title: "悲劇性的結局", titleEn: "Tragic Aftermath", time: "00:35–00:40", seekSeconds: 35, subtitle: "After great loss and silence, Hamlet dies, and Denmark faces a tragic end.", description: "最後一幕以失落與沉默收束悲劇。", control: "交代哈姆雷特死亡，並以單一畫面結束；影片不循環。", image: responsivePortfolioImage("hamlet-story-mv-scene-08", 1200, 675, "哈姆雷特倒下，丹麥王室在失落與沉默中收場。") },
+        { title: "幽靈揭露真相", titleEn: "The Ghost Reveals the Truth", time: "00:00–00:05", seekSeconds: 0, subtitle: "On a cold night, Hamlet sees his father's ghost and learns a terrible secret.", description: "父親的幽靈揭露秘密，故事衝突從這裡開始。", control: "這幕只處理秘密揭露；人物關係與復仇動機必須能由原作核對。", image: responsivePortfolioImage("hamlet-story-mv-scene-01", 1200, 676, "月夜城牆上，哈姆雷特與父親的幽靈相對而立。") },
+        { title: "悲傷與遲疑", titleEn: "Grief and Doubt", time: "00:05–00:10", seekSeconds: 5, subtitle: "Hamlet feels deep grief and doubt, and he cannot decide how to act.", description: "哈姆雷特因悲傷與懷疑而遲遲無法行動。", control: "用一個決策困境推進故事；字幕維持 12–18 個英文單字。", image: responsivePortfolioImage("hamlet-story-mv-scene-02", 1200, 676, "哈姆雷特獨自低頭，神情悲傷而猶豫。") },
+        { title: "假裝瘋狂並暗中觀察", titleEn: "Feigned Madness", time: "00:10–00:15", seekSeconds: 10, subtitle: "Hamlet pretends to be mad while he watches the king for signs of guilt.", description: "哈姆雷特假裝瘋癲，暗中觀察國王的反應。", control: "畫面只呈現觀察行動，不把尚未證實的罪行寫成已確認事實。", image: responsivePortfolioImage("hamlet-story-mv-scene-03", 1200, 676, "哈姆雷特假裝瘋癲，暗中觀察國王的反應。") },
+        { title: "戲中戲暴露罪惡", titleEn: "The Play Exposes Guilt", time: "00:15–00:20", seekSeconds: 15, subtitle: "A play at court mirrors the murder, and Claudius reacts with sudden fear.", description: "戲中戲重現謀殺，克勞狄斯的恐懼讓真相浮現。", control: "以克勞狄斯的反應作為畫面重點，保留前後事件因果。", image: responsivePortfolioImage("hamlet-story-mv-scene-04", 1200, 676, "宮廷上演重現謀殺的戲劇，克勞狄斯露出恐懼。") },
+        { title: "奧菲莉亞的絕望", titleEn: "Ophelia's Despair", time: "00:20–00:25", seekSeconds: 20, subtitle: "Rejected and heartbroken, Ophelia loses her peace and slowly falls into despair.", description: "故事在這一幕轉向奧菲莉亞的心碎與絕望。", control: "不把複雜因果簡化為單一責任；字幕只描述這幕的情節。", image: responsivePortfolioImage("hamlet-story-mv-scene-05", 1200, 676, "奧菲莉亞獨自站在昏暗場景中，逐漸陷入絕望。") },
+        { title: "墓園中的生死反思", titleEn: "Graveyard Reflection", time: "00:25–00:30", seekSeconds: 25, subtitle: "In the graveyard, Hamlet holds a skull and thinks about death and time.", description: "墓園與頭骨把焦點帶到死亡與時間。", control: "用頭骨與墓園集中呈現死亡反思，不在圖內生成文字。", image: responsivePortfolioImage("hamlet-story-mv-scene-06", 1200, 676, "哈姆雷特在墓園手持頭骨，思索死亡與時間。") },
+        { title: "決鬥與復仇", titleEn: "The Final Duel", time: "00:30–00:35", seekSeconds: 30, subtitle: "The final duel begins, but poison and revenge soon destroy the royal court.", description: "決鬥、毒藥與復仇把故事推到高潮。", control: "讓三項事件在同一高潮節點匯合，並維持 16:9 構圖。", image: responsivePortfolioImage("hamlet-story-mv-scene-07", 1200, 676, "王室決鬥中，毒藥與復仇把衝突推向高潮。") },
+        { title: "悲劇性的結局", titleEn: "Tragic Aftermath", time: "00:35–00:40", seekSeconds: 35, subtitle: "After great loss and silence, Hamlet dies, and Denmark faces a tragic end.", description: "最後一幕以失落與沉默收束悲劇。", control: "交代哈姆雷特死亡，並以單一畫面結束；影片不循環。", image: responsivePortfolioImage("hamlet-story-mv-scene-08", 1200, 676, "哈姆雷特倒下，丹麥王室在失落與沉默中收場。") },
       ],
     },
     featuredExample: {
@@ -661,7 +628,7 @@ export const projectCaseStudies = [
         {
           title: "《Hamlet》AI 文學故事 MV",
           src: publicAssetUrl("media/portfolio/hamlet-story-mv-clean-web-1080p.mp4"),
-          poster: responsivePortfolioImage("hamlet-story-mv-poster", 1200, 675, "《Hamlet》故事 MV 首圖，哈姆雷特在月夜城牆上面對父親的鬼魂。"),
+          poster: responsivePortfolioImage("hamlet-story-mv-poster", 1200, 676, "《Hamlet》故事 MV 首圖，哈姆雷特在月夜城牆上面對父親的鬼魂。"),
           caption: "40 秒、8 幕的成片；每幕 5 秒，提供英文與繁體中文 WebVTT 字幕，影片不會自動播放。",
           technicalSummary: "00:40 · 8 幕 · 16:9 · 英文／繁體中文故事字幕 · 背景歌曲含英語歌詞與人聲 · 無旁白",
           accessibilitySummary: "故事字幕：English／繁體中文（非歌曲逐字歌詞字幕） · 全片無旁白 · 背景歌曲含英語歌詞與人聲",
@@ -940,6 +907,100 @@ export const projectCaseStudies = [
       ],
     },
     learningDashboardCase: {
+      sections: [
+        {
+          id: "summary",
+          number: "01",
+          navLabel: "專案摘要",
+          title: "專案摘要",
+        },
+        {
+          id: "problem",
+          number: "02",
+          navLabel: "分析問題",
+          title: "分析問題",
+          introduction: "先把儀表板要回答的問題縮減為三項，再決定需要的圖表、篩選與判讀順序。",
+        },
+        {
+          id: "data",
+          number: "03",
+          navLabel: "資料來源與欄位",
+          title: "資料來源與欄位",
+          introduction: "只列出目前專案紀錄能支持的資料範圍與計數定義，不補寫未核對的欄位名稱、筆數或分析值。",
+        },
+        {
+          id: "process",
+          number: "04",
+          navLabel: "分析流程",
+          title: "資料處理與分析流程",
+          introduction: "從資料理解開始，依序處理公開邊界、格式與缺漏、度量、模型及圖表互動。",
+        },
+        {
+          id: "overview",
+          number: "05",
+          navLabel: "儀表板概覽",
+          title: "完整儀表板概覽",
+          introduction: "先確認範圍、再比較分布、最後回到限制，建立完整儀表板的閱讀順序。",
+        },
+        {
+          id: "charts",
+          number: "06",
+          navLabel: "圖表判讀",
+          title: "各圖表設計與判讀",
+          introduction: "每張圖表以同一組問題整理：回答什麼、為何使用、可以觀察什麼，以及不能據此推論什麼。",
+        },
+        {
+          id: "media",
+          number: "07",
+          navLabel: "互動操作",
+          title: "年級篩選與互動操作",
+          introduction: "把年級篩選、圖表聯動、滑鼠提示與教學呈現整合在同一閱讀序列。",
+        },
+        {
+          id: "ethics",
+          number: "08",
+          navLabel: "倫理與限制",
+          title: "資料倫理與分析限制",
+          introduction: "將資料、分析與公開範圍集中說明，避免在每張圖表或媒體下重複相同聲明。",
+        },
+        {
+          id: "reflection",
+          number: "09",
+          navLabel: "反思與改善",
+          title: "反思與後續改善",
+          introduction: "把圖表設計、研究誠信與後續驗證放在同一個收束段落，讓案例從成果展示回到可改進的方法。",
+        },
+      ],
+      readingMapDescription: "依專案、問題、資料、流程、成果、互動、限制與反思逐段閱讀。",
+      hero: {
+        facts: [
+          {
+            label: "資料類型",
+            value: "教學用線上學習互動、影片觀看與學科成績資料",
+          },
+          {
+            label: "公開範圍",
+            value: "分析方法、互動邏輯與圖表判讀邊界",
+          },
+        ],
+        readingFrame: {
+          title: "從互動分布走向可檢驗的資料問題",
+          points: [
+            {
+              label: "分析焦點",
+              value: "互動分布與成績比較",
+            },
+            {
+              label: "互動方式",
+              value: "年級篩選、圖表聯動與滑鼠提示",
+            },
+            {
+              label: "判讀原則",
+              value: "探索關聯，不作因果宣稱",
+            },
+          ],
+        },
+      },
       questions: [
         "線上學習互動行為如何分布？",
         "互動行為與學科成績之間是否呈現可觀察差異？",
@@ -950,6 +1011,7 @@ export const projectCaseStudies = [
       dataSource: {
         title: "2025 年教育大數據微學程教學用開放資料第二版",
         description: "分析範圍包含互動、影片觀看與學科成績三類資料；欄位定義以目前專案紀錄可核對的範圍為準。",
+        provider: "資料提供：教育大數據分析計畫辦公室",
       },
       fieldGroups: [
         {
@@ -970,34 +1032,56 @@ export const projectCaseStudies = [
         },
       ],
       process: {
-        steps: [
+        summary: {
+          title: "由資料理解走到可判讀的互動儀表板",
+          description: "流程以資料理解、分析建模與視覺化呈現三層組織，對應七個實作步驟。",
+        },
+        layers: [
           {
-            title: "原始資料",
-            tool: "Excel",
+            label: "資料理解",
+            description: "先確認資料來源、欄位用途與公開邊界，再進入清理與建模。",
+            steps: [
+              {
+                title: "原始資料",
+                tool: "Excel",
+              },
+              {
+                title: "欄位檢查",
+                tool: "Excel / Power BI",
+              },
+              {
+                title: "去識別化與公開邊界",
+                tool: "資料治理",
+              },
+            ],
           },
           {
-            title: "欄位檢查",
-            tool: "Excel / Power BI",
+            label: "分析建模",
+            description: "把格式、缺漏、度量與模型關係整理成可供圖表使用的分析層。",
+            steps: [
+              {
+                title: "格式與缺漏處理",
+                tool: "Power Query",
+              },
+              {
+                title: "計算欄位建立",
+                tool: "DAX / 欄位設定",
+              },
+              {
+                title: "Power BI 資料模型",
+                tool: "Power BI Desktop",
+              },
+            ],
           },
           {
-            title: "去識別化與公開邊界",
-            tool: "資料治理",
-          },
-          {
-            title: "格式與缺漏處理",
-            tool: "Power Query",
-          },
-          {
-            title: "計算欄位建立",
-            tool: "DAX / 欄位設定",
-          },
-          {
-            title: "Power BI 資料模型",
-            tool: "Power BI Desktop",
-          },
-          {
-            title: "圖表與互動設計",
-            tool: "Power BI Desktop",
+            label: "視覺化呈現",
+            description: "以圖表、篩選與限制說明組成可被逐步閱讀的儀表板。",
+            steps: [
+              {
+                title: "圖表與互動設計",
+                tool: "Power BI Desktop",
+              },
+            ],
           },
         ],
       },
@@ -1009,9 +1093,15 @@ export const projectCaseStudies = [
           "觀看分群",
           "限制提示",
         ],
+        summary: {
+          title: "以五個區域建立判讀順序",
+          description: "篩選狀態、互動分布、成績比較、觀看分群與限制提示，共同構成從操作到解讀的完整路徑。",
+          ethicsLinkLabel: "前往第 08 節查看資料倫理與分析限制",
+        },
       },
       charts: [
         {
+          eyebrow: "Scatter / 散佈圖組",
           title: "互動指標與學科成績",
           question: "互動指標與成績的分布是否不同？",
           rationale: "保留兩個變項的相對位置。",
@@ -1019,6 +1109,7 @@ export const projectCaseStudies = [
           limitation: "不能認定互動造成成績差異。",
         },
         {
+          eyebrow: "Donut chart / 圓環圖",
           title: "互動類型的紀錄分布",
           question: "不同互動類型占多少紀錄比重？",
           rationale: "查看部分與整體關係。",
@@ -1026,6 +1117,7 @@ export const projectCaseStudies = [
           limitation: "不是序號加總、唯一人數或成效。",
         },
         {
+          eyebrow: "Bar chart / 直條圖",
           title: "不同數學成績分群的學習者／紀錄數",
           question: "不同成績分群的非空紀錄如何比較？",
           rationale: "便於比較離散分群。",
@@ -1034,6 +1126,10 @@ export const projectCaseStudies = [
         },
       ],
       interaction: {
+        summary: {
+          title: "四個節點組成互動判讀流程",
+          description: "依序理解篩選、聯動、提示與教學呈現如何共同支援資訊判讀。",
+        },
         features: [
           {
             title: "年級篩選",
@@ -1083,41 +1179,14 @@ export const projectCaseStudies = [
         ],
       },
     },
-    extendedSections: [
-      {
-        title: "01｜資料與圖表定義",
-        summary: "每張圖都要附上計算方式，否則形狀很容易被當成結論。",
-        bullets: [
-          "圓環圖計算 sn 欄位的筆數，不把欄位值相加；現有資料不足以在公開頁解釋 sn 的實際意義。",
-          "觀看相關直條圖只比較不同數學成績分群中的非空紀錄筆數，不稱為觀看時數比較。",
-          "圖上的關聯作為探索線索，後續會透過資料品質檢查與正式分析回答研究問題。",
-        ],
-      },
-      {
-        title: "02｜資料使用範圍",
-        summary: "網站以文字說明方法與判讀邊界，不呈現課堂資料或真實分析結果。",
-        paragraphs: [
-          "原始資料、清洗檔、Power BI 實作檔與含真實結果的操作紀錄，會依教材的課堂使用範圍保存與檢視。",
-        ],
-      },
-      {
-        title: "03｜下一步",
-        summary: "下一步不是增加圖表，而是先確認資料與計算是否可靠。",
-        bullets: [
-          "核對觀看欄位與其他度量的實際定義。",
-          "建立資料品質檢查，再決定可用的統計方法。",
-          "在權限允許的環境中設計形成性任務，觀察教師能否正確解讀圖表。",
-        ],
-      },
-    ],
     tools: ["Microsoft Power BI Desktop", "Microsoft Excel", "Power Query", "DAX"],
     roles: ["資料整理", "資料視覺化", "儀表板設計", "圖表定義", "閱讀說明", "專案管理"],
     testing: {
       statusKey: "exploratory",
       status: "探索型儀表板已完成；下一步會先核對資料品質與度量，再安排讀圖觀察。",
       metrics: [
-        { label: "目前成果", value: "探索型儀表板" },
-        { label: "閱讀原則", value: "不把關聯當作因果" },
+        { key: "currentOutcome", label: "目前成果", value: "探索型儀表板" },
+        { key: "readingPrinciple", label: "閱讀原則", value: "不把關聯當作因果" },
       ],
       insights: ["案例將計算方式與閱讀提醒放進圖表判讀文字，讓讀者先理解資料範圍再看圖形。"],
       learningOutcomes: [],
@@ -1173,6 +1242,4 @@ export const instituteEvidenceGroups = instituteThemes
   }))
   .filter((group) => group.projects.length > 0);
 
-export const getTrackProjects = (trackId) =>
-  sortedProjectCaseStudies.filter((project) => project.trackIds?.includes(trackId));
-// Codex-Fix: Public portfolio data now contains only submission-safe content; internal construction notes live in a separate draft-only module.
+// Public portfolio data contains only submission-safe content; internal construction notes live in a separate draft-only module.

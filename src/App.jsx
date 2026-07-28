@@ -2,7 +2,6 @@ import { lazy, memo, Suspense, useEffect } from "react";
 import { useLenisGsap } from "./hooks/useLenisGsap.js";
 import { useThemeInversion } from "./hooks/useThemeInversion.js";
 import CustomCursor from "./components/CustomCursor.jsx";
-import CaseStudyShowcase from "./components/CaseStudyShowcase.jsx";
 import DataVisualizationSeries from "./components/DataVisualizationSeries.jsx";
 import ImmersiveHero from "./components/ImmersiveHero.jsx";
 import Navbar from "./components/Navbar.jsx";
@@ -12,6 +11,7 @@ import PortfolioDraftLayer from "#portfolio-draft";
 import ViewportThemeTransition from "./components/ViewportThemeTransition.jsx";
 
 const AiWorkflowSection = lazy(() => import("./components/AiWorkflowSection.jsx"));
+const CaseStudyShowcase = lazy(() => import("./components/CaseStudyShowcase.jsx"));
 const ResearchProposalSection = lazy(() => import("./components/ResearchProposalSection.jsx"));
 const admissionEvidenceModule = () => import("./components/AdmissionEvidenceSections.jsx");
 const PureDataLearningSection = lazy(() => admissionEvidenceModule().then((module) => ({ default: module.PureDataLearningSection })));
@@ -52,7 +52,7 @@ function DeferredAdmissionSection({
   return (
     <section
       id={id}
-      className={`${paper ? "paper-surface " : ""}research-section min-h-[40vh] bg-[var(--theme-bg)] px-[clamp(1.25rem,6vw,10vw)] py-24 text-[var(--theme-text)] md:py-32`}
+      className={`${paper ? "paper-surface " : ""}research-section min-h-[40vh] px-[var(--page-gutter)] py-24 text-[var(--theme-text)] md:py-32`}
       aria-labelledby={`${id}-title`}
       data-stable-section-focus
     >
@@ -73,7 +73,7 @@ function SelectedWorkSection() {
       aria-labelledby="selected-work-title"
       data-stable-section-focus
     >
-      <div className="research-section min-h-[40vh] bg-[var(--theme-bg)] px-[clamp(1.25rem,6vw,10vw)] py-24 text-[var(--theme-text)] md:py-32">
+      <div className="research-section min-h-[40vh] px-[var(--page-gutter)] py-24 text-[var(--theme-text)] md:py-32">
         <SectionErrorBoundary sectionName="代表作品" headingId="selected-work-title" reloadOnRetry>
           <Suspense fallback={<DeferredSectionFallback id="selected-work" label="代表作品" />}>
             <RepresentativeWorksSection />
@@ -82,11 +82,13 @@ function SelectedWorkSection() {
       </div>
       <DataVisualizationSeries />
       <SectionErrorBoundary sectionName="其他公開案例">
-        <CaseStudyShowcase scope="supporting" showIndex />
+        <Suspense fallback={<DeferredSectionFallback id="selected-work-cases" label="公開案例" />}>
+          <CaseStudyShowcase scope="supporting" showIndex />
+        </Suspense>
       </SectionErrorBoundary>
       <section
         id="secondary-creation"
-        className="paper-surface research-section bg-[var(--theme-bg)] px-[clamp(1.25rem,6vw,10vw)] py-24 text-[var(--theme-text)] md:py-32"
+        className="paper-surface research-section px-[var(--page-gutter)] py-24 text-[var(--theme-text)] md:py-32"
         aria-labelledby="secondary-creation-title"
         data-stable-section-focus
       >
@@ -102,12 +104,16 @@ function SelectedWorkSection() {
 
 const HomePage = memo(function HomePage() {
   return (
-    <main id="main-content" aria-label="蕭智仁聲響、互動與數位學習作品集" className="page-shell min-h-screen overflow-hidden bg-[var(--theme-bg)] text-[var(--theme-text)]">
+    <main id="main-content" aria-label="蕭智仁聲響、互動與數位學習作品集" className="page-shell min-h-screen text-[var(--theme-text)]">
       <ViewportThemeTransition />
       <SectionErrorBoundary sectionName="首頁"><ImmersiveHero /></SectionErrorBoundary>
       <SoundTransitionSection />
       <ReviewerPathSection />
-      <SectionErrorBoundary sectionName="聲響原型"><CaseStudyShowcase scope="flagship" showIndex={false} /></SectionErrorBoundary>
+      <SectionErrorBoundary sectionName="聲響原型">
+        <Suspense fallback={<DeferredSectionFallback id="interactive-sound-learning" label="互動聲響原型" />}>
+          <CaseStudyShowcase scope="flagship" showIndex={false} />
+        </Suspense>
+      </SectionErrorBoundary>
       <DeferredAdmissionSection id="pure-data-learning" label="Pure Data 學習紀錄">
         <PureDataLearningSection />
       </DeferredAdmissionSection>
@@ -145,6 +151,11 @@ export default function App() {
     let settleToken = 0;
     let userInterruptedSinceNavigation = false;
 
+    const clearActiveCase = () => {
+      activeCase?.removeAttribute("data-hash-target-active");
+      activeCase = null;
+    };
+
     const queueFrame = (callback) => {
       const frame = window.requestAnimationFrame(() => {
         settleFrames.delete(frame);
@@ -158,6 +169,7 @@ export default function App() {
       settleToken += 1;
       settleFrames.forEach((frame) => window.cancelAnimationFrame(frame));
       settleFrames.clear();
+      clearActiveCase();
       if (navigationTimer) {
         window.clearTimeout(navigationTimer);
         navigationTimer = 0;
@@ -185,13 +197,13 @@ export default function App() {
 
       cancelPendingSettle();
       const token = settleToken;
-      activeCase?.removeAttribute("data-hash-target-active");
       activeCase = target.closest(".case-study-detail");
       activeCase?.setAttribute("data-hash-target-active", "true");
 
       window.__portfolioLenis?.resize();
       const finish = () => {
         if (disposed || token !== settleToken) return;
+        clearActiveCase();
         window.dispatchEvent(new CustomEvent("portfolio:hash-settled", {
           detail: { targetId },
         }));
@@ -273,7 +285,7 @@ export default function App() {
       window.removeEventListener("pointerdown", handleUserInterruption);
       window.removeEventListener("keydown", handleUserInterruption);
       layoutObserver?.disconnect();
-      activeCase?.removeAttribute("data-hash-target-active");
+      clearActiveCase();
     };
   }, []);
 

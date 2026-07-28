@@ -181,7 +181,7 @@
         "id": "scene-images",
         "status": "verified",
         "requiredChecks": {
-          "generationRecordsReviewed": true,
+          "boundedSearchCompleted": true,
           "applicantDirectedGenerationConfirmed": true,
           "textPromptGenerationConfirmed": true,
           "thirdPartyReferenceImagesAbsent": true,

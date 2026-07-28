@@ -118,13 +118,22 @@ test("missing public Suno attribution fails", () => {
     .some((error) => error.includes("musicCredit.attribution")));
 });
 
-test("missing scene generation check fails", () => {
+test("missing bounded scene-record search check fails", () => {
   const manifest = makeValidManifest();
   delete manifest.rightsReview.items
     .find((item) => item.id === "scene-images")
-    .requiredChecks.generationRecordsReviewed;
+    .requiredChecks.boundedSearchCompleted;
   assert.ok(validateFixture(manifest)
-    .some((error) => error.includes("scene-images.requiredChecks.generationRecordsReviewed")));
+    .some((error) => error.includes("scene-images.requiredChecks.boundedSearchCompleted")));
+});
+
+test("zero located generation records cannot be labeled reviewed", () => {
+  const manifest = makeValidManifest();
+  manifest.rightsReview.items
+    .find((item) => item.id === "scene-images")
+    .requiredChecks.generationRecordsReviewed = true;
+  assert.ok(validateFixture(manifest)
+    .some((error) => error.includes("generationRecordsReviewed is misleading")));
 });
 
 test("unconfirmed Canva stock review blocks publication", () => {

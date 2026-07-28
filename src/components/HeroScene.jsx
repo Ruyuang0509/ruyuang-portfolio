@@ -76,12 +76,12 @@ function FluidOrb({ active, segments, radius }) {
     meshRef.current.rotation.y += delta * 0.18;
     meshRef.current.rotation.x = MathUtils.lerp(meshRef.current.rotation.x, pointer.y * 0.18, 0.08);
   });
-  // Codex-Fix: R3F plus native shader uniforms create a free interactive fluid orb.
+  // R3F plus native shader uniforms create the interactive fluid orb without paid plugins.
 
   return (
     <mesh ref={meshRef} position={[0, 0, 0]}>
       <sphereGeometry args={[radius, segments, segments]} />
-      {/* Codex-Fix: Scale shader geometry density by device class so mobile GPUs do less work. */}
+      {/* Scale shader geometry density by device class so mobile GPUs do less work. */}
       <shaderMaterial
         ref={materialRef}
         uniforms={uniforms}
@@ -149,7 +149,7 @@ export default function HeroScene({ active = true, eventSource }) {
     compactQuery.addEventListener?.("change", syncQuality);
     return () => compactQuery.removeEventListener?.("change", syncQuality);
   }, []);
-  // Codex-Fix: Adapt R3F quality for mobile and low-core devices instead of removing the 3D identity.
+  // Adapt R3F quality for mobile and low-core devices without removing the 3D identity.
 
   return (
     <LeanR3FCanvas
@@ -165,4 +165,4 @@ export default function HeroScene({ active = true, eventSource }) {
     </LeanR3FCanvas>
   );
 }
-// Codex-Fix: Accept an active flag from IntersectionObserver so offscreen WebGL does not burn frames.
+// Accept an active flag from IntersectionObserver so offscreen WebGL does not burn frames.

@@ -1,5 +1,4 @@
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
 import {
   sortedProjectCaseStudies,
   instituteThemes,
@@ -8,24 +7,12 @@ import EditorialHeading from "./EditorialHeading.jsx";
 import SectionErrorBoundary from "./SectionErrorBoundary.jsx";
 import PortfolioDraftLayer from "#portfolio-draft";
 import AnimatedDetails from "./AnimatedDetails.jsx";
+import ResponsiveImage from "./ResponsiveImage.jsx";
 
 const SoundInteractionPrototype = lazy(() => import("./SoundInteractionPrototype.jsx"));
 const CaseProcessSection = lazy(() => import("./CaseProcessSection.jsx"));
 const ProjectIndexGrid = lazy(() => import("./ProjectIndexGrid.jsx"));
 const LazyLearningDashboardProjectDetail = lazy(() => import("./LearningDashboardProjectDetail.jsx"));
-
-const cardSpring = {
-  type: "spring",
-  stiffness: 150,
-  damping: 15,
-};
-// Codex-Fix: Shared spring settings keep overview interactions tactile without layout animation cost.
-
-const diagramLabels = {
-  interactionFlow: "互動流程",
-  systemArchitecture: "系統架構",
-  informationArchitecture: "資訊架構",
-};
 
 const hasSupportingMediaEvidence = (media = {}) => Boolean(
   media.visualDrafts?.length
@@ -105,251 +92,6 @@ function ChipList({ items = [], accent = false, label = "標籤", variant }) {
         </li>
       ))}
     </ul>
-  );
-}
-
-function ResponsiveImage({ image, className = "", sizes = "100vw", loading = "lazy", fetchPriority = "auto", style }) {
-  const [hasError, setHasError] = useState(false);
-
-  if (hasError) {
-    return (
-      <div
-        className={`${className} grid place-items-center bg-[color:var(--theme-surface)] p-4 text-center`}
-        role="img"
-        aria-label={`影像載入失敗：${image.alt}`}
-        style={style}
-      >
-        <span className="zh-caption max-w-[24rem] text-[color:var(--theme-muted)]">影像暫時無法顯示；請參考同一卡片的標題與說明。</span>
-      </div>
-    );
-  }
-
-  return (
-    <picture>
-      {image.avifSrcSet ? <source type="image/avif" srcSet={image.avifSrcSet} sizes={sizes} /> : null}
-      {image.webpSrcSet ? <source type="image/webp" srcSet={image.webpSrcSet} sizes={sizes} /> : null}
-      <img
-        className={className}
-        src={image.src}
-        alt={image.alt}
-        width={image.width}
-        height={image.height}
-        sizes={sizes}
-        loading={loading}
-        decoding="async"
-        fetchPriority={fetchPriority}
-        style={style}
-        onError={() => setHasError(true)}
-      />
-    </picture>
-  );
-}
-// Codex-Fix: Reusable responsive image primitive preserves prior local AVIF/WebP and CLS protections.
-
-const getOverviewPreview = (project) => project.media?.videos?.find(
-  (video) => video.featured && video.src && !video.youtubeId,
-);
-
-const resetOverviewPreview = (video) => {
-  if (!video) return;
-  video.pause();
-  if (video.readyState > 0) video.currentTime = 0;
-};
-
-function ProjectOverviewMedia({ project, index, reduceMotion }) {
-  const mediaRef = useRef(null);
-  const previewRef = useRef(null);
-  const [previewReady, setPreviewReady] = useState(false);
-  const preview = getOverviewPreview(project);
-
-  const playPreview = (event) => {
-    const video = previewRef.current;
-    const saveData = navigator.connection?.saveData === true;
-    if (!preview || !video || reduceMotion || saveData || event?.pointerType === "touch") return;
-    if (video.dataset.loaded && !video.paused) return;
-
-    if (!video.dataset.loaded) {
-      video.src = preview.src;
-      video.dataset.loaded = "true";
-      video.load();
-    }
-
-    video.play().catch(() => {
-      setPreviewReady(false);
-    });
-  };
-
-  const pausePreview = () => {
-    const video = previewRef.current;
-    if (!video) return;
-
-    resetOverviewPreview(video);
-    setPreviewReady(false);
-  };
-
-  useEffect(() => () => {
-    resetOverviewPreview(previewRef.current);
-  }, []);
-
-  useEffect(() => {
-    if (!reduceMotion || !previewRef.current) return;
-    resetOverviewPreview(previewRef.current);
-    setPreviewReady(false);
-  }, [reduceMotion]);
-
-  useEffect(() => {
-    if (!preview || !mediaRef.current || !("IntersectionObserver" in window)) return undefined;
-
-    const stopWhenInactive = () => {
-      const video = previewRef.current;
-      if (!video || video.paused) return;
-      resetOverviewPreview(video);
-      setPreviewReady(false);
-    };
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) stopWhenInactive();
-    }, { threshold: 0.05 });
-    const handleVisibilityChange = () => {
-      if (document.hidden) stopWhenInactive();
-    };
-
-    observer.observe(mediaRef.current);
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    return () => {
-      observer.disconnect();
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-    };
-  }, [preview]);
-
-  useEffect(() => {
-    if (!previewReady) return undefined;
-
-    const stopPreview = () => {
-      const video = previewRef.current;
-      if (!video || video.paused) return;
-      resetOverviewPreview(video);
-      setPreviewReady(false);
-    };
-    const handlePointerMove = (event) => {
-      if (event.pointerType === "touch" || mediaRef.current?.contains(event.target)) return;
-      stopPreview();
-    };
-    const handleScroll = () => {
-      const media = mediaRef.current;
-      if (media?.matches(":hover") || media?.contains(document.activeElement)) return;
-      stopPreview();
-    };
-
-    window.addEventListener("pointermove", handlePointerMove, { passive: true });
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener("pointermove", handlePointerMove);
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [previewReady]);
-
-  return (
-    <div
-      ref={mediaRef}
-      className="relative h-full overflow-hidden"
-      data-overview-preview={preview ? "intent-gated" : undefined}
-      onPointerEnter={playPreview}
-      onPointerMove={playPreview}
-      onPointerLeave={pausePreview}
-      onPointerCancel={pausePreview}
-      onFocusCapture={playPreview}
-      onBlurCapture={pausePreview}
-      onClickCapture={pausePreview}
-    >
-      <ResponsiveImage
-        image={project.cover}
-        className="aspect-[4/5] h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.035] group-focus-within:scale-[1.035]"
-        sizes="(min-width: 1024px) 29vw, (min-width: 768px) 44vw, 92vw"
-        loading={index === 0 ? "eager" : "lazy"}
-        fetchPriority={index === 0 ? "high" : "auto"}
-      />
-      {preview ? (
-        <video
-          ref={previewRef}
-          className={`pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-500 ease-out ${previewReady ? "group-hover:opacity-100 group-focus-within:opacity-100" : ""}`}
-          muted
-          playsInline
-          loop
-          preload="none"
-          tabIndex={-1}
-          aria-hidden="true"
-          onPlaying={() => setPreviewReady(true)}
-          onError={() => setPreviewReady(false)}
-        />
-      ) : null}
-    </div>
-  );
-}
-// Codex-Fix: Restore the original poster-first hover/focus preview without loading local MP4 media before reviewer intent.
-
-function ProjectOverviewCard({ project, index }) {
-  const reduceMotion = useReducedMotion();
-
-  return (
-    <motion.article
-      className="portfolio-card group grid gap-5 rounded-[var(--radius-lg)] p-4"
-      data-magnetic
-      data-cursor-variant="media"
-      data-cursor-label="案例"
-      whileHover={reduceMotion ? undefined : { y: -8, scale: 0.99 }}
-      transition={cardSpring}
-    >
-      <a
-        className="media-frame block overflow-hidden rounded-[var(--radius-md)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--theme-accent)]"
-        href={`#${project.id}`}
-        aria-label={`閱讀作品案例：${project.title}`}
-      >
-        <ProjectOverviewMedia project={project} index={index} reduceMotion={reduceMotion} />
-      </a>
-      <div className="grid gap-5 border-t border-[color:var(--theme-line)] pt-5">
-        <div className="grid grid-cols-[1fr_auto] gap-4">
-          <div>
-            <p className="meta-label mb-2 text-[var(--theme-accent)]">
-              {project.year ? `${project.year} / ` : ""}{project.source}
-            </p>
-            <h3 className="zh-heading text-[length:var(--font-size-fluid-card-title)]">
-              <a href={`#${project.id}`}>{project.title}</a>
-            </h3>
-          </div>
-          <span className="text-sm font-bold text-[color:var(--theme-muted)]">0{index + 1}</span>
-        </div>
-        <p className="zh-caption text-[color:var(--theme-muted)]">
-          {project.valueProposition}
-        </p>
-        {project.overviewFacts ? (
-          <p className="mixed-token rounded-[var(--radius-sm)] bg-[color:var(--theme-surface)] p-4 text-sm font-extrabold text-[var(--theme-text)]">
-            {project.overviewFacts}
-          </p>
-        ) : null}
-        <p className="zh-caption rounded-[var(--radius-sm)] border border-[color:var(--theme-line)] p-4 font-bold text-[var(--theme-text)]">
-          負責項目：{project.whatThisProves}
-        </p>
-        <div className="grid gap-3 rounded-[var(--radius-sm)] bg-[color:var(--theme-surface)] p-4">
-          <div>
-            <p className="meta-label text-[var(--theme-accent)]">
-              負責項目
-            </p>
-            <p className="zh-caption mt-1 text-[var(--theme-text)]">
-              {project.roles.slice(0, 4).join(" / ")}
-            </p>
-          </div>
-          <div>
-            <p className="meta-label text-[var(--theme-accent)]">
-              使用工具
-            </p>
-            <p className="zh-caption mt-1 text-[var(--theme-text)]">
-              {project.tools.slice(0, 4).join(" / ")}
-            </p>
-          </div>
-        </div>
-        <ChipList items={project.instituteConnections.slice(0, 3)} accent label={`${project.title} 的研究連結`} />
-      </div>
-    </motion.article>
   );
 }
 
@@ -597,9 +339,17 @@ function StoryboardStrip({ id, storyboard, videoId }) {
   const pendingSeekRef = useRef(null);
   const storyboardListRef = useRef(null);
 
-  useEffect(() => () => {
+  const clearPendingSeek = () => {
     const pendingSeek = pendingSeekRef.current;
-    pendingSeek?.video.removeEventListener("loadedmetadata", pendingSeek.applySeek);
+    if (!pendingSeek) return;
+    pendingSeek.video.removeEventListener("loadedmetadata", pendingSeek.applySeek);
+    pendingSeek.video.removeEventListener("error", pendingSeek.handleError);
+    pendingSeek.video.removeEventListener("abort", pendingSeek.handleError);
+    pendingSeekRef.current = null;
+  };
+
+  useEffect(() => () => {
+    clearPendingSeek();
   }, []);
 
   if (!storyboard?.frames?.length) return null;
@@ -612,7 +362,7 @@ function StoryboardStrip({ id, storyboard, videoId }) {
     }
 
     const applySeek = () => {
-      pendingSeekRef.current = null;
+      clearPendingSeek();
       setActiveFrameIndex(index);
       video.pause();
       video.currentTime = frame.seekSeconds;
@@ -622,13 +372,18 @@ function StoryboardStrip({ id, storyboard, videoId }) {
       });
       setSeekStatus(`已將影片定位至第 ${String(index + 1).padStart(2, "0")} 幕，${frame.time}。`);
     };
+    const handleError = () => {
+      clearPendingSeek();
+      setSeekStatus("影片暫時無法載入；請改用分鏡說明與逐字稿閱讀本段內容。");
+    };
 
     if (video.readyState === HTMLMediaElement.HAVE_NOTHING) {
-      const pendingSeek = pendingSeekRef.current;
-      pendingSeek?.video.removeEventListener("loadedmetadata", pendingSeek.applySeek);
-      pendingSeekRef.current = { video, applySeek };
+      clearPendingSeek();
+      pendingSeekRef.current = { video, applySeek, handleError };
       video.addEventListener("loadedmetadata", applySeek, { once: true });
-      video.load();
+      video.addEventListener("error", handleError, { once: true });
+      video.addEventListener("abort", handleError, { once: true });
+      if (video.networkState === HTMLMediaElement.NETWORK_EMPTY) video.load();
     } else {
       applySeek();
     }
@@ -650,26 +405,15 @@ function StoryboardStrip({ id, storyboard, videoId }) {
   };
 
   const handleKeyDown = (event) => {
-    const storyboardList = event.currentTarget;
-    const firstFrame = storyboardList.querySelector(".case-storyboard__item");
-    const styles = window.getComputedStyle(storyboardList);
-    const gap = Number.parseFloat(styles.columnGap || styles.gap) || 0;
-    const step = (firstFrame?.getBoundingClientRect().width || storyboardList.clientWidth * 0.85) + gap;
-    const maxScroll = storyboardList.scrollWidth - storyboardList.clientWidth;
-    let nextPosition;
-
-    if (event.key === "ArrowRight") nextPosition = storyboardList.scrollLeft + step;
-    if (event.key === "ArrowLeft") nextPosition = storyboardList.scrollLeft - step;
-    if (event.key === "Home") nextPosition = 0;
-    if (event.key === "End") nextPosition = maxScroll;
-    if (nextPosition === undefined) return;
+    let nextIndex;
+    if (event.key === "ArrowRight") nextIndex = activeFrameIndex + 1;
+    if (event.key === "ArrowLeft") nextIndex = activeFrameIndex - 1;
+    if (event.key === "Home") nextIndex = 0;
+    if (event.key === "End") nextIndex = storyboard.frames.length - 1;
+    if (nextIndex === undefined) return;
 
     event.preventDefault();
-    storyboardList.scrollTo({
-      left: Math.max(0, Math.min(nextPosition, maxScroll)),
-      behavior: "auto",
-    });
-    setActiveFrameIndex(Math.round(Math.max(0, Math.min(nextPosition, maxScroll)) / step));
+    moveToFrame(nextIndex);
   };
 
   return (
@@ -746,11 +490,11 @@ function FeaturedExample({ id, example }) {
         <p className="zh-copy-wide text-[var(--theme-inverse-text)]">{example.summary}</p>
         <ul className="flex flex-wrap gap-2" aria-label={`${example.title} 的文學主題`}>
           {example.themes?.map((theme) => (
-            <li key={theme} className="chip-text rounded-full border border-[color:rgba(255,255,255,0.24)] px-3.5 py-1.5 text-sm font-extrabold text-[var(--theme-inverse-text)]">{theme}</li>
+            <li key={theme} className="chip-text rounded-full border border-[color:var(--theme-inverse-line)] px-3.5 py-1.5 text-sm font-extrabold text-[var(--theme-inverse-text)]">{theme}</li>
           ))}
         </ul>
       </div>
-      <aside className="grid content-start gap-4 border-t border-[color:rgba(255,255,255,0.22)] pt-5 md:border-l md:border-t-0 md:pl-6 md:pt-0">
+      <aside className="grid content-start gap-4 border-t border-[color:var(--theme-inverse-line)] pt-5 md:border-l md:border-t-0 md:pl-6 md:pt-0">
         <p className="zh-label opacity-70">代表場景</p>
         <h4 className="zh-heading text-[clamp(1.25rem,2vw,1.75rem)]">{example.focusTitle}</h4>
         <p className="zh-caption text-[var(--theme-inverse-text)]">{example.focusDescription}</p>
@@ -949,58 +693,7 @@ function StructuredProjectSections({ sections = [] }) {
     </section>
   );
 }
-// Codex-Fix: Case studies can now carry rich handoff-driven narrative sections without hard-coding bespoke layouts.
-
-function DiagramGallery({ id, diagrams = [], introduction }) {
-  if (!diagrams.length) return null;
-
-  const isVisualStrategy = diagrams[0]?.kind === "visualStrategy";
-
-  return (
-    <section id={id} className="grid gap-8 border-t border-[color:var(--theme-line)] pt-8">
-      <div className="grid gap-3 md:grid-cols-[0.32fr_0.68fr] md:gap-12">
-        <h3 className="meta-label text-[var(--theme-accent)]">
-          {isVisualStrategy ? "視覺方向" : "流程與架構"}
-        </h3>
-        <p className="zh-copy text-[color:var(--theme-muted)]">
-          {introduction ?? "互動流程圖、系統架構圖與資訊架構圖用來補充作品方法，讓媒體成果背後的流程與系統關係更容易被理解。"}
-        </p>
-      </div>
-      <div className={isVisualStrategy ? "grid gap-6 md:grid-cols-2 lg:grid-cols-3" : "grid gap-6 md:grid-cols-3"}>
-        {diagrams.map((diagram) => (
-          <figure key={`${diagram.type}-${diagram.title}`} className="grid gap-4">
-            <div className="media-frame overflow-hidden rounded-[var(--radius-md)]">
-              <ResponsiveImage
-                image={diagram.image}
-                className="aspect-[4/5] h-full w-full object-cover"
-                sizes="(min-width: 1024px) 28vw, (min-width: 768px) 42vw, 92vw"
-              />
-            </div>
-            <figcaption className="grid content-start gap-2">
-              <p className="zh-label text-[var(--theme-accent)]">
-                {diagram.kind === "visualStrategy" ? "視覺策略" : diagramLabels[diagram.type] ?? "案例圖示"}
-              </p>
-              <h4 className="zh-heading text-[clamp(1.15rem,1.7vw,1.55rem)]">{diagram.title}</h4>
-              <p className="zh-caption text-[color:var(--theme-muted)]">
-                {diagram.caption}
-              </p>
-              {diagram.description ? (
-                <AnimatedDetails
-                  className="zh-caption text-[color:var(--theme-muted)]"
-                  summary={diagram.detailsLabel ?? "閱讀圖解說明"}
-                  summaryClassName="interactive-link cursor-pointer font-extrabold text-[var(--theme-text)]"
-                >
-                  <p className="mt-2">{diagram.description}</p>
-                </AnimatedDetails>
-              ) : null}
-            </figcaption>
-          </figure>
-        ))}
-      </div>
-    </section>
-  );
-}
-// Codex-Fix: Complex diagrams now include visible captions and expandable text equivalents.
+// Case studies can carry rich handoff-driven narrative sections without hard-coding bespoke layouts.
 
 function ImageEvidenceGrid({ title, items = [] }) {
   if (!items.length) return null;
@@ -1228,7 +921,7 @@ function VideoEvidence({ videos = [] }) {
     </section>
   );
 }
-// Codex-Fix: Video evidence now preserves 16:9 media, multiple subtitle tracks, playsInline behavior, and complete transcript access.
+// Video evidence preserves 16:9 media, multiple subtitle tracks, playsInline behavior, and complete transcript access.
 
 function AudioEvidence({ audio = [] }) {
   if (!audio.length) return null;
@@ -1311,7 +1004,7 @@ function DemoEmbedCard({ demo }) {
     </div>
   );
 }
-// Codex-Fix: Heavy iframe demos load only after explicit user intent, preserving initial performance and INP.
+// Heavy iframe demos load only after explicit user intent, preserving initial performance and INP.
 
 function DemoEvidence({ demos = [] }) {
   if (!demos.length) return null;
@@ -1349,7 +1042,7 @@ function RestrictedMediaEvidence({ items = [] }) {
     </section>
   );
 }
-// Codex-Fix: Restricted media is represented as policy text only, so private videos/files never enter the public build.
+// Restricted media is represented as policy text only, so private videos/files never enter the public build.
 
 function MediaEvidence({ id, media }) {
   if (!hasSupportingMediaEvidence(media)) return null;
@@ -1514,7 +1207,7 @@ function InstituteConnection({ project }) {
     </section>
   );
 }
-// Codex-Fix: Keep demonstrated evidence separate from explicitly prospective graduate-study directions.
+// Keep demonstrated evidence separate from explicitly prospective graduate-study directions.
 
 function ProjectLinksCredits({ project }) {
   if (!project.links?.length && !project.credits) return null;
@@ -1586,7 +1279,7 @@ function ProjectDetail({ project, previousProject, nextProject }) {
   return (
     <article
       id={project.id}
-      className="case-study-detail scroll-mt-28 px-[clamp(1.25rem,6vw,10vw)] py-28 md:py-36"
+      className="case-study-detail scroll-mt-28 px-[var(--page-gutter)] py-28 md:py-36"
       aria-labelledby={`${project.id}-title`}
     >
       <div className="mx-auto grid max-w-7xl gap-12">
@@ -1700,6 +1393,10 @@ function ProjectDetail({ project, previousProject, nextProject }) {
 }
 
 export default function CaseStudyShowcase({ scope = "all", showIndex = true }) {
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent("portfolio:deferred-ready"));
+  }, [scope]);
+
   const renderedProjects = scope === "flagship"
     ? sortedProjectCaseStudies.filter((project) => project.id === "interactive-sound-learning")
     : scope === "supporting"
@@ -1713,7 +1410,7 @@ export default function CaseStudyShowcase({ scope = "all", showIndex = true }) {
     >
       {showIndex ? (
         <>
-          <section id="project-index" aria-labelledby="project-index-title" className="min-h-screen px-[clamp(1.25rem,6vw,10vw)] py-28 md:py-40">
+          <section id="project-index" aria-labelledby="project-index-title" className="min-h-screen px-[var(--page-gutter)] py-28 md:py-40">
             <div className="mx-auto grid max-w-7xl gap-16">
               <div className="grid gap-8 md:grid-cols-[0.42fr_0.58fr] md:items-end">
                 <div className="grid gap-4">

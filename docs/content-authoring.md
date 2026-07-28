@@ -26,11 +26,12 @@ For the research decisions behind the layout, use `docs/portfolio-display-resear
 - AI／authorship data: `src/data/ai-workflow.js`
 - Draft-only hidden case text: `src/data/portfolio.hidden.js`
 - Draft-only internal notes: `src/data/portfolio.internal.js`
+- Site identity, canonical URLs, top-level sections, and primary navigation: `src/config/site.js`
 - Case-study layout: `src/components/CaseStudyShowcase.jsx`
 - Application proposal layout: `src/components/ResearchProposalSection.jsx`
 - Admission evidence layouts: `src/components/AdmissionEvidenceSections.jsx`
 - Local media assets: `public/media/portfolio`
-- Site metadata: `index.html`, `public/llms.txt`, and `public/social-preview.svg`
+- Site metadata derivatives: `index.html`, `public/llms.txt`, and `public/social-preview.svg`; keep them synchronized with `src/config/site.js` and verify with `pnpm run audit:site`
 
 ## Admission Evidence Records
 

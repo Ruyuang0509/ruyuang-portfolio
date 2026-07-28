@@ -25,7 +25,7 @@ export default class SectionErrorBoundary extends Component {
   render() {
     if (!this.state.hasError) return this.props.children;
     return (
-      <section className="px-[clamp(1.25rem,6vw,10vw)] py-20 text-[var(--theme-text)]" role="alert">
+      <section className="px-[var(--page-gutter)] py-20 text-[var(--theme-text)]" role="alert">
         <div className="mx-auto grid max-w-3xl gap-5 rounded-[var(--radius-md)] border border-[color:var(--theme-line)] p-6">
           <p className="meta-label text-[var(--theme-accent)]">區段載入錯誤</p>
           <h2 id={this.props.headingId} className="zh-heading text-2xl">{this.props.sectionName ?? "這個區段"}暫時無法顯示</h2>

@@ -14,6 +14,8 @@
   --space-md: clamp(1.25rem, 1rem + 1vw, 2rem);
   --space-lg: clamp(2rem, 1.4rem + 2.4vw, 4rem);
   --space-xl: clamp(4rem, 2.4rem + 6vw, 8.5rem);
+  --page-gutter: clamp(1.25rem, 6vw, 10vw);
+  --control-hit-size: 2.75rem;
   --radius-sm: 0.75rem;
   --radius-md: 1.25rem;
   --radius-lg: 2rem;
@@ -52,8 +54,9 @@
   --theme-panel: rgba(239, 233, 220, 0.105);
   --theme-inverse-bg: var(--color-paper);
   --theme-inverse-text: var(--color-paper-text);
+  --theme-inverse-line: rgba(26, 23, 17, 0.22);
 }
-/* Codex-Fix: Shift the palette away from pure black/white into warm paper and ink tones to reduce dark/light eye strain. */
+/* Warm paper and ink tones reduce dark/light eye strain. */
 
 .paper-surface,
 .nav-surface--paper {
@@ -67,12 +70,13 @@
   --theme-panel: rgba(244, 236, 221, 0.56);
   --theme-inverse-bg: #272319;
   --theme-inverse-text: #eee7d8;
+  --theme-inverse-line: rgba(239, 233, 220, 0.24);
 }
 
 .paper-surface {
   color-scheme: light;
 }
-/* Codex-Fix: Paper tokens are section-scoped; the scroll trigger only applies the same endpoint to fixed navigation chrome. */
+/* Paper tokens are section-scoped; the scroll trigger applies the same endpoint to fixed navigation chrome. */
 
 .theme-reading-surface {
   position: relative;
@@ -96,9 +100,10 @@
   --theme-panel: rgba(239, 233, 220, 0.105);
   --theme-inverse-bg: #d8cfbd;
   --theme-inverse-text: #1a1711;
+  --theme-inverse-line: rgba(26, 23, 17, 0.22);
   color-scheme: dark;
 }
-/* Codex-Fix: Keep narrative text on opaque semantic surfaces while the fixed mist field remains visible around the reading area. */
+/* Keep narrative text on opaque semantic surfaces while the fixed mist field remains visible around the reading area. */
 
 * {
   box-sizing: border-box;
@@ -110,7 +115,7 @@ html {
   scrollbar-gutter: stable;
   background: var(--theme-bg);
 }
-/* Codex-Fix: Keep the platform scrollbar visible so reviewers retain position and scroll affordance on this long-form page. */
+/* Keep the platform scrollbar visible so reviewers retain position and scroll affordance on this long-form page. */
 
 body {
   margin: 0;
@@ -129,13 +134,13 @@ body {
   accent-color: var(--theme-accent);
   text-rendering: optimizeLegibility;
 }
-/* Codex-Fix: Use a Traditional Chinese system font stack and CJK-friendly line breaking instead of Latin-first body typography. */
+/* Use a Traditional Chinese system font stack and CJK-friendly line breaking instead of Latin-first body typography. */
 
 :lang(zh-Hant),
 :lang(zh-Hant-TW) {
   line-break: loose;
 }
-/* Codex-Fix: Respect Chinese punctuation and line-breaking behavior without forcing destructive break-all wrapping. */
+/* Respect Chinese punctuation and line-breaking behavior without destructive break-all wrapping. */
 
 ::selection {
   color: var(--theme-inverse-text);
@@ -156,9 +161,8 @@ button:focus-visible,
 [tabindex]:focus-visible {
   outline: 2px solid var(--theme-accent);
   outline-offset: 5px;
-  border-radius: var(--radius-xl);
 }
-/* Codex-Fix: Add consistent keyboard-visible focus states for WCAG 2.2 usability. */
+/* Keep keyboard-visible focus states consistent. */
 
 .skip-link {
   position: fixed;
@@ -179,7 +183,7 @@ button:focus-visible,
 .skip-link:focus-visible {
   transform: translateY(0);
 }
-/* Codex-Fix: Add an accessible skip link that stays hidden until keyboard focus. */
+/* The skip link stays hidden until keyboard focus. */
 
 img,
 video,
@@ -204,18 +208,18 @@ section {
 
 .mobile-section-trigger {
   display: inline-flex;
-  min-height: 2.75rem;
+  min-height: var(--control-hit-size);
 }
 
 .nav-home-link {
-  min-width: 2.75rem;
-  min-height: 2.75rem;
+  min-width: var(--control-hit-size);
+  min-height: var(--control-hit-size);
   place-content: center;
 }
 
 .nav-section-link {
   display: inline-flex;
-  min-height: 2.75rem;
+  min-height: var(--control-hit-size);
   align-items: center;
 }
 
@@ -232,7 +236,7 @@ section {
 }
 .nav-surface {
   background: var(--theme-bg);
-  /* Codex-Fix: Keep the fallback theme-aware so older browsers retain text contrast on both palette endpoints. */
+  /* Keep the fallback theme-aware so older browsers retain text contrast on both palette endpoints. */
   box-shadow: var(--shadow-soft);
 }
 
@@ -240,7 +244,7 @@ section {
   .nav-surface {
     background: color-mix(in srgb, var(--theme-bg) 92%, transparent);
   }
-  /* Codex-Fix: A mostly opaque nav surface preserves contrast without a fixed 40px backdrop blur. */
+  /* A mostly opaque nav surface preserves contrast without a fixed 40px backdrop blur. */
 }
 
 .page-shell {
@@ -261,7 +265,7 @@ section {
 
 .viewport-theme-transition > div {
   position: absolute;
-  inset: 0;
+  inset: var(--viewport-field-inset, 0);
   opacity: 0;
 }
 
@@ -270,7 +274,7 @@ section {
 }
 
 .viewport-theme-transition__mist {
-  inset: -12vmax !important;
+  --viewport-field-inset: -12vmax;
   background:
     radial-gradient(circle at 50% 42%, rgba(137, 132, 111, 0.72), transparent 58%),
     #706b5f;
@@ -278,7 +282,7 @@ section {
 }
 
 .viewport-theme-transition__field {
-  inset: -18vmax !important;
+  --viewport-field-inset: -18vmax;
 }
 
 .viewport-theme-transition__field--a {
@@ -296,7 +300,7 @@ section {
 html.theme-transition-ready .theme-transition-source {
   background: transparent;
 }
-/* Codex-Fix: The fixed field remains visible around the dark reading surface; the paper project index stays opaque so ink never crosses the mist midpoint. */
+/* The fixed field remains visible around the dark reading surface; the paper project index stays opaque so ink never crosses the mist midpoint. */
 
 .portfolio-card,
 .evidence-panel,
@@ -314,7 +318,7 @@ html.theme-transition-ready .theme-transition-source {
   background: color-mix(in srgb, var(--theme-bg) 86%, transparent);
   backdrop-filter: blur(18px);
 }
-/* Codex-Fix: Draft-only governance panels look like editing tools, not formal portfolio evidence. */
+/* Draft-only governance panels look like editing tools, not formal portfolio evidence. */
 
 .paper-panel,
 .inverted-pill,
@@ -328,7 +332,7 @@ html.theme-transition-ready .theme-transition-source {
   background: var(--theme-surface);
   box-shadow: 0 1rem 3rem rgba(18, 16, 12, 0.12);
 }
-/* Codex-Fix: Add reusable comfort surfaces so cards/media use layered tones instead of harsh black-white inversion. */
+/* Comfort surfaces let cards and media use layered tones instead of harsh black-white inversion. */
 
 .meta-label {
   font-family: var(--font-sans-zh);
@@ -410,9 +414,8 @@ html.theme-transition-ready .theme-transition-source {
 
 .mobile-section-trigger.chip-text,
 .hero-cta.chip-text,
-.institute-jump-link.chip-text,
 .case-reading-link.chip-text {
-  min-height: 2.75rem;
+  min-height: var(--control-hit-size);
 }
 
 .mixed-token {
@@ -459,22 +462,17 @@ html.theme-transition-ready .theme-transition-source {
     max-inline-size: 100%;
   }
 
-  .phrase-unit {
-    white-space: nowrap;
-  }
-
   .phrase-line {
     max-inline-size: 100%;
   }
 }
-/* Codex-Fix: Add phrase-aware heading primitives so Chinese semantic compounds stay together on display lines without forcing global break-all rules. */
-/* Codex-Fix: Add reusable Traditional Chinese typography primitives for headings, long copy, captions, and mixed Chinese-English chips. */
+/* Phrase-aware Traditional Chinese primitives preserve compounds and readable rhythms across headings, copy, captions, and mixed-language chips. */
 
 .hero-canvas-shell {
   min-height: 100%;
   contain: layout paint;
 }
-/* Codex-Fix: Give the lazy R3F canvas a stable shell so it cannot shift first-screen content. */
+/* Give the lazy R3F canvas a stable shell so it cannot shift first-screen content. */
 
 .hero-title {
   max-inline-size: 100%;
@@ -497,10 +495,6 @@ html.theme-transition-ready .theme-transition-source {
   }
 }
 
-.gallery-panel {
-  container-type: inline-size;
-}
-
 .gallery-title {
   max-width: var(--measure-zh-heading);
   overflow-wrap: normal;
@@ -511,7 +505,7 @@ html.theme-transition-ready .theme-transition-source {
   letter-spacing: -0.014em;
   text-wrap: balance;
 }
-/* Codex-Fix: Replace English poster-style uppercase/negative tracking with Chinese-friendly display rhythm. */
+/* Use a Chinese-friendly display rhythm instead of English poster-style uppercase and negative tracking. */
 
 .data-series-title {
   max-inline-size: 100%;
@@ -522,7 +516,7 @@ html.theme-transition-ready .theme-transition-source {
   letter-spacing: -0.012em;
   text-wrap: balance;
 }
-/* Codex-Fix: Keep the data-series title at two semantic phrase lines on desktop and inside the 320px reading surface. */
+/* Keep the data-series title at two semantic phrase lines on desktop and inside the 320px reading surface. */
 
 .interactive-link {
   transition:
@@ -533,22 +527,20 @@ html.theme-transition-ready .theme-transition-source {
 .interactive-link:hover {
   transform: translate3d(0, -1px, 0);
 }
-/* Codex-Fix: Use transform-only micro-interactions for tactile but cheap CTA feedback. */
+/* Use transform-only micro-interactions for tactile, inexpensive CTA feedback. */
 
 @media (hover: hover) and (pointer: fine) {
-  .portfolio-card:is(:hover, :focus-within),
-  .group:is(:hover, :focus-within) img,
-  .group:is(:hover, :focus-within) video {
+  .portfolio-card:is(:hover, :focus-within) {
     will-change: transform;
   }
 }
-/* Codex-Fix: Promote hover layers only while active; magnetic hit targets no longer reserve permanent compositor layers. */
+/* Promote card layers only while their transform interaction is active. */
 
 @supports (min-height: 100svh) {
   .min-h-screen {
     min-height: 100svh;
   }
-  /* Codex-Fix: Use small viewport height on mobile so full-screen sections do not jump under browser chrome. */
+  /* Use small viewport height on mobile so full-screen sections do not jump under browser chrome. */
 }
 
 @supports (content-visibility: auto) {
@@ -567,7 +559,7 @@ html.theme-transition-ready .theme-transition-source {
       content-visibility: visible;
     }
   }
-  /* Codex-Fix: Skip painting offscreen long-form case studies while keeping the project index immediately available. */
+  /* Skip painting offscreen long-form case studies while keeping the project index immediately available. */
 }
 
 .case-study-detail {
@@ -588,7 +580,7 @@ html.theme-transition-ready .theme-transition-source {
   text-wrap: pretty;
   line-break: loose;
 }
-/* Codex-Fix: Give research-positioning sections the same evidence-dossier rhythm as long-form case studies. */
+/* Research-positioning sections share the evidence-dossier rhythm of long-form case studies. */
 
 .case-study-detail p,
 .case-study-detail li,
@@ -620,11 +612,11 @@ html.theme-transition-ready .theme-transition-source {
 .case-study-detail iframe {
   background: rgba(0, 0, 0, 0.08);
 }
-/* Codex-Fix: Add stable long-form case-study rules for readable text, embedded media, and future demos. */
+/* Keep long-form case-study text, embedded media, and future demos stable and readable. */
 
 .animated-disclosure__summary {
   display: flex;
-  min-block-size: 2.75rem;
+  min-block-size: var(--control-hit-size);
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
@@ -669,7 +661,7 @@ html.theme-transition-ready .theme-transition-source {
   opacity: 1;
   transform: translate3d(0, 0, 0);
 }
-/* Codex-Fix: Preserve native details/summary semantics while animating both opening and closing height with synchronized content and indicator feedback. */
+/* Preserve native details/summary semantics while synchronizing height, content, and indicator feedback. */
 
 .sound-pad {
   position: relative;
@@ -763,18 +755,14 @@ html.theme-transition-ready .theme-transition-source {
   scroll-margin-top: 7.5rem;
 }
 
-.institute-evidence-group {
-  scroll-margin-top: 7.5rem;
-}
-
 .case-cta {
-  min-height: 2.75rem;
+  min-height: var(--control-hit-size);
 }
 
 .case-cta:not(.cta-button) {
   border-color: var(--theme-control-line);
 }
-/* Codex-Fix: Separate interactive control boundaries from intentionally subtle decorative dividers. */
+/* Separate interactive control boundaries from intentionally subtle decorative dividers. */
 
 .case-prompt-template {
   overflow-wrap: break-word;
@@ -823,7 +811,7 @@ html.theme-transition-ready .theme-transition-source {
   border-color: color-mix(in srgb, var(--workflow-stage-accent) 58%, transparent);
   color: var(--workflow-stage-accent);
 }
-/* Codex-Fix: Keep case-study reading-map anchors comfortable under the fixed navigation. */
+/* Keep case-study reading-map anchors comfortable under the fixed navigation. */
 
 @media print {
   .nav-surface,
@@ -852,6 +840,7 @@ html.theme-transition-ready .theme-transition-source {
     --theme-panel: rgba(255, 255, 255, 0.42);
     --theme-inverse-bg: #e4dac8;
     --theme-inverse-text: #1a1711;
+    --theme-inverse-line: rgba(26, 23, 17, 0.24);
     color: var(--theme-text) !important;
     color-scheme: light;
   }
@@ -901,4 +890,4 @@ html.theme-transition-ready .theme-transition-source {
   }
 
 }
-/* Codex-Fix: Add admissions-review print safeguards so case studies can be exported without nav/cursor noise. */
+/* Admissions-review print safeguards remove navigation and cursor noise from exported case studies. */

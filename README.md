@@ -4,6 +4,14 @@
 
 這個資料夾是未來工作的唯一 canonical project root。舊資料夾 `portfolio-nextgen`、`personal-portfolio-nextgen`、以及原始 Codex 任務資料夾都只作為參考或封存，不應直接編輯。
 
+## 2026-07-28 程式碼品質與單一來源稽核
+
+- 完整結果與證據見 [`docs/CODE_QUALITY_AUDIT.md`](docs/CODE_QUALITY_AUDIT.md)；後續維護契約見 [`docs/CODE_STYLE_AND_REFACTORING.md`](docs/CODE_STYLE_AND_REFACTORING.md)。
+- 新增 `audit:quality`、`audit:site`，並強化 `audit:media` 為精確 path／missing file gate；三者都已接入 `verify`、`check:submission` 或 workspace contract。
+- 網站 identity／11 段 IA、Power BI 九章敘事、共用圖片 renderer 與 testing metric key 已收斂；不可達元件、重複 renderer、孤立資料與 21 個 public media 孤兒已移除。
+- 既有 palette、繁中排版、R3F、GSAP／Lenis、Custom Cursor、Web Audio、section reveal、reduced-motion 與 Hamlet limited-use／`notValidated` 邊界保留。
+- 最新 `doctor` 與 `check:publication` 均 exit 0；submission 為 473 modules、entry 100968 B、CSS 45757 B、initial JS gzip 183291 B，119-file artifact。沒有 commit、push 或 deploy。
+
 ## 2026-07-26 公開展示版整備（本輪已驗證）
 
 - 公開作品資料與內部稽核已分層：`src/data/admission-evidence.js` 只保存公開敘事，完整 evidence／validation／rights／limitations／requests 改由 `src/data/admission-evidence.audit.js` 提供 Draft／Audit 使用。Submission 仍以 module boundary 排除內部資料，不以 CSS 隱藏。
@@ -19,6 +27,8 @@
 ```powershell
 pnpm install
 pnpm run workspace:check
+pnpm run audit:quality
+pnpm run audit:site
 pnpm run audit:media
 pnpm run audit:text
 pnpm run audit:cjk

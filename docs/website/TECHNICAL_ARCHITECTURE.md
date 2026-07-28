@@ -1,5 +1,17 @@
 # 技術架構
 
+## 2026-07-28 品質稽核後 source 與 artifact
+
+- `src/config/site.js` 提供 site identity、11 段 IA、主要導覽與相容 alias；`audit:site` 讓 HTML／JSON-LD／social metadata／`llms.txt`／source target／final links 不能各自漂移。
+- `audit:quality` 掃描版本式 source filename、重複 PascalCase component declaration、runtime debug output、maintenance marker、協作工具標籤與 draft／submission import graph；目前 43 modules 全可達。
+- `audit:media` 直接收集 source literal 與 materialized portfolio data 的 media path，逐檔比對 94 個 public media，並反向拒絕 referenced-but-missing 檔案；不再用 substring 猜測引用。
+- `CaseStudyShowcase` 是非首屏 lazy chunk，兩個使用位置由 `Suspense`／section error boundary 包覆；mount 後發出 `portfolio:deferred-ready`，所以案例與子章的 cold hash 會在 module 到位後重新 settle。
+- `learningDashboardCase` 的九章 section、Hero、reading frame、process layers、overview、charts 與 interaction copy 在 `portfolio.js`；`LearningDashboardProjectDetail` 只處理渲染。Validator 固定九個 published suffix、三層七步、chart／interaction count與 stable testing metric keys。
+- `ResponsiveImage` 只有一個實作；LearningTrail 與舊 Project Overview／Diagram Gallery 路徑已移除。Power BI 的 generic `extendedSections` 因專屬 renderer direct return 而不可達，已只從該專案刪除。
+- 最終 Draft 為 477 modules、entry 129578 B、CSS 45757 B、initial JS gzip 192963 B；Submission 為 473 modules、entry 100968 B、CSS 45757 B、initial JS gzip 183291 B。3D closure 仍為 638680 raw／169383 gzip B且保持 lazy。
+- Fresh submission 為 119 files／32 text files，public 98 files 全數 0 missing／0 SHA-256 mismatch；Pages subpath audit與 publication gate均 exit 0。
+- 依賴沒有新增或移除；`@vitejs/plugin-react` 由浮動 `latest` 固定為目前 lockfile 相容的 `^6.0.3`。
+
 ## 2026-07-27 最新組合驗證
 
 - 完整 `pnpm run doctor` exit 0。Draft build：474 modules、entry 181772 B、CSS 46069 B、initial JS gzip 201686 B；lazy 3D closure 638680 raw／169383 gzip B。
@@ -32,7 +44,7 @@
 
 ## 整合後 source 架構
 
-- `HomePage` 目前以 11 個主要閱讀段落組合：Hero、`SoundTransitionSection`、`ReviewerPathSection`、旗艦 `CaseStudyShowcase`、`PureDataLearningSection`、`ResearchProposalSection`、代表作品／支持案例群、`CollaborationSection`、`LearningRoadmapSection`、`AiWorkflowSection`、`ContactSection`。資料視覺化系列與支持案例索引屬代表作品群的延伸，不另計為主段落。
+- `HomePage` 目前以 11 個主要閱讀段落組合：Hero、`SoundTransitionSection`、`ReviewerPathSection`、lazy 旗艦 `CaseStudyShowcase`、`PureDataLearningSection`、`ResearchProposalSection`、代表作品／lazy 支持案例群、`CollaborationSection`、`LearningRoadmapSection`、`AiWorkflowSection`、`ContactSection`。資料視覺化系列與支持案例索引屬代表作品群的延伸，不另計為主段落。
 - [`../../src/data/admission-evidence.js`](../../src/data/admission-evidence.js) 保存 public narrative；[`../../src/data/admission-evidence.audit.js`](../../src/data/admission-evidence.audit.js) 依 stable ID 保存完整 audit records。[`../../src/components/AdmissionEvidenceSections.jsx`](../../src/components/AdmissionEvidenceSections.jsx) 只依賴 public module，同一 dynamic import 提供 Pure Data、代表作品、secondary creation、合作、學習路線與聯絡 6 個 lazy exports；Draft layer 才讀 audit module。研究構想與 AI／作者性各是獨立 lazy chunk。`DeferredAdmissionSection` 提供永久 anchor wrapper、Suspense、section error boundary 及 deferred-ready fragment 重新校正。
 - Pure Data v0.2.1 影片與 poster 已在 `public/media/portfolio/` 並由 `<video controls playsInline preload="metadata">` 實際引用；資料層記錄 1276×720、62.983 秒、H.264／AAC及文字觀看指南。影片播放失敗只切換文字 fallback，證據與限制內容不會消失。
 - 研究構想由 `admission-research.js` 的 `layers` 陣列驅動，四層固定為問題、初步構想、申請者可帶入的能力、入學後需補強；`ResearchProposalSection` 另渲染五步預定流程、預期貢獻與 disclaimer。`#research-positioning` 是永久 wrapper，內含相容舊連結的 `#research-proposal` alias。
@@ -134,7 +146,7 @@ flowchart LR
 - [`../../src/hooks/useWebAudioEngine.js`](../../src/hooks/useWebAudioEngine.js)：React state、StrictMode-safe controller lifecycle 與 `visibilitychange` 即時清理。
 - [`../../src/audio/webAudioEngineCore.js`](../../src/audio/webAudioEngineCore.js)：可注入／可測試的 AudioContext controller，負責 resume cancel／timeout、graph、release、context interruption、參數與 destroy。
 - [`../../src/audio/soundMapping.js`](../../src/audio/soundMapping.js)：可測試的 clamp、linear/log mapping 與參數安全範圍。
-- [`../../src/components/LearningTrail.jsx`](../../src/components/LearningTrail.jsx)：舊元件仍在 source，但不在目前 `App.jsx` 主 IA；現行學習狀態由 `AdmissionEvidenceSections` 的 `LearningRoadmapSection` 呈現。
+- `AdmissionEvidenceSections` 的 `LearningRoadmapSection` 是現行學習狀態唯一渲染路徑；已移除未掛載的舊 `LearningTrail` 元件與重複資料。
 - [`../../src/components/AiWorkflowSection.jsx`](../../src/components/AiWorkflowSection.jsx)：生成式 AI／LLM 協作責任、Prompt 版本、失敗案例與文件證據入口。
 - [`../../src/components/DataVisualizationSeries.jsx`](../../src/components/DataVisualizationSeries.jsx)：兩件資料作品的系列策展入口。
 - [`../../src/components/SectionErrorBoundary.jsx`](../../src/components/SectionErrorBoundary.jsx)：區段失敗隔離與 reset。

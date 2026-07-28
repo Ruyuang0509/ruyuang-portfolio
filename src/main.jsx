@@ -15,4 +15,4 @@ createRoot(document.getElementById("root")).render(
     </RootErrorBoundary>
   </React.StrictMode>,
 );
-// Codex-Fix: Keep the portfolio as a lean single-page React 19 tree; hash navigation does not need router runtime.
+// Keep the portfolio as a lean single-page React 19 tree; hash navigation does not need router runtime.

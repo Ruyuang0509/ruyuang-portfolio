@@ -1,13 +1,13 @@
 # Visual System Notes
 
-Updated: 2026-07-26
+Updated: 2026-07-28
 
 This site should feel like a calm, personal research portfolio, not a flashing demo reel. The document root stays warm ink; supporting case studies, collaboration, learning roadmap, AI／authorship and contact use section-scoped paper tokens, while a dedicated fixed viewport field carries the scroll-linked passage between dark and paper states. PR #5 changed public copy, labels, ARIA text and metadata; PR #6 added the 11-section admission IA, lazy evidence boundaries and Pure Data media. Neither change authorizes removing or flattening the approved motion system.
 
 ## 2026-07-26 Theme Reading-Surface Update
 
 - `DataVisualizationSeries` keeps `theme-transition-source` only as the field trigger. All foreground copy, media and cards sit inside an opaque `.theme-reading-surface.theme-reading-surface--dark`, so text never inherits the mist or paper midpoint behind it.
-- `.theme-reading-surface--dark` owns the complete semantic token set: background, text, muted text, lines, control boundaries, accent, surfaces, panels and inverse colors. Component markup does not scatter hard-coded black／white fixes.
+- `.theme-reading-surface--dark` owns the complete semantic token set: background, text, muted text, lines, control boundaries, accent, surfaces, panels and inverse colors. `--theme-inverse-line` is the border token inside inverse panels and receives a paper-safe print value. Component markup does not scatter hard-coded black／white fixes.
 - `useThemeInversion` applies one `THEME_ENDPOINT_THRESHOLD` through the central `applyThemeState` path. ScrollTrigger `onUpdate`／`onRefresh`, navigation chrome and the reduced endpoint therefore share the same dark／paper decision.
 - `App.jsx` observes `#main-content` with `ResizeObserver`; lazy sections or media that change document height trigger a bounded hash resettle instead of requiring a manual scroll nudge.
 - Browser checks covered 1280／768／390／320 with 0 overflow, 0 broken hash, 0 duplicate ID, 0 broken image and console 0. Four deep-link targets settled at 95–112 px; both theme endpoints and Menu Escape passed.
@@ -55,6 +55,7 @@ Screen-reader use, real browser zoom, system reduced-motion, physical devices an
 - Traditional Chinese paragraphs should keep generous line-height and a readable max-width.
 - Evidence sections should prefer a title, a short explanation, and then media or cards. Avoid stacking dense blocks without orientation text.
 - Detailed Traditional Chinese typography rules live in `docs/chinese-visual-system.md`; use the `.zh-*` and `.chip-text` classes instead of raw English-template tracking utilities.
+- Shared page shells use `--page-gutter`; interactive controls that need the common minimum target use `--control-hit-size`. Do not duplicate the same `clamp()` or 44px value across components.
 
 ## Motion And Accessibility
 

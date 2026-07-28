@@ -6,7 +6,7 @@ const cursorSpring = {
   damping: 15,
   mass: 0.28,
 };
-// Codex-Fix: Framer Motion spring physics replaces linear cursor tracking.
+// Spring physics replaces linear cursor tracking.
 
 export default function CustomCursor() {
   const rawX = useMotionValue(-120);
@@ -44,7 +44,7 @@ export default function CustomCursor() {
     stateRef.current = nextState;
     setCursorState(nextState);
   }, []);
-  // Codex-Fix: Keep high-frequency pointer coordinates in MotionValue and only commit React state on visual mode changes.
+  // Keep high-frequency pointer coordinates in MotionValue and only commit React state on visual mode changes.
 
   const setActiveTarget = useCallback(
     (target) => {
@@ -90,6 +90,7 @@ export default function CustomCursor() {
   useEffect(() => {
     if (!canUseCustomCursor || reduceMotion) return undefined;
 
+    setCursorVisual({ variant: "default", label: "" });
     document.documentElement.classList.add("has-custom-cursor");
 
     const handlePointerMove = (event) => {
@@ -99,7 +100,7 @@ export default function CustomCursor() {
       setActiveTarget(magneticTarget);
       schedulePointerWrite();
     };
-    // Codex-Fix: Batch pointer writes into rAF and avoid getBoundingClientRect on every pointermove.
+    // Batch pointer writes into rAF and avoid getBoundingClientRect on every pointermove.
 
     const handlePointerLeave = () => {
       if (frameRef.current) window.cancelAnimationFrame(frameRef.current);
@@ -122,7 +123,7 @@ export default function CustomCursor() {
       if (rectFrameRef.current) return;
       rectFrameRef.current = window.requestAnimationFrame(readTargetRect);
     };
-    // Codex-Fix: Throttle layout reads from scroll/resize so the custom cursor does not cause forced reflow bursts.
+    // Throttle layout reads from scroll/resize so the custom cursor does not cause forced reflow bursts.
 
     window.addEventListener("pointermove", handlePointerMove, { passive: true });
     window.addEventListener("pointerleave", handlePointerLeave);
@@ -132,6 +133,12 @@ export default function CustomCursor() {
     return () => {
       if (frameRef.current) window.cancelAnimationFrame(frameRef.current);
       if (rectFrameRef.current) window.cancelAnimationFrame(rectFrameRef.current);
+      frameRef.current = 0;
+      rectFrameRef.current = 0;
+      activeTargetRef.current = null;
+      activeRectRef.current = null;
+      rawX.set(-120);
+      rawY.set(-120);
       document.documentElement.classList.remove("has-custom-cursor");
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("pointerleave", handlePointerLeave);

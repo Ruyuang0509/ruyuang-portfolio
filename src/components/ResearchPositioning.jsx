@@ -8,7 +8,7 @@ const SoundTransitionSection = memo(function SoundTransitionSection() {
   return (
     <section
       id="sound-transition"
-      className="research-section px-[clamp(1.25rem,6vw,10vw)] py-24 text-[var(--theme-text)] md:py-32"
+      className="research-section px-[var(--page-gutter)] py-24 text-[var(--theme-text)] md:py-32"
       aria-labelledby="sound-transition-title"
     >
       <div className="mx-auto grid max-w-7xl gap-12">
@@ -48,7 +48,7 @@ export const ReviewerPathSection = memo(function ReviewerPathSection() {
   return (
     <section
       id="reviewer-path"
-      className="research-section px-[clamp(1.25rem,6vw,10vw)] py-24 text-[var(--theme-text)] md:py-32"
+      className="research-section px-[var(--page-gutter)] py-24 text-[var(--theme-text)] md:py-32"
       aria-labelledby="reviewer-path-title"
     >
       <div className="mx-auto grid max-w-7xl gap-10">

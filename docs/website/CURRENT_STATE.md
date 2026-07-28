@@ -1,5 +1,17 @@
 # 目前產品與資訊架構
 
+## 2026-07-28 程式碼品質、內容契約與資產稽核
+
+- `src/config/site.js` 現為 identity、canonical／repository URL、11 段 IA、主要導覽與相容 anchor 的單一來源；`audit:site` 交叉核對 HTML、JSON-LD、Open Graph、Twitter、`llms.txt`、social preview、source IDs 與 final links。
+- `learning-dashboard-analysis` 的九章 navigation／heading、Hero facts、reading frame、三層七步流程、overview、chart eyebrow 與 interaction summary 全由 `portfolio.js` 驅動；專屬 renderer 不再持有平行文案，且不可達 `extendedSections` 已移除。
+- `CaseStudyShowcase` 改為非首屏 lazy boundary，mount 後沿用 deferred-ready hash settle。這是在 entry 曾達 187902 B 並被 budget fail closed 後完成的修正；沒有調高門檻。
+- 共用 `ResponsiveImage` 取代案例內複本；舊 LearningTrail、Project Overview、Diagram Gallery 與未使用 export／selector 已移除。43 個 source modules 均由 draft／submission graph 可達。
+- 21 個 public media 孤兒經 source、CSS、Markdown、metadata、動態 URL、Git history 與 dist 雙重確認後移除，共 488845 Windows working-tree bytes；94 個剩餘 public media 由精確 path gate 驗證。
+- 生命週期修正涵蓋 cursor rAF、hash marker、storyboard media listener 與 desktop `End` live state；動效本身、聲音 mapping、R3F 與 reduced-motion contract未被移除。
+- 最新完整 `doctor` exit 0；Draft 477 modules、entry 129578 B、CSS 45757 B、initial JS gzip 192963 B。Submission 473 modules、entry 100968 B、CSS 45757 B、initial JS gzip 183291 B；sound 18/18、rights 15/15、scanner 73/73、artifact 119 files／32 text files。
+- Browser 1440×1000、768×900、390×844、320×720 為 global overflow 0、dead anchors 0、duplicate IDs 0、broken images 0、console warning／error 0；mobile menu、lazy deep links、storyboard keyboard／seek 與 Web Audio start／Escape stop 通過。
+- 沒有 commit、push、merge 或 deploy；screen reader、真實 200% zoom、system reduced-motion、實機、多瀏覽器音訊與 production field evidence 仍未驗證。
+
 ## 2026-07-28 Power BI 案例專屬資訊架構
 
 - `learning-dashboard-analysis` 由 `layoutVariant: "learning-dashboard-v2"` 分派到 lazy `LearningDashboardProjectDetail`；其 CSS 與 renderer 都限定於此案例，沒有改寫其他案例、全站 theme 或 motion。

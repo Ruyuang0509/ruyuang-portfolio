@@ -45,4 +45,4 @@ export default function ResponsiveImage({
     </picture>
   );
 }
-// Codex-Fix: Share one responsive image and readable failure fallback across index and case-study chunks.
+// Share one responsive image and readable failure fallback across index and case-study chunks.

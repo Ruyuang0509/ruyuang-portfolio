@@ -4,7 +4,7 @@ import { homepageNarrative } from "../data/portfolio.js";
 import EditorialHeading from "./EditorialHeading.jsx";
 
 const HeroScene = lazy(() => import("./HeroScene.jsx"));
-// Codex-Fix: Lazy-load the R3F scene so kinetic type can paint before the heavy 3D runtime.
+// Lazy-load the R3F scene so kinetic type can paint before the heavy 3D runtime.
 
 const SCENE_PRELOAD_MARGIN = 240;
 
@@ -40,7 +40,7 @@ const shouldLoadEnhancedScene = () => {
 
   return !saveData && !(compactViewport && lowCoreDevice);
 };
-// Codex-Fix: Gate WebGL as progressive enhancement so low-power or save-data users keep a stable CSS hero.
+// Gate WebGL as progressive enhancement so low-power or save-data users keep a stable CSS hero.
 
 export default function ImmersiveHero() {
   const heroRef = useRef(null);
@@ -101,7 +101,7 @@ export default function ImmersiveHero() {
       if (!sceneMountedRef.current) sceneLoadReadyRef.current = false;
     };
   }, [evaluateSceneActivity, reduceMotion]);
-  // Codex-Fix: Give primary DOM content a stable paint window, then recheck current page and Hero visibility before requesting R3F.
+  // Give primary DOM content a stable paint window, then recheck current page and Hero visibility before requesting R3F.
 
   useEffect(() => {
     if (reduceMotion || !heroRef.current) return undefined;
@@ -128,7 +128,7 @@ export default function ImmersiveHero() {
       document.removeEventListener("visibilitychange", evaluateSceneActivity);
     };
   }, [evaluateSceneActivity, reduceMotion]);
-  // Codex-Fix: Defer first load while hidden/offscreen, then keep the scene mounted and pause its frame loop outside the preload window.
+  // Defer first load while hidden/offscreen, then keep the scene mounted and pause its frame loop outside the preload window.
 
   return (
     <section

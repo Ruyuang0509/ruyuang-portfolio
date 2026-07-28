@@ -7,6 +7,8 @@ Run this checklist from the canonical project root `如願個人網站` before e
 ```powershell
 pnpm install --frozen-lockfile
 pnpm run workspace:check
+pnpm run audit:quality
+pnpm run audit:site
 pnpm run audit:media
 pnpm run audit:text
 pnpm run audit:cjk
@@ -38,7 +40,7 @@ Phase B verified baseline：
 - [x] Public／audit schema 已分離；Draft／Audit 以 stable ID 保留限制紀錄，submission public components 不讀取 audit records。
 - 該 snapshot 的 `check:publication` exit 1、11 blockers 是 Phase B 前歷史狀態，已由上方 applicant attestation、`verified / approved` 與 exit 0 取代。
 
-目前整合工作樹：
+2026-07-26 整合工作樹（歷史 fingerprint）：
 
 - [x] `pnpm install --frozen-lockfile` 與完整 `pnpm run doctor`：exit 0。
 - [x] 18/18 sound、14/14 rights、73/73 scanner fixtures。
@@ -51,7 +53,25 @@ Phase B verified baseline：
 - [ ] 完成 screen reader、真實 200% zoom、system reduced-motion、實機與多瀏覽器音訊驗收。
 - [ ] 核對兩個 YouTube 作品的第三方 rights 與完整 credit。
 
-目前新 PR 是 Draft；本機 gate 通過不等於已 merge、deploy 或取得發布核准。
+該次新 PR 是 Draft；本機 gate 通過不等於已 merge、deploy 或取得發布核准。
+
+## 2026-07-28 Current Quality Fingerprint
+
+- [x] 執行前 branch 為 `main`，`HEAD`／`origin/main` 為 `3cab18c`，工作樹 clean；已檢查 30 筆 log、diff、stat、scripts、stack 與 Pages workflow。
+- [x] `pnpm install --frozen-lockfile` exit 0；`@vitejs/plugin-react` 使用 `^6.0.3`，不再浮動 `latest`。
+- [x] 完整 `pnpm run doctor` exit 0；`pnpm run check:publication` exit 0、`verified / approved`。
+- [x] `audit:quality`：43 個 source modules 全可達，沒有版本式 filename、重複 component declaration、runtime debug output、maintenance marker 或協作工具標籤。
+- [x] `audit:site`：identity、metadata、JSON-LD、11 段 IA、navigation、aliases、`llms.txt` 與 final links同步。
+- [x] `audit:media`：94 個 media 精確 path全部有 consumer，沒有 missing path／remote demo／stale preconnect／router 殘留。
+- [x] Sound 18/18、Hamlet rights 15/15、submission scanner 73/73。
+- [x] Draft：477 modules、entry 129578 B、CSS 45757 B、initial JS gzip 192963 B。
+- [x] Submission：473 modules、entry 100968 B、CSS 45757 B、initial JS gzip 183291 B。
+- [x] Submission scan：119 files／32 text files、67 text rules／9 inventory rules；Pages subpath audit通過。
+- [x] `public/` 98 files／94 media對 fresh `dist/` 為 0 missing、0 SHA-256 mismatch；刪除的21 asset、stale text ref與Draft audit chunk均未出現在 submission。
+- [x] Browser：1440×1000、768×900、390×844、320×720 為 global overflow／dead anchors／duplicate IDs／broken images／console warning／error全0；mobile menu、lazy deep links、storyboard keyboard／seek、Web Audio start／Escape stop通過。
+- [ ] 本輪沒有 commit、push、merge或deploy；production仍不是本輪 fingerprint。
+- [ ] Screen reader、真實200% zoom、system reduced-motion、實機與Safari／Firefox音訊仍需人工驗收。
+- [ ] 兩個YouTube作品的第三方 rights／完整 credit仍待核對。
 
 ## Production Publication Gate
 

@@ -25,7 +25,7 @@ const ignoredDirectories = new Set([
 ]);
 const mojibakePattern =
   /[�]|[\uE400-\uEFFF]|(?:敺|蝛|雿|銝|嚗|霅|瘚|鞈|憭|摨|餌|蝟|暸|踴|甇|鋆|瞍|蝝|靘|撟|銵|閬|蔣|慦|隞|賊|乓|繚|憟|唳|孵)/u;
-// Codex-Fix: Audit source/docs text globally so corrupted Traditional Chinese does not slip past content-only checks.
+// Audit source/docs text globally so corrupted Traditional Chinese does not slip past content-only checks.
 
 const findings = [];
 

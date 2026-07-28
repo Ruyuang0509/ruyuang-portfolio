@@ -67,6 +67,8 @@ if (packageJson) {
 
   for (const scriptName of [
     "workspace:check",
+    "audit:quality",
+    "audit:site",
     "audit:media",
     "audit:text",
     "audit:cjk",
@@ -96,6 +98,7 @@ if (packageJson) {
   "index.html",
   "vite.config.js",
   "src/App.jsx",
+  "src/config/site.js",
   "src/components/AdmissionEvidenceSections.jsx",
   "src/components/ResearchPositioning.jsx",
   "src/data/admission-evidence.js",
@@ -111,6 +114,8 @@ if (packageJson) {
   "scripts/run-node.ps1",
   "scripts/run-lighthouse.mjs",
   "scripts/audit-media.mjs",
+  "scripts/audit-code-quality.mjs",
+  "scripts/audit-site-contract.mjs",
   "scripts/validate-hamlet-rights.mjs",
   "scripts/validate-portfolio-content.mjs",
   "tests/hamlet-rights.test.mjs",

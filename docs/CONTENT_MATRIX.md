@@ -1,5 +1,12 @@
 # 作品集內容矩陣
 
+## 2026-07-28 全域品質與資料契約
+
+- `src/config/site.js` 集中 identity、canonical／repository URL、11段IA、主要導覽與alias；`portfolio.js` 保持首頁／案例公開敘事的source of truth，Power BI九章 renderer不再平行寫文案。
+- 21個已證實孤兒媒體共488845 Windows working-tree bytes移除；public現為98 files／94 media，fresh submission為119 files，0 public missing／hash mismatch。
+- Hamlet scene record check改為「有界搜尋已完成」而不是宣稱0筆紀錄已reviewed；Suno limited-use、credit、attestation、private-original限制與`notValidated`不變。
+- 完整`doctor`／publication exit 0；Browser 1440／768／390／320通過內容count、anchors、overflow、images、menu、storyboard與Web Audio smoke。本輪沒有deploy，production仍是不同fingerprint。
+
 ## 2026-07-28 Power BI 案例九章 IA 驗證
 
 - `learning-dashboard-analysis` 現由 lazy 專屬 renderer 與 case-scoped CSS 呈現九章案例，不改動其他案例的共用版型與既有全站視覺／動效規範。
