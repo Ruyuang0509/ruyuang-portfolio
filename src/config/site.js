@@ -10,27 +10,64 @@ export const siteIdentity = {
 
 export const topLevelSections = [
   { id: "top", llmsLabel: "首頁" },
-  { id: "sound-transition", llmsLabel: "轉向聲音的問題意識" },
-  { id: "reviewer-path", llmsLabel: "證據導覽" },
-  { id: "interactive-sound-learning", llmsLabel: "Web Audio 聲響證據" },
-  { id: "pure-data-learning", llmsLabel: "Pure Data 學習紀錄" },
-  { id: "research-positioning", llmsLabel: "申請階段研究構想" },
-  { id: "selected-work", llmsLabel: "代表作品" },
+  { id: "interactive-sound-learning", llmsLabel: "聲響原型" },
+  { id: "project-index", llmsLabel: "作品索引" },
+  { id: "sound-transition", llmsLabel: "問題意識" },
+  { id: "research-positioning", llmsLabel: "研究構想" },
   { id: "collaboration", llmsLabel: "專案與合作" },
   { id: "learning-roadmap", llmsLabel: "學習路線" },
   { id: "ai-workflow", llmsLabel: "AI／作者性" },
-  { id: "contact", llmsLabel: "研究方向與連結" },
+  { id: "contact", llmsLabel: "聯絡" },
 ];
 
 export const primaryNavigationItems = [
+  { label: "聲響原型", target: "#interactive-sound-learning" },
+  { label: "作品索引", target: "#project-index" },
   { label: "問題意識", target: "#sound-transition" },
-  { label: "Web Audio", target: "#interactive-sound-learning" },
-  { label: "Pure Data", target: "#pure-data-learning" },
   { label: "研究構想", target: "#research-positioning" },
-  { label: "代表作品", target: "#selected-work" },
   { label: "學習路線", target: "#learning-roadmap" },
+  { label: "AI／作者性", target: "#ai-workflow" },
+  { label: "聯絡", target: "#contact" },
 ];
 
 export const compatibilityAnchors = [
   { id: "research-proposal", parentId: "research-positioning" },
+  { id: "selected-work", parentId: "project-index" },
+  { id: "gallery", parentId: "project-index" },
+  { id: "reviewer-path", parentId: "project-index" },
 ];
+
+export const workViewSlugs = [
+  "interactive-sound-learning",
+  "generative-interface-study",
+  "data-visualization-cases",
+  "learning-dashboard-analysis",
+  "huaben-short-film",
+  "pure-data-learning",
+];
+
+export const legacyWorkAnchorRedirects = [
+  { anchorPrefix: "secondary-creation", slug: "huaben-short-film" },
+  { anchorPrefix: "interactive-sound-learning", slug: "interactive-sound-learning" },
+  { anchorPrefix: "generative-interface-study", slug: "generative-interface-study" },
+  { anchorPrefix: "data-visualization-cases", slug: "data-visualization-cases" },
+  { anchorPrefix: "learning-dashboard-analysis", slug: "learning-dashboard-analysis" },
+  { anchorPrefix: "huaben-short-film", slug: "huaben-short-film" },
+  { anchorPrefix: "pure-data-learning", slug: "pure-data-learning" },
+];
+
+export const getLegacyWorkSlug = (hash) => {
+  const rawAnchor = hash?.startsWith("#") ? hash.slice(1) : hash;
+  if (!rawAnchor || rawAnchor.startsWith("/")) return null;
+
+  let anchorId = rawAnchor;
+  try {
+    anchorId = decodeURIComponent(rawAnchor);
+  } catch {
+    // Keep the raw anchor when it contains malformed escape sequences.
+  }
+
+  return legacyWorkAnchorRedirects.find(({ anchorPrefix }) => (
+    anchorId === anchorPrefix || anchorId.startsWith(`${anchorPrefix}-`)
+  ))?.slug ?? null;
+};

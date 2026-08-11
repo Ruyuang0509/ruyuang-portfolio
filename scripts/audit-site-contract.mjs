@@ -148,8 +148,9 @@ for (const alias of compatibilityAnchors) {
   }
 }
 
-assertEqual("portfolio contact URL", finalPortfolioLinks[0]?.href ?? null, siteIdentity.canonicalUrl);
+assertEqual("email contact URL", finalPortfolioLinks[0]?.href ?? null, "mailto:911subject@gmail.com");
 assertEqual("repository contact URL", finalPortfolioLinks[1]?.href ?? null, siteIdentity.repositoryUrl);
+assertEqual("project index contact URL", finalPortfolioLinks[2]?.href ?? null, "#project-index");
 
 for (const relativePath of ["public/favicon.svg", "public/social-preview.svg", "public/llms.txt", "public/robots.txt"]) {
   if (!existsSync(path.join(root, relativePath))) {
@@ -163,4 +164,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log("Site contract audit passed: identity, canonical URLs, metadata, navigation, aliases, and 11-section IA are synchronized.");
+console.log("Site contract audit passed: identity, canonical URLs, metadata, navigation, aliases, and 9-section IA are synchronized.");

@@ -10,7 +10,8 @@ const assetsRoot = path.join(distRoot, "assets");
 const errors = [];
 const limits = {
   entryRawBytes: 180 * 1024,
-  stylesheetRawBytes: 45 * 1024,
+  // The evidence-first restructure added two home sections (flagship compact + promoted index).
+  stylesheetRawBytes: 48_128,
   initialJsGzipBytes: 210 * 1024,
   lazyThreeFamilyRawBytes: 700 * 1024,
   lazyThreeFamilyGzipBytes: 185 * 1024,

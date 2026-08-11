@@ -550,9 +550,11 @@ html.theme-transition-ready .theme-transition-source {
   }
 
   .case-study-detail:target,
-  .case-study-detail[data-hash-target-active="true"] {
+  .case-study-detail[data-hash-target-active="true"],
+  .work-detail-view .case-study-detail {
     content-visibility: visible;
   }
+  /* In a standalone work view the case study IS the page content, so never skip its paint. */
 
   @supports selector(.case-study-detail:has(:target)) {
     .case-study-detail:has(:target) {

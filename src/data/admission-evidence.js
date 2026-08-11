@@ -178,13 +178,18 @@ export const learningRoadmap = [
 
 export const finalPortfolioLinks = [
   {
-    label: "線上作品集",
-    href: siteIdentity.canonicalUrl,
-    description: "查看聲響互動、Pure Data、影音與資料視覺化作品。",
+    label: "Email",
+    href: "mailto:911subject@gmail.com",
+    description: "與我聯絡：申請、合作或作品相關詢問。",
   },
   {
     label: "GitHub Repository",
     href: siteIdentity.repositoryUrl,
     description: "查看網站原始碼、公開文件與版本紀錄。",
+  },
+  {
+    label: "回到作品索引",
+    href: "#project-index",
+    description: "回到六件公開作品的索引，依作品類型前往完整案例。",
   },
 ];

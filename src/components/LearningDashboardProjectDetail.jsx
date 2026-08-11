@@ -36,7 +36,7 @@ function SectionHeading({ id, number, title, introduction }) {
   );
 }
 
-export default function LearningDashboardProjectDetail({ project, previousProject, nextProject }) {
+export default function LearningDashboardProjectDetail({ project, previousProject, nextProject, showNavigation = true }) {
   const content = project.learningDashboardCase;
 
   useEffect(() => {
@@ -443,30 +443,32 @@ export default function LearningDashboardProjectDetail({ project, previousProjec
           </p>
         </section>
 
-        <nav className="grid gap-4 border-t border-[color:var(--theme-line)] pt-8 md:grid-cols-2" aria-label={`${project.title} 作品導覽`}>
-          {previousProject ? (
-            <a className="evidence-panel interactive-link rounded-[var(--radius-md)] p-5" href={`#${previousProject.id}`}>
-              <span className="meta-label block text-[var(--theme-accent)]">Previous</span>
-              <span className="zh-heading mt-2 block text-xl">{previousProject.title}</span>
-            </a>
-          ) : (
-            <a className="evidence-panel interactive-link rounded-[var(--radius-md)] p-5" href="#project-index-title">
-              <span className="meta-label block text-[var(--theme-accent)]">Back</span>
-              <span className="zh-heading mt-2 block text-xl">Project index</span>
-            </a>
-          )}
-          {nextProject ? (
-            <a className="evidence-panel interactive-link rounded-[var(--radius-md)] p-5 md:text-right" href={`#${nextProject.id}`}>
-              <span className="meta-label block text-[var(--theme-accent)]">Next</span>
-              <span className="zh-heading mt-2 block text-xl">{nextProject.title}</span>
-            </a>
-          ) : (
-            <a className="evidence-panel interactive-link rounded-[var(--radius-md)] p-5 md:text-right" href="#reviewer-path">
-              <span className="meta-label block text-[var(--theme-accent)]">Finish</span>
-              <span className="zh-heading mt-2 block text-xl">Reviewer path</span>
-            </a>
-          )}
-        </nav>
+        {showNavigation ? (
+          <nav className="grid gap-4 border-t border-[color:var(--theme-line)] pt-8 md:grid-cols-2" aria-label={`${project.title} 作品導覽`}>
+            {previousProject ? (
+              <a className="evidence-panel interactive-link rounded-[var(--radius-md)] p-5" href={`#${previousProject.id}`}>
+                <span className="meta-label block text-[var(--theme-accent)]">Previous</span>
+                <span className="zh-heading mt-2 block text-xl">{previousProject.title}</span>
+              </a>
+            ) : (
+              <a className="evidence-panel interactive-link rounded-[var(--radius-md)] p-5" href="#project-index-title">
+                <span className="meta-label block text-[var(--theme-accent)]">Back</span>
+                <span className="zh-heading mt-2 block text-xl">Project index</span>
+              </a>
+            )}
+            {nextProject ? (
+              <a className="evidence-panel interactive-link rounded-[var(--radius-md)] p-5 md:text-right" href={`#${nextProject.id}`}>
+                <span className="meta-label block text-[var(--theme-accent)]">Next</span>
+                <span className="zh-heading mt-2 block text-xl">{nextProject.title}</span>
+              </a>
+            ) : (
+              <a className="evidence-panel interactive-link rounded-[var(--radius-md)] p-5 md:text-right" href="#project-index">
+                <span className="meta-label block text-[var(--theme-accent)]">Finish</span>
+                <span className="zh-heading mt-2 block text-xl">作品索引</span>
+              </a>
+            )}
+          </nav>
+        ) : null}
       </div>
     </article>
   );

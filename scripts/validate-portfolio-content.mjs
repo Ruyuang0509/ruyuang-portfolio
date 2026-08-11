@@ -24,6 +24,7 @@ import { admissionAuditRecords } from "../src/data/admission-evidence.audit.js";
 import { aiWorkflow } from "../src/data/ai-workflow.js";
 import { getProjectCompleteness } from "../src/data/portfolio.governance.js";
 import { getProjectInternalNotes } from "../src/data/portfolio.internal.js";
+import { siteIdentity, topLevelSections } from "../src/config/site.js";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const errors = [];
@@ -60,14 +61,6 @@ const expectedWebAudioSignalFlow = [
   "Stereo Panner：左右聲像",
   "Compressor：動態範圍壓縮",
   "Master Output：主音量與裝置輸出",
-];
-const expectedReviewerTargets = [
-  "#interactive-sound-learning",
-  "#pure-data-learning",
-  "#selected-work",
-  "#research-positioning",
-  "#learning-roadmap",
-  "#ai-workflow",
 ];
 const expectedFeaturedWorkIds = [
   "interactive-sound-learning",
@@ -239,15 +232,19 @@ if (mojibakePattern.test(publicAdmissionText)) {
 const expectedHomepageHeadline = "從數位學習與視覺敘事出發，走向聲響互動與空間監聽研究。";
 const expectedHomepageIntroduction =
   "我是蕭智仁，現就讀國立嘉義大學數位學習設計與管理學系，預計 2026 年畢業。作品從視覺設計、影音剪輯、互動介面與學習內容整理出發，逐步延伸到 Web Audio 聲響互動；自 2026 年 7 月 24 日起，也開始拆解由 AI 協作產生的 Pure Data 初版 Patch，練習理解與重建訊號路徑。";
+const expectedHomepageEvidenceSummary =
+  "目前含 4 件數位作品（其中 1 件為可操作 Web Audio 原型）、1 件原創短劇與 Pure Data 學習紀錄。";
+const topLevelSectionIds = new Set(topLevelSections.map((section) => section.id));
+const homepageCtas = [homepageNarrative.primaryCta, homepageNarrative.secondaryCta];
 if (
   !hasTextFields(homepageNarrative, [
     "eyebrow",
     "headline",
     "supportingLine",
     "introduction",
+    "evidenceSummary",
     "currentEvidence",
     "researchStatement",
-    "thesis",
     "researchQuestion",
     "credibility",
     "argument",
@@ -255,24 +252,20 @@ if (
   || homepageNarrative.eyebrow !== "116學年度研究所申請作品集｜聲響、互動與數位學習"
   || homepageNarrative.headline !== expectedHomepageHeadline
   || homepageNarrative.introduction !== expectedHomepageIntroduction
-  || homepageNarrative.primaryCta?.target !== "#interactive-sound-learning-demo"
+  || homepageNarrative.evidenceSummary !== expectedHomepageEvidenceSummary
+  || homepageNarrative.primaryCta?.target !== "#interactive-sound-learning"
   || homepageNarrative.secondaryCta?.target !== "#learning-roadmap"
+  || homepageCtas.some(
+    (cta) => !hasTextFields(cta, ["label", "target"]) || !topLevelSectionIds.has(cta.target.slice(1)),
+  )
 ) {
-  errors.push("Homepage narrative needs the verified applicant framing and working Web Audio / roadmap calls to action");
+  errors.push("Homepage narrative needs the verified applicant framing and working sound prototype / roadmap calls to action");
 }
 if (
   !hasTextFields(homepageNarrative.soundTransition, ["turningPoint", "problem", "method"])
   || !homepageNarrative.soundTransition.turningPoint.includes("2020")
 ) {
   errors.push("Homepage sound transition needs the supported 2020 turning point, access problem, and transferable method");
-}
-const reviewerTargets = homepageNarrative.reviewerPaths?.map((path) => path.target) ?? [];
-if (
-  reviewerTargets.length !== expectedReviewerTargets.length
-  || reviewerTargets.some((target, index) => target !== expectedReviewerTargets[index])
-  || homepageNarrative.reviewerPaths.some((path) => !hasTextFields(path, ["label", "title", "description", "target"]))
-) {
-  errors.push("Homepage reviewer paths must preserve the admission evidence reading order");
 }
 
 const expectedProposalDisclaimer =
@@ -549,13 +542,18 @@ if (
 ) {
   errors.push("Learning roadmap needs the four ordered evidence, learning, no-work-yet, and graduate-study stages");
 }
+const finalPortfolioHrefs = finalPortfolioLinks.map((link) => link.href);
+const remoteFinalPortfolioLinks = finalPortfolioLinks.filter((link) => /^https?:\/\//i.test(link.href));
 if (
-  finalPortfolioLinks.length !== 2
-  || finalPortfolioLinks.some(
-    (link) => !hasTextFields(link, ["label", "href", "description"]) || !link.href.startsWith("https://"),
-  )
+  finalPortfolioLinks.length !== 3
+  || finalPortfolioLinks.some((link) => !hasTextFields(link, ["label", "href", "description"]))
+  || !siteIdentity.repositoryUrl.startsWith("https://")
+  || finalPortfolioHrefs.filter((href) => href.startsWith("mailto:")).length !== 1
+  || finalPortfolioHrefs.filter((href) => href === siteIdentity.repositoryUrl).length !== 1
+  || finalPortfolioHrefs.filter((href) => href === "#project-index").length !== 1
+  || remoteFinalPortfolioLinks.some((link) => link.href !== siteIdentity.repositoryUrl)
 ) {
-  errors.push("Final portfolio links need the real portfolio and GitHub HTTPS URLs");
+  errors.push("Final portfolio links need the contact email, GitHub HTTPS repository, and the in-page project index link only");
 }
 
 const expectedResponsibilityGroups = ["AI 協助的部分", "決策與驗收", "正在補強的能力"];

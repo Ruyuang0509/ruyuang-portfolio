@@ -134,14 +134,20 @@ function ProjectOverviewMedia({ project, reduceMotion }) {
       onBlurCapture={pausePreview}
       onClickCapture={pausePreview}
     >
-      <ResponsiveImage
-        image={image}
-        className="aspect-[16/10] h-full w-full object-cover"
-        sizes="(min-width: 768px) 44vw, 92vw"
-        loading="lazy"
-        fetchPriority="auto"
-        style={{ objectPosition: project.indexCoverPosition ?? "50% 50%" }}
-      />
+      {image ? (
+        <ResponsiveImage
+          image={image}
+          className="aspect-[16/10] h-full w-full object-cover"
+          sizes="(min-width: 768px) 44vw, 92vw"
+          loading="lazy"
+          fetchPriority="auto"
+          style={{ objectPosition: project.indexCoverPosition ?? "50% 50%" }}
+        />
+      ) : (
+        <div className="flex aspect-[16/10] h-full w-full items-end bg-[radial-gradient(circle_at_70%_25%,rgba(203,232,107,0.2),transparent_35%),var(--theme-surface)] p-6">
+          <p className="zh-heading max-w-[12em] text-[clamp(1.5rem,3vw,2.8rem)] text-[var(--theme-text)]">{project.indexTitle ?? project.title}</p>
+        </div>
+      )}
       {preview ? (
         <video
           ref={previewRef}
@@ -166,7 +172,7 @@ function ProjectOverviewCard({ project, index }) {
   const title = project.indexTitle ?? project.title;
   const summary = project.indexSummary ?? project.valueProposition;
   const links = project.indexLinks ?? [];
-  const tags = project.indexTags ?? project.instituteConnections.slice(0, 3);
+  const tags = project.indexTags ?? project.instituteConnections?.slice(0, 3) ?? [];
 
   return (
     <motion.article
@@ -177,7 +183,7 @@ function ProjectOverviewCard({ project, index }) {
     >
       <a
         className="media-frame block overflow-hidden rounded-[var(--radius-md)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--theme-accent)]"
-        href={`#${project.id}`}
+        href={`#/work/${project.slug ?? project.id}`}
         aria-label={`閱讀作品案例：${title}`}
         data-magnetic
         data-cursor-variant="media"
@@ -193,7 +199,7 @@ function ProjectOverviewCard({ project, index }) {
               {metadata.join(" / ")}
             </p>
             <h3 className="zh-heading text-[length:var(--font-size-fluid-card-title)]">
-              <a className="interactive-link" href={`#${project.id}`}>{title}</a>
+              <a className="interactive-link" href={`#/work/${project.slug ?? project.id}`}>{title}</a>
             </h3>
           </div>
           <span className="text-sm font-extrabold text-[color:var(--theme-muted)]" aria-hidden="true">
@@ -204,11 +210,11 @@ function ProjectOverviewCard({ project, index }) {
         <dl className="grid gap-3 border-y border-[color:var(--theme-line)] py-4">
           <div className="grid gap-1 sm:grid-cols-[5.5rem_1fr] sm:gap-4">
             <dt className="zh-label font-extrabold text-[var(--theme-accent)]">負責項目</dt>
-            <dd className="zh-caption m-0 text-[var(--theme-text)]">{project.roles.slice(0, 4).join(" / ")}</dd>
+            <dd className="zh-caption m-0 text-[var(--theme-text)]">{project.roles?.slice(0, 4).join(" / ") || "詳見完整案例"}</dd>
           </div>
           <div className="grid gap-1 sm:grid-cols-[5.5rem_1fr] sm:gap-4">
             <dt className="zh-label font-extrabold text-[var(--theme-accent)]">關鍵工具</dt>
-            <dd className="zh-caption mixed-token m-0 text-[var(--theme-text)]">{project.tools.slice(0, 4).join(" / ")}</dd>
+            <dd className="zh-caption mixed-token m-0 text-[var(--theme-text)]">{project.tools?.slice(0, 4).join(" / ") || "詳見完整案例"}</dd>
           </div>
         </dl>
         {links.length ? (
@@ -230,7 +236,7 @@ function ProjectOverviewCard({ project, index }) {
         <StaticKeywordList items={tags} label={`${title} 的作品標籤`} />
         <a
           className="cta-button interactive-link mt-auto inline-flex min-h-11 w-full items-center justify-between gap-4 rounded-[var(--radius-sm)] px-4 py-3 text-sm font-extrabold"
-          href={`#${project.id}`}
+          href={`#/work/${project.slug ?? project.id}`}
           data-magnetic
           data-cursor-variant="link"
           data-cursor-label="OPEN"

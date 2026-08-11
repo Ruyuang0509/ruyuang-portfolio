@@ -149,7 +149,7 @@ export function PureDataLearningSection() {
   );
 }
 
-function WorkEvidenceCard({ work }) {
+export function WorkEvidenceCard({ work }) {
   const metadata = [
     { label: "創作目的", value: work.purpose },
     { label: "負責項目", value: work.roles?.join("／") },
@@ -157,7 +157,7 @@ function WorkEvidenceCard({ work }) {
   ].filter((item) => item.value);
 
   return (
-    <article className="portfolio-card grid gap-8 rounded-[var(--radius-lg)] p-6 md:p-8" aria-labelledby={`${work.id}-title`}>
+    <article id={work.id} className="portfolio-card grid scroll-mt-28 gap-8 rounded-[var(--radius-lg)] p-6 md:p-8" aria-labelledby={`${work.id}-title`}>
       <header className="grid gap-4 md:grid-cols-[0.32fr_0.68fr] md:gap-10">
         <div className="grid content-start gap-3">
           <p className="meta-label text-[var(--theme-accent)]">{work.type}</p>
@@ -223,7 +223,7 @@ export function RepresentativeWorksSection() {
   return (
     <div className="mx-auto grid max-w-7xl gap-12">
       <SectionHeader
-        eyebrow="代表作品"
+        eyebrow="原創影音作品"
         id="selected-work"
         title="從原創短劇出發，整理影音敘事與製作方法。"
         lines={[["從原創", "短劇出發，"], ["整理影音", "敘事與"], ["製作方法。"]]}
@@ -355,19 +355,22 @@ export function ContactSection() {
       />
 
       <div className="grid gap-4 md:grid-cols-2">
-        {finalPortfolioLinks.map((link) => (
-          <a
-            key={link.href}
-            className="portfolio-card interactive-link grid gap-4 rounded-[var(--radius-md)] p-6"
-            href={link.href}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h3 className="zh-heading text-[clamp(1.3rem,2vw,1.9rem)]">{link.label}</h3>
-            <p className="zh-caption text-[color:var(--theme-muted)]">{link.description}</p>
-            <span className="zh-label text-[var(--theme-accent)]">在新分頁開啟 ↗</span>
-          </a>
-        ))}
+        {finalPortfolioLinks.map((link) => {
+          const isExternal = link.href.startsWith("http");
+          return (
+            <a
+              key={link.href}
+              className="portfolio-card interactive-link grid gap-4 rounded-[var(--radius-md)] p-6"
+              href={link.href}
+              target={isExternal ? "_blank" : undefined}
+              rel={isExternal ? "noopener noreferrer" : undefined}
+            >
+              <h3 className="zh-heading text-[clamp(1.3rem,2vw,1.9rem)]">{link.label}</h3>
+              <p className="zh-caption text-[color:var(--theme-muted)]">{link.description}</p>
+              <span className="zh-label text-[var(--theme-accent)]">{isExternal ? "在新分頁開啟 ↗" : "前往作品索引 ↘"}</span>
+            </a>
+          );
+        })}
       </div>
     </div>
   );

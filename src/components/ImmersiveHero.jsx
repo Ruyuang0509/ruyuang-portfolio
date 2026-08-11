@@ -181,6 +181,7 @@ export default function ImmersiveHero() {
           >
             <p className="zh-lead text-[var(--color-text)]">{homepageNarrative.supportingLine}</p>
             <p className="zh-copy-wide text-[color:var(--color-muted)]">{homepageNarrative.introduction}</p>
+            <p className="meta-label text-[var(--color-accent)]">{homepageNarrative.evidenceSummary}</p>
             <p className="zh-caption border-l-2 border-[var(--color-accent)] pl-4 text-[color:var(--color-muted)]">
               {homepageNarrative.currentEvidence}
             </p>

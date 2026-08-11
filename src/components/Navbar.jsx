@@ -2,8 +2,17 @@ import { useEffect, useId, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { primaryNavigationItems as navItems } from "../config/site.js";
 
+const queryTarget = (targetId) => {
+  if (!targetId || !targetId.startsWith("#") || targetId.startsWith("#/")) return null;
+  try {
+    return document.querySelector(targetId);
+  } catch {
+    return null;
+  }
+};
+
 const scrollToSection = (targetId, reduceMotion) => {
-  const target = document.querySelector(targetId);
+  const target = queryTarget(targetId);
   if (!target) return null;
   if (window.__portfolioLenis && !reduceMotion) {
     window.__portfolioLenis.scrollTo(target, {
@@ -38,15 +47,14 @@ const getActiveNavTarget = (targetId) => {
   const directMatch = navItems.find((item) => item.target === targetId);
   if (directMatch) return directMatch.target;
 
-  const target = document.querySelector(targetId);
+  const target = queryTarget(targetId);
   const caseStudy = target?.closest(".case-study-detail");
   if (caseStudy) {
     return caseStudy.id === "interactive-sound-learning"
       ? "#interactive-sound-learning"
-      : "#selected-work";
+      : "#project-index";
   }
-  if (target?.id === "project-index" || target?.closest("#project-index")) return "#selected-work";
-  if (target?.closest("#selected-work")) return "#selected-work";
+  if (target?.id === "project-index" || target?.closest("#project-index")) return "#project-index";
   if (target?.id === "research-proposal" || target?.closest("#research-positioning")) return "#research-positioning";
   return null;
 };
@@ -63,7 +71,10 @@ export default function Navbar() {
     event.preventDefault();
     setIsOpen(false);
     const target = scrollToSection(targetId, Boolean(reduceMotion));
-    if (!target) return;
+    if (!target) {
+      window.location.hash = targetId;
+      return;
+    }
     setActiveTarget(targetId === "#top" ? null : targetId);
     window.history.replaceState(null, "", targetId);
     window.dispatchEvent(new CustomEvent("portfolio:hash-navigation", {
@@ -81,12 +92,9 @@ export default function Navbar() {
     const observedTargets = [
       "#top",
       ...navItems.map((item) => item.target),
-      "#reviewer-path",
       "#collaboration",
-      "#ai-workflow",
-      "#contact",
     ]
-      .map((targetId) => document.querySelector(targetId))
+      .map((targetId) => queryTarget(targetId))
       .filter(Boolean);
     if (!observedTargets.length || !("IntersectionObserver" in window)) return undefined;
 

@@ -1,8 +1,5 @@
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
-import {
-  sortedProjectCaseStudies,
-  instituteThemes,
-} from "../data/portfolio.js";
+import { sortedProjectCaseStudies } from "../data/portfolio.js";
 import EditorialHeading from "./EditorialHeading.jsx";
 import SectionErrorBoundary from "./SectionErrorBoundary.jsx";
 import PortfolioDraftLayer from "#portfolio-draft";
@@ -11,8 +8,16 @@ import ResponsiveImage from "./ResponsiveImage.jsx";
 
 const SoundInteractionPrototype = lazy(() => import("./SoundInteractionPrototype.jsx"));
 const CaseProcessSection = lazy(() => import("./CaseProcessSection.jsx"));
-const ProjectIndexGrid = lazy(() => import("./ProjectIndexGrid.jsx"));
 const LazyLearningDashboardProjectDetail = lazy(() => import("./LearningDashboardProjectDetail.jsx"));
+
+const queryFocusTarget = (targetId) => {
+  if (!targetId || !targetId.startsWith("#") || targetId.startsWith("#/")) return null;
+  try {
+    return document.querySelector(targetId);
+  } catch {
+    return null;
+  }
+};
 
 const hasSupportingMediaEvidence = (media = {}) => Boolean(
   media.visualDrafts?.length
@@ -71,22 +76,17 @@ function getEvidenceSnapshot(project) {
   ];
 }
 
-function ChipList({ items = [], accent = false, label = "標籤", variant }) {
+function ChipList({ items = [], accent = false, label = "標籤" }) {
   if (!items.length) return null;
-  const resolvedVariant = variant ?? (accent ? "accent" : "default");
 
   return (
     <ul className="flex flex-wrap gap-2" aria-label={label}>
       {items.map((item) => (
         <li
           key={item}
-          className={
-            resolvedVariant === "static"
-              ? "chip-text inline-flex items-center rounded-[var(--radius-sm)] border border-[color:var(--theme-line)] bg-[color:var(--theme-surface)] px-3 py-1.5 text-sm font-bold text-[var(--theme-text)]"
-              : resolvedVariant === "accent"
-              ? "inverted-pill chip-text rounded-full px-3.5 py-1.5 text-sm font-extrabold"
-              : "chip-text rounded-full border border-[color:var(--theme-line)] px-3.5 py-1.5 text-sm font-semibold text-[color:var(--theme-muted)]"
-          }
+          className={accent
+            ? "inverted-pill chip-text rounded-full px-3.5 py-1.5 text-sm font-extrabold"
+            : "chip-text rounded-full border border-[color:var(--theme-line)] px-3.5 py-1.5 text-sm font-semibold text-[color:var(--theme-muted)]"}
         >
           {item}
         </li>
@@ -168,7 +168,7 @@ function CaseCtas({ ctas = [], label = "案例快速連結" }) {
             onClick={() => {
               if (!cta.focusTarget) return;
               window.requestAnimationFrame(() => {
-                document.querySelector(cta.focusTarget)?.focus({ preventScroll: true });
+                queryFocusTarget(cta.focusTarget)?.focus({ preventScroll: true });
               });
             }}
           >
@@ -1252,7 +1252,7 @@ function ProjectLinksCredits({ project }) {
   );
 }
 
-function ProjectDetail({ project, previousProject, nextProject }) {
+export function ProjectDetail({ project, previousProject, nextProject, showNavigation = true }) {
   if (project.layoutVariant === "learning-dashboard-v2" && project.learningDashboardCase) {
     return (
       <Suspense
@@ -1271,6 +1271,7 @@ function ProjectDetail({ project, previousProject, nextProject }) {
           project={project}
           previousProject={previousProject}
           nextProject={nextProject}
+          showNavigation={showNavigation}
         />
       </Suspense>
     );
@@ -1363,90 +1364,33 @@ function ProjectDetail({ project, previousProject, nextProject }) {
         <ProjectLinksCredits project={project} />
         <CaseClosingPanel id={`${project.id}-next-steps`} insight={project.keyInsight} nextSteps={project.nextSteps} ctas={project.ctas} />
 
-        <nav className="grid gap-4 border-t border-[color:var(--theme-line)] pt-8 md:grid-cols-2" aria-label={`${project.title} 作品導覽`}>
-          {previousProject ? (
-            <a className="evidence-panel interactive-link rounded-[var(--radius-md)] p-5" href={`#${previousProject.id}`}>
-              <span className="meta-label block text-[var(--theme-accent)]">上一件作品</span>
-              <span className="zh-heading mt-2 block text-xl">{previousProject.title}</span>
-            </a>
-          ) : (
-            <a className="evidence-panel interactive-link rounded-[var(--radius-md)] p-5" href="#project-index">
-              <span className="meta-label block text-[var(--theme-accent)]">返回</span>
-              <span className="zh-heading mt-2 block text-xl">作品索引</span>
-            </a>
-          )}
-          {nextProject ? (
-            <a className="evidence-panel interactive-link rounded-[var(--radius-md)] p-5 md:text-right" href={`#${nextProject.id}`}>
-              <span className="meta-label block text-[var(--theme-accent)]">下一件作品</span>
-              <span className="zh-heading mt-2 block text-xl">{nextProject.title}</span>
-            </a>
-          ) : (
-            <a className="evidence-panel interactive-link rounded-[var(--radius-md)] p-5 md:text-right" href="#secondary-creation">
-              <span className="meta-label block text-[var(--theme-accent)]">閱讀完成</span>
-              <span className="zh-heading mt-2 block text-xl">前往二次創作案例</span>
-            </a>
-          )}
-        </nav>
+        {showNavigation ? (
+          <nav className="grid gap-4 border-t border-[color:var(--theme-line)] pt-8 md:grid-cols-2" aria-label={`${project.title} 作品導覽`}>
+            {previousProject ? (
+              <a className="evidence-panel interactive-link rounded-[var(--radius-md)] p-5" href={`#${previousProject.id}`}>
+                <span className="meta-label block text-[var(--theme-accent)]">上一件作品</span>
+                <span className="zh-heading mt-2 block text-xl">{previousProject.title}</span>
+              </a>
+            ) : (
+              <a className="evidence-panel interactive-link rounded-[var(--radius-md)] p-5" href="#project-index">
+                <span className="meta-label block text-[var(--theme-accent)]">返回</span>
+                <span className="zh-heading mt-2 block text-xl">作品索引</span>
+              </a>
+            )}
+            {nextProject ? (
+              <a className="evidence-panel interactive-link rounded-[var(--radius-md)] p-5 md:text-right" href={`#${nextProject.id}`}>
+                <span className="meta-label block text-[var(--theme-accent)]">下一件作品</span>
+                <span className="zh-heading mt-2 block text-xl">{nextProject.title}</span>
+              </a>
+            ) : (
+              <a className="evidence-panel interactive-link rounded-[var(--radius-md)] p-5 md:text-right" href="#secondary-creation">
+                <span className="meta-label block text-[var(--theme-accent)]">閱讀完成</span>
+                <span className="zh-heading mt-2 block text-xl">前往二次創作案例</span>
+              </a>
+            )}
+          </nav>
+        ) : null}
       </div>
     </article>
-  );
-}
-
-export default function CaseStudyShowcase({ scope = "all", showIndex = true }) {
-  useEffect(() => {
-    window.dispatchEvent(new CustomEvent("portfolio:deferred-ready"));
-  }, [scope]);
-
-  const renderedProjects = scope === "flagship"
-    ? sortedProjectCaseStudies.filter((project) => project.id === "interactive-sound-learning")
-    : scope === "supporting"
-      ? sortedProjectCaseStudies.filter((project) => project.id !== "interactive-sound-learning")
-      : sortedProjectCaseStudies;
-
-  return (
-    <section
-      id={showIndex ? "gallery" : undefined}
-      className={`${showIndex ? "paper-surface supporting-case-studies" : ""} bg-[var(--theme-bg)] text-[var(--theme-text)]`}
-    >
-      {showIndex ? (
-        <>
-          <section id="project-index" aria-labelledby="project-index-title" className="min-h-screen px-[var(--page-gutter)] py-28 md:py-40">
-            <div className="mx-auto grid max-w-7xl gap-16">
-              <div className="grid gap-8 md:grid-cols-[0.42fr_0.58fr] md:items-end">
-                <div className="grid gap-4">
-                  <p className="meta-label text-[var(--theme-accent)]">代表作品</p>
-                  <EditorialHeading as="h2" id="project-index-title" className="gallery-title editorial-heading zh-display" lines={[["作品索引"]]}>作品索引</EditorialHeading>
-                </div>
-                <div className="grid gap-5 md:justify-self-end">
-                  <p className="zh-lead max-w-[34em] text-[color:var(--theme-muted)]">四件作品橫跨互動聲響、生成式影像敘事與數位學習資料分析；各案例均標示負責項目、製作方法、可驗證成果與後續方向。</p>
-                  <PortfolioDraftLayer placement="overview" />
-                </div>
-              </div>
-
-              <div id="themes" className="grid gap-4">
-                <p className="meta-label text-[var(--theme-accent)]">作品關鍵字</p>
-                <ChipList items={instituteThemes} variant="static" label="作品關鍵字" />
-              </div>
-
-              <Suspense fallback={<div className="min-h-[28rem]" aria-hidden="true" />}>
-                <ProjectIndexGrid projects={sortedProjectCaseStudies} />
-              </Suspense>
-            </div>
-          </section>
-        </>
-      ) : null}
-
-      {renderedProjects.map((project) => {
-        const globalIndex = sortedProjectCaseStudies.findIndex((item) => item.id === project.id);
-        return (
-          <ProjectDetail
-            key={project.id}
-            project={project}
-            previousProject={sortedProjectCaseStudies[globalIndex - 1]}
-            nextProject={sortedProjectCaseStudies[globalIndex + 1]}
-          />
-        );
-      })}
-    </section>
   );
 }

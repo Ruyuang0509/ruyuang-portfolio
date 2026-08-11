@@ -23,7 +23,7 @@ const SoundTransitionSection = memo(function SoundTransitionSection() {
             >
               先聽見差異，再尋找能理解與討論差異的方法。
             </EditorialHeading>
-            <p className="zh-lead text-[var(--theme-text)]">{homepageNarrative.researchStatement}</p>
+            <p className="zh-lead text-[var(--theme-text)]">研究問題：{homepageNarrative.researchQuestion}</p>
           </div>
         </header>
 
@@ -39,57 +39,16 @@ const SoundTransitionSection = memo(function SoundTransitionSection() {
             </li>
           ))}
         </ol>
-      </div>
-    </section>
-  );
-});
 
-export const ReviewerPathSection = memo(function ReviewerPathSection() {
-  return (
-    <section
-      id="reviewer-path"
-      className="research-section px-[var(--page-gutter)] py-24 text-[var(--theme-text)] md:py-32"
-      aria-labelledby="reviewer-path-title"
-    >
-      <div className="mx-auto grid max-w-7xl gap-10">
-        <header className="grid gap-5 md:grid-cols-[0.34fr_0.66fr] md:gap-16">
-          <p className="meta-label text-[var(--theme-accent)]">閱讀路線</p>
-          <div className="grid gap-5">
-            <EditorialHeading
-              as="h2"
-              id="reviewer-path-title"
-              className="editorial-heading zh-display text-[length:var(--font-size-fluid-section)]"
-              lines={[["先從可操作", "原型開始，"], ["再依興趣深入", "作品與研究方向。"]]}
-            >
-              先從可操作原型開始，再依興趣深入作品與研究方向。
-            </EditorialHeading>
-            <p className="zh-copy-wide text-[color:var(--theme-muted)]">
-              你可以先體驗 Web Audio，再依興趣前往 Pure Data 學習紀錄、影音與資料作品、研究構想或 AI 協作說明。
-            </p>
-          </div>
-        </header>
-
-        <nav aria-label="作品集閱讀路線">
-          <ol className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {homepageNarrative.reviewerPaths.map((path, index) => (
-              <li key={path.target}>
-                <a
-                  className="portfolio-card interactive-link grid min-h-full content-between gap-7 rounded-[var(--radius-md)] p-5 md:p-6"
-                  href={path.target}
-                >
-                  <div className="grid gap-3">
-                    <p className="meta-label text-[var(--theme-accent)]">
-                      {String(index + 1).padStart(2, "0")}｜{path.label}
-                    </p>
-                    <h3 className="zh-heading text-[clamp(1.3rem,2vw,1.85rem)]">{path.title}</h3>
-                    <p className="zh-caption text-[color:var(--theme-muted)]">{path.description}</p>
-                  </div>
-                  <span className="zh-label text-[var(--theme-accent)]" aria-hidden="true">前往閱讀 ↘</span>
-                </a>
-              </li>
-            ))}
-          </ol>
-        </nav>
+        <a
+          className="portfolio-card interactive-link grid gap-3 rounded-[var(--radius-md)] p-5 md:ml-[34%] md:p-6"
+          href="#research-positioning"
+        >
+          <p className="meta-label text-[var(--theme-accent)]">延伸閱讀</p>
+          <h3 className="zh-heading text-[clamp(1.3rem,2vw,1.85rem)]">從問題意識前往研究構想</h3>
+          <p className="zh-caption text-[color:var(--theme-muted)]">閱讀混合多聲道監聽的研究問題、初步構想與目前能力邊界。</p>
+          <span className="zh-label text-[var(--theme-accent)]" aria-hidden="true">閱讀研究構想 ↘</span>
+        </a>
       </div>
     </section>
   );

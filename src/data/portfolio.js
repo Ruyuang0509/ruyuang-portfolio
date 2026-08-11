@@ -90,20 +90,19 @@ export const homepageNarrative = {
     "讓視覺成為聲音的入口，也讓抽象的聽覺差異成為可以理解、操作與討論的經驗。",
   introduction:
     "我是蕭智仁，現就讀國立嘉義大學數位學習設計與管理學系，預計 2026 年畢業。作品從視覺設計、影音剪輯、互動介面與學習內容整理出發，逐步延伸到 Web Audio 聲響互動；自 2026 年 7 月 24 日起，也開始拆解由 AI 協作產生的 Pure Data 初版 Patch，練習理解與重建訊號路徑。",
+  evidenceSummary: "目前含 4 件數位作品（其中 1 件為可操作 Web Audio 原型）、1 件原創短劇與 Pure Data 學習紀錄。",
   currentEvidence:
     "目前可直接體驗 Web Audio 跨模態映射原型；Pure Data 則記錄 AI 協作初版 Patch 的拆解、理解與重建過程。",
   researchStatement:
     "我希望將視覺化、資訊架構與使用者理解方法帶入聲響研究，探討精簡揚聲器與開放式耳機能否組成較低門檻的混合多聲道監聽方式。",
-  primaryCta: { label: "體驗聲響互動原型", target: "#interactive-sound-learning-demo" },
+  primaryCta: { label: "立即操作聲響原型", target: "#interactive-sound-learning" },
   secondaryCta: { label: "查看學習與研究路線", target: "#learning-roadmap" },
-  thesis:
-    "我希望將視覺化、資訊架構與使用者理解方法，帶入精簡揚聲器與開放式耳機混合監聽系統的研究。",
   researchQuestion:
     "如何以視覺化校準介面，協助小型創作者理解、建置與操作混合多聲道監聽系統？",
   credibility:
-    "作品集以可操作的 Web Audio 原型為核心，也呈現 Pure Data 學習紀錄、影音與資料作品；混合多聲道監聽仍是我準備在研究所階段深入探索的方向。",
+    "作品集以可操作的 Web Audio 原型為核心，並透過作品索引連到數位案例、原創短劇與 Pure Data 學習紀錄；混合多聲道監聽仍是申請階段研究構想，不是已完成的研究成果。",
   argument:
-    "網站依序整理轉向聲音的問題意識、Web Audio 原型、Pure Data 學習紀錄、代表作品與申請階段研究構想，讓每一段經驗回到實際選擇、方法與目前限制。",
+    "網站依序呈現可操作原型、作品索引、轉向聲音的問題意識與研究構想，再整理合作經驗、學習路線，以及 AI 協作與作者性；各案例的完整內容則置於獨立作品頁。",
   soundTransition: {
     turningPoint:
       "2020 年的一次聆聽經驗，讓我開始注意同一段聲音在不同播放方式下會呈現不同的距離、位置與細節，也讓我想追問這些差異如何被理解。",
@@ -113,44 +112,6 @@ export const homepageNarrative = {
       "數位學習訓練讓我習慣拆解抽象概念、安排理解順序；視覺敘事與資訊架構則讓我能把關係轉成可見的介面。這些方法成為我進入聲響互動與空間監聽研究的起點。",
   },
   logicChain: ["數位學習與視覺敘事", "聲音描述門檻", "Web Audio 與 Pure Data 實作", "混合監聽研究構想"],
-  reviewerPaths: [
-    {
-      label: "先從操作開始",
-      title: "Web Audio 跨模態映射",
-      description: "直接操作四組聲音參數，感受位置、速度與大小如何改變聲音。",
-      target: "#interactive-sound-learning",
-    },
-    {
-      label: "聲音工具學習",
-      title: "Pure Data v0.2.1",
-      description: "觀看功能測試，了解 AI 協作初版 Patch 的拆解與重建過程。",
-      target: "#pure-data-learning",
-    },
-    {
-      label: "影音敘事",
-      title: "《畫本》與代表作品",
-      description: "從原創短劇的故事、攝影與剪輯出發，閱讀影音製作方法。",
-      target: "#selected-work",
-    },
-    {
-      label: "研究方向",
-      title: "混合監聽研究構想",
-      description: "閱讀研究問題、初步構想，以及可帶入研究所的能力與學習重點。",
-      target: "#research-positioning",
-    },
-    {
-      label: "學習路線",
-      title: "聲音學習與研究路線",
-      description: "從已完成的原型、正在學習的工具，一路看到研究所階段想探索的方向。",
-      target: "#learning-roadmap",
-    },
-    {
-      label: "AI 協作方式",
-      title: "AI 如何參與網站製作",
-      description: "了解 AI 協助範圍、人工決策與錯誤修正方式。",
-      target: "#ai-workflow",
-    },
-  ],
 };
 // Public homepage copy describes the portfolio strategy without construction-stage reminders.
 

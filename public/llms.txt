@@ -1,18 +1,25 @@
 # 蕭智仁｜聲響、互動與數位學習作品集
 
-> 116 學年度研究所申請作品集。收錄可操作的 Web Audio 跨模態映射原型、Pure Data 本機功能測試、原創影音經驗、學習路線與混合監聽研究構想。
+> 116 學年度研究所申請作品集。首頁依序呈現可操作的 Web Audio 原型、作品索引、轉向聲音的問題意識與申請階段研究構想、合作經驗與學習路線、AI 協作與作者性，以及聯絡資訊；作品索引中的案例另以 `#/work/<slug>` 獨立頁面呈現。Pure Data 內容維持學習中／可操作功能原型的狀態。
 
 ## 站內連結
 
 - [首頁](./#top)
-- [轉向聲音的問題意識](./#sound-transition)
-- [證據導覽](./#reviewer-path)
-- [Web Audio 聲響證據](./#interactive-sound-learning)
-- [Pure Data 學習紀錄](./#pure-data-learning)
-- [申請階段研究構想](./#research-positioning)
-- [代表作品](./#selected-work)
+- [聲響原型](./#interactive-sound-learning)
+- [作品索引](./#project-index)
+- [問題意識](./#sound-transition)
+- [研究構想](./#research-positioning)
 - [專案與合作](./#collaboration)
 - [學習路線](./#learning-roadmap)
 - [AI／作者性](./#ai-workflow)
-- [研究方向與連結](./#contact)
+- [聯絡](./#contact)
+
+## 獨立作品頁
+
+- `#/work/interactive-sound-learning` — 互動聲響學習原型
+- `#/work/generative-interface-study` — 《Hamlet》生成式 AI 文學敘事短片
+- `#/work/data-visualization-cases` — 數位學習資料視覺化實務探討
+- `#/work/learning-dashboard-analysis` — 線上學習互動與學科成績分析
+- `#/work/huaben-short-film` — 《畫本》原創短劇與二次創作課程練習
+- `#/work/pure-data-learning` — Pure Data 跨模態參數映射學習紀錄
 
