@@ -33,7 +33,7 @@ function StaticKeywordList({ items, label }) {
   );
 }
 
-function ProjectOverviewMedia({ project, reduceMotion }) {
+function ProjectOverviewMedia({ project, reduceMotion, isFlagship }) {
   const mediaRef = useRef(null);
   const previewRef = useRef(null);
   const [previewReady, setPreviewReady] = useState(false);
@@ -138,7 +138,7 @@ function ProjectOverviewMedia({ project, reduceMotion }) {
         <ResponsiveImage
           image={image}
           className="aspect-[16/10] h-full w-full object-cover"
-          sizes="(min-width: 768px) 44vw, 92vw"
+          sizes={isFlagship ? "(min-width: 768px) 92vw, 92vw" : "(min-width: 768px) 44vw, 92vw"}
           loading="lazy"
           fetchPriority="auto"
           style={{ objectPosition: project.indexCoverPosition ?? "50% 50%" }}
@@ -176,7 +176,7 @@ function ProjectOverviewCard({ project, index }) {
 
   return (
     <motion.article
-      className="portfolio-card featured-work-card group flex h-full min-w-0 flex-col gap-5 rounded-[var(--radius-lg)] p-4"
+      className={`portfolio-card featured-work-card group flex h-full min-w-0 flex-col gap-5 rounded-[var(--radius-lg)] p-4 ${index === 0 ? "md:col-span-2" : ""}`}
       whileHover={reduceMotion ? undefined : { y: -3, scale: 1.005 }}
       transition={cardSpring}
       style={{ boxShadow: "0 0.55rem 1.8rem rgba(18, 16, 12, 0.085)" }}
@@ -190,7 +190,7 @@ function ProjectOverviewCard({ project, index }) {
         data-cursor-label="CASE"
         style={{ boxShadow: "0 0.35rem 1.1rem rgba(18, 16, 12, 0.08)" }}
       >
-        <ProjectOverviewMedia project={project} reduceMotion={reduceMotion} />
+        <ProjectOverviewMedia project={project} reduceMotion={reduceMotion} isFlagship={index === 0} />
       </a>
       <div className="flex flex-1 flex-col gap-5 border-t border-[color:var(--theme-line)] pt-5">
         <div className="grid grid-cols-[1fr_auto] gap-4">

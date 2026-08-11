@@ -19,7 +19,7 @@ function useDeferredReady(targetId) {
 
 function SectionHeader({ eyebrow, id, title, lines, description }) {
   return (
-    <header className="grid min-w-0 gap-5 md:grid-cols-[minmax(0,0.34fr)_minmax(0,0.66fr)] md:gap-16">
+    <header className="grid min-w-0 gap-4">
       <p className="meta-label text-[var(--theme-accent)]">{eyebrow}</p>
       <div className="grid min-w-0 gap-5">
         <EditorialHeading
@@ -30,7 +30,7 @@ function SectionHeader({ eyebrow, id, title, lines, description }) {
         >
           {title}
         </EditorialHeading>
-        {description ? <p className="zh-copy-wide text-[color:var(--theme-muted)]">{description}</p> : null}
+        {description ? <p className="zh-copy-wide max-w-[42em] text-[color:var(--theme-muted)]">{description}</p> : null}
       </div>
     </header>
   );
@@ -233,9 +233,9 @@ export function RepresentativeWorksSection() {
       <WorkEvidenceCard work={huaben} />
 
       <section className="grid gap-6" aria-labelledby="supporting-work-title">
-        <div className="grid gap-3 md:grid-cols-[0.32fr_0.68fr] md:gap-10">
+        <div className="grid gap-4">
           <h3 id="supporting-work-title" className="meta-label text-[var(--theme-accent)]">延伸案例</h3>
-          <p className="zh-copy-wide text-[color:var(--theme-muted)]">
+          <p className="zh-copy-wide max-w-[42em] text-[color:var(--theme-muted)]">
             從影音、資料敘事到學習介面，這些案例整理素材選擇、閱讀順序，以及不同內容形式的轉譯方法。
           </p>
         </div>

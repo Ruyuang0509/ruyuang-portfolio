@@ -12,7 +12,7 @@ const SoundTransitionSection = memo(function SoundTransitionSection() {
       aria-labelledby="sound-transition-title"
     >
       <div className="mx-auto grid max-w-7xl gap-12">
-        <header className="grid gap-5 md:grid-cols-[0.34fr_0.66fr] md:gap-16">
+        <header className="grid gap-4">
           <p className="meta-label text-[var(--theme-accent)]">轉向聲音的問題意識</p>
           <div className="grid gap-5">
             <EditorialHeading

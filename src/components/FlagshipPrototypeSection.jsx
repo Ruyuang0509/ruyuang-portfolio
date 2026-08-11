@@ -23,7 +23,7 @@ export default function FlagshipPrototypeSection() {
       data-stable-section-focus
     >
       <div className="mx-auto grid max-w-7xl gap-12">
-        <header className="grid gap-5 md:grid-cols-[0.34fr_0.66fr] md:gap-16">
+        <header className="grid gap-4">
           <p className="meta-label text-[var(--theme-accent)]">可操作核心作品</p>
           <div className="grid gap-5">
             <EditorialHeading

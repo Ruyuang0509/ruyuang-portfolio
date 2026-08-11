@@ -13,7 +13,7 @@ export default function ResearchProposalSection() {
 
   return (
     <div className="mx-auto grid max-w-7xl gap-12">
-      <header className="grid gap-8 md:grid-cols-[0.34fr_0.66fr] md:gap-16">
+      <header className="grid gap-4">
         <div className="grid content-start gap-4">
           <p className="meta-label text-[var(--theme-accent)]">{proposal.eyebrow}</p>
           <span className="chip-text w-fit rounded-full border border-[color:var(--theme-line)] px-4 py-2 text-sm font-extrabold">

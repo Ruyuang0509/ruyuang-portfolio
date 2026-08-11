@@ -11,7 +11,7 @@ export default function AiWorkflowSection() {
 
   return (
     <div className="mx-auto grid max-w-7xl gap-12">
-        <div className="grid gap-5 md:grid-cols-[0.36fr_0.64fr] md:gap-16">
+        <div className="grid gap-4">
           <p className="meta-label text-[var(--theme-accent)]">{aiWorkflow.eyebrow}</p>
           <div className="grid gap-5">
             <EditorialHeading

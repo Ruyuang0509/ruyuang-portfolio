@@ -117,7 +117,6 @@ function HomeProjectIndexSection() {
       <div className="mx-auto grid max-w-7xl gap-16">
         <header className="grid gap-8 md:grid-cols-[0.42fr_0.58fr] md:items-end">
           <div className="grid gap-4">
-            <p className="meta-label text-[var(--theme-accent)]">公開案例</p>
             <EditorialHeading as="h2" id="project-index-title" className="gallery-title editorial-heading zh-display" lines={[["作品索引"]]}>作品索引</EditorialHeading>
           </div>
           <p className="zh-lead max-w-[34em] text-[color:var(--theme-muted)]">六件作品橫跨互動聲響、生成式影像敘事、影音製作、資料視覺化與聲音工具學習；每張卡片連到獨立案例頁。</p>
