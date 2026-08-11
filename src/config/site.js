@@ -53,6 +53,7 @@ export const legacyWorkAnchorRedirects = [
   { anchorPrefix: "data-visualization-cases", slug: "data-visualization-cases" },
   { anchorPrefix: "learning-dashboard-analysis", slug: "learning-dashboard-analysis" },
   { anchorPrefix: "huaben-short-film", slug: "huaben-short-film" },
+  { anchorPrefix: "secondary-creation", slug: "huaben-short-film" },
   { anchorPrefix: "pure-data-learning", slug: "pure-data-learning" },
 ];
 

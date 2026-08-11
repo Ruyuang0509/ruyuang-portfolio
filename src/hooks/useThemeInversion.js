@@ -21,12 +21,13 @@ const getTransitionBounds = (sourceSection, targetTitle) => {
   return { start: end - range, end };
 };
 
-export function useThemeInversion() {
+export function useThemeInversion(routeKey = null) {
   useEffect(() => {
+    if (routeKey) return undefined;
     const root = document.documentElement;
     const navSurface = document.querySelector(".nav-surface");
     const transitionLayer = document.querySelector(".viewport-theme-transition");
-    const sourceSection = document.querySelector("#data-visualization-series");
+    const sourceSection = document.querySelector("#interactive-sound-learning");
     const targetTitle = document.querySelector("#project-index-title");
     if (!navSurface || !transitionLayer || !sourceSection || !targetTitle) return undefined;
 
@@ -137,5 +138,5 @@ export function useThemeInversion() {
       matchMedia.revert();
       resetLayers();
     };
-  }, []);
+  }, [routeKey]);
 }

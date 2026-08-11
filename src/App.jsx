@@ -162,7 +162,7 @@ const HomePage = memo(function HomePage() {
 export default function App() {
   const [activeWorkSlug, setActiveWorkSlug] = useState(() => getWorkSlugFromHash(window.location.hash));
   useLenisGsap();
-  useThemeInversion();
+  useThemeInversion(activeWorkSlug);
 
   useEffect(() => {
     const settleFrames = new Set();
