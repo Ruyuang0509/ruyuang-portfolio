@@ -89,7 +89,7 @@ export const homepageNarrative = {
   supportingLine:
     "讓視覺成為聲音的入口，也讓抽象的聽覺差異成為可以理解、操作與討論的經驗。",
   introduction:
-    "我是蕭智仁，現就讀國立嘉義大學數位學習設計與管理學系，預計 2026 年畢業。作品從視覺設計、影音剪輯、互動介面與學習內容整理出發，逐步延伸到 Web Audio 聲響互動；自 2026 年 7 月 24 日起，也開始拆解由 AI 協作產生的 Pure Data 初版 Patch，練習理解與重建訊號路徑。",
+    "我是蕭智仁，2026 年畢業於國立嘉義大學數位學習設計與管理學系。作品從視覺設計、影音剪輯、互動介面與學習內容整理出發，逐步延伸到 Web Audio 聲響互動；自 2026 年 7 月 24 日起，也開始拆解由 AI 協作產生的 Pure Data 初版 Patch，練習理解與重建訊號路徑。",
   evidenceSummary: "目前含 4 件數位作品（其中 1 件為可操作 Web Audio 原型）、1 件原創短劇與 Pure Data 學習紀錄。",
   currentEvidence:
     "目前可直接體驗 Web Audio 跨模態映射原型；Pure Data 則記錄 AI 協作初版 Patch 的拆解、理解與重建過程。",

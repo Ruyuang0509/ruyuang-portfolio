@@ -231,7 +231,7 @@ if (mojibakePattern.test(publicAdmissionText)) {
 
 const expectedHomepageHeadline = "從數位學習與視覺敘事出發，走向聲響互動與空間監聽研究。";
 const expectedHomepageIntroduction =
-  "我是蕭智仁，現就讀國立嘉義大學數位學習設計與管理學系，預計 2026 年畢業。作品從視覺設計、影音剪輯、互動介面與學習內容整理出發，逐步延伸到 Web Audio 聲響互動；自 2026 年 7 月 24 日起，也開始拆解由 AI 協作產生的 Pure Data 初版 Patch，練習理解與重建訊號路徑。";
+  "我是蕭智仁，2026 年畢業於國立嘉義大學數位學習設計與管理學系。作品從視覺設計、影音剪輯、互動介面與學習內容整理出發，逐步延伸到 Web Audio 聲響互動；自 2026 年 7 月 24 日起，也開始拆解由 AI 協作產生的 Pure Data 初版 Patch，練習理解與重建訊號路徑。";
 const expectedHomepageEvidenceSummary =
   "目前含 4 件數位作品（其中 1 件為可操作 Web Audio 原型）、1 件原創短劇與 Pure Data 學習紀錄。";
 const topLevelSectionIds = new Set(topLevelSections.map((section) => section.id));
