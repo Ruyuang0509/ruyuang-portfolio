@@ -357,6 +357,7 @@ export function ContactSection() {
       <div className="grid gap-4 md:grid-cols-2">
         {finalPortfolioLinks.map((link) => {
           const isExternal = link.href.startsWith("http");
+          const isMail = link.href.startsWith("mailto:");
           return (
             <a
               key={link.href}
@@ -367,7 +368,9 @@ export function ContactSection() {
             >
               <h3 className="zh-heading text-[clamp(1.3rem,2vw,1.9rem)]">{link.label}</h3>
               <p className="zh-caption text-[color:var(--theme-muted)]">{link.description}</p>
-              <span className="zh-label text-[var(--theme-accent)]">{isExternal ? "在新分頁開啟 ↗" : "前往作品索引 ↘"}</span>
+              <span className="zh-label text-[var(--theme-accent)]">
+                {isMail ? "寄信聯絡 ↗" : isExternal ? "在新分頁開啟 ↗" : "前往作品索引 ↘"}
+              </span>
             </a>
           );
         })}

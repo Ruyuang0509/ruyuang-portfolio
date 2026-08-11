@@ -45,41 +45,13 @@ export default function FlagshipPrototypeSection() {
           </Suspense>
         </SectionErrorBoundary>
 
-        <div className="grid gap-8 lg:grid-cols-2">
-          <section className="grid gap-5" aria-labelledby="flagship-mappings-title">
-            <h3 id="flagship-mappings-title" className="meta-label text-[var(--theme-accent)]">四組互動映射</h3>
-            <ol className="grid gap-3">
-              {project.interactionMappings.map((mapping, index) => (
-                <li key={mapping.id} className="evidence-panel grid grid-cols-[auto_1fr] gap-4 rounded-[var(--radius-sm)] p-4">
-                  <span className="meta-label text-[var(--theme-accent)]">{String(index + 1).padStart(2, "0")}</span>
-                  <div className="grid gap-1">
-                    <h4 className="zh-heading text-lg">{mapping.input} → {mapping.parameter}</h4>
-                    <p className="zh-caption text-[color:var(--theme-muted)]">{mapping.rationale}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </section>
-
-          <section className="grid content-start gap-5" aria-labelledby="flagship-listening-guide-title">
-            <h3 id="flagship-listening-guide-title" className="meta-label text-[var(--theme-accent)]">聆聽指南</h3>
-            <ol className="soft-panel grid gap-3 rounded-[var(--radius-md)] p-5 md:p-6">
-              {project.listeningGuide.map((item, index) => (
-                <li key={item} className="grid grid-cols-[auto_1fr] gap-4 border-b border-[color:var(--theme-line)] pb-3 last:border-0 last:pb-0">
-                  <span className="zh-label text-[var(--theme-accent)]">{String(index + 1).padStart(2, "0")}</span>
-                  <span className="zh-caption text-[color:var(--theme-muted)]">{item}</span>
-                </li>
-              ))}
-            </ol>
-            <a
-              className="cta-button interactive-link inline-flex min-h-11 items-center justify-between rounded-[var(--radius-sm)] px-5 py-3 font-extrabold"
-              href="#/work/interactive-sound-learning"
-            >
-              <span>閱讀完整案例</span>
-              <span aria-hidden="true">↘</span>
-            </a>
-          </section>
-        </div>
+        <a
+          className="cta-button interactive-link inline-flex min-h-11 items-center gap-4 justify-self-end rounded-[var(--radius-sm)] px-6 py-3 font-extrabold"
+          href="#/work/interactive-sound-learning"
+        >
+          <span>閱讀完整案例</span>
+          <span aria-hidden="true">↘</span>
+        </a>
       </div>
     </section>
   );

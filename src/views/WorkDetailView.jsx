@@ -98,7 +98,6 @@ export default function WorkDetailView({ slug }) {
           <div className="mx-auto grid max-w-7xl gap-12">
             <WorkEvidenceCard work={work} />
             <div id="secondary-creation" className="grid scroll-mt-28 gap-5">
-              <p className="meta-label text-[var(--theme-accent)]">二次創作／課程練習</p>
               <WorkEvidenceCard work={{ ...secondaryCreationWork, type: "二次創作／課程練習" }} />
             </div>
           </div>
