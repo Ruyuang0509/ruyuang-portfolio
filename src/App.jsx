@@ -4,6 +4,7 @@ import { useThemeInversion } from "./hooks/useThemeInversion.js";
 import CustomCursor from "./components/CustomCursor.jsx";
 import ImmersiveHero from "./components/ImmersiveHero.jsx";
 import Navbar from "./components/Navbar.jsx";
+import SuccessorSiteBanner from "./components/SuccessorSiteBanner.jsx";
 import SoundTransitionSection from "./components/ResearchPositioning.jsx";
 import FlagshipPrototypeSection from "./components/FlagshipPrototypeSection.jsx";
 import EditorialHeading from "./components/EditorialHeading.jsx";
@@ -357,6 +358,7 @@ export default function App() {
       <a className="skip-link" href="#main-content">跳到主要內容</a>
       <CustomCursor />
       <Navbar />
+      <SuccessorSiteBanner />
       <PortfolioDraftLayer placement="banner" />
       {activeWorkSlug ? (
         <Suspense fallback={<main id="main-content" className="page-shell min-h-screen" aria-busy="true" />}>

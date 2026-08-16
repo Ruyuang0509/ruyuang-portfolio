@@ -8,6 +8,14 @@ export const siteIdentity = {
   openGraphLocale: "zh_TW",
 };
 
+// 第二代作品集(2026)已接手正式網址;本站保存為第一代紀錄。
+// 網址與文案集中在此,與 siteIdentity 同層級——站台身分的唯一事實來源。
+export const successorSite = {
+  url: "https://ruyuang0509.github.io/ruyuang-portfolio-next/",
+  label: "前往第二代作品集",
+  note: "這是第一代作品集,保存為紀錄。",
+};
+
 export const topLevelSections = [
   { id: "top", llmsLabel: "首頁" },
   { id: "interactive-sound-learning", llmsLabel: "聲響原型" },
